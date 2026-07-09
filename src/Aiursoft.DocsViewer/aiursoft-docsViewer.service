@@ -1,0 +1,17 @@
+[Unit]
+Description=Aiursoft DocsViewer Web Application
+After=network.target
+
+[Service]
+WorkingDirectory=/usr/share/aiursoft-docsViewer
+ExecStart=/usr/bin/dotnet /usr/share/aiursoft-docsViewer/Aiursoft.DocsViewer.dll --urls http://*:5000
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=aiursoft-docsViewer
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=HOME=/var/lib/aiursoft-docsViewer
+
+[Install]
+WantedBy=multi-user.target
