@@ -12,7 +12,7 @@ namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 /// whose avatar was subsequently replaced.
 /// </summary>
 public class OrphanAvatarCleanupJob(
-    TemplateDbContext db,
+    DocsViewerDbContext db,
     FeatureFoldersProvider folders,
     ILogger<OrphanAvatarCleanupJob> logger) : IBackgroundJob
 {

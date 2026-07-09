@@ -6,4 +6,4 @@ namespace Aiursoft.DocsViewer.MySql;
 
 [ExcludeFromCodeCoverage]
 
-public class MySqlContext(DbContextOptions<MySqlContext> options) : TemplateDbContext(options);
+public class MySqlContext(DbContextOptions<MySqlContext> options) : DocsViewerDbContext(options);

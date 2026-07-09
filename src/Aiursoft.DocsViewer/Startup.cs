@@ -11,8 +11,12 @@ using Aiursoft.DocsViewer.MySql;
 using Aiursoft.DocsViewer.Services.Authentication;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
 using Aiursoft.DocsViewer.Sqlite;
+using Aiursoft.DocsViewer.Services;
 using Aiursoft.UiStack.Layout;
 using Aiursoft.UiStack.Navigation;
+using Aiursoft.GptClient.Services;
+using Aiursoft.Dotlang.Shared;
+using Aiursoft.GitRunner;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Aiursoft.ClickhouseLoggerProvider;
 using Newtonsoft.Json;
@@ -54,16 +58,39 @@ public class Startup : IWebStartup
         services.AddHttpClient();
         services.AddAssemblyDependencies(typeof(Startup).Assembly);
         services.AddSingleton<NavigationState<Startup>>();
+        services.AddHttpContextAccessor();
+        services.AddScoped<DocumentLocalizationService>();
+        services.AddScoped<ChatClient>();
+        services.AddScoped<MarkdownShredder>();
+        services.AddSingleton<DocumentEmbeddingCache>();
+        services.AddSingleton<SearchRateLimiter>();
+        services.AddScoped<DocumentVectorSearchService>();
+        services.AddScoped<DocumentTreeService>();
+        services.AddScoped<IDocumentTranslationService, DocumentTranslationService>();
+        services.AddScoped<DocumentMarkdownRenderer>();
+        services.AddGitRunner();
 
         // Background job infrastructure
         services.AddTaskQueueEngine();
         services.AddScheduledTaskEngine();
 
         // Background jobs
-        services.RegisterBackgroundJob<DummyJob>();
+        var syncRepoJob = services.RegisterBackgroundJob<SyncDocsRepoJob>();
+        var indexDocsJob = services.RegisterBackgroundJob<IndexDocumentsJob>();
+        var localizeDocsJob = services.RegisterBackgroundJob<LocalizeDocumentsJob>();
+        var generateEmbeddingsJob = services.RegisterBackgroundJob<GenerateEmbeddingsJob>();
+        var refreshCacheJob = services.RegisterBackgroundJob<RefreshEmbeddingCacheJob>();
+        var cleanupLocalizedDocsJob = services.RegisterBackgroundJob<CleanupLocalizedDocumentsJob>();
         var orphanAvatarCleanupJob = services.RegisterBackgroundJob<OrphanAvatarCleanupJob>();
 
         // Scheduled tasks (attach a schedule to any registered background job)
+        services.RegisterScheduledTask(registration: syncRepoJob,             period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(1));
+        services.RegisterScheduledTask(registration: indexDocsJob,            period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(20));
+        services.RegisterScheduledTask(registration: localizeDocsJob,         period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(30));
+        services.RegisterScheduledTask(registration: generateEmbeddingsJob,   period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(50));
+        services.RegisterScheduledTask(registration: refreshCacheJob,         period: TimeSpan.FromHours(8), startDelay: TimeSpan.FromMinutes(1));
+        services.RegisterScheduledTask(registration: cleanupLocalizedDocsJob, period: TimeSpan.FromHours(6), startDelay: TimeSpan.FromMinutes(55));
+
         services.RegisterScheduledTask(
             registration: orphanAvatarCleanupJob,
             period:     TimeSpan.FromHours(6),
@@ -91,5 +118,9 @@ public class Startup : IWebStartup
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapDefaultControllerRoute();
+        app.MapControllerRoute(
+            name: "LegacyHtml",
+            pattern: "{**path}",
+            defaults: new { controller = "Documents", action = "Detail" });
     }
 }

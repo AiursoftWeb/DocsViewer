@@ -60,7 +60,7 @@ public class UsersControllerTests : TestBase
             { "id", userId },
             { "AllRoles[0].RoleName", "Administrators" },
             { "AllRoles[0].IsSelected", "true" }
-        });
+        }, tokenUrl: $"/Users/Edit/{userId}");
         AssertRedirect(manageRolesResponse, "/Users/Details/", exact: false);
 
         // 7. Delete (GET)
@@ -133,7 +133,7 @@ public class UsersControllerTests : TestBase
     public async Task TestDeleteConfirmedNotFound()
     {
         await LoginAsAdmin();
-        var response = await PostForm("/Users/Delete/invalid-id", new Dictionary<string, string>());
+        var response = await PostForm("/Users/Delete/invalid-id", new Dictionary<string, string>(), tokenUrl: "/Users/Create");
         Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
     }
 

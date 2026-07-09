@@ -1,0 +1,79 @@
+@using Aiursoft.DocsViewer.Models.DocumentsViewModels
+@model Aiursoft.DocsViewer.Models.DocumentsViewModels.SearchViewModel
+@{
+    ViewData["Title"] = $"Search: {Model.Keyword}";
+}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Sidebar Tree Column -->
+        
+        
+        <!-- Main Content Column -->
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0">
+                    Search results for "<span class="text-primary">@Model.Keyword</span>"
+                </h3>
+                <div>
+                    @if (Model.UsedAi)
+                    {
+                        <span class="badge bg-primary rounded-pill px-3 py-2 shadow-sm">
+                            <i class="lucide lucide-bot"></i> AI Semantic Search
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary rounded-pill px-3 py-2 shadow-sm">
+                            <i class="lucide lucide-search"></i> Keyword Search
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <p class="text-muted mb-4">Found @Model.TotalCount documents matching your query.</p>
+
+            @if (Model.Documents.Count == 0)
+            {
+                <div class="alert alert-info text-center py-5">
+                    <i class="lucide lucide-frown text-muted" style="width: 48px; height: 48px;"></i>
+                    <p class="mt-3 mb-0">No documents matched your search. Try different keywords.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row" id="recipes-container">
+                    @await Html.PartialAsync("_DocumentCards", new DocumentCardsViewModel
+                    {
+                        Documents = Model.Documents,
+                        LikeCounts = Model.LikeCounts,
+                        LocalizedTitles = Model.LocalizedTitles,
+                        LocalizedContents = Model.LocalizedContents
+                    })
+                </div>
+
+                @if (Model.TotalPages > 1)
+                {
+                    <nav aria-label="Search results pages" class="mt-4 mb-5">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
+                                <a class="page-link" href="/Documents/Search?keyword=@Uri.EscapeDataString(Model.Keyword ?? "")&page=@(Model.Page - 1)">Previous</a>
+                            </li>
+                            
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == Model.Page ? "active" : "")">
+                                    <a class="page-link" href="/Documents/Search?keyword=@Uri.EscapeDataString(Model.Keyword ?? "")&page=@i">@i</a>
+                                </li>
+                            }
+
+                            <li class="page-item @(Model.Page == Model.TotalPages ? "disabled" : "")">
+                                <a class="page-link" href="/Documents/Search?keyword=@Uri.EscapeDataString(Model.Keyword ?? "")&page=@(Model.Page + 1)">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                }
+            }
+        </div>
+    </div>
+</div>

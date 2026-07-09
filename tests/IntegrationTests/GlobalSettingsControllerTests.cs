@@ -23,7 +23,7 @@ public class GlobalSettingsControllerTests : TestBase
         {
             { "Key", SettingsMap.ProjectName },
             { "Value", newProjectName }
-        });
+        }, tokenUrl: "/GlobalSettings/Index");
         AssertRedirect(editResponse, "/GlobalSettings");
 
         // 3. Verify Edit
@@ -36,7 +36,7 @@ public class GlobalSettingsControllerTests : TestBase
         {
             { "Key", "InvalidKey" },
             { "Value", "SomeValue" }
-        });
+        }, tokenUrl: "/GlobalSettings/Index");
         AssertRedirect(invalidEditResponse, "/GlobalSettings");
     }
 
@@ -48,7 +48,7 @@ public class GlobalSettingsControllerTests : TestBase
         var response = await PostForm("/GlobalSettings/Edit", new Dictionary<string, string>
         {
             { "Value", "SomeValue" }
-        });
+        }, tokenUrl: "/GlobalSettings/Index");
         AssertRedirect(response, "/GlobalSettings");
     }
 }

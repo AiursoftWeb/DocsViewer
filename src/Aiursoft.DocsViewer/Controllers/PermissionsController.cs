@@ -19,7 +19,7 @@ namespace Aiursoft.DocsViewer.Controllers;
 [LimitPerMin]
 public class PermissionsController(
     RoleManager<IdentityRole> roleManager,
-    TemplateDbContext context)
+    DocsViewerDbContext context)
     : Controller
 {
     [Authorize(Policy = AppPermissionNames.CanReadPermissions)]

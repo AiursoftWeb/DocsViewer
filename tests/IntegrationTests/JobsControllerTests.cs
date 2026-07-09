@@ -15,14 +15,14 @@ public class JobsControllerTests : TestBase
         // 2. Trigger DummyJob
         var triggerAResponse = await PostForm("/Jobs/Trigger", new Dictionary<string, string>
         {
-            { "jobTypeName", "DummyJob" }
+            { "jobTypeName", "SyncDocsRepoJob" }
         }, tokenUrl: "/Jobs");
         AssertRedirect(triggerAResponse, "/Jobs");
 
-        // 3. Trigger OrphanAvatarCleanupJob
+        // 3. Trigger IndexDocumentsJob
         var triggerBResponse = await PostForm("/Jobs/Trigger", new Dictionary<string, string>
         {
-            { "jobTypeName", "OrphanAvatarCleanupJob" }
+            { "jobTypeName", "IndexDocumentsJob" }
         }, tokenUrl: "/Jobs");
         AssertRedirect(triggerBResponse, "/Jobs");
 

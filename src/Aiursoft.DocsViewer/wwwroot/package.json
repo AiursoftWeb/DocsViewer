@@ -6,6 +6,8 @@
   "license": "MIT",
   "dependencies": {
     "@aiursoft/uistack": "^1.0.8",
-    "dropify": "^0.2.2"
+    "@highlightjs/cdn-assets": "^11.11.1",
+    "dropify": "^0.2.2",
+    "mermaid": "^11.12.1"
   }
 }

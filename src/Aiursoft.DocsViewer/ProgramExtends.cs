@@ -13,7 +13,7 @@ namespace Aiursoft.DocsViewer;
 public static class ProgramExtends
 {
     [ExcludeFromCodeCoverage]
-    private static async Task<bool> ShouldSeedAsync(TemplateDbContext dbContext)
+    private static async Task<bool> ShouldSeedAsync(DocsViewerDbContext dbContext)
     {
         var haveUsers = await dbContext.Users.AnyAsync();
         var haveRoles = await dbContext.Roles.AnyAsync();
@@ -57,7 +57,7 @@ public static class ProgramExtends
     {
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;
-        var db = services.GetRequiredService<TemplateDbContext>();
+        var db = services.GetRequiredService<DocsViewerDbContext>();
         var logger = services.GetRequiredService<ILogger<Program>>();
         
         var settingsService = services.GetRequiredService<GlobalSettingsService>();
@@ -108,6 +108,20 @@ public static class ProgramExtends
             await userManager.AddToRoleAsync(user, "Administrators");
         }
 
+        return host;
+    }
+
+    [ExcludeFromCodeCoverage]
+    public static async Task<IHost> WarmUpEmbeddingCacheAsync(this IHost host)
+    {
+        using var scope = host.Services.CreateScope();
+        var cache = scope.ServiceProvider.GetRequiredService<DocumentEmbeddingCache>();
+        var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+        logger.LogInformation("Warming up embedding cache...");
+        await cache.LoadAsync(db);
+        logger.LogInformation("Embedding cache warmed up. Loaded {Count} vectors.", cache.Count);
         return host;
     }
 }

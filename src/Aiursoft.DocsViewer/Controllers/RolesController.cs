@@ -19,7 +19,7 @@ namespace Aiursoft.DocsViewer.Controllers;
 [LimitPerMin]
 public class RolesController(
     UserManager<User> userManager,
-    TemplateDbContext context,
+    DocsViewerDbContext context,
     RoleManager<IdentityRole> roleManager)
     : Controller
 {

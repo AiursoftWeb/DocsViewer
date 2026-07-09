@@ -1,0 +1,40 @@
+@using Aiursoft.DocsViewer.Models.DocumentsViewModels
+@model Aiursoft.DocsViewer.Models.FavoritesViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "My Favorites";
+}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Sidebar Tree Column -->
+        
+        
+        <!-- Main Content Column -->
+        <div class="col-md-12">
+            <div class="d-flex align-items-center mb-4">
+                <i class="lucide lucide-star text-warning me-2" style="width: 32px; height: 32px;"></i>
+                <h3 class="mb-0">My Favorites</h3>
+            </div>
+
+            @if (Model.Favorites.Count == 0)
+            {
+                <div class="alert alert-info text-center py-5">
+                    <i class="lucide lucide-star text-muted" style="width: 48px; height: 48px;"></i>
+                    <p class="mt-3 mb-0">You haven't favorited any documents yet.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    @await Html.PartialAsync("../Documents/_DocumentCards", new DocumentCardsViewModel
+                    {
+                        Documents = Model.Favorites.Select(f => f.Document).ToList(),
+                        LikeCounts = new Dictionary<int, int>(), // Optional, could load actual counts if needed
+                        LocalizedTitles = Model.LocalizedTitles,
+                        LocalizedContents = Model.LocalizedContents
+                    })
+                </div>
+            }
+        </div>
+    </div>
+</div>

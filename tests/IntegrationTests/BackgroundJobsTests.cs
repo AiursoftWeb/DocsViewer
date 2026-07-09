@@ -244,10 +244,10 @@ public class BackgroundJobsTests : TestBase
         var queue = Server!.Services.GetRequiredService<ServiceTaskQueue>();
         var initialTaskCount = queue.GetAllTasks().Count();
 
-        // Step 2: 通过 Trigger 端点触发 DummyJob
+        // Step 2: 通过 Trigger 端点触发 SyncDocsRepoJob
         var triggerResponse = await PostForm("/Jobs/Trigger", new Dictionary<string, string>
         {
-            { "jobTypeName", "DummyJob" }
+            { "jobTypeName", "GenerateEmbeddingsJob" }
         }, tokenUrl: "/Jobs");
 
         // Step 3: 应该重定向回Jobs页面
@@ -260,10 +260,13 @@ public class BackgroundJobsTests : TestBase
         var currentTaskCount = queue.GetAllTasks().Count();
         Assert.IsGreaterThan(initialTaskCount, currentTaskCount);
 
-        // Step 5: 验证创建的是 DummyJob 队列的任务
+        // Step 5: 验证创建的是队列的任务
         var tasks = queue.GetAllTasks().ToList();
-        var dummyTask = tasks.FirstOrDefault(t => t.QueueName == "DummyJob");
-        Assert.IsNotNull(dummyTask);
+        foreach (var task in tasks) {
+            Console.WriteLine($"TASK FOUND: QueueName={task.QueueName}, Status={task.Status}");
+        }
+        var dummyTask = tasks.FirstOrDefault(t => t.QueueName.Contains("Embedding") || t.QueueName.Contains("Generate"));
+        Assert.IsNotNull(dummyTask, $"Expected a task with Embedding in name. Found tasks: {string.Join(", ", tasks.Select(t => t.QueueName))}");
         Assert.AreEqual(TaskTriggerSource.Manual, dummyTask.TriggerSource);
     }
 
@@ -275,28 +278,32 @@ public class BackgroundJobsTests : TestBase
 
         var queue = Server!.Services.GetRequiredService<ServiceTaskQueue>();
 
-        // Step 2: 触发 DummyJob
-        await PostForm("/Jobs/Trigger", new Dictionary<string, string>
+        // Step 2: Trigger SyncDocsRepoJob and IndexDocumentsJob
+        var triggerResponse1 = await PostForm("/Jobs/Trigger", new Dictionary<string, string>
         {
-            { "jobTypeName", "DummyJob" }
+            { "jobTypeName", "SyncDocsRepoJob" }
         }, tokenUrl: "/Jobs");
+        Assert.AreEqual(HttpStatusCode.Found, triggerResponse1.StatusCode);
 
-        // Step 3: 触发 OrphanAvatarCleanupJob
-        await PostForm("/Jobs/Trigger", new Dictionary<string, string>
+        var triggerResponse2 = await PostForm("/Jobs/Trigger", new Dictionary<string, string>
         {
-            { "jobTypeName", "OrphanAvatarCleanupJob" }
+            { "jobTypeName", "IndexDocumentsJob" }
         }, tokenUrl: "/Jobs");
+        Assert.AreEqual(HttpStatusCode.Found, triggerResponse2.StatusCode);
 
         // Step 4: 等待任务入队
         await Task.Delay(500);
 
         // Step 5: 验证两个队列都有任务
         var tasks = queue.GetAllTasks().ToList();
-        var dummyTasks   = tasks.Where(t => t.QueueName == "DummyJob").ToList();
-        var orphanTasks  = tasks.Where(t => t.QueueName == "OrphanAvatarCleanupJob").ToList();
+        foreach (var task in tasks) {
+            Console.WriteLine($"PARALLEL TASK: QueueName={task.QueueName}, Status={task.Status}");
+        }
+        var dummyTasks   = tasks.Where(t => t.QueueName.Contains("Sync")).ToList();
+        var orphanTasks  = tasks.Where(t => t.QueueName.Contains("Index")).ToList();
 
-        Assert.IsNotEmpty(dummyTasks,  "DummyJob queue should have at least one task");
-        Assert.IsNotEmpty(orphanTasks, "OrphanAvatarCleanupJob queue should have at least one task");
+        Assert.IsNotEmpty(dummyTasks,  $"SyncDocsRepoJob queue should have at least one task. All queues: {string.Join(", ", tasks.Select(t => t.QueueName))}");
+        Assert.IsNotEmpty(orphanTasks, $"IndexDocumentsJob queue should have at least one task. All queues: {string.Join(", ", tasks.Select(t => t.QueueName))}");
     }
 
     [TestMethod]

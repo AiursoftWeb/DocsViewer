@@ -31,6 +31,7 @@ public class ViewModelArgsInjector(
     IAuthorizationService authorizationService,
     IOptions<AppSettings> appSettings,
     GlobalSettingsService globalSettingsService,
+    DocumentTreeService documentTreeService,
     SignInManager<User> signInManager) : IScopedDependency
 {
 
@@ -121,6 +122,8 @@ public class ViewModelArgsInjector(
         };
 
         var currentViewingController = context.GetRouteValue("controller")?.ToString();
+        var currentPath = context.GetRouteValue("path")?.ToString();
+        var currentDocId = context.GetRouteValue("id")?.ToString();
         var navGroupsForView = new List<NavGroup>();
 
         foreach (var groupDef in navigationState.NavMap)
@@ -161,9 +164,7 @@ public class ViewModelArgsInjector(
                         LucideIcon = itemDef.Icon,
                         IsActive = linksForView.Any(l =>
                         {
-                            // Extract controller name from href (e.g., "/Manage/Index" -> "Manage")
                             var hrefController = l.Href.TrimStart('/').Split('/').FirstOrDefault();
-                            // Exact match to avoid false positives like "Manage" matching "ManagePayroll"
                             return string.Equals(hrefController, currentViewingController, StringComparison.OrdinalIgnoreCase);
                         }),
                         Links = linksForView
@@ -180,6 +181,55 @@ public class ViewModelArgsInjector(
                 });
             }
         }
+
+        var documentTree = documentTreeService.GetTreeAsync().GetAwaiter().GetResult();
+        var docNavGroups = new List<NavGroup>();
+
+        foreach (var l1Node in documentTree)
+        {
+            if (l1Node.Document != null) continue; // Handled in root group below
+            
+            var navGroup = new NavGroup
+            {
+                Name = l1Node.Name,
+                Items = new List<SideBarItem>()
+            };
+
+            foreach (var l2Node in l1Node.Children)
+            {
+                navGroup.Items.Add(BuildSideBarItem(l2Node, currentViewingController, currentDocId, currentPath));
+            }
+            
+            if (navGroup.Items.Any())
+            {
+                docNavGroups.Add(navGroup);
+            }
+        }
+        
+        var rootFiles = documentTree.Where(n => n.Document != null).ToList();
+        if (rootFiles.Any())
+        {
+            var rootGroup = new NavGroup
+            {
+                Name = localizer["Documentation"],
+                Items = rootFiles.Select(n => 
+                {
+                    var htmlPath = n.Document!.FilePath[..^3].Replace('\\', '/') + ".html";
+                    return (SideBarItem)new LinkSideBarItem
+                    {
+                        LucideIcon = "file-text",
+                        Text = n.Document!.Title,
+                        Href = $"/{htmlPath}",
+                        IsActive = (currentViewingController == "Documents" && currentDocId == n.Document.Id.ToString()) ||
+                                   string.Equals(currentPath, htmlPath, StringComparison.OrdinalIgnoreCase)
+                    };
+                }).ToList()
+            };
+            docNavGroups.Insert(0, rootGroup);
+        }
+
+        // Insert docs first, then Settings (Personal), then Administration
+        navGroupsForView.InsertRange(0, docNavGroups);
 
         toInject.Sidebar = new SidebarViewModel
         {
@@ -299,5 +349,44 @@ public class ViewModelArgsInjector(
             return "/logo.svg";
         }
         return storageService.RelativePathToInternetUrl(logoPath, context);
+    }
+
+    private SideBarItem BuildSideBarItem(DocumentTreeNode node, string? currentController, string? currentDocId, string? currentPath)
+    {
+        if (node.Document != null)
+        {
+            var htmlPath = node.Document.FilePath[..^3].Replace('\\', '/') + ".html";
+            return new LinkSideBarItem
+            {
+                LucideIcon = "file-text",
+                Text = node.Document.Title,
+                Href = $"/{htmlPath}",
+                IsActive = (currentController == "Documents" && currentDocId == node.Document.Id.ToString()) ||
+                           string.Equals(currentPath, htmlPath, StringComparison.OrdinalIgnoreCase)
+            };
+        }
+        else
+        {
+            var deepItem = new NestedSideBarItem
+            {
+                UniqueId = "node_" + Math.Abs(node.Path.GetHashCode()),
+                LucideIcon = "folder",
+                Text = node.Name,
+                IsActive = false,
+                Children = new List<SideBarItem>()
+            };
+
+            foreach (var child in node.Children)
+            {
+                var builtChild = BuildSideBarItem(child, currentController, currentDocId, currentPath);
+                if (builtChild.IsActive)
+                {
+                    deepItem.IsActive = true;
+                }
+                deepItem.Children.Add(builtChild);
+            }
+            
+            return deepItem;
+        }
     }
 }

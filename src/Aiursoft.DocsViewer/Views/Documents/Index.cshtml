@@ -1,0 +1,105 @@
+@model Aiursoft.DocsViewer.Models.DocumentsViewModels.IndexViewModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Sidebar Tree Column -->
+        
+        
+        <!-- Main Content Column -->
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0">@Model.CategoryDisplayName</h3>
+                
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="lucide lucide-sort-desc"></i> Sort By
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item @(Model.SortBy == null ? "active" : "")" href="/Documents/Index?category=@Model.Category">Default</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == "likes_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=likes_desc">Most Liked</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == "favorites_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=favorites_desc">Most Favorited</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == "comments_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=comments_desc">Most Commented</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            @if (Model.Documents.Count == 0)
+            {
+                <div class="alert alert-info text-center py-5">
+                    <i class="lucide lucide-file-question text-muted" style="width: 48px; height: 48px;"></i>
+                    <p class="mt-3 mb-0">No documents found in this category.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row" id="recipes-container">
+                    @await Html.PartialAsync("_DocumentCards", new Aiursoft.DocsViewer.Models.DocumentsViewModels.DocumentCardsViewModel
+                    {
+                        Documents = Model.Documents,
+                        LikeCounts = Model.LikeCounts,
+                        LocalizedTitles = Model.LocalizedTitles,
+                        LocalizedContents = Model.LocalizedContents
+                    })
+                </div>
+
+                @if (Model.HasMore)
+                {
+                    <div class="text-center mt-4 mb-5">
+                        <button id="load-more-btn" class="btn btn-primary px-4 rounded-pill shadow-sm" data-category="@Model.Category" data-sortby="@Model.SortBy">
+                            <i class="lucide lucide-chevron-down me-1"></i> Load More
+                        </button>
+                        <div id="load-more-spinner" class="spinner-border text-primary d-none" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var loadMoreBtn = document.getElementById('load-more-btn');
+        if (!loadMoreBtn) return;
+
+        var spinner = document.getElementById('load-more-spinner');
+        var container = document.getElementById('recipes-container');
+        var page = 2;
+        var hasMore = true;
+
+        loadMoreBtn.addEventListener('click', function () {
+            if (!hasMore) return;
+
+            var category = this.getAttribute('data-category') || '';
+            var sortBy = this.getAttribute('data-sortby') || '';
+
+            loadMoreBtn.classList.add('d-none');
+            spinner.classList.remove('d-none');
+
+            fetch(`/Documents/LoadMore?category=${encodeURIComponent(category)}&sortBy=${encodeURIComponent(sortBy)}&page=${page}`)
+                .then(response => {
+                    hasMore = response.headers.get('X-Has-More') === 'true';
+                    page = parseInt(response.headers.get('X-Next-Page') || (page + 1));
+                    return response.text();
+                })
+                .then(html => {
+                    container.insertAdjacentHTML('beforeend', html);
+                    lucide.createIcons();
+
+                    spinner.classList.add('d-none');
+                    if (hasMore) {
+                        loadMoreBtn.classList.remove('d-none');
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading more docs:', err);
+                    spinner.classList.add('d-none');
+                    loadMoreBtn.classList.remove('d-none');
+                });
+        });
+    });
+</script>

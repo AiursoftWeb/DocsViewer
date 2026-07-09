@@ -1,0 +1,51 @@
+@using Aiursoft.DocsViewer.Models.DocumentsViewModels
+@model Aiursoft.DocsViewer.Models.DocumentsViewModels.SimilarViewModel
+@{
+    ViewData["Title"] = $"Similar to: {Model.SourceDocument.Title}";
+}
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <!-- Sidebar Tree Column -->
+        
+        
+        <!-- Main Content Column -->
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="/"><i class="lucide lucide-home" style="width:14px;height:14px;"></i> Home</a></li>
+                    <li class="breadcrumb-item"><a href="/Documents/Index?category=@Uri.EscapeDataString(Model.SourceDocument.Category)">@Model.CategoryDisplayName</a></li>
+                    <li class="breadcrumb-item"><a href="/@(Model.SourceDocument.FilePath[..^3].Replace('\\', '/')).html">@Model.SourceDocument.Title</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Similar Documents</li>
+                </ol>
+            </nav>
+
+            <div class="d-flex align-items-center mb-4">
+                <i class="lucide lucide-git-commit text-primary me-2" style="width: 32px; height: 32px;"></i>
+                <h3 class="mb-0">
+                    Documents similar to "<span class="text-primary">@Model.SourceDocument.Title</span>"
+                </h3>
+            </div>
+
+            @if (Model.SimilarDocuments.Count == 0)
+            {
+                <div class="alert alert-info text-center py-5">
+                    <i class="lucide lucide-frown text-muted" style="width: 48px; height: 48px;"></i>
+                    <p class="mt-3 mb-0">No similar documents found. Check back after more documents are indexed.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    @await Html.PartialAsync("_DocumentCards", new DocumentCardsViewModel
+                    {
+                        Documents = Model.SimilarDocuments,
+                        LikeCounts = Model.LikeCounts,
+                        LocalizedTitles = Model.LocalizedTitles,
+                        LocalizedContents = Model.LocalizedContents
+                    })
+                </div>
+            }
+        </div>
+    </div>
+</div>

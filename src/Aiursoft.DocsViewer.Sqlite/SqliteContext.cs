@@ -6,7 +6,7 @@ namespace Aiursoft.DocsViewer.Sqlite;
 
 [ExcludeFromCodeCoverage]
 
-public class SqliteContext(DbContextOptions<SqliteContext> options) : TemplateDbContext(options)
+public class SqliteContext(DbContextOptions<SqliteContext> options) : DocsViewerDbContext(options)
 {
     public override Task<bool> CanConnectAsync()
     {

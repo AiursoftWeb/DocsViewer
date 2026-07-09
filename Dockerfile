@@ -42,6 +42,9 @@ ARG PROJ_NAME
 WORKDIR /app
 COPY --from=build-env /app .
 
+RUN apt-get update -y && apt-get install -y git git-lfs && apt-get clean
+
+
 # Edit appsettings.json
 RUN sed -i 's/DataSource=app.db/DataSource=\/data\/app.db/g' appsettings.json
 RUN sed -i 's/\/tmp\/data/\/data/g' appsettings.json

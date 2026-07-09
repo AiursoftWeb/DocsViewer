@@ -7,9 +7,39 @@ namespace Aiursoft.DocsViewer.Entities;
 
 [ExcludeFromCodeCoverage]
 
-public abstract class TemplateDbContext(DbContextOptions options) : IdentityDbContext<User>(options), ICanMigrate
+public abstract class DocsViewerDbContext(DbContextOptions options) : IdentityDbContext<User>(options), ICanMigrate
 {
     public DbSet<GlobalSetting> GlobalSettings => Set<GlobalSetting>();
+    public DbSet<Document> Documents => Set<Document>();
+    public DbSet<LocalizedDocument> LocalizedDocuments => Set<LocalizedDocument>();
+    public DbSet<DocumentComment> DocumentComments => Set<DocumentComment>();
+    public DbSet<DocumentLike> DocumentLikes => Set<DocumentLike>();
+    public DbSet<DocumentFavorite> DocumentFavorites => Set<DocumentFavorite>();
+    public DbSet<SearchEmbedding> SearchEmbeddings => Set<SearchEmbedding>();
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        
+        builder.Entity<DocumentFavorite>().HasKey(f => new { f.UserId, f.DocumentId });
+        builder.Entity<DocumentLike>().HasKey(l => new { l.UserId, l.DocumentId });
+        
+        builder.Entity<DocumentComment>()
+            .HasOne(c => c.ParentComment)
+            .WithMany(c => c.Replies)
+            .HasForeignKey(c => c.ParentCommentId)
+            .OnDelete(DeleteBehavior.Restrict);
+            
+        builder.Entity<LocalizedDocument>()
+            .HasIndex(ld => new { ld.DocumentId, ld.Culture })
+            .IsUnique();
+            
+        builder.Entity<Document>().HasQueryFilter(d => !d.IsDeleted);
+        builder.Entity<DocumentComment>().HasQueryFilter(c => !c.Document.IsDeleted);
+        builder.Entity<DocumentLike>().HasQueryFilter(l => !l.Document.IsDeleted);
+        builder.Entity<DocumentFavorite>().HasQueryFilter(f => !f.Document.IsDeleted);
+        builder.Entity<LocalizedDocument>().HasQueryFilter(ld => !ld.Document.IsDeleted);
+    }
 
     public virtual  Task MigrateAsync(CancellationToken cancellationToken) =>
         Database.MigrateAsync(cancellationToken);

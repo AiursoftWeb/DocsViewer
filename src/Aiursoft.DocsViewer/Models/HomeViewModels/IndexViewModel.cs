@@ -4,8 +4,7 @@ namespace Aiursoft.DocsViewer.Models.HomeViewModels;
 
 public class IndexViewModel : UiStackLayoutViewModel
 {
-    public IndexViewModel()
-    {
-        PageTitle = "Home";
-    }
+    public bool HasReadme { get; set; }
+    public string ReadmeHtml { get; set; } = string.Empty;
+    public int? DocumentId { get; set; }
 }

@@ -16,7 +16,7 @@ namespace Aiursoft.DocsViewer.Controllers;
 /// </summary>
 [Authorize]
 [LimitPerMin]
-public class SystemController(ILogger<SystemController> logger, TemplateDbContext dbContext) : Controller
+public class SystemController(ILogger<SystemController> logger, DocsViewerDbContext dbContext) : Controller
 {
     [Authorize(Policy = AppPermissionNames.CanViewSystemContext)]
     [RenderInNavBar(

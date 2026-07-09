@@ -1,0 +1,48 @@
+@{
+    var isDarkMode = Context.Request.Cookies["Theme"] == true.ToString();
+    var hljsTheme = isDarkMode ? "github-dark.min.css" : "github.min.css";
+    var mermaidTheme = isDarkMode ? "dark" : "default";
+}
+
+@* highlight.js code syntax highlighting *@
+<link rel="stylesheet" href="~/node_modules/@@highlightjs/cdn-assets/styles/@hljsTheme" asp-append-version="true" />
+<script src="~/node_modules/@@highlightjs/cdn-assets/highlight.min.js" asp-append-version="true"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) hljs.highlightAll();
+    });
+</script>
+
+@* Mermaid diagram rendering *@
+<script src="~/node_modules/mermaid/dist/mermaid.min.js" asp-append-version="true"></script>
+<script>
+    (function () {
+        if (!window.mermaid) return;
+        mermaid.initialize({ startOnLoad: false, theme: '@mermaidTheme' });
+        var processed = false;
+        function renderMermaid() {
+            if (processed) return;
+            var container = document.querySelector('.markdown-content');
+            if (!container) return;
+            var blocks = container.querySelectorAll('pre code.language-mermaid, .mermaid');
+            if (blocks.length === 0) return;
+            processed = true;
+            blocks.forEach(function (el, i) {
+                var code = el.textContent || '';
+                var id = 'm-' + (i + 1) + '-' + Math.random().toString(36).slice(2, 8);
+                try {
+                    mermaid.parse(code);
+                    mermaid.render(id, code).then(function (result) {
+                        var wrapper = document.createElement('div');
+                        wrapper.innerHTML = result.svg;
+                        var parent = el.closest('pre') || el;
+                        parent.replaceWith(wrapper);
+                    }).catch(function (e) { console.error('Mermaid render error:', e); });
+                } catch (e) { console.error('Mermaid parse error:', e); }
+            });
+        }
+        document.addEventListener("DOMContentLoaded", renderMermaid);
+        // Re-run on tab switch if content is loaded via AJAX
+        document.addEventListener("shown.bs.tab", renderMermaid);
+    })();
+</script>

@@ -129,7 +129,7 @@ public class RolesControllerTests : TestBase
     public async Task TestDeleteConfirmedNotFound()
     {
         await LoginAsAdmin();
-        var response = await PostForm("/Roles/Delete/invalid-id", new Dictionary<string, string>());
+        var response = await PostForm("/Roles/Delete/invalid-id", new Dictionary<string, string>(), tokenUrl: "/Roles/Create");
         Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
     }
 

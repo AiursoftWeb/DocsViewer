@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Aiursoft.DocsViewer.Services;
 
 public class GlobalSettingsService(
-    TemplateDbContext dbContext, 
+    DocsViewerDbContext dbContext,
     IConfiguration configuration,
     StorageService storageService,
     IMemoryCache cache) : IScopedDependency
@@ -136,6 +136,28 @@ public class GlobalSettingsService(
 
         await dbContext.SaveChangesAsync();
         cache.Remove(GetCacheKey(key));
+    }
+
+    public async Task<bool> IsAiLocalizationEnabledAsync()
+    {
+        var openAiInstance = await GetSettingValueAsync("OpenAiInstance");
+        var openAiLocalizationModel = await GetSettingValueAsync("OpenAiLocalizationModel");
+        var openAiApiToken = await GetSettingValueAsync("OpenAiApiToken");
+
+        return !string.IsNullOrWhiteSpace(openAiInstance) &&
+               !string.IsNullOrWhiteSpace(openAiLocalizationModel) &&
+               !string.IsNullOrWhiteSpace(openAiApiToken);
+    }
+
+    public async Task<bool> IsAiSearchEnabledAsync()
+    {
+        var enableEmbeddingBasedSearch = await GetBoolSettingAsync("EnableEmbeddingBasedSearch");
+        var embeddingOllamaInstance = await GetSettingValueAsync("EmbeddingOllamaInstance");
+        var embeddingModel = await GetSettingValueAsync("EmbeddingModel");
+
+        return enableEmbeddingBasedSearch &&
+               !string.IsNullOrWhiteSpace(embeddingOllamaInstance) &&
+               !string.IsNullOrWhiteSpace(embeddingModel);
     }
 
     public async Task SeedSettingsAsync()
