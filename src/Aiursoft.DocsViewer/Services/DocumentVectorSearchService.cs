@@ -176,7 +176,7 @@ public class DocumentVectorSearchService(
         var http = httpClientFactory.CreateClient();
         var baseUri = new Uri(instance);
         var embedEndpoint = $"{baseUri.Scheme}://{baseUri.Authority}/api/embed?keep_alive=-1";
-        var requestBody = new { model, input, options = new { num_gpu = 0 } };
+        var requestBody = new { model, input, options = new { num_gpu = -1 } };
         var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
 
         var request = new HttpRequestMessage(HttpMethod.Post, embedEndpoint) { Content = content };

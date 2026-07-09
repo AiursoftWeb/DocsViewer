@@ -30,11 +30,23 @@ public class DocumentEmbeddingCache(ILogger<DocumentEmbeddingCache> logger) : IS
 
     public async Task LoadAsync(DocsViewerDbContext db)
     {
+        const int maxEntries = 10_000;
+
         var embeddings = await db.Documents
             .AsNoTracking()
             .Where(r => r.Embedding != null)
+            .OrderByDescending(r => r.LastEmbeddedAt)
             .Select(r => new { r.Id, r.Embedding })
+            .Take(maxEntries + 1) // +1 to detect overflow
             .ToListAsync();
+
+        if (embeddings.Count > maxEntries)
+        {
+            logger.LogWarning(
+                "DocumentEmbeddingCache: {Count} documents have embeddings but cache is capped at {Max}. Only the {Max} most recently embedded documents are loaded. Consider increasing the limit or archiving old documents.",
+                embeddings.Count, maxEntries, maxEntries);
+            embeddings = embeddings.Take(maxEntries).ToList();
+        }
 
         var newCache = new Dictionary<int, float[]>();
         foreach (var item in embeddings)

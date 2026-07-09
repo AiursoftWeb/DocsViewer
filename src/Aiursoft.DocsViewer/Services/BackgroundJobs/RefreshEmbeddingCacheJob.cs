@@ -6,6 +6,7 @@ namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 public class RefreshEmbeddingCacheJob(
     DocsViewerDbContext db,
     DocumentEmbeddingCache cache,
+    GlobalSettingsService settingsService,
     ILogger<RefreshEmbeddingCacheJob> logger) : IBackgroundJob
 {
     public string Name => "Refresh Embedding Cache";
@@ -14,6 +15,12 @@ public class RefreshEmbeddingCacheJob(
 
     public async Task ExecuteAsync()
     {
+        if (!await settingsService.IsAiSearchEnabledAsync())
+        {
+            logger.LogInformation("RefreshEmbeddingCacheJob: Embedding-based search is not enabled. Skipping.");
+            return;
+        }
+
         logger.LogInformation("RefreshEmbeddingCacheJob started.");
         await cache.LoadAsync(db);
         logger.LogInformation("RefreshEmbeddingCacheJob completed. Cache contains {Count} vectors.", cache.Count);

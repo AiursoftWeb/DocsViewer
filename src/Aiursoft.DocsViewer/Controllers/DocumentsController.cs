@@ -262,9 +262,9 @@ public class DocumentsController(
     }
 
     [HttpGet]
-    public async Task<IActionResult> Search(string? keyword, int page = 1)
+    public async Task<IActionResult> Search(string? q, int page = 1)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
+        if (string.IsNullOrWhiteSpace(q))
             return RedirectToAction(nameof(Index));
 
         page = Math.Max(1, page);
@@ -275,7 +275,7 @@ public class DocumentsController(
             ModelState.AddModelError("", "Rate limit exceeded. Try again in a minute.");
             return this.StackView(new SearchViewModel
             {
-                Keyword = keyword,
+                Keyword = q,
                 Page = page,
                 Documents = [],
                 TotalCount = 0,
@@ -286,12 +286,12 @@ public class DocumentsController(
         }
 
         var (usedAi, results, total) = await vectorSearchService.SearchAsync(
-            db.Documents, keyword, page, SearchViewModel.PageSize);
+            db.Documents, q, page, SearchViewModel.PageSize);
 
         if (!usedAi && results.Count == 0)
         {
             var searchRes = await DocumentSearchService.SearchAsync(
-                db.Documents, db, keyword, page, SearchViewModel.PageSize);
+                db.Documents, db, q, page, SearchViewModel.PageSize);
             results = searchRes.Items;
             total = searchRes.TotalCount;
         }
@@ -300,7 +300,7 @@ public class DocumentsController(
 
         return this.StackView(new SearchViewModel
         {
-            Keyword = keyword,
+            Keyword = q,
             Page = page,
             TotalCount = total,
             Documents = results,

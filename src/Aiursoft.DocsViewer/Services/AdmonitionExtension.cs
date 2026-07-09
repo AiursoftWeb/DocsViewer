@@ -1,192 +1,62 @@
-using Markdig;
-using Markdig.Helpers;
-using Markdig.Parsers;
-using Markdig.Renderers;
-using Markdig.Renderers.Html;
-using Markdig.Syntax;
+using System.Text.RegularExpressions;
 
 namespace Aiursoft.DocsViewer.Services;
 
 /// <summary>
-/// A Markdig extension that parses MkDocs Material admonition syntax:
-/// !!! type "Optional Title"
-///     indented content lines
+/// Pre-processes markdown to convert MkDocs Material admonition syntax into HTML
+/// that can then be passed through Markdig for further rendering of nested content.
 /// </summary>
-public class AdmonitionExtension : IMarkdownExtension
+public static partial class AdmonitionPreprocessor
 {
-    public void Setup(MarkdownPipelineBuilder pipeline)
-    {
-        var blockParsers = pipeline.BlockParsers;
-        if (!blockParsers.Contains<AdmonitionParser>())
-        {
-            blockParsers.Insert(0, new AdmonitionParser());
-        }
-    }
+    // Matches:
+    //   !!! type "Optional Title"
+    //       indented body lines
+    // or:
+    //   ??? type "Optional Title"
+    //       indented body lines
+    [GeneratedRegex(
+        @"^(?<prefix>!{3}|\?{3})\s+(?<type>\w+)(?:\s+""(?<title>[^""]*)""\s*)?\r?\n" +
+        @"((?<bodyline>\ {4}.*(?:\r?\n|$))+)",
+        RegexOptions.Multiline | RegexOptions.Compiled)]
+    private static partial Regex AdmonitionRegex();
 
-    public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
+    public static string Preprocess(string markdown)
     {
-        if (renderer is HtmlRenderer htmlRenderer)
+        return AdmonitionRegex().Replace(markdown, match =>
         {
-            var objectRenderers = htmlRenderer.ObjectRenderers;
-            if (!objectRenderers.Contains<AdmonitionRenderer>())
+            var isCollapsible = match.Groups["prefix"].Value == "???";
+            var type = match.Groups["type"].Value.ToLowerInvariant();
+            var title = match.Groups["title"].Success ? match.Groups["title"].Value : null;
+            var bodyLines = match.Groups["bodyline"].Captures
+                .Select(c => c.Value.TrimStart()) // strip leading 4 spaces
+                .ToList();
+            var body = string.Join("", bodyLines);
+
+            title ??= char.ToUpper(type[0]) + type[1..];
+
+            var (emoji, bgClass, borderClass) = type switch
             {
-                objectRenderers.Insert(0, new AdmonitionRenderer());
-            }
-        }
+                "note" or "info" => ("&#8505;&#65039;", "bg-body-tertiary", "border-primary"),
+                "abstract" or "summary" => ("&#128196;", "bg-body-tertiary", "border-secondary"),
+                "tip" or "hint" => ("&#128161;", "bg-body-tertiary", "border-success"),
+                "success" or "check" or "done" => ("&#9989;", "bg-body-tertiary", "border-success"),
+                "question" or "help" or "faq" => ("&#10067;", "bg-body-tertiary", "border-info"),
+                "warning" => ("&#9888;&#65039;", "bg-warning-subtle", "border-warning"),
+                "failure" or "fail" => ("&#10060;", "bg-danger-subtle", "border-danger"),
+                "danger" or "error" => ("&#128721;", "bg-danger-subtle", "border-danger"),
+                "bug" => ("&#128027;", "bg-danger-subtle", "border-danger"),
+                "example" => ("&#128214;", "bg-body-tertiary", "border-success"),
+                "quote" or "cite" => ("&#128172;", "bg-body-tertiary", "border-secondary"),
+                _ => ("&#128221;", "bg-body-tertiary", "border-secondary")
+            };
+
+            return
+                $"<div class=\"admonition {bgClass} border-start border-4 {borderClass} rounded-2 p-3 my-3\">\n" +
+                $"<p class=\"admonition-title fw-semibold mb-2\">{emoji} {title}</p>\n" +
+                (isCollapsible ? "<details open><summary class=\"d-none\"></summary>\n" : "") +
+                $"\n{body}\n\n" +
+                (isCollapsible ? "</details>\n" : "") +
+                $"</div>\n";
+        });
     }
-}
-
-public class AdmonitionParser : BlockParser
-{
-    public AdmonitionParser()
-    {
-        OpeningCharacters = ['!'];
-    }
-
-    public override BlockState TryOpen(BlockProcessor processor)
-    {
-        if (processor.IsCodeIndent) return BlockState.None;
-
-        var line = processor.Line;
-        var slice = line.ToString();
-
-        // Must start with "!!! " followed by a type word
-        if (!slice.StartsWith("!!! ") && !slice.StartsWith("??? ")) return BlockState.None;
-
-        var rest = slice[4..].Trim();
-        if (rest.Length == 0) return BlockState.None;
-
-        // Parse type (required) and optional title (in quotes)
-        string type;
-        string? title = null;
-
-        var spaceIdx = rest.IndexOf(' ');
-        if (spaceIdx > 0)
-        {
-            type = rest[..spaceIdx].ToLowerInvariant();
-            var afterType = rest[(spaceIdx + 1)..].Trim();
-
-            // Extract title from quotes
-            if (afterType.Length >= 2 && afterType.StartsWith('\"'))
-            {
-                var endQuote = afterType.IndexOf('\"', 1);
-                if (endQuote > 1)
-                {
-                    title = afterType[1..endQuote];
-                }
-            }
-            else if (afterType.Length > 0)
-            {
-                title = afterType;
-            }
-        }
-        else
-        {
-            type = rest.ToLowerInvariant();
-        }
-
-        var block = new AdmonitionBlock(this)
-        {
-            AdmonitionType = type,
-            Title = title
-        };
-
-        processor.NewBlocks.Push(block);
-        return BlockState.Continue;
-    }
-
-    public override BlockState TryContinue(BlockProcessor processor, Block block)
-    {
-        var admonition = (AdmonitionBlock)block;
-
-        if (processor.IsBlankLine)
-        {
-            // Blank line ends the admonition
-            block.Update(processor);
-            return BlockState.Break;
-        }
-
-        // Continue if indented (4 spaces) or if it's a continuation line
-        if (processor.IsCodeIndent || processor.Column > 3)
-        {
-            block.Update(processor);
-            return BlockState.Continue;
-        }
-
-        // Check if the next line starts a new admonition
-        var slice = processor.Line.ToString();
-        if (slice.StartsWith("!!! ") || slice.StartsWith("??? "))
-        {
-            block.Update(processor);
-            return BlockState.Break;
-        }
-
-        block.Update(processor);
-        return BlockState.Break;
-    }
-
-    public override bool Close(BlockProcessor processor, Block block)
-    {
-        block.Update(processor);
-        return true;
-    }
-}
-
-public class AdmonitionBlock : ContainerBlock
-{
-    public string AdmonitionType { get; set; } = "note";
-    public string? Title { get; set; }
-
-    public AdmonitionBlock(BlockParser parser) : base(parser) { }
-}
-
-public class AdmonitionRenderer : HtmlObjectRenderer<AdmonitionBlock>
-{
-    protected override void Write(HtmlRenderer renderer, AdmonitionBlock block)
-    {
-        var type = block.AdmonitionType;
-        var title = block.Title ?? Capitalize(type);
-
-        // Map type to a Bootstrap-friendly icon and color
-        var (icon, bgClass, borderClass) = type switch
-        {
-            "note" or "info" => ("ℹ️", "bg-primary bg-opacity-10", "border-primary"),
-            "abstract" or "summary" => ("📄", "bg-secondary bg-opacity-10", "border-secondary"),
-            "tip" or "hint" => ("💡", "bg-success bg-opacity-10", "border-success"),
-            "success" or "check" or "done" => ("✅", "bg-success bg-opacity-10", "border-success"),
-            "question" or "help" or "faq" => ("❓", "bg-info bg-opacity-10", "border-info"),
-            "warning" => ("⚠️", "bg-warning bg-opacity-10", "border-warning"),
-            "failure" or "fail" => ("❌", "bg-danger bg-opacity-10", "border-danger"),
-            "danger" or "error" => ("🚫", "bg-danger bg-opacity-10", "border-danger"),
-            "bug" => ("🐛", "bg-danger bg-opacity-10", "border-danger"),
-            "example" => ("📖", "bg-success bg-opacity-10", "border-success"),
-            "quote" or "cite" => ("💬", "bg-secondary bg-opacity-10", "border-secondary"),
-            _ => ("📝", "bg-light", "border-secondary")
-        };
-
-        var collapsible = block.Parser is AdmonitionParser p && p.OpeningCharacters is ['?'];
-
-        renderer.Write($"<div class=\"admonition {bgClass} border-start border-4 {borderClass} rounded p-3 my-3\">");
-        renderer.Write($"<p class=\"admonition-title fw-semibold mb-2\">{icon} {title}</p>");
-
-        if (collapsible)
-        {
-            renderer.Write("<details open><summary class=\"d-none\"></summary>");
-        }
-
-        foreach (var child in block)
-        {
-            renderer.WriteChildren(child);
-        }
-
-        if (collapsible)
-        {
-            renderer.Write("</details>");
-        }
-
-        renderer.Write("</div>");
-    }
-
-    private static string Capitalize(string s) =>
-        s.Length > 0 ? char.ToUpper(s[0]) + s[1..] : s;
 }

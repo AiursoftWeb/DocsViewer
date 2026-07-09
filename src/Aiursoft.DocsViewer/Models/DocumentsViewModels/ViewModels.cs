@@ -58,6 +58,7 @@ public class SearchViewModel : UiStackLayoutViewModel
     public int TotalCount { get; set; }
     public List<Document> Documents { get; set; } = [];
     public bool UsedAi { get; set; }
+    public bool RateLimited { get; set; }
     public Dictionary<int, int> LikeCounts { get; set; } = [];
     public Dictionary<int, string> LocalizedTitles { get; set; } = [];
     public Dictionary<int, string> LocalizedContents { get; set; } = [];

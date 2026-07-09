@@ -121,83 +121,92 @@ public class SettingsMap
             Type = SettingType.Text,
             DefaultValue = "/README.md"
         },
+        // ── AI: Chat / Translation (3 settings) ──────────────────────────────────
         new GlobalSettingDefinition
         {
             Key = OpenAiInstance,
-            Name = Localizer["OpenAI Instance"],
-            Description = Localizer["The base URL of the OpenAI-compatible API for document localization."],
+            Name = Localizer["OpenAI Chat Endpoint"],
+            Description = Localizer["The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search."],
             Type = SettingType.Text,
-            DefaultValue = "https://api.openai.com"
+            DefaultValue = ""
         },
         new GlobalSettingDefinition
         {
             Key = OpenAiLocalizationModel,
-            Name = Localizer["OpenAI Localization Model"],
-            Description = Localizer["The model name used for document translation."],
+            Name = Localizer["Localization Model"],
+            Description = Localizer["The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search."],
             Type = SettingType.Text,
-            DefaultValue = "gpt-3.5-turbo"
+            DefaultValue = ""
         },
         new GlobalSettingDefinition
         {
             Key = OpenAiApiToken,
             Name = Localizer["OpenAI API Token"],
-            Description = Localizer["The API token for the translation service."],
+            Description = Localizer["The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication."],
             Type = SettingType.Text,
             DefaultValue = ""
         },
+
+        // ── AI: Embedding / Vector Search (3 settings) ────────────────────────────
         new GlobalSettingDefinition
         {
             Key = EmbeddingOllamaInstance,
-            Name = Localizer["Embedding API Instance"],
-            Description = Localizer["The base URL of the OpenAI-compatible API for vector embeddings."],
+            Name = Localizer["Embedding Endpoint"],
+            Description = Localizer["The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com"],
             Type = SettingType.Text,
-            DefaultValue = "http://localhost:11434"
+            DefaultValue = ""
         },
         new GlobalSettingDefinition
         {
             Key = EmbeddingModel,
             Name = Localizer["Embedding Model"],
-            Description = Localizer["The embedding model to use (e.g. bge-m3)."],
+            Description = Localizer["The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation."],
             Type = SettingType.Text,
-            DefaultValue = "bge-m3"
+            DefaultValue = "bge-m3:latest"
         },
         new GlobalSettingDefinition
         {
             Key = EmbeddingApiToken,
             Name = Localizer["Embedding API Token"],
-            Description = Localizer["The API token for the embedding service. Can be empty for local Ollama."],
+            Description = Localizer["The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty."],
             Type = SettingType.Text,
             DefaultValue = ""
         },
+
+        // ── AI: Feature switch ────────────────────────────────────────────────────
         new GlobalSettingDefinition
         {
             Key = EnableEmbeddingBasedSearch,
-            Name = Localizer["Enable Vector Search"],
-            Description = Localizer["Enable semantic vector search using embeddings. Turn off to fallback to keyword search only."],
+            Name = Localizer["Enable Embedding-Based Search"],
+            Description = Localizer["Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \"Search based on AI (Vector Database)\" badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model."],
             Type = SettingType.Bool,
-            DefaultValue = "True"
+            DefaultValue = "False"
         },
+
+        // ── Localization ──────────────────────────────────────────────────────────
         new GlobalSettingDefinition
         {
             Key = LocalizationLanguages,
             Name = Localizer["Localization Languages"],
-            Description = Localizer["Comma-separated list of target cultures for translation. e.g. 'en-US,zh-CN'"],
+            Description = Localizer["Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation."],
             Type = SettingType.Text,
-            DefaultValue = "en-US"
+            DefaultValue = "en-US,en-GB,zh-TW,zh-HK,ja-JP,ko-KR,vi-VN,th-TH,de-DE,fr-FR,es-ES,ru-RU,it-IT,pt-PT,pt-BR,ar-SA,nl-NL,sv-SE,pl-PL,tr-TR,ro-RO,da-DK,uk-UA,id-ID,fi-FI,hi-IN,el-GR"
         },
         new GlobalSettingDefinition
         {
             Key = EmbeddingQueryCacheLimit,
             Name = Localizer["Embedding Query Cache Limit"],
-            Description = Localizer["Maximum number of search queries to cache their embeddings in database."],
+            Description = Localizer["Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity."],
             Type = SettingType.Number,
             DefaultValue = "2000"
         },
+
+        // ── Rate Limiting ─────────────────────────────────────────────────────────
         new GlobalSettingDefinition
         {
             Key = MaxCommentsPerDayPerUser,
             Name = Localizer["Max Comments Per Day Per User"],
-            Description = Localizer["Rate limiting: maximum number of comments a user can post in a single day."],
+            Description = Localizer["The maximum number of comments a user can post per day."],
             Type = SettingType.Number,
             DefaultValue = "10"
         }

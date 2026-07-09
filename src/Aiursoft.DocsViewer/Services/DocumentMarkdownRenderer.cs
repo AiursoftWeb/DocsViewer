@@ -24,12 +24,14 @@ public partial class DocumentMarkdownRenderer(StorageService storageService) : I
 
     public string RenderHtml(string markdown)
     {
+        // Pre-process MkDocs admonitions before passing to Markdig
+        markdown = AdmonitionPreprocessor.Preprocess(markdown);
+
         var pipeline = new Markdig.MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
             .UseAutoLinks()
             .UsePipeTables()
             .UseGridTables()
-            .Use<AdmonitionExtension>()
             .Build();
 
         var html = Markdig.Markdown.ToHtml(markdown, pipeline);
