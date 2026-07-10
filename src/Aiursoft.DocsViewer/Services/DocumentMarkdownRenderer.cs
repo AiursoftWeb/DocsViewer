@@ -27,14 +27,14 @@ public partial class DocumentMarkdownRenderer(StorageService storageService) : I
         // Pre-process MkDocs admonitions before passing to Markdig
         markdown = AdmonitionPreprocessor.Preprocess(markdown);
 
-        var pipeline = new Markdig.MarkdownPipelineBuilder()
+        var pipeline = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
             .UseAutoLinks()
             .UsePipeTables()
             .UseGridTables()
             .Build();
 
-        var html = Markdig.Markdown.ToHtml(markdown, pipeline);
+        var html = Markdown.ToHtml(markdown, pipeline);
 
         // Replace logical storage paths with public URLs
         html = LogicalPathRegex().Replace(html, match =>

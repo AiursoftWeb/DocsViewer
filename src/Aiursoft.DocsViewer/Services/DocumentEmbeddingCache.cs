@@ -15,7 +15,7 @@ namespace Aiursoft.DocsViewer.Services;
 public class DocumentEmbeddingCache(ILogger<DocumentEmbeddingCache> logger) : ISingletonDependency
 {
     private Dictionary<int, float[]> _cache = [];
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
 
     public int Count
     {
@@ -43,8 +43,8 @@ public class DocumentEmbeddingCache(ILogger<DocumentEmbeddingCache> logger) : IS
         if (embeddings.Count > maxEntries)
         {
             logger.LogWarning(
-                "DocumentEmbeddingCache: {Count} documents have embeddings but cache is capped at {Max}. Only the {Max} most recently embedded documents are loaded. Consider increasing the limit or archiving old documents.",
-                embeddings.Count, maxEntries, maxEntries);
+                "DocumentEmbeddingCache: {Count} documents have embeddings but cache is capped at {Max}. Only the most recently embedded documents are loaded. Consider increasing the limit or archiving old documents.",
+                embeddings.Count, maxEntries);
             embeddings = embeddings.Take(maxEntries).ToList();
         }
 

@@ -151,7 +151,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, globalSettings, foldersProvider, storageService, memCache,
+                db, env, globalSettings, foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -170,7 +170,7 @@ public class IndexDocumentsJobTests
         // ── Step 3: second index run — must write NOTHING ────────────────────
         await using var strictDb = new NoWriteDbContext(dbOptions);
         var job2 = new IndexDocumentsJob(
-            strictDb, env, globalSettings, foldersProvider, storageService, memCache,
+            strictDb, env, globalSettings, foldersProvider, memCache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
 
         // This must not throw: NoWriteDbContext throws if SaveChanges has
@@ -202,7 +202,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, globalSettings, foldersProvider, storageService, memCache,
+                db, env, globalSettings, foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -222,7 +222,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, globalSettings, foldersProvider, storageService, memCache,
+                db, env, globalSettings, foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }

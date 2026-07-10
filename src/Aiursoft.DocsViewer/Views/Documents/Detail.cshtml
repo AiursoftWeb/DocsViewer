@@ -2,9 +2,7 @@
 @inject Aiursoft.DocsViewer.Services.FileStorage.StorageService Storage
 @{
     ViewData["Title"] = Model.PageTitle;
-}
 
-@section styles {
     <link rel="stylesheet" href="~/styles/markdown-reader.css" asp-append-version="true" />
 }
 
@@ -202,6 +200,4 @@
         });
     });
 </script>
-@section scripts {
     <partial name="_CodeAssets" />
-}

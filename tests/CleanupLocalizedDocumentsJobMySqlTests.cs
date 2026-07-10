@@ -67,7 +67,7 @@ public class CleanupLocalizedDocumentsJobMySqlTests
         // Act
         await using (var db = new MySqlContext(CreateOptions()))
         {
-            var job = new CleanupLocalizedDocumentsJob(db, NullLogger<CleanupLocalizedDocumentsJob>.Instance);
+            var job = new CleanupLocalizedDocumentsJob(db, null!, NullLogger<CleanupLocalizedDocumentsJob>.Instance);
 
             await job.ExecuteAsync();
         }

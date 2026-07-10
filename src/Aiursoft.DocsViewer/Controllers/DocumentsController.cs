@@ -3,7 +3,6 @@ using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Models.DocumentsViewModels;
 using Aiursoft.DocsViewer.Services;
 using Aiursoft.WebTools.Attributes;
-using Markdig;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -272,11 +271,11 @@ public class DocumentsController(
         var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
         if (!rateLimiter.TryConsume(ip))
         {
-            ModelState.AddModelError("", "Rate limit exceeded. Try again in a minute.");
             return this.StackView(new SearchViewModel
             {
                 Keyword = q,
                 Page = page,
+                RateLimited = true,
                 Documents = [],
                 TotalCount = 0,
                 LikeCounts = [],

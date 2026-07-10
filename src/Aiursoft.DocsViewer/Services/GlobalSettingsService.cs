@@ -16,7 +16,7 @@ public class GlobalSettingsService(
 {
     private string GetCacheKey(string key) => $"global-setting-{key}";
 
-    public async Task<string> GetSettingValueAsync(string key)
+    public virtual async Task<string> GetSettingValueAsync(string key)
     {
         var cacheKey = GetCacheKey(key);
         if (cache.TryGetValue(cacheKey, out string? cachedValue) && cachedValue != null)
@@ -140,24 +140,17 @@ public class GlobalSettingsService(
 
     public async Task<bool> IsAiLocalizationEnabledAsync()
     {
-        var openAiInstance = await GetSettingValueAsync("OpenAiInstance");
-        var openAiLocalizationModel = await GetSettingValueAsync("OpenAiLocalizationModel");
-        var openAiApiToken = await GetSettingValueAsync("OpenAiApiToken");
-
-        return !string.IsNullOrWhiteSpace(openAiInstance) &&
-               !string.IsNullOrWhiteSpace(openAiLocalizationModel) &&
-               !string.IsNullOrWhiteSpace(openAiApiToken);
+        var instance = await GetSettingValueAsync(SettingsMap.OpenAiInstance);
+        return !string.IsNullOrWhiteSpace(instance);
     }
 
     public async Task<bool> IsAiSearchEnabledAsync()
     {
-        var enableEmbeddingBasedSearch = await GetBoolSettingAsync("EnableEmbeddingBasedSearch");
-        var embeddingOllamaInstance = await GetSettingValueAsync("EmbeddingOllamaInstance");
-        var embeddingModel = await GetSettingValueAsync("EmbeddingModel");
+        var dedicated = await GetSettingValueAsync(SettingsMap.EmbeddingOllamaInstance);
+        if (!string.IsNullOrWhiteSpace(dedicated)) return true;
 
-        return enableEmbeddingBasedSearch &&
-               !string.IsNullOrWhiteSpace(embeddingOllamaInstance) &&
-               !string.IsNullOrWhiteSpace(embeddingModel);
+        var instance = await GetSettingValueAsync(SettingsMap.OpenAiInstance);
+        return !string.IsNullOrWhiteSpace(instance);
     }
 
     public async Task SeedSettingsAsync()

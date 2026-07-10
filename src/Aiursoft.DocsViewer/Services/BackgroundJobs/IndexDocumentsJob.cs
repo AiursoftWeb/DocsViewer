@@ -13,7 +13,6 @@ public partial class IndexDocumentsJob(
     IHostEnvironment env,
     GlobalSettingsService settingsService,
     FeatureFoldersProvider featureFolders,
-    StorageService storageService,
     IMemoryCache cache,
     ILogger<IndexDocumentsJob> logger) : IBackgroundJob
 {

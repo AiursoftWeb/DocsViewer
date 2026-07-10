@@ -1,4 +1,5 @@
 using Aiursoft.Canon.BackgroundJobs;
+using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 
 namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
@@ -15,9 +16,10 @@ public class RefreshEmbeddingCacheJob(
 
     public async Task ExecuteAsync()
     {
-        if (!await settingsService.IsAiSearchEnabledAsync())
+        var useAiSearch = await settingsService.GetBoolSettingAsync(SettingsMap.EnableEmbeddingBasedSearch);
+        if (!useAiSearch)
         {
-            logger.LogInformation("RefreshEmbeddingCacheJob: Embedding-based search is not enabled. Skipping.");
+            logger.LogInformation("RefreshEmbeddingCacheJob: EnableEmbeddingBasedSearch is disabled. Skipping.");
             return;
         }
 

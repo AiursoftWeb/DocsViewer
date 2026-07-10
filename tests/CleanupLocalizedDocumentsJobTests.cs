@@ -1,8 +1,12 @@
+using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
+using Aiursoft.DocsViewer.Services;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 
 namespace Aiursoft.DocsViewer.Tests;
 
@@ -44,8 +48,15 @@ public class CleanupLocalizedDocumentsJobTests
     {
         var db = new SqliteTestContext(_dbOptions);
 
+        var config = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>())
+            .Build();
+        var settings = new GlobalSettingsService(db, config, null!, new MemoryCache(new MemoryCacheOptions()));
+        // Set empty languages so culture cleanup doesn't interfere with test
+        db.GlobalSettings.Add(new GlobalSetting { Key = SettingsMap.LocalizationLanguages, Value = "" });
+        await db.SaveChangesAsync();
         return new CleanupLocalizedDocumentsJob(
-            db,
+            db, settings,
             NullLogger<CleanupLocalizedDocumentsJob>.Instance);
     }
 

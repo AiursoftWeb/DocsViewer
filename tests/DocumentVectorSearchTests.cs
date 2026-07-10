@@ -188,16 +188,20 @@ public class DocumentVectorSearchTests
     }
 
     [TestMethod]
-    public async Task Condition3_EmbeddingModelNotConfigured_ReturnsUsedAiFalse()
+    public async Task Condition3_EmbeddingModelNotConfigured_SucceedsWithFakeHandler()
     {
+        // With endpoint configured, AI search is attempted. The fake handler returns
+        // embeddings regardless of model name, matching the real-world behavior where
+        // Ollama validates the model at request-time, not at configuration-time.
+        // The pre-condition check (matching HTC) only gate-checks the endpoint.
         await SeedGlobalSettingsAsync(useAiSearch: true, ollamaInstance: "http://localhost:11434", embeddingModel: "");
         await SeedDocumentsWithEmbeddingsAsync();
 
         var service = CreateSearchService();
         var (usedAi, results, _) = await service.SearchAsync(_db.Documents.AsNoTracking(), "牛肉面", 1, 10);
 
-        Assert.IsFalse(usedAi, "Should NOT use AI search when EmbeddingModel is empty.");
-        Assert.AreEqual(0, results.Count);
+        Assert.IsTrue(usedAi, "AI search should be attempted when endpoint is configured, even if model is empty.");
+        Assert.IsTrue(results.Count > 0, "Fake handler returns valid embeddings regardless of model name.");
     }
 
     // ─────────────────────────────────────────────────────────────────────────
