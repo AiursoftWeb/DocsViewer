@@ -13,8 +13,6 @@ public class SettingsMap
     
     public const string DocsRepoUrl = "DocsRepoUrl";
     public const string DocsRepoBackupUrl = "DocsRepoBackupUrl";
-    public const string DocsRootPath = "DocsRootPath";
-    public const string DocsHomePage = "DocsHomePage";
     
     public const string OpenAiInstance = "OpenAiInstance";
     public const string OpenAiLocalizationModel = "OpenAiLocalizationModel";
@@ -104,22 +102,6 @@ public class SettingsMap
             Description = Localizer["The backup URL of the git repository. Used if the primary URL fails."],
             Type = SettingType.Text,
             DefaultValue = ""
-        },
-        new GlobalSettingDefinition
-        {
-            Key = DocsRootPath,
-            Name = Localizer["Docs Root Path"],
-            Description = Localizer["The relative path within the repo where the documentation is located (e.g., '/', '/docs')."],
-            Type = SettingType.Text,
-            DefaultValue = "/Docs"
-        },
-        new GlobalSettingDefinition
-        {
-            Key = DocsHomePage,
-            Name = Localizer["Docs Home Page"],
-            Description = Localizer["The home page path relative to the repository root. This is not affected by Docs Root Path (e.g., '/README.md')."],
-            Type = SettingType.Text,
-            DefaultValue = "/README.md"
         },
         // ── AI: Chat / Translation (3 settings) ──────────────────────────────────
         new GlobalSettingDefinition

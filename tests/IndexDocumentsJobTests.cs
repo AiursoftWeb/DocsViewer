@@ -41,7 +41,7 @@ public class IndexDocumentsJobTests
     private void CreateMockGitRepo(string path)
     {
         Directory.CreateDirectory(path);
-        var docsPath = Path.Combine(path, "docs", "test_category");
+        var docsPath = Path.Combine(path, "Docs", "test_category");
         Directory.CreateDirectory(docsPath);
         File.WriteAllText(Path.Combine(docsPath, "test_doc.md"), "# Test Doc\nThis is a test.");
 
@@ -96,8 +96,7 @@ public class IndexDocumentsJobTests
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 { "Storage:Path", _tempPath },
-                { $"GlobalSettings:{SettingsMap.DocsRepoUrl}", _mockRepoPath },
-                { $"GlobalSettings:{SettingsMap.DocsRootPath}", "/" }
+                { $"GlobalSettings:{SettingsMap.DocsRepoUrl}", _mockRepoPath }
             })
             .Build();
 
@@ -139,7 +138,7 @@ public class IndexDocumentsJobTests
     public async Task IndexDocumentsJob_SecondRun_WritesNothing()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, storageService, memCache) = BuildServices(dbName);
+        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // ── Step 1: sync git repo ────────────────────────────────────────────
         await syncJob.ExecuteAsync();
@@ -151,7 +150,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, globalSettings, foldersProvider, memCache,
+                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -170,7 +169,7 @@ public class IndexDocumentsJobTests
         // ── Step 3: second index run — must write NOTHING ────────────────────
         await using var strictDb = new NoWriteDbContext(dbOptions);
         var job2 = new IndexDocumentsJob(
-            strictDb, env, globalSettings, foldersProvider, memCache,
+            strictDb, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
 
         // This must not throw: NoWriteDbContext throws if SaveChanges has
@@ -194,7 +193,7 @@ public class IndexDocumentsJobTests
     public async Task IndexDocumentsJob_ReindexesWhenTitleChanged()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, storageService, memCache) = BuildServices(dbName);
+        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // ── Step 1: sync and index normally ────────────────────────────────────
         await syncJob.ExecuteAsync();
@@ -202,7 +201,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, globalSettings, foldersProvider, memCache,
+                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -222,7 +221,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, globalSettings, foldersProvider, memCache,
+                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }

@@ -15,12 +15,14 @@ namespace Aiursoft.DocsViewer.Controllers;
 public class DocumentsController(
     DocsViewerDbContext db,
     UserManager<User> userManager,
+    IHostEnvironment env,
     GlobalSettingsService globalSettingsService,
     DocumentLocalizationService documentLocalization,
     DocumentEmbeddingCache embeddingCache,
     DocumentVectorSearchService vectorSearchService,
     SearchRateLimiter rateLimiter,
     DocumentMarkdownRenderer renderer,
+    NavConfigParser navConfigParser,
     IStringLocalizer<DocumentsController> localizer) : Controller
 {
     [ExcludeFromCodeCoverage]
@@ -172,12 +174,23 @@ public class DocumentsController(
 
     public async Task<IActionResult> Detail(string path)
     {
-        if (string.IsNullOrWhiteSpace(path) || !path.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+        if (string.IsNullOrWhiteSpace(path))
+            return NotFound();
+
+        // Support both .md (MkDocs-style) and .html links
+        string mdPath;
+        if (path.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+        {
+            mdPath = path;
+        }
+        else if (path.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+        {
+            mdPath = path[..^5] + ".md";
+        }
+        else
         {
             return NotFound();
         }
-
-        var mdPath = path[..^5] + ".md";
         var doc = await db.Documents.FirstOrDefaultAsync(d => d.FilePath.ToLower().Replace('\\', '/') == mdPath.ToLower().Replace('\\', '/'));
         
         if (doc == null)
@@ -215,8 +228,10 @@ public class DocumentsController(
             ? repoUrl[..^4]
             : repoUrl;
         
-        var docsRoot = await globalSettingsService.GetSettingValueAsync(SettingsMap.DocsRootPath);
-        var docsRootPrefix = string.IsNullOrWhiteSpace(docsRoot) ? "" : $"{docsRoot.Trim('/')}/";
+        var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+        var navConfig = await navConfigParser.ParseAsync(repoPath);
+        var docsDir = navConfig?.DocsDir ?? "Docs";
+        var docsRootPrefix = $"{docsDir}/";
         var gitHubEditUrl = string.IsNullOrWhiteSpace(repoUrl) ? null : $"{repoWebUrl}/edit/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
         var gitHubHistoryUrl = string.IsNullOrWhiteSpace(repoUrl) ? null : $"{repoWebUrl}/commits/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
 

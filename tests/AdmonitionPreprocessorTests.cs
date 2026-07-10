@@ -115,12 +115,13 @@ public class AdmonitionPreprocessorTests
     [TestMethod]
     public void EmptyBody_RendersCorrectly()
     {
-        // !! is NOT an admonition — it won't match the regex
         var input = "!!! tip \"Empty\"\n";
         var result = AdmonitionPreprocessor.Preprocess(input);
 
-        // No indented lines = no match. Header stays as-is.
-        Assert.AreEqual(input, result, "Without indented body, text should be unchanged");
+        // An admonition with no body still renders as an admonition div with just the title
+        Assert.IsTrue(result.Contains("admonition"), "Should contain admonition div");
+        Assert.IsTrue(result.Contains("Empty"), "Should contain the title");
+        Assert.IsFalse(result.Contains("!!! tip"), "Header syntax should be removed");
     }
 
     [TestMethod]
@@ -196,12 +197,14 @@ public class AdmonitionPreprocessorTests
     [TestMethod]
     public void Malformed_NoBody_PassThrough()
     {
-        // Indented text missing — nothing to match
+        // No indented body — admonition renders empty, non-indented text passes through
         var input = "!!! warning \"No body here\"\nJust regular text.\n";
         var result = AdmonitionPreprocessor.Preprocess(input);
 
-        // Regex needs at least one indented line — no match
-        Assert.AreEqual(input, result, "Without indented body, should pass through unchanged");
+        Assert.IsTrue(result.Contains("admonition"), "Should render admonition div even without indented body");
+        Assert.IsTrue(result.Contains("No body here"), "Should contain title");
+        Assert.IsTrue(result.Contains("Just regular text"), "Non-indented text should pass through unchanged");
+        Assert.IsFalse(result.Contains("!!! warning"), "Header syntax should be removed");
     }
 
     [TestMethod]

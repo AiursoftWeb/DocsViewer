@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using Aiursoft.Canon.BackgroundJobs;
-using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Services.FileStorage;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 public partial class IndexDocumentsJob(
     DocsViewerDbContext db,
     IHostEnvironment env,
-    GlobalSettingsService settingsService,
+    NavConfigParser navConfigParser,
     FeatureFoldersProvider featureFolders,
     IMemoryCache cache,
     ILogger<IndexDocumentsJob> logger) : IBackgroundJob
@@ -37,8 +36,9 @@ public partial class IndexDocumentsJob(
             return;
         }
 
-        var docsRootPath = await settingsService.GetSettingValueAsync(SettingsMap.DocsRootPath);
-        var baseDocPath = Path.Combine(repoPath, docsRootPath.Trim('/'));
+        var navConfig = await navConfigParser.ParseAsync(repoPath);
+        var docsDir = navConfig?.DocsDir ?? "Docs";
+        var baseDocPath = Path.Combine(repoPath, docsDir);
 
         if (!Directory.Exists(baseDocPath))
         {

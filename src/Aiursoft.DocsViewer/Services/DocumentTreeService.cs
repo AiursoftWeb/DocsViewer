@@ -1,7 +1,6 @@
 using Aiursoft.DocsViewer.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-
 using Aiursoft.Scanner.Abstractions;
 
 namespace Aiursoft.DocsViewer.Services;
@@ -14,82 +13,101 @@ public class DocumentTreeNode
     public List<DocumentTreeNode> Children { get; set; } = [];
 }
 
-public class DocumentTreeService(DocsViewerDbContext db, IMemoryCache cache) : IScopedDependency
+public class DocumentTreeService(
+    DocsViewerDbContext db,
+    IMemoryCache cache,
+    IHostEnvironment env,
+    NavConfigParser navConfigParser) : IScopedDependency
 {
     public async Task<List<DocumentTreeNode>> GetTreeAsync(CancellationToken ct = default)
     {
         return await cache.GetOrCreateAsync("document_tree", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-            
+
             var docs = await db.Documents
                 .AsNoTracking()
-                .OrderBy(d => d.FilePath)
                 .ToListAsync(ct);
 
-            var rootNodes = new List<DocumentTreeNode>();
+            var docLookup = docs.ToDictionary(
+                d => d.FilePath.Replace('\\', '/'),
+                StringComparer.OrdinalIgnoreCase);
 
-            foreach (var doc in docs)
+            // Try to use properdocs.yml ordering
+            var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+            var navConfig = await navConfigParser.ParseAsync(repoPath);
+            if (navConfig != null)
             {
-                // FilePath: "Folder1/Folder2/Folder3/Doc.md"
-                // Split by '/' or '\'
-                var segments = doc.FilePath.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
-                if (segments.Length == 0) continue;
-
-                var currentLevel = rootNodes;
-                string currentPath = "";
-
-                // Build tree up to 4 levels
-                for (int i = 0; i < Math.Min(segments.Length, 4); i++)
-                {
-                    var segment = segments[i];
-                    var isLastSegment = i == segments.Length - 1 || i == 3;
-                    
-                    if (isLastSegment && i == 3 && segments.Length > 4)
-                    {
-                        // If it exceeds 4 levels, flatten the remaining into the 4th level name
-                        segment = string.Join('/', segments.Skip(3));
-                    }
-                    
-                    currentPath = string.IsNullOrEmpty(currentPath) ? segment : $"{currentPath}/{segment}";
-
-                    var node = currentLevel.FirstOrDefault(n => n.Name == segment);
-                    if (node == null)
-                    {
-                        node = new DocumentTreeNode
-                        {
-                            Name = segment,
-                            Path = currentPath,
-                            Document = isLastSegment ? doc : null
-                        };
-                        currentLevel.Add(node);
-                    }
-                    
-                    currentLevel = node.Children;
-                }
+                return BuildOrderedTree(navConfig.NavItems, docLookup);
             }
 
-            void SortTree(List<DocumentTreeNode> nodes)
-            {
-                nodes.Sort((a, b) => 
-                {
-                    var aIsFile = a.Document != null;
-                    var bIsFile = b.Document != null;
-                    if (aIsFile && !bIsFile) return -1;
-                    if (!aIsFile && bIsFile) return 1;
-                    return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
-                });
-                foreach (var node in nodes)
-                {
-                    if (node.Children.Count > 0)
-                    {
-                        SortTree(node.Children);
-                    }
-                }
-            }
-            SortTree(rootNodes);
-
-            return rootNodes;
+            // Fallback: alphabetical
+            return BuildAlphaTree(docLookup);
         }) ?? [];
+    }
+
+    private static List<DocumentTreeNode> BuildOrderedTree(
+        List<NavEntry> entries, Dictionary<string, Document> docLookup)
+    {
+        var result = new List<DocumentTreeNode>();
+        foreach (var entry in entries)
+        {
+            if (!string.IsNullOrEmpty(entry.Path))
+            {
+                if (docLookup.TryGetValue(entry.Path, out var doc))
+                {
+                    result.Add(new DocumentTreeNode
+                    {
+                        Name = entry.Title,
+                        Path = entry.Path,
+                        Document = doc
+                    });
+                }
+            }
+            else
+            {
+                var children = BuildOrderedTree(entry.Children, docLookup);
+                if (children.Count > 0)
+                {
+                    result.Add(new DocumentTreeNode
+                    {
+                        Name = entry.Title,
+                        Path = entry.Title,
+                        Children = children
+                    });
+                }
+            }
+        }
+        return result;
+    }
+
+    private static List<DocumentTreeNode> BuildAlphaTree(
+        Dictionary<string, Document> docLookup)
+    {
+        var rootNodes = new List<DocumentTreeNode>();
+        foreach (var kv in docLookup.OrderBy(d => d.Key))
+        {
+            var segments = kv.Key.Split('/');
+            if (segments.Length == 0) continue;
+            var currentLevel = rootNodes;
+            for (var i = 0; i < segments.Length; i++)
+            {
+                var seg = segments[i];
+                var isLast = i == segments.Length - 1;
+                var node = currentLevel.FirstOrDefault(n => n.Name == seg);
+                if (node == null)
+                {
+                    node = new DocumentTreeNode
+                    {
+                        Name = seg,
+                        Path = string.Join("/", segments.Take(i + 1)),
+                        Document = isLast ? kv.Value : null
+                    };
+                    currentLevel.Add(node);
+                }
+                currentLevel = node.Children;
+            }
+        }
+        return rootNodes;
     }
 }
