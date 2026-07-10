@@ -235,6 +235,47 @@ public class IndexDocumentsJobTests
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // Test: document title comes from properdocs.yml nav entry, not filename
+    // ─────────────────────────────────────────────────────────────────────────
+
+    [TestMethod]
+    public async Task IndexDocumentsJob_UsesNavTitleFromProperdocsYml()
+    {
+        // Create properdocs.yml in mock repo with a custom nav title
+        var ymlPath = Path.Combine(_mockRepoPath, "properdocs.yml");
+        await File.WriteAllTextAsync(ymlPath, """
+            docs_dir: Docs
+            nav:
+              - Test:
+                - "My Custom Title": test_category/test_doc.md
+            """);
+        // Commit so the file is part of the synced repo
+        RunGitCommand("add properdocs.yml", _mockRepoPath);
+        RunGitCommand("-c user.name=TestUser -c user.email=test@test.com -c commit.gpgsign=false commit --no-gpg-sign -m \"Add properdocs.yml\"", _mockRepoPath);
+
+        var dbName = "IndexJobTest_" + Guid.NewGuid();
+        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+
+        // Sync and index
+        await syncJob.ExecuteAsync();
+
+        await using (var db = new InMemoryContext(dbOptions))
+        {
+            var job = new IndexDocumentsJob(
+                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                loggerFactory.CreateLogger<IndexDocumentsJob>());
+            await job.ExecuteAsync();
+        }
+
+        await using (var db = new InMemoryContext(dbOptions))
+        {
+            var document = await db.Documents.FirstAsync();
+            Assert.AreEqual("My Custom Title", document.Title,
+                "Document title must come from properdocs.yml nav entry, not from filename.");
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // Strict context: throws immediately if SaveChangesAsync is called with
     // any pending writes (Added / Modified / Deleted entries).
     // ─────────────────────────────────────────────────────────────────────────

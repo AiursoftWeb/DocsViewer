@@ -33,6 +33,7 @@ public class ViewModelArgsInjector(
     IOptions<AppSettings> appSettings,
     GlobalSettingsService globalSettingsService,
     DocumentTreeService documentTreeService,
+    DocumentLocalizationService documentLocalization,
     SignInManager<User> signInManager) : IScopedDependency
 {
 
@@ -191,6 +192,8 @@ public class ViewModelArgsInjector(
         }
 
         var documentTree = documentTreeService.GetTreeAsync().GetAwaiter().GetResult();
+        var allDocsForLocalization = CollectDocumentsFromTree(documentTree);
+        var (localizedTitles, _) = documentLocalization.LoadLocalizedStringsAsync(allDocsForLocalization).GetAwaiter().GetResult();
         var docNavGroups = new List<NavGroup>();
 
         foreach (var l1Node in documentTree)
@@ -205,7 +208,7 @@ public class ViewModelArgsInjector(
 
             foreach (var l2Node in l1Node.Children)
             {
-                navGroup.Items.Add(BuildSideBarItem(l2Node, currentViewingController, currentDocId, currentPath));
+                navGroup.Items.Add(BuildSideBarItem(l2Node, currentViewingController, currentDocId, currentPath, localizedTitles));
             }
             
             if (navGroup.Items.Any())
@@ -226,7 +229,7 @@ public class ViewModelArgsInjector(
                     return (SideBarItem)new LinkSideBarItem
                     {
                         LucideIcon = "file-text",
-                        Text = n.Document!.Title,
+                        Text = localizedTitles.GetValueOrDefault(n.Document!.Id, n.Document!.Title),
                         Href = $"/{htmlPath}",
                         IsActive = (currentViewingController == "Documents" && currentDocId == n.Document.Id.ToString()) ||
                                    string.Equals(currentPath, htmlPath, StringComparison.OrdinalIgnoreCase)
@@ -359,7 +362,7 @@ public class ViewModelArgsInjector(
         return storageService.RelativePathToInternetUrl(logoPath, context);
     }
 
-    private SideBarItem BuildSideBarItem(DocumentTreeNode node, string? currentController, string? currentDocId, string? currentPath)
+    private SideBarItem BuildSideBarItem(DocumentTreeNode node, string? currentController, string? currentDocId, string? currentPath, Dictionary<int, string> localizedTitles)
     {
         if (node.Document != null)
         {
@@ -367,7 +370,7 @@ public class ViewModelArgsInjector(
             return new LinkSideBarItem
             {
                 LucideIcon = "file-text",
-                Text = node.Document.Title,
+                Text = localizedTitles.GetValueOrDefault(node.Document.Id, node.Document.Title),
                 Href = $"/{htmlPath}",
                 IsActive = (currentController == "Documents" && currentDocId == node.Document.Id.ToString()) ||
                            string.Equals(currentPath, htmlPath, StringComparison.OrdinalIgnoreCase)
@@ -386,7 +389,7 @@ public class ViewModelArgsInjector(
 
             foreach (var child in node.Children)
             {
-                var builtChild = BuildSideBarItem(child, currentController, currentDocId, currentPath);
+                var builtChild = BuildSideBarItem(child, currentController, currentDocId, currentPath, localizedTitles);
                 if (builtChild.IsActive)
                 {
                     deepItem.IsActive = true;
@@ -396,5 +399,22 @@ public class ViewModelArgsInjector(
             
             return deepItem;
         }
+    }
+
+    /// <summary>
+    /// Recursively collects all Document references from a tree of DocumentTreeNode,
+    /// so we can batch-load localized titles for the sidebar in one query.
+    /// </summary>
+    private static List<Document> CollectDocumentsFromTree(List<DocumentTreeNode> nodes)
+    {
+        var result = new List<Document>();
+        foreach (var node in nodes)
+        {
+            if (node.Document != null)
+                result.Add(node.Document);
+            if (node.Children.Count > 0)
+                result.AddRange(CollectDocumentsFromTree(node.Children));
+        }
+        return result;
     }
 }

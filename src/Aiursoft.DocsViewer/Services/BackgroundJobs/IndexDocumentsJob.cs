@@ -37,6 +37,9 @@ public partial class IndexDocumentsJob(
         }
 
         var navConfig = await navConfigParser.ParseAsync(repoPath);
+        var navTitleMap = navConfig != null
+            ? BuildNavTitleMap(navConfig.NavItems)
+            : new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var docsDir = navConfig?.DocsDir ?? "Docs";
         var baseDocPath = Path.Combine(repoPath, docsDir);
 
@@ -56,7 +59,7 @@ public partial class IndexDocumentsJob(
 
             var parts = relativeFilePath.Split('/');
             var category = parts.Length > 1 ? parts[0] : "root";
-            var title = Path.GetFileNameWithoutExtension(file);
+            var title = navTitleMap.GetValueOrDefault(relativeFilePath, Path.GetFileNameWithoutExtension(file));
             var rawContent = await File.ReadAllTextAsync(file);
 
             // Copy referenced images to StorageService Workspace and rewrite paths
@@ -154,5 +157,32 @@ public partial class IndexDocumentsJob(
             // Rewrite to logical path — will be resolved at render time via StorageService
             return $"![{match.Groups[1].Value}]({logicalPath})";
         });
+    }
+
+    /// <summary>
+    /// Flattens the properdocs.yml nav tree into a filePath → displayName map
+    /// so IndexDocumentsJob can use the human-readable title instead of the filename.
+    /// </summary>
+    private static Dictionary<string, string> BuildNavTitleMap(List<NavEntry> entries)
+    {
+        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        WalkNavEntries(entries, map);
+        return map;
+    }
+
+    private static void WalkNavEntries(List<NavEntry> entries, Dictionary<string, string> map)
+    {
+        foreach (var entry in entries)
+        {
+            if (!string.IsNullOrEmpty(entry.Path))
+            {
+                var normalizedPath = entry.Path.TrimStart('.', '/', '\\').Replace('\\', '/');
+                map[normalizedPath] = entry.Title;
+            }
+            if (entry.Children.Count > 0)
+            {
+                WalkNavEntries(entry.Children, map);
+            }
+        }
     }
 }
