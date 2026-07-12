@@ -77,6 +77,7 @@ public class Startup : IWebStartup
         // Background jobs
         var syncRepoJob = services.RegisterBackgroundJob<SyncDocsRepoJob>();
         var indexDocsJob = services.RegisterBackgroundJob<IndexDocumentsJob>();
+        var detectSourceCultureJob = services.RegisterBackgroundJob<DetectSourceCultureJob>();
         var localizeDocsJob = services.RegisterBackgroundJob<LocalizeDocumentsJob>();
         var localizeNavTitlesJob = services.RegisterBackgroundJob<LocalizeNavTitlesJob>();
         var generateEmbeddingsJob = services.RegisterBackgroundJob<GenerateEmbeddingsJob>();
@@ -87,6 +88,7 @@ public class Startup : IWebStartup
         // Scheduled tasks (attach a schedule to any registered background job)
         services.RegisterScheduledTask(registration: syncRepoJob,             period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(1));
         services.RegisterScheduledTask(registration: indexDocsJob,            period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(20));
+        services.RegisterScheduledTask(registration: detectSourceCultureJob,  period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(25));
         services.RegisterScheduledTask(registration: localizeDocsJob,         period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(30));
         services.RegisterScheduledTask(registration: localizeNavTitlesJob,    period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(35));
         services.RegisterScheduledTask(registration: generateEmbeddingsJob,   period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(50));

@@ -47,13 +47,15 @@
 
             @if (Model.ShowTranslationNotice)
             {
-                <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center mb-3" role="alert">
-                    <i class="lucide lucide-alert-triangle me-2 flex-shrink-0"></i>
-                    <div>
-                        This document was originally written in <strong>@Model.SourceLanguageName</strong>.
+                <div class="alert alert-warning alert-outline alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert-icon">
+                        <i class="lucide lucide-alert-triangle"></i>
+                    </div>
+                    <div class="alert-message">
+                        <strong>AI Translation Notice</strong> — This document was originally written in <strong>@Model.SourceLanguageName</strong>.
                         You are reading an AI-generated machine translation, which may contain inaccuracies.
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
