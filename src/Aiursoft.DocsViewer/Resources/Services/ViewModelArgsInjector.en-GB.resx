@@ -72,6 +72,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Directory</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
   <data name="Edit Role" xml:space="preserve">
     <value>Edit Role</value>
   </data>
@@ -111,6 +114,9 @@
   <data name="Manage" xml:space="preserve">
     <value>Manage</value>
   </data>
+  <data name="My Favorites" xml:space="preserve">
+    <value>My Favourites</value>
+  </data>
   <data name="Not Found" xml:space="preserve">
     <value>Not Found</value>
   </data>
@@ -137,6 +143,9 @@
   </data>
   <data name="Roles" xml:space="preserve">
     <value>Roles</value>
+  </data>
+  <data name="Search documents…" xml:space="preserve">
+    <value>Search documents…</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>

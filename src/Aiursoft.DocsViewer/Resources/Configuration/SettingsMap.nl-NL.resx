@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>Merkenaam</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Komma-gescheiden BCP-47-taalcodes om documenten naartoe te vertalen, bijv. en-US, ja-JP, ko-KR, fr-FR, zh-CN. Laat leeg of stel in op een enkele taal om AI-vertaling uit te schakelen.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>Backup-URL van documentenrepository</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>URL van documentatie-opslagplaats</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>Standaard Keuze</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>Standaardnummer</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>Embedding-API-token</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Embedding-Eindpunt</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Embeddingmodel</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Limiet voor cache van invoegingsquery&apos;s</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Embedding-gespecificeerd zoeken inschakelen</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP-nummer</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Talen voor Lokalisatie</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Lokalisatiemodel</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Hoofdschakelaar voor semantische (vectorgebaseerde) zoekopdrachten. Wanneer ingeschakeld en het embedding-model is geconfigureerd, tonen zoekresultaten een groen badge &quot;Zoeken op AI (Vector Database)&quot; en gebruiken ze cosine-ähnlijkheidsrangschikking. Wanneer uitgeschakeld of niet geconfigureerd, valt de zoekopdracht stil terug op trefwoordovereenkomst. Vereist Embedding Endpoint en Embedding Model.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Maximaal aantal opmerkingen per dag per gebruiker</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Maximaal aantal query-embeddings dat in de cache wordt opgeslagen in de database. Bij overschrijding worden de minst recent toegankelijke items verwijderd (LRU). Standaard 2000. Pas aan op basis van uw databasestatus en verwachte diversiteit aan queries.</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>OpenAI API-sleutel</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>OpenAI Chat-eindpunt</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Projectlogo</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>Projectnaam</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>De back-up-URL van de git-repository. Wordt gebruikt als de primaire URL niet werkt.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>Het bearer-token voor het authenticeren bij het Embedding-eindpunt, bijv. 5a0fbdefa19f.... Bij leegte wordt de OpenAI API Token gebruikt.</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>Het bearer token voor authenticatie bij het OpenAI Chat Endpoint, bijv. sk-abc123... of 5a0fbdefa19f.... Laat leeg als het endpoint geen authenticatie vereist.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>De merknaam die wordt weergegeven in de voettekst.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>De naam van het embedding-model voor vectorzoekopdrachten, bijv. bge-m3:latest. Moet beschikbaar zijn op het Embedding-endpoint. Alleen gebruikt voor vectorzoeken, niet voor vertaling.</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>Het ICP-licentienummer voor gebruikers uit het Chinese vasteland. Leeg laten om te verbergen.</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>De LLM-modelnaam die wordt gebruikt voor het vertalen van documenten, bijv. qwen3.5:27b-q8_0, gpt-4o of deepseek-chat. Moet beschikbaar zijn op het bovenstaande OpenAI Chat Endpoint. Niet gerelateerd aan embedding/vector search.</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Het logo van het project dat wordt weergegeven in de navigatiebalk en voettekst. Ondersteunt jpg, png, svg.</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>Het maximum aantal comments dat een gebruiker per dag kan plaatsen.</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>De naam van het project dat wordt weergegeven in de frontend.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>De oorspronkelijke Ollama API-basis-URL die specifiek wordt gebruikt voor het genereren van document- en queryembeddings (vectorzoekopdrachten). Alleen de host wordt gebruikt — /api/embed wordt automatisch toegevoegd. Bij lege invoer wordt de OpenAI Chat Endpoint als fallback gebruikt. Bijvoorbeeld: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Het OpenAI-compatibele chatcompletie-eindpunt dat wordt gebruikt voor documentvertaling. Moet de volledige URL inclusief /v1/chat/completions zijn, bijv. https://ollama.example.com/v1/chat/completions of https://api.openai.com/v1/chat/completions. Niet gerelateerd aan embedding/vectorzoekopdrachten.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>De URL van de git-repository met de markdown-documenten.</value>
   </data>
 
 </root>

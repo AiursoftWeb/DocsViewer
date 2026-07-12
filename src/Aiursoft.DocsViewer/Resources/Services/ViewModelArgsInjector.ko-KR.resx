@@ -72,6 +72,9 @@
   <data name="Directory" xml:space="preserve">
     <value>디렉터리</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>문서</value>
+  </data>
   <data name="Edit Role" xml:space="preserve">
     <value>역할 편집</value>
   </data>
@@ -111,6 +114,9 @@
   <data name="Manage" xml:space="preserve">
     <value>관리</value>
   </data>
+  <data name="My Favorites" xml:space="preserve">
+    <value>내 즐겨찾기</value>
+  </data>
   <data name="Not Found" xml:space="preserve">
     <value>찾을 수 없음</value>
   </data>
@@ -137,6 +143,9 @@
   </data>
   <data name="Roles" xml:space="preserve">
     <value>역할</value>
+  </data>
+  <data name="Search documents…" xml:space="preserve">
+    <value>문서 검색…</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>설정</value>

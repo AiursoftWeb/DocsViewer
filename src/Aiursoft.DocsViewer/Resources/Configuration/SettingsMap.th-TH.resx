@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>ชื่อแบรนด์</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>รหัสภาษา BCP-47 คั่นด้วยเครื่องหมายจุลภาค เพื่อแปลเอกสาร เช่น en-US,ja-JP,ko-KR,fr-FR,zh-CN. ปล่อยว่างหรือตั้งค่าเป็นภาษาเดียวเพื่อปิดการทำงานการแปลด้วย AI</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>URL สำรองของเอกสารรีโพสิทอรี</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>URL ที่เก็บเอกสาร</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>ตัวเลือกจำลอง</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>หมายเลขตัวอย่าง</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>โทเค็น API สำหรับการฝังตัว</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>จุดสิ้นสุดการฝังตัว</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>แบบจำลองการฝังตัว</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>ขีดจำกัดจำนวนการแคช Query สำหรับ Embedding</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>เปิดใช้งานการค้นหาตาม Embedding</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>เลขที่ ICP</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>ภาษาสำหรับการแปล</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>แบบจำลองการแปลภาษา</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>สวิตช์หลักสำหรับการค้นหาแบบความหมาย (เวกเตอร์) เมื่อเปิดใช้งานและกำหนดค่าโมเดล embeddings แล้ว ผลการค้นหาจะแสดงป้ายสีเขียวนอกเหนือว่า &quot;ค้นหาโดยอาศัย AI (ฐานข้อมูลเวกเตอร์)&quot; และใช้การจัดอันดับด้วย cosine similarity หากปิดการใช้งานหรือไม่มีการกำหนดค่า ระบบจะย้อนกลับไปที่การจับคู่คีย์เวิร์ดอย่างเงียบๆ จำเป็นต้องมี End Point สำหรับ Embedding และโมเดล embeddings</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>จำนวนความคิดเห็นสูงสุดต่อวันต่อผู้ใช้</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>จำนวนสูงสุดของการฝังคำค้นหาที่แคชไว้ในฐานข้อมูล เมื่อเกินขีดจำกัด ระบบจะลบรายการที่เข้าถึงล่าสุดออกก่อน (LRU) ค่าเริ่มต้นคือ 2000 ปรับแต่งตามความจุของฐานข้อมูลและขอบเขตของความหลากหลายของการค้นหาของคุณ</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>OpenAI API Token</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>จุดสิ้นสุดการแชทของ OpenAI</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>โลโก้โครงการ</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>ชื่อโปรเจกต์</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>URL สำรองของที่เก็บโค้ด git ใช้ในกรณีที่ URL หลักใช้งานไม่ได้</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>โทเค็นแบบแบร์สำหรับใช้ตรวจสอบสิทธิ์กับจุดเข้าใช้งาน Embedding เช่น 5a0fbdefa19f.... จะกลับไปใช้โทเค็น API ของ OpenAI เมื่อฟิลด์นี้ว่างเปล่า</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>โทเคนแบบแบร์เออร์สำหรับยืนยันตัวตนกับ OpenAI Chat Endpoint เช่น sk-abc123... หรือ 5a0fbdefa19f.... ใส่ข้อมูลว่างหาก endpoint นั้นไม่จำเป็นต้องมีการยืนยันตัวตน</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>ชื่อแบรนด์ที่แสดงไว้ในส่วนท้ายหน้า</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>ชื่อแบบจำลอง embedding สำหรับการค้นหาด้วยเวกเตอร์ ตัวอย่างเช่น bge-m3:latest ต้องสามารถใช้งานได้ที่ Endpoint ของ Embedding ใช้สำหรับการค้นหาด้วยเวกเตอร์เท่านั้น ไม่ได้ใช้สำหรับการแปลข้อความ</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>หมายเลขใบอนุญาต ICP สำหรับผู้ใช้ในแผ่นดินใหญ่จีน ปล่อยว่างไว้เพื่อซ่อน</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>ชื่อโมเดล LLM ที่ใช้ในการแปลเอกสาร เช่น qwen3.5:27b-q8_0, gpt-4o หรือ deepseek-chat ต้องใช้งานได้ที่จุดสิ้นสุดการแชท OpenAI ด้านบน ไม่เกี่ยวข้องกับโหมด embedding/การค้นหาแบบเวกเตอร์</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>โลโก้ของโครงการที่แสดงในแถบเมนูและฟุตเตอร์ รองรับไฟล์ jpg, png, svg</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>จำนวนความคิดเห็นสูงสุดที่ผู้ใช้สามารถโพสต์ได้ต่อวัน</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>ชื่อโปรเจกต์ที่แสดงในหน้าแสดงผล</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>URL ฐานของ API Ollama ที่ใช้โดยเฉพาะสำหรับการสร้าง embeddings ของเอกสารและคำค้นหา (การค้นหาแบบเวกเตอร์) จะใช้เฉพาะโฮสต์เท่านั้น โดยจะเพิ่ม /api/embed ต่อท้ายโดยอัตโนมัติ หากว่างอยู่จะย้อนกลับไปใช้ URL Chat Endpoint ของ OpenAI ตัวอย่างเช่น https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>จุดท้ายแบบครบวงจรสำหรับงานแปลเอกสารที่สอดคล้องกับมาตรฐาน OpenAI จะต้องระบุ URL เต็มรูปแบบให้ครบถ้วนโดยมี /v1/chat/completions อยู่เสมอ เช่น https://ollama.example.com/v1/chat/completions หรือ https://api.openai.com/v1/chat/completions ส่วนนี้ไม่มีความเชื่อมโยงใดๆ กับระบบ embedding หรือการค้นหาเชิงเวกเตอร์</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>URL ของที่เก็บเอกสาร git ที่มีไฟล์ markdown</value>
   </data>
 
 </root>

@@ -72,6 +72,9 @@
   <data name="Directory" xml:space="preserve">
     <value>目錄</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>文件說明</value>
+  </data>
   <data name="Edit Role" xml:space="preserve">
     <value>編輯角色</value>
   </data>
@@ -111,6 +114,9 @@
   <data name="Manage" xml:space="preserve">
     <value>管理</value>
   </data>
+  <data name="My Favorites" xml:space="preserve">
+    <value>我的收藏</value>
+  </data>
   <data name="Not Found" xml:space="preserve">
     <value>找不到</value>
   </data>
@@ -137,6 +143,9 @@
   </data>
   <data name="Roles" xml:space="preserve">
     <value>角色</value>
+  </data>
+  <data name="Search documents…" xml:space="preserve">
+    <value>搜尋文件…</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>

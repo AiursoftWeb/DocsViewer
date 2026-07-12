@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>Nome da Marca</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Códigos de idioma BCP-47 separados por vírgulas para traduzir documentos, p. ex., en-US,ja-JP,ko-KR,fr-FR,zh-CN. Deixe vazio ou defina para um único idioma para desativar a tradução por IA.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>URL de Backup do Repositório de Documentos</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>URL do Repositório de Documentos</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>Escolha de Teste</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>Número de Teste</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>Token de API de Embedding</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Endpoint de Embedding</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Modelo de Embedding</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Limite de Cache de Consultas de Embedding</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Ativar Pesquisa Baseada em Embeddings</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>Número ICP</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Idiomas de Localização</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Modelo de Localização</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Interruptor mestre para pesquisa semântica (baseada em vetores). Quando ativado e o modelo de embedding estiver configurado, os resultados da pesquisa exibirão um selo verde &quot;Pesquisa baseada em IA (Base de Dados Vetorial)&quot; e utilizarão a ordenação por similaridade cosseno. Quando desativado ou não configurado, a pesquisa recua silenciosamente para a correspondência de palavras-chave. Requer o Ponto de Extremidade de Embedding e o Modelo de Embedding.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Máximo de Comentários por Dia por Utilizador</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Número máximo de embeddings de consultas em cache na base de dados. Quando este limite é ultrapassado, as entradas menos recentemente acedidas são removidas (LRU). Valor padrão 2000. Ajuste com base na capacidade da sua base de dados e na diversidade esperada das consultas.</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>Chave API da OpenAI</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>Ponto de Extremo de Chat OpenAI</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Logotipo do Projeto</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>Nome do Projeto</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>O URL de reserva do repositório git. Utilizado se o URL primário falhar.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>O token bearer para autenticação com o Ponto de Extensão de Incorporação, por exemplo, 5a0fbdefa19f.... Quando vazio, é utilizado o Token da API OpenAI.</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>O token de portador para autenticação no Endpoint de Chat da OpenAI, por exemplo, sk-abc123... ou 5a0fbdefa19f.... Deixe em branco caso o endpoint não requeira autenticação.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>O nome da marca exibido no rodapé.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>O nome do modelo de incorporação para pesquisa vetorial, por exemplo, bge-m3:latest. Deve estar disponível no Ponto de Extremidade de Incorporação. Utilizado apenas para pesquisa vetorial, não para tradução.</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>O número de licença ICP para utilizadores da China continental. Deixe em branco para ocultar.</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>O nome do modelo LLM utilizado para a tradução de documentos, por exemplo, qwen3.5:27b-q8_0, gpt-4o ou deepseek-chat. Deve estar disponível no Ponto de Terminação de Conversa OpenAI indicado acima. Não tem relação com incorporação/pesquisa vetorial.</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>O logótipo do projeto exibido na barra de navegação e no rodapé. Suporta jpg, png, svg.</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>O número máximo de comentários que um utilizador pode publicar por dia.</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>O nome do projeto apresentado na interface de utilizador.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>A URL base da API Ollama utilizada especificamente para gerar embeddings de documentos e consultas (pesquisa vetorial). Apenas o host é utilizado — /api/embed é adicionado automaticamente. Recorre ao Endpoint de Chat OpenAI quando vazio. Ex.: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>O ponto de extremidade de conclusão de conversas compatível com OpenAI utilizado para tradução de documentos. Deve ser a URL completa, incluindo /v1/chat/completions, por ex., https://ollama.example.com/v1/chat/completions ou https://api.openai.com/v1/chat/completions. Não tem relação com embeddins/pesquisa vetorial.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>O URL do repositório git que contém os documentos markdown.</value>
   </data>
 
 </root>
