@@ -76,7 +76,6 @@ public class ViewModelArgsInjector(
 
         _ = localizer["Access Denied"];
         _ = localizer["Bad Request"];
-        _ = localizer["Dashboard"];
         _ = localizer["Internal Server Error"];
         _ = localizer["Lockout"];
         _ = localizer["Not Found"];
