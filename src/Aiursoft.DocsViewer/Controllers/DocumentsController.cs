@@ -2,6 +2,7 @@ using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Models.DocumentsViewModels;
 using Aiursoft.DocsViewer.Services;
+using Aiursoft.Dotlang.Shared;
 using Aiursoft.WebTools.Attributes;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -204,6 +205,12 @@ public class DocumentsController(
         var localized = await db.LocalizedDocuments
             .FirstOrDefaultAsync(lr => lr.DocumentId == id && lr.Culture == currentCulture);
 
+        var showTranslationNotice = doc.SourceCulture != null &&
+            !string.Equals(doc.SourceCulture, currentCulture, StringComparison.OrdinalIgnoreCase);
+        var sourceLanguageName = doc.SourceCulture != null
+            ? LanguageMetadata.SupportedCultures.GetValueOrDefault(doc.SourceCulture, doc.SourceCulture)
+            : null;
+
         var userId = userManager.GetUserId(User);
         var isFavorited = userId != null &&
             await db.DocumentFavorites.AnyAsync(f => f.UserId == userId && f.DocumentId == id);
@@ -248,6 +255,8 @@ public class DocumentsController(
             GitHubHistoryUrl = gitHubHistoryUrl,
             CategoryDisplayName = GetDisplayName(doc.Category, null),
             LocalizedDocument = localized,
+            ShowTranslationNotice = showTranslationNotice,
+            SourceLanguageName = sourceLanguageName,
             ShowSimilarDocumentsButton = embeddingCache.Count > 0 && embeddingCache.Count >= await db.Documents.CountAsync()
         });
     }

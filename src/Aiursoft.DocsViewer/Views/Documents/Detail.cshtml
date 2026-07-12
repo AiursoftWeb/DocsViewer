@@ -15,13 +15,19 @@
         <div class="col-md-12">
             <!-- Document Header -->
             <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="/"><i class="lucide lucide-home" style="width:14px;height:14px;"></i> Home</a></li>
-                        <li class="breadcrumb-item"><a href="/Documents/Index?category=@Uri.EscapeDataString(Model.Document.Category)">@Model.CategoryDisplayName</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">@Model.PageTitle</li>
-                    </ol>
-                </nav>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="/"><i class="lucide lucide-home" style="width:14px;height:14px;"></i> Home</a></li>
+                            <li class="breadcrumb-item"><a href="/Documents/Index?category=@Uri.EscapeDataString(Model.Document.Category)">@Model.CategoryDisplayName</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">@Model.PageTitle</li>
+                        </ol>
+                    </nav>
+                    @if (Model.Document.SourceCulture != null)
+                    {
+                        <span class="badge bg-secondary ms-3" title="Original language of this document">@Model.Document.SourceCulture</span>
+                    }
+                </div>
                 <div>
                     @if (Model.GitHubEditUrl != null)
                     {
@@ -37,6 +43,18 @@
                     }
                 </div>
             </div>
+
+            @if (Model.ShowTranslationNotice)
+            {
+                <div class="alert alert-warning alert-dismissible fade show d-flex align-items-center mb-3" role="alert">
+                    <i class="lucide lucide-alert-triangle me-2 flex-shrink-0"></i>
+                    <div>
+                        This document was originally written in <strong>@Model.SourceLanguageName</strong>.
+                        You are reading an AI-generated machine translation, which may contain inaccuracies.
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
 
             <!-- Document Content -->
             <div class="card shadow-sm mb-4">

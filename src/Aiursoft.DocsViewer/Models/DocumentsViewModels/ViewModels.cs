@@ -38,6 +38,18 @@ public class DetailViewModel : UiStackLayoutViewModel
     public string? CategoryDisplayName { get; set; }
     public LocalizedDocument? LocalizedDocument { get; set; }
     public bool ShowSimilarDocumentsButton { get; set; }
+
+    /// <summary>
+    /// True when the current UI culture differs from the document's SourceCulture,
+    /// meaning the user is reading a machine translation.
+    /// </summary>
+    public bool ShowTranslationNotice { get; set; }
+
+    /// <summary>
+    /// Human-readable name of the document's source language, e.g. "中文 (中国大陆)".
+    /// Populated via LanguageMetadata.SupportedCultures.
+    /// </summary>
+    public string? SourceLanguageName { get; set; }
 }
 
 public class SimilarViewModel : UiStackLayoutViewModel
