@@ -78,6 +78,7 @@ public class Startup : IWebStartup
         var syncRepoJob = services.RegisterBackgroundJob<SyncDocsRepoJob>();
         var indexDocsJob = services.RegisterBackgroundJob<IndexDocumentsJob>();
         var localizeDocsJob = services.RegisterBackgroundJob<LocalizeDocumentsJob>();
+        var localizeNavTitlesJob = services.RegisterBackgroundJob<LocalizeNavTitlesJob>();
         var generateEmbeddingsJob = services.RegisterBackgroundJob<GenerateEmbeddingsJob>();
         var refreshCacheJob = services.RegisterBackgroundJob<RefreshEmbeddingCacheJob>();
         var cleanupLocalizedDocsJob = services.RegisterBackgroundJob<CleanupLocalizedDocumentsJob>();
@@ -87,6 +88,7 @@ public class Startup : IWebStartup
         services.RegisterScheduledTask(registration: syncRepoJob,             period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(1));
         services.RegisterScheduledTask(registration: indexDocsJob,            period: TimeSpan.FromHours(4), startDelay: TimeSpan.FromMinutes(20));
         services.RegisterScheduledTask(registration: localizeDocsJob,         period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(30));
+        services.RegisterScheduledTask(registration: localizeNavTitlesJob,    period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(35));
         services.RegisterScheduledTask(registration: generateEmbeddingsJob,   period: TimeSpan.FromMinutes(30), startDelay: TimeSpan.FromMinutes(50));
         services.RegisterScheduledTask(registration: refreshCacheJob,         period: TimeSpan.FromHours(8), startDelay: TimeSpan.FromMinutes(1));
         services.RegisterScheduledTask(registration: cleanupLocalizedDocsJob, period: TimeSpan.FromHours(6), startDelay: TimeSpan.FromMinutes(55));

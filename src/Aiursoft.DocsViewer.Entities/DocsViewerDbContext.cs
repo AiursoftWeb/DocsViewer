@@ -12,6 +12,7 @@ public abstract class DocsViewerDbContext(DbContextOptions options) : IdentityDb
     public DbSet<GlobalSetting> GlobalSettings => Set<GlobalSetting>();
     public DbSet<Document> Documents => Set<Document>();
     public DbSet<LocalizedDocument> LocalizedDocuments => Set<LocalizedDocument>();
+    public DbSet<LocalizedNavTitle> LocalizedNavTitles => Set<LocalizedNavTitle>();
     public DbSet<DocumentComment> DocumentComments => Set<DocumentComment>();
     public DbSet<DocumentLike> DocumentLikes => Set<DocumentLike>();
     public DbSet<DocumentFavorite> DocumentFavorites => Set<DocumentFavorite>();
@@ -33,7 +34,11 @@ public abstract class DocsViewerDbContext(DbContextOptions options) : IdentityDb
         builder.Entity<LocalizedDocument>()
             .HasIndex(ld => new { ld.DocumentId, ld.Culture })
             .IsUnique();
-            
+
+        builder.Entity<LocalizedNavTitle>()
+            .HasIndex(nt => new { nt.SourceText, nt.Culture })
+            .IsUnique();
+
         builder.Entity<Document>().HasQueryFilter(d => !d.IsDeleted);
         builder.Entity<DocumentComment>().HasQueryFilter(c => !c.Document.IsDeleted);
         builder.Entity<DocumentLike>().HasQueryFilter(l => !l.Document.IsDeleted);

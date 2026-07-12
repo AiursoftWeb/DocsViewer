@@ -34,6 +34,7 @@ public class ViewModelArgsInjector(
     GlobalSettingsService globalSettingsService,
     DocumentTreeService documentTreeService,
     DocumentLocalizationService documentLocalization,
+    NavTitleLocalizationService navTitleLocalization,
     SignInManager<User> signInManager) : IScopedDependency
 {
 
@@ -194,21 +195,23 @@ public class ViewModelArgsInjector(
         var documentTree = documentTreeService.GetTreeAsync().GetAwaiter().GetResult();
         var allDocsForLocalization = CollectDocumentsFromTree(documentTree);
         var (localizedTitles, _) = documentLocalization.LoadLocalizedStringsAsync(allDocsForLocalization).GetAwaiter().GetResult();
+        var groupNames = CollectGroupNamesFromTree(documentTree);
+        var localizedNavTitles = navTitleLocalization.LoadLocalizedNavTitlesAsync(groupNames).GetAwaiter().GetResult();
         var docNavGroups = new List<NavGroup>();
 
         foreach (var l1Node in documentTree)
         {
             if (l1Node.Document != null) continue; // Handled in root group below
-            
+
             var navGroup = new NavGroup
             {
-                Name = l1Node.Name,
+                Name = localizedNavTitles.GetValueOrDefault(l1Node.Name, l1Node.Name),
                 Items = new List<SideBarItem>()
             };
 
             foreach (var l2Node in l1Node.Children)
             {
-                navGroup.Items.Add(BuildSideBarItem(l2Node, currentViewingController, currentDocId, currentPath, localizedTitles));
+                navGroup.Items.Add(BuildSideBarItem(l2Node, currentViewingController, currentDocId, currentPath, localizedTitles, localizedNavTitles));
             }
             
             if (navGroup.Items.Any())
@@ -362,7 +365,7 @@ public class ViewModelArgsInjector(
         return storageService.RelativePathToInternetUrl(logoPath, context);
     }
 
-    private SideBarItem BuildSideBarItem(DocumentTreeNode node, string? currentController, string? currentDocId, string? currentPath, Dictionary<int, string> localizedTitles)
+    private SideBarItem BuildSideBarItem(DocumentTreeNode node, string? currentController, string? currentDocId, string? currentPath, Dictionary<int, string> localizedTitles, Dictionary<string, string> localizedNavTitles)
     {
         if (node.Document != null)
         {
@@ -382,14 +385,14 @@ public class ViewModelArgsInjector(
             {
                 UniqueId = "node_" + Math.Abs(node.Path.GetHashCode()),
                 LucideIcon = "folder",
-                Text = node.Name,
+                Text = localizedNavTitles.GetValueOrDefault(node.Name, node.Name),
                 IsActive = false,
                 Children = new List<SideBarItem>()
             };
 
             foreach (var child in node.Children)
             {
-                var builtChild = BuildSideBarItem(child, currentController, currentDocId, currentPath, localizedTitles);
+                var builtChild = BuildSideBarItem(child, currentController, currentDocId, currentPath, localizedTitles, localizedNavTitles);
                 if (builtChild.IsActive)
                 {
                     deepItem.IsActive = true;
@@ -414,6 +417,23 @@ public class ViewModelArgsInjector(
                 result.Add(node.Document);
             if (node.Children.Count > 0)
                 result.AddRange(CollectDocumentsFromTree(node.Children));
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Recursively collects the labels of branch (group/folder) nodes — nodes that have no Document,
+    /// i.e. the properdocs.yml nav group names — so their translations can be batch-loaded in one query.
+    /// </summary>
+    private static List<string> CollectGroupNamesFromTree(List<DocumentTreeNode> nodes)
+    {
+        var result = new List<string>();
+        foreach (var node in nodes)
+        {
+            if (node.Document == null && !string.IsNullOrWhiteSpace(node.Name))
+                result.Add(node.Name);
+            if (node.Children.Count > 0)
+                result.AddRange(CollectGroupNamesFromTree(node.Children));
         }
         return result;
     }

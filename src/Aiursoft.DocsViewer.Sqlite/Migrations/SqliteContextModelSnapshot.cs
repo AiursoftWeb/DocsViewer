@@ -184,6 +184,38 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
                     b.ToTable("LocalizedDocuments");
                 });
 
+            modelBuilder.Entity("Aiursoft.DocsViewer.Entities.LocalizedNavTitle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Culture")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastLocalizedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LocalizedText")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SourceText")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SourceText", "Culture")
+                        .IsUnique();
+
+                    b.ToTable("LocalizedNavTitles");
+                });
+
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.SearchEmbedding", b =>
                 {
                     b.Property<int>("Id")
