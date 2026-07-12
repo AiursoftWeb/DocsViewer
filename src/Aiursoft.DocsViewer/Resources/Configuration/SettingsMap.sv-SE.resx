@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>Varumärke</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Kommaseparerade BCP-47-språkkoder för att översätta dokument till, t.ex. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Lämna tomt eller ange ett enda språk för att inaktivera AI-översättning.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>Säkerhetskopia för dokumentationsarkivet</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>Dokumentationsarkivets URL</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>Dummyval</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>Dummynummer</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>Inbäddnings-API-token</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Inbäddningsändpunkt</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Inbäddningsmodell</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Gräns för cache av inbäddningsförfrågningar</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Aktivera inbyggd sökning</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP-nummer</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Lokaliseringsspråk</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Lokaliseringsmodell</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Huvudströmbrytare för semantisk (vektorbaserad) sökning. När den är aktiverad och inbäddningsmodellen är konfigurerad visar sökresultaten ett grönt märke &quot;Sök baserad på AI (Vektordatabas)&quot; och använder rangordning med cosinuslikhet. När inaktiverad eller inte konfigurerad faller sökningen tyst tillbaka till nyordsmatchning. Kräver Inbäddningsändpunkt och Inbäddningsmodell.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Maximalt antal kommentarer per dag och användare</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Maximalt antal cacheade frågeinbäddningar i databasen. Vid överskridning tas de minst nyligen åtkomna posterna bort (LRU). Standardvärde 2000. Justera baserat på din databaskapacitet och förväntad frågevariation.</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>OpenAI-API-token</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>OpenAI Chat Endpoint</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Projektlogotyp</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>Projektnamn</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>Den URL-adress för säkerhetskopia av git-lager som används om den primära URL-adressen misslyckas.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>Den bearer-token som används för autentisering mot Embedding Endpoint, t.ex. 5a0fbdefa19f.... Anväller OpenAI API Token vid tomhet.</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>Bearer-tokenet för autentisering mot OpenAI Chat Endpoint, t.ex. sk-abc123... eller 5a0fbdefa19f.... Lämna tomt om endpointen inte kräver autentisering.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Det varumärke som visas i sidfoten.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>Namnet på inbäddningsmodellen för vektorsökning, t.ex. bge-m3:latest. Måste vara tillgänglig på Inladdningsändpunkten. Används endast för vektorsökning, inte för översättning.</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>ICP-licensnummer för användare i Kina. Lämna tomt för att dölja.</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Namnet på LLM-modellen som används för att översätta dokument, t.ex. qwen3.5:27b-q8_0, gpt-4o eller deepseek-chat. Måste vara tillgänglig på OpenAI Chat Endpoint som anges ovan. Orelaterat till embedding/vectorsökning.</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Logotypen för projektet som visas i navigeringsfältet och sidfoten. Stöd för jpg, png, svg.</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>Det maximala antalet kommentarer som en användare kan publicera per dag.</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Projektets namn som visas i frontend</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Ollamas API-bas-URL som används specifikt för att generera dokument- och frågeembeddingar (vektorsökning). Endast värdet används — /api/embed läggs till automatiskt. Faller tillbaka till OpenAI Chat-endpointen om tom. T.ex. https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Slutpunkten för OpenAI-kompatibla chattkompletteringar som används för dokumentöversättning. Måste vara den fullständiga URL:en inklusive /v1/chat/completions, t.ex. https://ollama.example.com/v1/chat/completions eller https://api.openai.com/v1/chat/completions. Har inget med inbäddning/vektorsökning att göra.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>URL:en till git-lagret som innehåller markdown-dokumenten.</value>
   </data>
 
 </root>

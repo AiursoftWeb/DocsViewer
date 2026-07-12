@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>Όνομα Εταιρείας</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Κωδικοί γλωσσών BCP-47, διαχωρισμένοι με κόμμα, προς μετάφραση εγγράφων, π.χ. en-US, ja-JP, ko-KR, fr-FR, zh-CN. Αφήστε το κενό ή ορίστε μία μόνο γλώσσα για να απενεργοποιήσετε τη μετάφραση με AI.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>Διεύθυνση Αντίγραφου Αποθετηρίου Τεκμηρίωσης</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>Διεύθυνση Αποθετηρίου Έγγραφων</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>Προσχέδιο Επιλογής</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>Τυχαίος Αριθμός</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>Διακριτικό API Ενσωμάτωσης</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Τερματικό σημείο Εμφύτευσης</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Μοντέλο Ενσωμάτωσης</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Όριο Μνήμης Προεξέλεγχος Ερωτήσεων Ενσωμάτωσης</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Ενεργοποίηση Αναζήτησης Βασισμένης σε Ενσωματώσεις</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>Αριθμός ΕΙΠ</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Γλώσσες Τοποθέτησης</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Μοντέλο Εντοπισμού</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Κενικός διακόπτης για την ημιανθρωπιστική (βασισμένη σε διανύσματα) αναζήτηση. Όταν είναι ενεργοποιημένος και το μοντέλο εμφώλευσης έχει ρυθμιστεί, τα αποτελέσματα αναζήτησης εμφανίζουν ένα πράσινο σήμα «Αναζήτηση βασισμένη σε ΤΕ (Βάση Δεδομένων Διανυσμάτων)» και χρησιμοποιούν κατάταξη με βάση την ομοιότητα συνημιτόνου. Όταν είναι απενεργοποιημένος ή δεν έχει ρυθμιστεί, η αναζήτηση σιωπηρά επιστρέφει σε αντιστοίχιση λέξεων-κλειδιών. Απαιτεί Τελικό Σημείο Εμφώλευσης και Μοντέλο Εμφώλευσης.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Μέγιστος αριθμός σχολίων ανά ημέρα και χρήστη</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Μέγιστος αριθμός ενθυλακωμένων κβάρσεων ερωτημάτων στη βάση δεδομένων. Όταν υπερβαθεί, αφαιρούνται οι λιγότερο πρόσφατα προσπελάσιμες εγγραφές (LRU). Προεπιλογή 2000. Ρυθμίστε ανάλογα με τη χωρητικότητα της βάσης δεδομένων και την αναμενόμενη ποικιλία των ερωτημάτων.</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>Κωδικός Πρόσβασης API OpenAI</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>Διεύθυνση Τερματικού Συνομιλίας OpenAI</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Λογότυπο Έργου</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>Όνομα Έργου</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>Η εφεδρική διεύθυνση URL του αποθετηρίου git. Χρησιμοποιείται σε περίπτωση αποτυχίας της πρωτεύουσας διεύθυνσης URL.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>Το bearer token για την πιστοποίηση με το EndPoint Embedding, π.χ. 5a0fbdefa19f.... Ανακαθοστρώνεται στο OpenAI API Token όταν είναι κενό.</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>Το bearer token για την πιστοποίηση με το OpenAI Chat Endpoint, π.χ. sk-abc123... ή 5a0fbdefa19f.... Αφήστε το κενό εάν το endpoint δεν απαιτεί πιστοποίηση.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Το όνομα της εταιρείας που εμφανίζεται στον ποδόσκαλο.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>Το όνομα του μοντέλου ενσωμάτωσης για την αναζήτηση διανυσμάτων, π.χ. bge-m3:latest. Πρέπει να είναι διαθέσιμο στην Άκρη Ενσωμάτωσης. Χρησιμοποιείται μόνο για αναζήτηση διανυσμάτων και όχι για μετάφραση.</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>Ο αριθμός άδειας ICP για χρήστες της κυρίως Κίνας. Αφήστε κενό για να κρυφτεί.</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Το όνομα του μοντέλου LLM που χρησιμοποιείται για τη μετάγνωση εγγράφων, π.χ. qwen3.5:27b-q8_0, gpt-4o ή deepseek-chat. Πρέπει να είναι διαθέσιμο στην παραπάνω θύρα OpenAI Chat Endpoint. Δεν σχετίζεται με ενσωμάτωση/αναζήτηση διανυσμάτων.</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Το λογότυπο του έργου που εμφανίζεται στην ναβιγατόρια και τον ποδοσκαλο. Υποστήριξη jpg, png, svg.</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>Ο μέγιστος αριθμός σχολίων που μπορεί να αναρτήσει ένας χρήστης την ημέρα.</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Το όνομα του έργου που εμφανίζεται στον προβολέα</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Η βασική διεύθυνση URL της Ollama API που χρησιμοποιείται ειδικά για τη δημιουργία εμβιβάσεων τεκμηρίων και ερωτημάτων (διανυσματική αναζήτηση). Χρησιμοποιείται μόνο το host — το /api/embed προστίθεται αυτόματα. Όταν είναι κενό, γίνεται fall back στη διεύθυνση OpenAI Chat Endpoint. Π.χ. https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Το endpoint chat completions συμβατό με OpenAI που χρησιμοποιείται για τη μετάγγιση εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL συμπεριλαμβανομένου του /v1/chat/completions, π.χ. https://ollama.example.com/v1/chat/completions ή https://api.openai.com/v1/chat/completions. Δεν σχετίζεται με αναζήτηση ενσωματώσεων/διανυσμάτων.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>Το URL του αποθετηρίου git που περιέχει τα έγγραφα markdown.</value>
   </data>
 
 </root>

@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>Marka Adı</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Belgeleri tercüme etmek için virgülle ayrılmış BCP-47 dil kodları; örn. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Yapay zeka tercümesini devre dışı bırakmak için boş bırakın veya tek bir dile ayarlayın.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>Dokumalar Deposu Yedekleme URL&apos;si</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>Doküman Deposu URL&apos;si</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>Yanlış Seçim</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>Yanlış Numara</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>Dokümantasyon API Tokeni</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Dolgu Uç Noktası</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Gömme Modeli</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Gömme Sorgusu Önbellek Sınırı</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Eklenti Tabanlı Aramayı Etkinleştir</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP Numarası</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Dil Ayarları</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Yerelleştirme Modeli</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Anlamsal (vektör tabanlı) arama için ana açma/kapama düğmesi. Etkinleştirildiğinde ve yerleştirme modeli yapılandırıldığında, arama sonuçları yeşil bir \&quot;Yapay Zeka (Vektör Veritabanı) Tabanlı Arama\&quot; rozeti gösterir ve kosinüs benzerliği sıralamasını kullanır. Devre dışı bırakıldığında veya yapılandırılmadığında, arama sessizce anahtar kelime eşlemeye geri döner. Gömme Uç Noktası ve Gömme Modeli gerektirir.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Kullanıcı Başına Günlük Maksimum Yorum Sayısı</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Veritabanındaki önbelleğe alınmış sorgu gömme sayısının azami sayısı. Aşıldığında, en az erişilen girdiler yok edilir (LRU). Varsayılan 2000. Veritabanı kapasitenize ve beklenen sorgu çeşitliliğine göre ayarlayın.</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>OpenAI API Anahtarı</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>OpenAI Sohbet Bitiş Noktası</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Proje Logosu</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>Proje Adı</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>Git deposunun yedek URL&apos;si. Birincil URL başarısız olursa kullanılır.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>Embedding uç noktasına yetkilendirme için taşıyıcı jeton, örn. 5a0fbdefa19f.... Boş bırakıldığında OpenAI API Jetonu&apos;na geri döner.</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>OpenAI Chat Endpoint&apos;e kimlik doğrulama için kullanılan bearer token, örn. sk-abc123... veya 5a0fbdefa19f.... Uç nokta kimlik doğrulaması gerektirmiyorsa boş bırakın.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Footer&apos;da gösterilen marka adı.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>Vektör araması için gömme modelinin adı, örn. bge-m3:latest. Embedding Endpoint üzerinde mevcut olmalıdır. Sadece vektör araması için kullanılır, çeviri için değil.</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>Çin ana karasında kullanıcılar için ICP lisans numarası. Gizlemek için boş bırakın.</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Belgelerinizi çevirmek için kullanılan LLM model adı, örn. qwen3.5:27b-q8_0, gpt-4o veya deepseek-chat. Yukarıdaki OpenAI Chat Endpoint&apos;te mevcut olmalıdır. Gömme/vektör aramasıyla ilgisi yoktur.</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Projenin logosu navbar ve footer&apos;da gösterilir. jpg, png, svg desteklenir.</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>Bir kullanıcının günde postlayabileceği maksimum yorum sayısı.</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Frontende görüntülenen proje adı.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Belirli olarak belge ve sorgu gömme işlemleri için kullanılan Ollama API temel URL&apos;si. Yalnızca ana bilgisayar kullanılır — /api/embed otomatik olarak eklenir. Boş bırakıldığında OpenAI Sohbet Uç Noktasına düşer. Örn. https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Belge çevirisi için kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır, örn. https://ollama.example.com/v1/chat/completions veya https://api.openai.com/v1/chat/completions. Gömme/vektör aramasıyla ilgisizdir.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>Markdown belgelerini içeren git deposunun URL&apos;si.</value>
   </data>
 
 </root>

@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>Tên thương hiệu</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Mã ngôn ngữ BCP-47 phân cách bằng dấu phẩy để dịch tài liệu sang, ví dụ: en-US,ja-JP,ko-KR,fr-FR,zh-CN. Để trống hoặc đặt thành một mã ngôn ngữ đơn lẻ để tắt tính năng dịch AI.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>URL Sao Lưu Kho TÀI LIỆU</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>URL kho lưu trữ tài liệu</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>Lựa chọn giả</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>Số giả mạo</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>Mã thông báo API Nhúng</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Điểm cuối nhúng</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Mô hình nhúng</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Giới hạn bộ nhớ cache truy vấn nhúng</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Bật tìm kiếm dựa trên nhúng</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>Số đăng ký ICP</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Ngôn ngữ bản địa hóa</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Mô hình bản địa hóa</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Công tắc chính cho tìm kiếm ngữ nghĩa (dựa trên vectơ). Khi được bật và mô hình nhúng đã được cấu hình, kết quả tìm kiếm sẽ hiển thị nhãn \&quot;Tìm kiếm dựa trên AI (Cơ sở dữ liệu Vecto)\&quot; màu xanh lá cây và sử dụng xếp hạng độ tương đồng cosine. Khi bị tắt hoặc chưa được cấu hình, quá trình tìm kiếm sẽ tự động chuyển sang khớp từ khóa. Yêu cầu có Điểm cuối Nhúng và Mô hình Nhúng.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Tối đa số bình luận mỗi ngày trên mỗi người dùng</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Số lượng tối đa các embedding truy vấn được lưu trong cache của cơ sở dữ liệu. Khi vượt quá, các mục ít được truy cập gần nhất sẽ bị xóa (LRU). Mặc định là 2000. Điều chỉnh dựa trên dung lượng cơ sở dữ liệu và mức độ đa dạng dự kiến của các truy vấn.</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>Mã thông báo API OpenAI</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>Điểm cuối Chat OpenAI</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Logo dự án</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>Tên dự án</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>URL dự phòng của kho lưu trữ git. Sử dụng nếu URL chính không hoạt động.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>Mã bearer để xác thực với Điểm kết hợp Nhúng, ví dụ 5a0fbdefa19f.... Khi để trống sẽ tự động chuyển sang Mã API của OpenAI.</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>Mã thông báo bearer để xác thực với Điểm cuối Chat của OpenAI, ví dụ: sk-abc123... hoặc 5a0fbdefa19f.... Để trống nếu điểm cuối không yêu cầu xác thực.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Tên thương hiệu được hiển thị trong chân trang.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>Tên mô hình nhúng cho tìm kiếm vector, ví dụ: bge-m3:latest. Phải khả dụng tại Điểm kết nối Nhúng. Chỉ dùng cho tìm kiếm vector, không dùng cho dịch thuật.</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>Số giấy phép ICP cho người dùng tại Trung Quốc đại lục. Để trống để ẩn.</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Tên mô hình LLM được sử dụng để dịch tài liệu, ví dụ: qwen3.5:27b-q8_0, gpt-4o, hoặc deepseek-chat. Phải có sẵn tại Điểm cuối Chat OpenAI ở trên. Không liên quan đến nhúng/tìm kiếm vector.</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Logo của dự án được hiển thị trong thanh điều hướng và chân trang. Hỗ trợ định dạng jpg, png, svg.</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>Số lượng bình luận tối đa mà một người dùng có thể đăng mỗi ngày.</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Tên dự án được hiển thị trên giao diện người dùng</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Đường dẫn cơ sở API Ollama được sử dụng đặc biệt để tạo nhúng cho tài liệu và truy vấn (tìm kiếm vector). Chỉ phần host được sử dụng — /api/embed sẽ được thêm vào tự động. Sẽ chuyển sang Sử dụng Điểm cuối Chat OpenAI khi để trống. Ví dụ: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI được sử dụng để dịch tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions, ví dụ: https://ollama.example.com/v1/chat/completions hoặc https://api.openai.com/v1/chat/completions. Không liên quan đến tìm kiếm nhúng/tensor.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>URL của kho lưu trữ git chứa các tài liệu markdown.</value>
   </data>
 
 </root>

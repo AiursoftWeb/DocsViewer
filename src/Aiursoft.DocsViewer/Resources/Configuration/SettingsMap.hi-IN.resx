@@ -39,14 +39,59 @@
   <data name="Brand Name" xml:space="preserve">
     <value>ब्रांड नाम</value>
   </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>दस्तावेज़ों का अनुवाद करने के लिए अल्पविराम से अलग किए गए BCP-47 भाषा कोड, उदा। en-US,ja-JP,ko-KR,fr-FR,zh-CN. AI अनुवाद को अक्षम करने के लिए इसे खाली छोड़ दें या एकल भाषा पर सेट करें।</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>दस्तावेज़ रेपॉजिटरी बैकअप URL</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>दस्तावेज़ रिपासिटरी URL</value>
+  </data>
   <data name="Dummy Choice" xml:space="preserve">
     <value>डमी चयन</value>
   </data>
   <data name="Dummy Number" xml:space="preserve">
     <value>डमी नंबर</value>
   </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>एम्बेडिंग एपीआई टोकन</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>एम्बेडिंग एंडपॉइंट</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>एम्बेडिंग मॉडल</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>एम्बेडिंग क्वेरी कैश सीमा</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>एंबेडिंग-आधारित खोज सक्षम करें</value>
+  </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP संख्या</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>स्थानीयकरण भाषाएँ</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>स्थानीयकरण मॉडल</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>समानार्थी (वेक्टर-आधारित) खोज के लिए मुख्य स्विच। जब सक्षम होता है और एम्बेडिंग मॉडल कॉन्फ़िगर किया जाता है, तो खोज परिणामों पर एक हरा \&quot;AI पर आधारित खोज (वेक्टर डेटाबेस)\&quot; बैज दिखता है और कोसाइन समानता रैंकिंग का उपयोग किया जाता है। जब अक्षम होता है या कॉन्फ़िगर नहीं किया गया होता है, तो खोज शब्द मिलान पर मूक रूप से वापस आ जाती है। एम्बेडिंग एंडपॉइंट और एम्बेडिंग मॉडल आवश्यक है।</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>प्रतिदिन प्रति उपयोगकर्ता अधिकतम टिप्पणियाँ</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>डेटाबेस में कैश किए गए क्वेरी एम्बेडिंग्स की अधिकतम संख्या। जब इससे अधिक हो जाता है, तो कम से कम हाल ही में एक्सेस किए गए एंट्रीज़ को निकाल दिया जाता है (LRU)। डिफ़ॉल्ट 2000 है। अपने डेटाबेस क्षमता और अपेक्षित क्वेरी विविधता के आधार पर समायोजित करें।</value>
+  </data>
+  <data name="OpenAI API Token" xml:space="preserve">
+    <value>OpenAI API टोकन</value>
+  </data>
+  <data name="OpenAI Chat Endpoint" xml:space="preserve">
+    <value>ओपनएआई चैट एंडपॉइंट</value>
   </data>
   <data name="Project Logo" xml:space="preserve">
     <value>प्रोजेक्ट लोगो</value>
@@ -54,17 +99,44 @@
   <data name="Project Name" xml:space="preserve">
     <value>प्रोजेक्ट नाम</value>
   </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>गिट रिपाजिटरी के लिए बैकअप URL। प्राथमिक URL विफल होने पर उपयोग किया जाता है।</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>एम्बेडिंग एंडपॉइंट के साथ प्रमाणीकरण के लिए बेअर टोकन, उदाहरण के लिए 5a0fbdefa19f.... खाली होने पर OpenAI API टोकन पर वापस आ जाता है।</value>
+  </data>
+  <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
+    <value>OpenAI Chat Endpoint के साथ प्रमाणीकरण के लिए bearer token, उदाहरण के लिए sk-abc123... या 5a0fbdefa19f.... यदि एंडपॉइंट को प्रमाणीकरण की आवश्यकता नहीं है तो खाली छोड़ दें।</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>फुटर में दिखाई देने वाला ब्रांड नाम</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>वैक्टर खोज के लिए एम्बेडिंग मॉडल का नाम, उदाहरण के लिए bge-m3:latest। यह एम्बेडिंग एंडपॉइंट पर उपलब्ध होना चाहिए। केवल वैक्टर खोज के लिए उपयोग किया जाता है, अनुवाद के लिए नहीं।</value>
   </data>
   <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
     <value>चीन मुख्यभूमि के उपयोगकर्ताओं के लिए ICP लाइसेंस संख्या। छिपाने के लिए खाली छोड़ दें।</value>
   </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>LLM मॉडल का नाम जो दस्तावेज़ों के अनुवाद के लिए उपयोग किया जाता है, जैसे कि qwen3.5:27b-q8_0, gpt-4o, या deepseek-chat। यह ऊपर दिए गए OpenAI चैट एंडपॉइंट पर उपलब्ध होना चाहिए। एम्बेडिंग/वेक्टर सर्च से असंबंधित।</value>
+  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>प्रोजेक्ट का लोगो नेवबार और फुटर में प्रदर्शित किया जाता है। jpg, png, svg समर्थित हैं।</value>
   </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>उपयोगकर्ता द्वारा प्रतिदिन पोस्ट किया जा सकने वाले टिप्पणियों का अधिकतम संख्या।</value>
+  </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>फ्रंटएंड में प्रदर्शित प्रोजेक्ट का नाम।</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>दस्तावेज़ और क्वेरी एम्बेडिंग्स (वेक्टर खोज) उत्पन्न करने के लिए विशेष रूप से उपयोग किए जाने वाले Ollama API का आधार URL। केवल होस्ट का उपयोग किया जाता है — /api/embed स्वचालित रूप से जोड़ा जाएगा। खाली होने पर OpenAI Chat Endpoint पर फॉलबैक होता है। उदाहरण: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>दस्तावेज़ अनुवाद के लिए उपयोग की जाने वाली OpenAI-संगत चैट पूर्ति एंडपॉइंट। इसमें /v1/chat/completions सहित पूरा URL होना चाहिए, उदाहरण के लिए https://ollama.example.com/v1/chat/completions या https://api.openai.com/v1/chat/completions। एम्बेडिंग/वेक्टर खोज से अप्रासंगिक।</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>मार्कडाउन दस्तावेज़ों को शामिल करने वाले Git रिपॉजिटरी का URL।</value>
   </data>
 
 </root>

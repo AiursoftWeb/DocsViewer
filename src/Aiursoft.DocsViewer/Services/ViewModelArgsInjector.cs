@@ -83,6 +83,8 @@ public class ViewModelArgsInjector(
         _ = localizer["Permission Details"];
         _ = localizer["Register"];
         _ = localizer["Search documents…"];
+    
+        _ = localizer["My Favorites"];
     }
 
     public void InjectSimple(
