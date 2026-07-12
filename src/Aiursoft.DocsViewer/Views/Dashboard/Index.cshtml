@@ -1,0 +1,64 @@
+@model Aiursoft.DocsViewer.Models.DashboardViewModels.IndexViewModel
+
+<h1 class="h3 mb-3">@Localizer["Dashboard"]</h1>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">
+                    @Localizer["Welcome"], @Model.DisplayName!
+                </h5>
+                <p class="card-text text-muted">
+                    @Localizer["You are now logged in. Use the navigation menu to explore documents and manage your account."]
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Quick action cards *@
+<div class="row mt-4">
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="align-middle mb-3" data-lucide="book-open" style="width: 48px; height: 48px;"></i>
+                <h5 class="card-title">@Localizer["Browse Documents"]</h5>
+                <p class="card-text text-muted">
+                    @Localizer["Explore the documentation and find what you need."]
+                </p>
+                <a href="/" class="btn btn-outline-primary btn-sm">
+                    @Localizer["Go to Documents"]
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="align-middle mb-3" data-lucide="user-circle" style="width: 48px; height: 48px;"></i>
+                <h5 class="card-title">@Localizer["Profile Settings"]</h5>
+                <p class="card-text text-muted">
+                    @Localizer["Manage your profile, change your avatar, and update your password."]
+                </p>
+                <a href="/Manage" class="btn btn-outline-primary btn-sm">
+                    @Localizer["Manage Profile"]
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="align-middle mb-3" data-lucide="search" style="width: 48px; height: 48px;"></i>
+                <h5 class="card-title">@Localizer["Search"]</h5>
+                <p class="card-text text-muted">
+                    @Localizer["Search across all documents to find specific information."]
+                </p>
+                <a href="/Documents/Search" class="btn btn-outline-primary btn-sm">
+                    @Localizer["Search Documents"]
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
