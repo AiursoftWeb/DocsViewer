@@ -93,6 +93,7 @@ public partial class IndexDocumentsJob(
                     existingDoc.Title = title;
                     existingDoc.Content = processedContent;
                     existingDoc.FileLastModified = lastModified;
+                    existingDoc.SourceCulture = null; // trigger re-detection
                     logger.LogInformation("Updated document: {FilePath}", relativeFilePath);
                 }
             }

@@ -138,7 +138,7 @@ public class IndexDocumentsJobTests
     public async Task IndexDocumentsJob_SecondRun_WritesNothing()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // ── Step 1: sync git repo ────────────────────────────────────────────
         await syncJob.ExecuteAsync();
@@ -193,7 +193,7 @@ public class IndexDocumentsJobTests
     public async Task IndexDocumentsJob_ReindexesWhenTitleChanged()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // ── Step 1: sync and index normally ────────────────────────────────────
         await syncJob.ExecuteAsync();
@@ -212,6 +212,8 @@ public class IndexDocumentsJobTests
             var document = await db.Documents.FirstAsync();
             Assert.AreEqual("test_doc", document.Title,
                 "First run must parse and store title value.");
+            Assert.IsNull(document.SourceCulture,
+                "New documents must have null SourceCulture (awaiting detection).");
 
             document.Title = "Old Title";
             await db.SaveChangesAsync();
@@ -231,6 +233,8 @@ public class IndexDocumentsJobTests
             var document = await db.Documents.FirstAsync();
             Assert.AreEqual("test_doc", document.Title,
                 "Second run must re-index and restore title value for documents.");
+            Assert.IsNull(document.SourceCulture,
+                "SourceCulture must be reset to null when title changes.");
         }
     }
 
@@ -254,7 +258,7 @@ public class IndexDocumentsJobTests
         RunGitCommand("-c user.name=TestUser -c user.email=test@test.com -c commit.gpgsign=false commit --no-gpg-sign -m \"Add properdocs.yml\"", _mockRepoPath);
 
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, globalSettings, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // Sync and index
         await syncJob.ExecuteAsync();

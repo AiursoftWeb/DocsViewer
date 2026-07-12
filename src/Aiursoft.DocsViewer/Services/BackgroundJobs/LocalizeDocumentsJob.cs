@@ -6,9 +6,15 @@ using Microsoft.EntityFrameworkCore;
 namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 
 /// <summary>
-/// Periodically translates document content into the configured languages using an AI endpoint.
-/// Runs until all pending (document, culture) pairs are translated, saving progress along the way.
-/// Skips documents whose <see cref="LocalizedDocument.LastLocalizedAt"/> is already up-to-date.
+/// Translates documents into configured target languages.
+///
+/// SourceCulture routing:
+/// - SourceCulture is null            → Skip (pending detection by DetectSourceCultureJob)
+/// - targetCulture == SourceCulture   → Pass-through (copy original content, no AI call)
+/// - targetCulture != SourceCulture   → Translate (call AI to translate)
+///
+/// Staleness is tracked per (document × culture) pair against
+/// <see cref="Document.FileLastModified"/>.
 /// </summary>
 public class LocalizeDocumentsJob(
     DocsViewerDbContext dbContext,
@@ -19,7 +25,12 @@ public class LocalizeDocumentsJob(
     public string Name => "Localize Documents";
 
     public string Description =>
-        "Translates document content into configured languages using an AI endpoint (Ollama / OpenAI-compatible).";
+        "Translates documents into all configured languages. " +
+        "Documents whose SourceCulture is null are skipped (pending language detection). " +
+        "When the target language matches the document's SourceCulture, " +
+        "the original content is copied through without calling AI. " +
+        "When they differ, the content is translated via the configured AI endpoint. " +
+        "Staleness is tracked per (document × culture) pair against Document.FileLastModified.";
 
     public async Task ExecuteAsync()
     {
@@ -51,10 +62,13 @@ public class LocalizeDocumentsJob(
             {
                 var currentLastId = lastId;
                 var pendingDocs = await dbContext.Documents
-                    .Where(d => d.Id > currentLastId && !dbContext.LocalizedDocuments.Any(ld =>
-                        ld.DocumentId == d.Id &&
-                        ld.Culture == culture &&
-                        ld.LastLocalizedAt >= d.FileLastModified))
+                    .Where(d => d.SourceCulture != null &&
+                                !d.IsDeleted &&
+                                d.Id > currentLastId &&
+                                !dbContext.LocalizedDocuments.Any(ld =>
+                                    ld.DocumentId == d.Id &&
+                                    ld.Culture == culture &&
+                                    ld.LastLocalizedAt >= d.FileLastModified))
                     .OrderBy(d => d.Id)
                     .Take(20)
                     .ToListAsync();
@@ -67,85 +81,81 @@ public class LocalizeDocumentsJob(
                     if (success)
                     {
                         totalProcessed++;
-                        // Save immediately after each document to ensure progress survives a crash
                         await dbContext.SaveChangesAsync();
                     }
                 }
 
                 lastId = pendingDocs.Max(d => d.Id);
                 logger.LogInformation(
-                    "LocalizeDocumentsJob: [{Culture}] batch finished. Last ID: {LastId}. Total processed: {Total}.",
+                    "LocalizeDocumentsJob: [{Culture}] batch finished. Last ID: {LastId}. Total so far: {Total}.",
                     culture, lastId, totalProcessed);
             }
 
             logger.LogInformation("LocalizeDocumentsJob: [{Culture}] all documents up-to-date.", culture);
         }
 
-        logger.LogInformation("LocalizeDocumentsJob: done. Processed {Count} document/language pair(s).", totalProcessed);
+        logger.LogInformation("LocalizeDocumentsJob: done. Processed {Count} pair(s) this run.", totalProcessed);
     }
 
     private async Task<bool> LocalizeDocumentAsync(Document document, string culture)
     {
-        // Ensure a row exists so partial progress is never lost.
-        var row = await dbContext.LocalizedDocuments
-            .FirstOrDefaultAsync(ld => ld.DocumentId == document.Id && ld.Culture == culture);
-
-        if (row == null)
-        {
-            row = new LocalizedDocument
-            {
-                DocumentId = document.Id,
-                Culture = culture,
-                LastLocalizedAt = DateTime.MinValue // not yet complete
-            };
-            dbContext.LocalizedDocuments.Add(row);
-            await dbContext.SaveChangesAsync();
-        }
-
-        // If the source document has been updated since the last localization,
-        // clear all fields so they will be re-translated.
-        if (row.LastLocalizedAt < document.FileLastModified)
-        {
-            row.LocalizedTitle = string.Empty;
-            row.LocalizedContent = string.Empty;
-        }
-
-        logger.LogInformation(
-            "LocalizeDocumentsJob: translating document '{Title}' (id={Id}) to {Culture}.",
-            document.Title, document.Id, culture);
-
-        // Translate each field sequentially — save after each success.
-        if (string.IsNullOrWhiteSpace(row.LocalizedTitle))
-            await TranslateAndSaveAsync(document.Title, v => row.LocalizedTitle = v, culture);
-        if (string.IsNullOrWhiteSpace(row.LocalizedContent))
-            await TranslateAndSaveAsync(document.Content, v => row.LocalizedContent = v, culture);
-
-        // Mark complete only when every field has content.
-        if (!string.IsNullOrWhiteSpace(row.LocalizedTitle) &&
-            !string.IsNullOrWhiteSpace(row.LocalizedContent))
-        {
-            row.LastLocalizedAt = DateTime.UtcNow;
-            await dbContext.SaveChangesAsync();
-        }
-
-        return true;
-    }
-
-    private async Task TranslateAndSaveAsync(string source, Action<string> setter, string culture)
-    {
-        if (string.IsNullOrWhiteSpace(source)) return;
         try
         {
-            var translated = await documentTranslationService.TranslateAsync(source, culture);
-            if (!string.IsNullOrWhiteSpace(translated))
+            // Pass-through: same language — copy original content, no AI call.
+            if (string.Equals(document.SourceCulture, culture, StringComparison.OrdinalIgnoreCase))
             {
-                setter(translated);
-                await dbContext.SaveChangesAsync();
+                logger.LogInformation(
+                    "LocalizeDocumentsJob: pass-through '{Title}' (source={SourceCulture}, target={TargetCulture}).",
+                    document.Title, document.SourceCulture, culture);
+
+                await SaveLocalizedAsync(document, culture,
+                    document.Title, document.Content);
+                return true;
             }
+
+            // Translate: different language — call AI.
+            logger.LogInformation(
+                "LocalizeDocumentsJob: translating '{Title}' (source={SourceCulture} → {TargetCulture}).",
+                document.Title, document.SourceCulture, culture);
+
+            var titleTask   = documentTranslationService.TranslateAsync(document.Title, culture);
+            var contentTask = documentTranslationService.TranslateAsync(document.Content, culture);
+            await Task.WhenAll(titleTask, contentTask);
+
+            await SaveLocalizedAsync(document, culture, await titleTask, await contentTask);
+            return true;
         }
         catch (Exception ex)
         {
-            logger.LogWarning(ex, "LocalizeDocumentsJob: translation failed, will retry next run.");
+            logger.LogError(ex,
+                "LocalizeDocumentsJob: failed to localize '{Title}' to {Culture}.",
+                document.Title, culture);
+            return false;
+        }
+    }
+
+    private async Task SaveLocalizedAsync(Document doc, string culture,
+        string title, string content)
+    {
+        var existing = await dbContext.LocalizedDocuments
+            .FirstOrDefaultAsync(ld => ld.DocumentId == doc.Id && ld.Culture == culture);
+
+        if (existing == null)
+        {
+            dbContext.LocalizedDocuments.Add(new LocalizedDocument
+            {
+                DocumentId       = doc.Id,
+                Culture          = culture,
+                LocalizedTitle   = title,
+                LocalizedContent = content,
+                LastLocalizedAt  = DateTime.UtcNow
+            });
+        }
+        else
+        {
+            existing.LocalizedTitle   = title;
+            existing.LocalizedContent = content;
+            existing.LastLocalizedAt  = DateTime.UtcNow;
         }
     }
 }

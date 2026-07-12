@@ -56,6 +56,10 @@ namespace Aiursoft.DocsViewer.MySql.Migrations
                     b.Property<DateTime>("LastEmbeddedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("SourceCulture")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)

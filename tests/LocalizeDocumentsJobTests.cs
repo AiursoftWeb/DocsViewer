@@ -118,7 +118,7 @@ public class LocalizeDocumentsJobTests
     }
 
     private static Document CreateDocument(int id, string title, DateTime fileLastModified,
-        string content = "Test content")
+        string content = "Test content", string? sourceCulture = "zh-CN")
     {
         return new Document
         {
@@ -127,7 +127,8 @@ public class LocalizeDocumentsJobTests
             Category = "test",
             FilePath = $"docs/test/{id}.md",
             Content = content,
-            FileLastModified = fileLastModified
+            FileLastModified = fileLastModified,
+            SourceCulture = sourceCulture
         };
     }
 
@@ -363,5 +364,90 @@ public class LocalizeDocumentsJobTests
         await using var assertDb = new SqliteTestContext(_dbOptions);
         var anyLocalized = await assertDb.LocalizedDocuments.AnyAsync();
         Assert.IsFalse(anyLocalized, "No localization when languages are empty.");
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // Test 8: Source == target → pass-through (copy original, no AI)
+    // ═════════════════════════════════════════════════════════════════════════
+
+    [TestMethod]
+    public async Task ExecuteAsync_PassThrough_WhenSourceEqualsTarget()
+    {
+        var sourceUpdateTime = new DateTime(2026, 6, 21, 12, 0, 0, DateTimeKind.Utc);
+        var document = CreateDocument(1, "Original Title", sourceUpdateTime,
+            content: "Original Content", sourceCulture: "en-US");
+
+        var job = await CreateJobAsync(languages: "en-US");
+        await using var seedDb = new SqliteTestContext(_dbOptions);
+        await SeedAsync(seedDb, document);
+
+        // Act
+        await job.ExecuteAsync();
+
+        // Assert: pass-through copies original, not fake-translated
+        await using var assertDb = new SqliteTestContext(_dbOptions);
+        var localized = await assertDb.LocalizedDocuments
+            .FirstAsync(ld => ld.DocumentId == 1 && ld.Culture == "en-US");
+
+        Assert.AreEqual("Original Title", localized.LocalizedTitle,
+            "Title must be copied as-is (pass-through), not sent to AI.");
+        Assert.AreEqual("Original Content", localized.LocalizedContent,
+            "Content must be copied as-is (pass-through).");
+        Assert.IsFalse(localized.LocalizedTitle.StartsWith("[en-US]"),
+            "Fake translator prefix must NOT appear — pass-through skipped AI.");
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // Test 9: SourceCulture == null → skipped (awaiting detection)
+    // ═════════════════════════════════════════════════════════════════════════
+
+    [TestMethod]
+    public async Task ExecuteAsync_SkipsWhenSourceCultureIsNull()
+    {
+        var sourceUpdateTime = new DateTime(2026, 6, 21, 12, 0, 0, DateTimeKind.Utc);
+        var document = CreateDocument(1, "Undetected Doc", sourceUpdateTime,
+            sourceCulture: null!);
+
+        var job = await CreateJobAsync(languages: "en-US");
+        await using var seedDb = new SqliteTestContext(_dbOptions);
+        await SeedAsync(seedDb, document);
+
+        // Act
+        await job.ExecuteAsync();
+
+        // Assert: no localization created because SourceCulture is null
+        await using var assertDb = new SqliteTestContext(_dbOptions);
+        var anyLocalized = await assertDb.LocalizedDocuments.AnyAsync();
+        Assert.IsFalse(anyLocalized,
+            "Documents with null SourceCulture must be skipped (awaiting detection).");
+    }
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // Test 10: Source != target → AI translation invoked
+    // ═════════════════════════════════════════════════════════════════════════
+
+    [TestMethod]
+    public async Task ExecuteAsync_TranslatesWhenSourceDiffersFromTarget()
+    {
+        var sourceUpdateTime = new DateTime(2026, 6, 21, 12, 0, 0, DateTimeKind.Utc);
+        var document = CreateDocument(1, "中文标题", sourceUpdateTime,
+            content: "中文内容", sourceCulture: "zh-CN");
+
+        var job = await CreateJobAsync(languages: "en-US");
+        await using var seedDb = new SqliteTestContext(_dbOptions);
+        await SeedAsync(seedDb, document);
+
+        // Act
+        await job.ExecuteAsync();
+
+        // Assert: AI translation was called (fake translator adds prefix)
+        await using var assertDb = new SqliteTestContext(_dbOptions);
+        var localized = await assertDb.LocalizedDocuments
+            .FirstAsync(ld => ld.DocumentId == 1 && ld.Culture == "en-US");
+
+        Assert.AreEqual("[en-US] 中文标题", localized.LocalizedTitle,
+            "Title must be translated when source culture differs from target.");
+        Assert.AreEqual("[en-US] 中文内容", localized.LocalizedContent,
+            "Content must be translated.");
     }
 }
