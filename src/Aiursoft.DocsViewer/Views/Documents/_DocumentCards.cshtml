@@ -1,3 +1,4 @@
+@using Aiursoft.WebTools
 @model Aiursoft.DocsViewer.Models.DocumentsViewModels.DocumentCardsViewModel
 
 @foreach (var doc in Model.Documents)
@@ -31,7 +32,7 @@
                     <div class="text-muted small">
                         <i class="lucide lucide-heart text-danger"></i> @Model.LikeCounts.GetValueOrDefault(doc.Id, 0)
                         <span class="mx-1">&bull;</span>
-                        <i class="lucide lucide-clock"></i> @doc.FileLastModified.ToString("MMM dd, yyyy")
+                        <i class="lucide lucide-clock"></i> <label class="d-inline" data-utc-time="@doc.FileLastModified.ToHtmlDateTime()"></label>
                     </div>
                     <a href="/@(doc.FilePath[..^3].Replace('\\', '/')).html" class="btn btn-sm btn-outline-primary stretched-link">Read</a>
                 </div>
