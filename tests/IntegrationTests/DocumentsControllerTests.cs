@@ -1,6 +1,4 @@
 using Aiursoft.DocsViewer.Entities;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 
