@@ -29,9 +29,9 @@ public class HomeController(
             {
                 var content = await System.IO.File.ReadAllTextAsync(homePagePath);
 
-                var relativePath = navConfig.HomePage.Replace('\\', '/');
+                var relativePath = navConfig.HomePage.Replace('\\', '/').ToLower();
                 var dbDoc = await db.Documents
-                    .FirstOrDefaultAsync(d => d.FilePath.ToLower().Replace('\\', '/') == relativePath.ToLower());
+                    .FirstOrDefaultAsync(d => d.FilePath.ToLower() == relativePath);
 
                 if (dbDoc != null)
                 {
