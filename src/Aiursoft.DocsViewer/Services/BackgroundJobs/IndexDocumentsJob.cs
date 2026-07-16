@@ -36,6 +36,25 @@ public partial class IndexDocumentsJob(
             return;
         }
 
+        // Cleanup legacy documents with backslashes
+        var legacyDocs = await db.Documents.IgnoreQueryFilters().Where(d => d.FilePath.Contains("\\")).ToListAsync();
+        if (legacyDocs.Count > 0)
+        {
+            foreach (var legacyDoc in legacyDocs)
+            {
+                var normalizedPath = legacyDoc.FilePath.Replace('\\', '/');
+                var bugDocs = await db.Documents.IgnoreQueryFilters()
+                    .Where(d => d.FilePath == normalizedPath && d.Id != legacyDoc.Id)
+                    .ToListAsync();
+                
+                db.Documents.RemoveRange(bugDocs);
+                legacyDoc.FilePath = normalizedPath;
+                legacyDoc.IsDeleted = false; // Restore it
+            }
+            await db.SaveChangesAsync();
+            logger.LogInformation("Normalized {Count} legacy document paths and removed duplicates.", legacyDocs.Count);
+        }
+
         var navConfig = await navConfigParser.ParseAsync(repoPath);
         var navTitleMap = navConfig != null
             ? BuildNavTitleMap(navConfig.NavItems)
