@@ -29,9 +29,9 @@ public class DocumentTreeService(
                 .AsNoTracking()
                 .ToListAsync(ct);
 
-            var docLookup = docs.ToDictionary(
-                d => d.FilePath.Replace('\\', '/'),
-                StringComparer.OrdinalIgnoreCase);
+            var docLookup = docs
+                .GroupBy(d => d.FilePath.Replace('\\', '/'), StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
 
             // Try to use properdocs.yml ordering
             var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");

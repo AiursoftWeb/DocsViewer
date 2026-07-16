@@ -31,10 +31,12 @@ public class DocumentLocalizationService(
 
         var titles = rows
             .Where(r => !string.IsNullOrWhiteSpace(r.LocalizedTitle))
-            .ToDictionary(r => r.DocumentId, r => r.LocalizedTitle);
+            .GroupBy(r => r.DocumentId)
+            .ToDictionary(g => g.Key, g => g.First().LocalizedTitle);
         var contents = rows
             .Where(r => !string.IsNullOrWhiteSpace(r.LocalizedContent))
-            .ToDictionary(r => r.DocumentId, r => r.LocalizedContent);
+            .GroupBy(r => r.DocumentId)
+            .ToDictionary(g => g.Key, g => g.First().LocalizedContent);
         return (titles, contents);
     }
 }
