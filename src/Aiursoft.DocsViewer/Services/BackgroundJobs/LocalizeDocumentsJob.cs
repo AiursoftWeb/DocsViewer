@@ -118,11 +118,10 @@ public class LocalizeDocumentsJob(
                 "LocalizeDocumentsJob: translating '{Title}' (source={SourceCulture} → {TargetCulture}).",
                 document.Title, document.SourceCulture, culture);
 
-            var titleTask   = documentTranslationService.TranslateAsync(document.Title, culture);
-            var contentTask = documentTranslationService.TranslateAsync(document.Content, culture);
-            await Task.WhenAll(titleTask, contentTask);
+            var titleResult = await documentTranslationService.TranslateAsync(document.Title, culture);
+            var contentResult = await documentTranslationService.TranslateAsync(document.Content, culture);
 
-            await SaveLocalizedAsync(document, culture, await titleTask, await contentTask);
+            await SaveLocalizedAsync(document, culture, titleResult, contentResult);
             return true;
         }
         catch (Exception ex)
