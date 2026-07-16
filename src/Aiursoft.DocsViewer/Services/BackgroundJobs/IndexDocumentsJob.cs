@@ -85,7 +85,7 @@ public partial class IndexDocumentsJob(
             var docDir = Path.GetDirectoryName(file)!;
             var processedContent = ProcessImages(docDir, rawContent);
 
-            var lastModified = File.GetLastWriteTimeUtc(file);
+            var lastModified = await GetGitLastModifiedAsync(repoPath, file);
 
             var existingDoc = await db.Documents.FirstOrDefaultAsync(d => d.FilePath == relativeFilePath);
 
@@ -109,10 +109,17 @@ public partial class IndexDocumentsJob(
 
                 if (existingDoc.Title != title || existingDoc.Content != processedContent || existingDoc.FileLastModified != lastModified)
                 {
+                    bool contentChanged = existingDoc.Title != title || existingDoc.Content != processedContent;
+                    
                     existingDoc.Title = title;
                     existingDoc.Content = processedContent;
                     existingDoc.FileLastModified = lastModified;
-                    existingDoc.SourceCulture = null; // trigger re-detection
+                    
+                    if (contentChanged)
+                    {
+                        existingDoc.SourceCulture = null; // trigger re-detection only if content changed
+                    }
+                    
                     logger.LogInformation("Updated document: {FilePath}", relativeFilePath);
                 }
             }
@@ -204,5 +211,36 @@ public partial class IndexDocumentsJob(
                 WalkNavEntries(entry.Children, map);
             }
         }
+    }
+
+    private async Task<DateTime> GetGitLastModifiedAsync(string repoPath, string absoluteFilePath)
+    {
+        var relativeToRepo = Path.GetRelativePath(repoPath, absoluteFilePath).Replace('\\', '/');
+        var process = new System.Diagnostics.Process
+        {
+            StartInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = "git",
+                Arguments = $"log -1 --format=%cI -- \"{relativeToRepo}\"",
+                WorkingDirectory = repoPath,
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            }
+        };
+
+        process.Start();
+        var output = await process.StandardOutput.ReadToEndAsync();
+        await process.WaitForExitAsync();
+
+        if (DateTimeOffset.TryParse(output.Trim(), out var dt))
+        {
+            return dt.UtcDateTime;
+        }
+
+        logger.LogWarning(
+            "IndexDocumentsJob: could not parse git log date for '{File}'. Using UtcNow.",
+            absoluteFilePath);
+        return DateTime.UtcNow;
     }
 }
