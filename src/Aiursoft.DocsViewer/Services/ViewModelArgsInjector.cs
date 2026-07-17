@@ -380,6 +380,16 @@ public class ViewModelArgsInjector(
                            string.Equals(currentPath, htmlPath, StringComparison.OrdinalIgnoreCase)
             };
         }
+        else if (node.Path.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || node.Path.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+        {
+            return new LinkSideBarItem
+            {
+                LucideIcon = "link",
+                Text = localizedNavTitles.GetValueOrDefault(node.Name, node.Name),
+                Href = node.Path,
+                IsActive = false
+            };
+        }
         else
         {
             var deepItem = new NestedSideBarItem

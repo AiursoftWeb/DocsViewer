@@ -67,9 +67,7 @@ public class NavConfigParser(ILogger<NavConfigParser> logger) : IScopedDependenc
                     var key = kv.Key.ToString()!;
                     if (kv.Value is string strValue)
                     {
-                        // Leaf: "DisplayName: path/to/file.md"
-                        if (IsExternalUrl(strValue))
-                            continue; // skip external links
+                        // Leaf: "DisplayName: path/to/file.md" or external url
                         result.Add(new NavEntry { Title = key, Path = strValue });
                     }
                     else if (kv.Value is List<object> children)

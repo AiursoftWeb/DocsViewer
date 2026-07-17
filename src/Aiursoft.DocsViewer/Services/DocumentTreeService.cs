@@ -54,7 +54,17 @@ public class DocumentTreeService(
         {
             if (!string.IsNullOrEmpty(entry.Path))
             {
-                if (docLookup.TryGetValue(entry.Path, out var doc))
+                if (entry.Path.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                    entry.Path.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(new DocumentTreeNode
+                    {
+                        Name = entry.Title,
+                        Path = entry.Path,
+                        Document = null
+                    });
+                }
+                else if (docLookup.TryGetValue(entry.Path, out var doc))
                 {
                     result.Add(new DocumentTreeNode
                     {
