@@ -93,6 +93,7 @@ public class LocalizeNavTitlesJobTests
               - Advanced:
                   - Deep:
                       - Internals: internals.md
+              - External Link: https://example.com/
             """);
     }
 
@@ -104,8 +105,8 @@ public class LocalizeNavTitlesJobTests
         if (Directory.Exists(_repoRoot)) Directory.Delete(_repoRoot, recursive: true);
     }
 
-    // Branch (group) titles in the yaml above: "Getting Started", "Advanced", "Deep".
-    private static readonly string[] GroupTitles = ["Getting Started", "Advanced", "Deep"];
+    // Branch (group) titles and external links in the yaml above: "Getting Started", "Advanced", "Deep", "External Link".
+    private static readonly string[] GroupTitles = ["Getting Started", "Advanced", "Deep", "External Link"];
 
     private async Task<(TestableJob Job, CountingTranslationService Translator)> CreateJobAsync(
         string languages,
