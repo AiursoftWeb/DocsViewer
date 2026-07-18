@@ -25,6 +25,7 @@ public class DocumentsController(
     SearchRateLimiter rateLimiter,
     DocumentMarkdownRenderer renderer,
     NavConfigParser navConfigParser,
+    DocumentContributorService documentContributorService,
     IStringLocalizer<DocumentsController> localizer) : Controller
 {
     [ExcludeFromCodeCoverage]
@@ -261,6 +262,8 @@ public class DocumentsController(
 
         var gitHubHistoryUrl = string.IsNullOrWhiteSpace(repoUrl) ? null : $"{repoWebUrl}/commits/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
 
+        var contributors = await documentContributorService.GetContributorsAsync($"{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}");
+
         return this.StackView(new DetailViewModel
         {
             PageTitle = title,
@@ -276,7 +279,8 @@ public class DocumentsController(
             LocalizedDocument = localized,
             ShowTranslationNotice = showTranslationNotice,
             SourceLanguageName = sourceLanguageName,
-            ShowSimilarDocumentsButton = embeddingCache.Count > 0 && embeddingCache.Count >= await db.Documents.CountAsync()
+            ShowSimilarDocumentsButton = embeddingCache.Count > 0 && embeddingCache.Count >= await db.Documents.CountAsync(),
+            Contributors = contributors
         });
     }
 

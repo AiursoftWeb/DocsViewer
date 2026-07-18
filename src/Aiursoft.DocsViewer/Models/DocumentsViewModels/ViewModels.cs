@@ -38,6 +38,7 @@ public class DetailViewModel : UiStackLayoutViewModel
     public string? CategoryDisplayName { get; set; }
     public LocalizedDocument? LocalizedDocument { get; set; }
     public bool ShowSimilarDocumentsButton { get; set; }
+    public List<ContributorViewModel> Contributors { get; set; } = [];
 
     /// <summary>
     /// True when the current UI culture differs from the document's SourceCulture,
