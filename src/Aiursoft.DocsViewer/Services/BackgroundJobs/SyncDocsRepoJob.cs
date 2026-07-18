@@ -1,5 +1,6 @@
 using Aiursoft.CSTools.Tools;
 using Aiursoft.Canon.BackgroundJobs;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.GitRunner;
 using Aiursoft.GitRunner.Models;
 
@@ -8,8 +9,8 @@ namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 public class SyncDocsRepoJob(
     GlobalSettingsService settingsService,
     WorkspaceManager workspaceManager,
-    ILogger<SyncDocsRepoJob> logger,
-    IWebHostEnvironment env) : IBackgroundJob
+    StorageRootPathProvider storageRootPathProvider,
+    ILogger<SyncDocsRepoJob> logger) : IBackgroundJob
 {
     public string Name => "Sync Docs Repo Job";
 
@@ -25,7 +26,7 @@ public class SyncDocsRepoJob(
             return;
         }
 
-        var path = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+        var path = Path.Combine(storageRootPathProvider.GetStorageRootPath(), "repo");
 
         Directory.CreateDirectory(path);
 

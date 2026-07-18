@@ -84,7 +84,7 @@ public class IndexDocumentsJobTests
 
     private (
         SyncDocsRepoJob syncJob,
-        IWebHostEnvironment env,
+        StorageRootPathProvider storageRootPathProvider,
         GlobalSettingsService globalSettings,
         ILoggerFactory loggerFactory,
         DbContextOptions<InMemoryContext> dbOptions,
@@ -102,9 +102,7 @@ public class IndexDocumentsJobTests
             .Build();
 
         var memoryCache = new MemoryCache(new MemoryCacheOptions());
-        var envMock = new Mock<IWebHostEnvironment>();
-        envMock.Setup(e => e.ContentRootPath).Returns(_tempPath);
-        
+
         var dbOptions = new DbContextOptionsBuilder<InMemoryContext>()
             .UseInMemoryDatabase(dbName)
             .Options;
@@ -115,7 +113,7 @@ public class IndexDocumentsJobTests
             .BuildServiceProvider();
 
         var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-        
+
         var rootProvider = new StorageRootPathProvider(config);
         var foldersProvider = new FeatureFoldersProvider(rootProvider);
         var fileLockProvider = new FileLockProvider(memoryCache);
@@ -126,9 +124,9 @@ public class IndexDocumentsJobTests
 
         var workspaceManager = sp.GetRequiredService<WorkspaceManager>();
         var syncJob = new SyncDocsRepoJob(
-            globalSettings, workspaceManager, loggerFactory.CreateLogger<SyncDocsRepoJob>(), envMock.Object);
+            globalSettings, workspaceManager, rootProvider, loggerFactory.CreateLogger<SyncDocsRepoJob>());
 
-        return (syncJob, envMock.Object, globalSettings, loggerFactory, dbOptions, foldersProvider, storageService, memoryCache);
+        return (syncJob, rootProvider, globalSettings, loggerFactory, dbOptions, foldersProvider, storageService, memoryCache);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -139,19 +137,19 @@ public class IndexDocumentsJobTests
     public async Task IndexDocumentsJob_SecondRun_WritesNothing()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, storageRootPathProvider, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // ── Step 1: sync git repo ────────────────────────────────────────────
         await syncJob.ExecuteAsync();
 
-        var repoPath = Path.Combine(_tempPath, "App_Data", "DocsRepo");
+        var repoPath = Path.Combine(_tempPath, "repo");
         Assert.IsTrue(Directory.Exists(repoPath), "Repo must exist before indexing");
 
         // ── Step 2: first index run — should insert documents ──────────────────
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -170,7 +168,7 @@ public class IndexDocumentsJobTests
         // ── Step 3: second index run — must write NOTHING ────────────────────
         await using var strictDb = new NoWriteDbContext(dbOptions);
         var job2 = new IndexDocumentsJob(
-            strictDb, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+            strictDb, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
 
         // This must not throw: NoWriteDbContext throws if SaveChanges has
@@ -194,7 +192,7 @@ public class IndexDocumentsJobTests
     public async Task IndexDocumentsJob_ReindexesWhenTitleChanged()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, storageRootPathProvider, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // ── Step 1: sync and index normally ────────────────────────────────────
         await syncJob.ExecuteAsync();
@@ -202,7 +200,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -224,7 +222,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -259,7 +257,7 @@ public class IndexDocumentsJobTests
         RunGitCommand("-c user.name=TestUser -c user.email=test@test.com -c commit.gpgsign=false commit --no-gpg-sign -m \"Add properdocs.yml\"", _mockRepoPath);
 
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, storageRootPathProvider, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // Sync and index
         await syncJob.ExecuteAsync();
@@ -267,7 +265,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -290,12 +288,12 @@ public class IndexDocumentsJobTests
     /// </summary>
     private sealed class TestableIndexDocumentsJob(
         DocsViewerDbContext db,
-        IWebHostEnvironment env,
+        StorageRootPathProvider storageRootPathProvider,
         NavConfigParser navConfigParser,
         FeatureFoldersProvider featureFolders,
         IMemoryCache cache,
         ILogger<IndexDocumentsJob> logger)
-        : IndexDocumentsJob(db, env, navConfigParser, featureFolders, cache, logger)
+        : IndexDocumentsJob(db, storageRootPathProvider, navConfigParser, featureFolders, cache, logger)
     {
         public new string ComputeImageFingerprint(string relativePath, string absolutePath)
             => base.ComputeImageFingerprint(relativePath, absolutePath);
@@ -303,9 +301,6 @@ public class IndexDocumentsJobTests
 
     private static TestableIndexDocumentsJob CreateTestableJob(string tempPath)
     {
-        var envMock = new Mock<IWebHostEnvironment>();
-        envMock.Setup(e => e.ContentRootPath).Returns(tempPath);
-
         var config = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
@@ -327,7 +322,7 @@ public class IndexDocumentsJobTests
             .GetRequiredService<ILoggerFactory>();
 
         return new TestableIndexDocumentsJob(
-            db, envMock.Object,
+            db, rootProvider,
             new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()),
             folders, memCache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
@@ -416,7 +411,7 @@ public class IndexDocumentsJobTests
         // End-to-end: create a doc with an image, index it twice, verify the
         // image path in the stored Content does not change across runs.
         var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+        var (syncJob, storageRootPathProvider, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
 
         // Create an image in the mock repo Docs dir
         var mockDocsDir = Path.Combine(_mockRepoPath, "Docs", "test_category");
@@ -435,7 +430,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
             contentAfterFirst = (await db.Documents.FirstAsync()).Content;
@@ -447,7 +442,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
             var contentAfterSecond = (await db.Documents.FirstAsync()).Content;

@@ -91,8 +91,6 @@ public class SyncDocsRepoJobTests
             .Build();
 
         var memoryCache = new MemoryCache(new MemoryCacheOptions());
-        var envMock = new Mock<IWebHostEnvironment>();
-        envMock.Setup(e => e.ContentRootPath).Returns(_tempPath);
         var rootProvider = new StorageRootPathProvider(config);
         var foldersProvider = new FeatureFoldersProvider(rootProvider);
         var fileLockProvider = new FileLockProvider(memoryCache);
@@ -112,13 +110,13 @@ public class SyncDocsRepoJobTests
         var workspaceManager = sp.GetRequiredService<WorkspaceManager>();
 
         var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger<SyncDocsRepoJob>();
-        var job = new SyncDocsRepoJob(globalSettings, workspaceManager, logger, envMock.Object);
+        var job = new SyncDocsRepoJob(globalSettings, workspaceManager, rootProvider, logger);
 
         // Act
         await job.ExecuteAsync();
 
         // Assert
-        var expectedRepoPath = Path.Combine(_tempPath, "App_Data", "DocsRepo");
+        var expectedRepoPath = Path.Combine(_tempPath, "repo");
         Assert.IsTrue(
             Directory.Exists(expectedRepoPath),
             $"Repo directory should exist at: {expectedRepoPath}");
@@ -140,8 +138,6 @@ public class SyncDocsRepoJobTests
             .Build();
 
         var memoryCache = new MemoryCache(new MemoryCacheOptions());
-        var envMock = new Mock<IWebHostEnvironment>();
-        envMock.Setup(e => e.ContentRootPath).Returns(_tempPath);
         var rootProvider = new StorageRootPathProvider(config);
         var foldersProvider = new FeatureFoldersProvider(rootProvider);
         var fileLockProvider = new FileLockProvider(memoryCache);
@@ -159,12 +155,12 @@ public class SyncDocsRepoJobTests
             .BuildServiceProvider();
         var workspaceManager = sp.GetRequiredService<WorkspaceManager>();
         var logger = sp.GetRequiredService<ILoggerFactory>().CreateLogger<SyncDocsRepoJob>();
-        var job = new SyncDocsRepoJob(globalSettings, workspaceManager, logger, envMock.Object);
+        var job = new SyncDocsRepoJob(globalSettings, workspaceManager, rootProvider, logger);
 
         await job.ExecuteAsync(); // first run — clones
 
         // Dirty the working tree with a stray file
-        var strayFile = Path.Combine(_tempPath, "App_Data", "DocsRepo", "stray-test-file.txt");
+        var strayFile = Path.Combine(_tempPath, "repo", "stray-test-file.txt");
         await File.WriteAllTextAsync(strayFile, "should be cleaned up");
 
         // Act — second run should reset/clean the repo
@@ -172,6 +168,6 @@ public class SyncDocsRepoJobTests
 
         // Assert — stray file removed, repo still valid
         Assert.IsFalse(File.Exists(strayFile), "Stray file should have been removed by git clean");
-        Assert.IsTrue(Directory.Exists(Path.Combine(_tempPath, "App_Data", "DocsRepo", ".git")));
+        Assert.IsTrue(Directory.Exists(Path.Combine(_tempPath, "repo", ".git")));
     }
 }

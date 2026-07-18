@@ -1,6 +1,7 @@
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Models.HomeViewModels;
 using Aiursoft.DocsViewer.Services;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.WebTools.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,14 +12,14 @@ namespace Aiursoft.DocsViewer.Controllers;
 [LimitPerMin]
 public class HomeController(
     DocsViewerDbContext db,
-    IHostEnvironment env,
+    StorageRootPathProvider storageRootPathProvider,
     DocumentMarkdownRenderer renderer,
     NavConfigParser navConfigParser,
     IStringLocalizer<HomeController> localizer) : Controller
 {
     public async Task<IActionResult> Index()
     {
-        var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+        var repoPath = Path.Combine(storageRootPathProvider.GetStorageRootPath(), "repo");
         var navConfig = await navConfigParser.ParseAsync(repoPath);
 
         if (navConfig?.HomePage != null)

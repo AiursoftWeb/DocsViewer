@@ -1,4 +1,5 @@
 using Aiursoft.DocsViewer.Entities;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Aiursoft.Scanner.Abstractions;
@@ -16,7 +17,7 @@ public class DocumentTreeNode
 public class DocumentTreeService(
     DocsViewerDbContext db,
     IMemoryCache cache,
-    IHostEnvironment env,
+    StorageRootPathProvider storageRootPathProvider,
     NavConfigParser navConfigParser) : IScopedDependency
 {
     public async Task<List<DocumentTreeNode>> GetTreeAsync(CancellationToken ct = default)
@@ -34,7 +35,7 @@ public class DocumentTreeService(
                 .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
 
             // Try to use properdocs.yml ordering
-            var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+            var repoPath = Path.Combine(storageRootPathProvider.GetStorageRootPath(), "repo");
             var navConfig = await navConfigParser.ParseAsync(repoPath);
             if (navConfig != null)
             {

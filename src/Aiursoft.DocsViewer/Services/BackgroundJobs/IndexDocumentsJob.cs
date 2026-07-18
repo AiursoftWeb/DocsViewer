@@ -11,7 +11,7 @@ namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 
 public partial class IndexDocumentsJob(
     DocsViewerDbContext db,
-    IHostEnvironment env,
+    StorageRootPathProvider storageRootPathProvider,
     NavConfigParser navConfigParser,
     FeatureFoldersProvider featureFolders,
     IMemoryCache cache,
@@ -31,7 +31,7 @@ public partial class IndexDocumentsJob(
     {
         logger.LogInformation("IndexDocumentsJob started.");
 
-        var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+        var repoPath = Path.Combine(storageRootPathProvider.GetStorageRootPath(), "repo");
         if (!Directory.Exists(repoPath))
         {
             logger.LogWarning("DocsRepo directory not found at {RepoPath}", repoPath);

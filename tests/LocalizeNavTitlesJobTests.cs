@@ -3,10 +3,10 @@ using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Services;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Aiursoft.DocsViewer.Tests;
@@ -32,12 +32,12 @@ public class LocalizeNavTitlesJobTests
     // Test double: stub out the AI source-culture detection.
     private sealed class TestableJob(
         DocsViewerDbContext db,
-        IHostEnvironment env,
+        StorageRootPathProvider storageRootPathProvider,
         GlobalSettingsService settings,
         NavConfigParser navParser,
         IDocumentTranslationService translator,
         string? detectedCulture)
-        : LocalizeNavTitlesJob(db, env, settings, navParser, translator, null!, null!,
+        : LocalizeNavTitlesJob(db, storageRootPathProvider, settings, navParser, translator, null!, null!,
             NullLogger<LocalizeNavTitlesJob>.Instance)
     {
         public int DetectCalls;
@@ -47,14 +47,6 @@ public class LocalizeNavTitlesJobTests
             DetectCalls++;
             return Task.FromResult(detectedCulture);
         }
-    }
-
-    private sealed class FakeEnv(string contentRoot) : IHostEnvironment
-    {
-        public string ApplicationName { get; set; } = "Test";
-        public IFileProvider ContentRootFileProvider { get; set; } = new NullFileProvider();
-        public string ContentRootPath { get; set; } = contentRoot;
-        public string EnvironmentName { get; set; } = "Development";
     }
 
     private sealed class SqliteTestContext(DbContextOptions<SqliteTestContext> options)
@@ -78,9 +70,9 @@ public class LocalizeNavTitlesJobTests
         using var db = new SqliteTestContext(_dbOptions);
         db.Database.EnsureCreated();
 
-        // ContentRootPath/App_Data/DocsRepo/properdocs.yml
+        // Storage:Path/repo/properdocs.yml
         _repoRoot = Path.Combine(Path.GetTempPath(), "navjob_" + Guid.NewGuid().ToString("N"));
-        var docsRepo = Path.Combine(_repoRoot, "App_Data", "DocsRepo");
+        var docsRepo = Path.Combine(_repoRoot, "repo");
         Directory.CreateDirectory(docsRepo);
         File.WriteAllText(Path.Combine(docsRepo, "properdocs.yml"),
             """
@@ -124,13 +116,16 @@ public class LocalizeNavTitlesJobTests
         }
 
         var db = new SqliteTestContext(_dbOptions);
-        var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>()).Build();
+        var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            { "Storage:Path", _repoRoot }
+        }).Build();
         var settings = new GlobalSettingsService(db, config, null!, _cache);
         var navParser = new NavConfigParser(NullLogger<NavConfigParser>.Instance);
         var translator = new CountingTranslationService();
-        var env = new FakeEnv(_repoRoot);
+        var storageRootPathProvider = new StorageRootPathProvider(config);
 
-        var job = new TestableJob(db, env, settings, navParser, translator, detectedCulture);
+        var job = new TestableJob(db, storageRootPathProvider, settings, navParser, translator, detectedCulture);
         return (job, translator);
     }
 

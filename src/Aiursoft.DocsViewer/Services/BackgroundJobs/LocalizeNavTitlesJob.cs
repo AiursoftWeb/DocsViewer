@@ -3,6 +3,7 @@ using Aiursoft.Canon;
 using Aiursoft.Canon.BackgroundJobs;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.GptClient.Abstractions;
 using Aiursoft.GptClient.Services;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,7 @@ namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 /// </summary>
 public class LocalizeNavTitlesJob(
     DocsViewerDbContext db,
-    IHostEnvironment env,
+    StorageRootPathProvider storageRootPathProvider,
     GlobalSettingsService settingsService,
     NavConfigParser navConfigParser,
     IDocumentTranslationService documentTranslationService,
@@ -64,7 +65,7 @@ public class LocalizeNavTitlesJob(
             return;
         }
 
-        var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+        var repoPath = Path.Combine(storageRootPathProvider.GetStorageRootPath(), "repo");
         var navConfig = await navConfigParser.ParseAsync(repoPath);
         if (navConfig == null)
         {

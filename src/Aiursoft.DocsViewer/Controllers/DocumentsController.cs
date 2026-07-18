@@ -2,6 +2,7 @@ using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Models.DocumentsViewModels;
 using Aiursoft.DocsViewer.Services;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.Dotlang.Shared;
 using Aiursoft.WebTools.Attributes;
 using Microsoft.AspNetCore.Identity;
@@ -16,7 +17,7 @@ namespace Aiursoft.DocsViewer.Controllers;
 public class DocumentsController(
     DocsViewerDbContext db,
     UserManager<User> userManager,
-    IHostEnvironment env,
+    StorageRootPathProvider storageRootPathProvider,
     GlobalSettingsService globalSettingsService,
     DocumentLocalizationService documentLocalization,
     DocumentEmbeddingCache embeddingCache,
@@ -236,7 +237,7 @@ public class DocumentsController(
             ? repoUrl[..^4]
             : repoUrl;
         
-        var repoPath = Path.Combine(env.ContentRootPath, "App_Data", "DocsRepo");
+        var repoPath = Path.Combine(storageRootPathProvider.GetStorageRootPath(), "repo");
         var navConfig = await navConfigParser.ParseAsync(repoPath);
         var docsDir = navConfig?.DocsDir ?? "Docs";
         var docsRootPrefix = $"{docsDir}/";
