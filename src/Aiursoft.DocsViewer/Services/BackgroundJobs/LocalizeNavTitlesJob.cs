@@ -166,8 +166,8 @@ public class LocalizeNavTitlesJob(
     }
 
     /// <summary>
-    /// Collects the labels of branch nav entries (groups/folders — entries that have children rather
-    /// than a document path). These are exactly the labels the sidebar renders raw today.
+    /// Collects the labels of branch nav entries (groups/folders) AND external links.
+    /// These are exactly the labels the sidebar renders using LocalizedNavTitles.
     /// </summary>
     private static void CollectGroupTitles(List<NavEntry> entries, List<string> into)
     {
@@ -177,6 +177,10 @@ public class LocalizeNavTitlesJob(
             {
                 into.Add(entry.Title);
                 CollectGroupTitles(entry.Children, into);
+            }
+            else if (!string.IsNullOrWhiteSpace(entry.Path) && (entry.Path.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || entry.Path.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
+            {
+                into.Add(entry.Title);
             }
         }
     }
