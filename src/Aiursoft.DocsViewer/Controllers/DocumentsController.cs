@@ -293,6 +293,7 @@ public class DocumentsController(
 
         return this.StackView(new SimilarViewModel
         {
+            PageTitle = $"Similar to: {sourceDoc.Title}",
             SourceDocument = sourceDoc,
             CategoryDisplayName = GetDisplayName(sourceDoc.Category, null),
             SimilarDocuments = documents,
@@ -315,6 +316,7 @@ public class DocumentsController(
         {
             return this.StackView(new SearchViewModel
             {
+                PageTitle = $"Search: {q}",
                 Keyword = q,
                 Page = page,
                 RateLimited = true,
@@ -341,6 +343,7 @@ public class DocumentsController(
 
         return this.StackView(new SearchViewModel
         {
+            PageTitle = $"Search: {q}",
             Keyword = q,
             Page = page,
             TotalCount = total,
