@@ -54,44 +54,53 @@ public class LocalizeDocumentsJob(
             cultures.Length, string.Join(", ", cultures));
 
         var totalProcessed = 0;
-
-        foreach (var culture in cultures)
+        var lastId = 0;
+        
+        while (true)
         {
-            var lastId = 0;
-            while (true)
+            var currentLastId = lastId;
+            
+            // Fetch the next batch of documents that might need translation
+            var batchDocs = await dbContext.Documents
+                .Where(d => d.SourceCulture != null &&
+                            !d.IsDeleted &&
+                            d.Id > currentLastId &&
+                            dbContext.LocalizedDocuments.Count(ld => 
+                                ld.DocumentId == d.Id && 
+                                ld.LastLocalizedAt >= d.FileLastModified) < cultures.Length)
+                .OrderBy(d => d.Id)
+                .Take(20)
+                .ToListAsync();
+
+            if (batchDocs.Count == 0) break;
+
+            foreach (var document in batchDocs)
             {
-                var currentLastId = lastId;
-                var pendingDocs = await dbContext.Documents
-                    .Where(d => d.SourceCulture != null &&
-                                !d.IsDeleted &&
-                                d.Id > currentLastId &&
-                                !dbContext.LocalizedDocuments.Any(ld =>
-                                    ld.DocumentId == d.Id &&
-                                    ld.Culture == culture &&
-                                    ld.LastLocalizedAt >= d.FileLastModified))
-                    .OrderBy(d => d.Id)
-                    .Take(20)
+                // Fetch existing localized records for this document to avoid N+1 queries
+                var existingLocalizations = await dbContext.LocalizedDocuments
+                    .Where(ld => ld.DocumentId == document.Id)
                     .ToListAsync();
 
-                if (pendingDocs.Count == 0) break;
-
-                foreach (var document in pendingDocs)
+                foreach (var culture in cultures)
                 {
-                    var success = await LocalizeDocumentAsync(document, culture);
-                    if (success)
+                    var isUpToDate = existingLocalizations.Any(ld => 
+                        ld.Culture == culture && 
+                        ld.LastLocalizedAt >= document.FileLastModified);
+
+                    if (!isUpToDate)
                     {
-                        totalProcessed++;
-                        await dbContext.SaveChangesAsync();
+                        var success = await LocalizeDocumentAsync(document, culture);
+                        if (success)
+                        {
+                            totalProcessed++;
+                            await dbContext.SaveChangesAsync();
+                        }
                     }
                 }
-
-                lastId = pendingDocs.Max(d => d.Id);
-                logger.LogInformation(
-                    "LocalizeDocumentsJob: [{Culture}] batch finished. Last ID: {LastId}. Total so far: {Total}.",
-                    culture, lastId, totalProcessed);
             }
 
-            logger.LogInformation("LocalizeDocumentsJob: [{Culture}] all documents up-to-date.", culture);
+            lastId = batchDocs.Max(d => d.Id);
+            logger.LogInformation("LocalizeDocumentsJob: Document batch finished. Last ID: {LastId}. Total translations so far: {Total}.", lastId, totalProcessed);
         }
 
         logger.LogInformation("LocalizeDocumentsJob: done. Processed {Count} pair(s) this run.", totalProcessed);
