@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using Aiursoft.Canon.BackgroundJobs;
 using Aiursoft.DocsViewer.Entities;
@@ -171,7 +173,7 @@ public partial class IndexDocumentsJob(
             var ext = Path.GetExtension(cleanPath).ToLowerInvariant();
             if (string.IsNullOrEmpty(ext)) ext = ".png";
 
-            var uuid = Guid.NewGuid().ToString("N");
+            var uuid = ComputeImageFingerprint(cleanPath, sourcePath);
             var logicalPath = $"doc-images/{uuid}{ext}";
             var workspaceRoot = featureFolders.GetWorkspaceFolder();
             var physicalPath = Path.GetFullPath(Path.Combine(workspaceRoot, logicalPath));
@@ -184,6 +186,21 @@ public partial class IndexDocumentsJob(
             // Rewrite to logical path — will be resolved at render time via StorageService
             return $"![{match.Groups[1].Value}]({logicalPath})";
         });
+    }
+
+    /// <summary>
+    /// Computes a deterministic fingerprint for an image file based on its relative path,
+    /// file size, and last-write time. Same file always produces the same fingerprint;
+    /// any change to the file metadata produces a new one. Exposed as protected virtual
+    /// so unit tests can verify determinism directly.
+    /// </summary>
+    protected virtual string ComputeImageFingerprint(string relativePath, string absolutePath)
+    {
+        var fileInfo = new FileInfo(absolutePath);
+        var fingerprint = $"{relativePath}|{fileInfo.Length}|{fileInfo.LastWriteTimeUtc.Ticks}";
+        return Convert.ToHexString(
+            SHA256.HashData(Encoding.UTF8.GetBytes(fingerprint))
+        )[..16].ToLowerInvariant();
     }
 
     /// <summary>

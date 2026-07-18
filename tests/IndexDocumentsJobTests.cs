@@ -1,5 +1,6 @@
 using Aiursoft.GitRunner;
 using Aiursoft.DocsViewer.Configuration;
+using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.InMemory;
 using Aiursoft.DocsViewer.Services;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
@@ -276,6 +277,182 @@ public class IndexDocumentsJobTests
             var document = await db.Documents.FirstAsync();
             Assert.AreEqual("My Custom Title", document.Title,
                 "Document title must come from properdocs.yml nav entry, not from filename.");
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // ComputeImageFingerprint determinism tests
+    // ─────────────────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// A minimal subclass that exposes the protected ComputeImageFingerprint so tests
+    /// can verify its behaviour without going through the full indexing pipeline.
+    /// </summary>
+    private sealed class TestableIndexDocumentsJob(
+        DocsViewerDbContext db,
+        IWebHostEnvironment env,
+        NavConfigParser navConfigParser,
+        FeatureFoldersProvider featureFolders,
+        IMemoryCache cache,
+        ILogger<IndexDocumentsJob> logger)
+        : IndexDocumentsJob(db, env, navConfigParser, featureFolders, cache, logger)
+    {
+        public new string ComputeImageFingerprint(string relativePath, string absolutePath)
+            => base.ComputeImageFingerprint(relativePath, absolutePath);
+    }
+
+    private static TestableIndexDocumentsJob CreateTestableJob(string tempPath)
+    {
+        var envMock = new Mock<IWebHostEnvironment>();
+        envMock.Setup(e => e.ContentRootPath).Returns(tempPath);
+
+        var config = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                { "Storage:Path", tempPath }
+            })
+            .Build();
+
+        var rootProvider = new StorageRootPathProvider(config);
+        var folders = new FeatureFoldersProvider(rootProvider);
+        var memCache = new MemoryCache(new MemoryCacheOptions());
+        var dbOptions = new DbContextOptionsBuilder<InMemoryContext>()
+            .UseInMemoryDatabase("FingerprintTest_" + Guid.NewGuid())
+            .Options;
+        var db = new InMemoryContext(dbOptions);
+
+        var loggerFactory = new ServiceCollection()
+            .AddLogging()
+            .BuildServiceProvider()
+            .GetRequiredService<ILoggerFactory>();
+
+        return new TestableIndexDocumentsJob(
+            db, envMock.Object,
+            new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()),
+            folders, memCache,
+            loggerFactory.CreateLogger<IndexDocumentsJob>());
+    }
+
+    [TestMethod]
+    public void ComputeImageFingerprint_SameFile_SameFingerprint()
+    {
+        // Arrange
+        var tempDir = Path.Combine(Path.GetTempPath(), "FingerprintTest_" + Guid.NewGuid());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            var imagePath = Path.Combine(tempDir, "logo.svg");
+            File.WriteAllText(imagePath, "<svg>test</svg>");
+            var job = CreateTestableJob(tempDir);
+
+            // Act
+            var fp1 = job.ComputeImageFingerprint("Assets/logo.svg", imagePath);
+            var fp2 = job.ComputeImageFingerprint("Assets/logo.svg", imagePath);
+
+            // Assert
+            Assert.AreEqual(fp1, fp2, "Same file must produce the same fingerprint.");
+            Assert.AreEqual(16, fp1.Length, "Fingerprint must be 16 hex chars.");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, recursive: true);
+        }
+    }
+
+    [TestMethod]
+    public void ComputeImageFingerprint_DifferentPath_DifferentFingerprint()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), "FingerprintTest_" + Guid.NewGuid());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            var image1 = Path.Combine(tempDir, "a.svg");
+            var image2 = Path.Combine(tempDir, "b.svg");
+            var content = "<svg>test</svg>";
+            File.WriteAllText(image1, content);
+            File.WriteAllText(image2, content);
+            var job = CreateTestableJob(tempDir);
+
+            var fp1 = job.ComputeImageFingerprint("dir/a.svg", image1);
+            var fp2 = job.ComputeImageFingerprint("dir/b.svg", image2);
+
+            Assert.AreNotEqual(fp1, fp2,
+                "Different paths must produce different fingerprints.");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, recursive: true);
+        }
+    }
+
+    [TestMethod]
+    public void ComputeImageFingerprint_DifferentContent_DifferentFingerprint()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), "FingerprintTest_" + Guid.NewGuid());
+        Directory.CreateDirectory(tempDir);
+        try
+        {
+            var imagePath = Path.Combine(tempDir, "icon.png");
+            File.WriteAllText(imagePath, "aaaa"); // small content to force different size
+            var job1 = CreateTestableJob(tempDir);
+            var fp1 = job1.ComputeImageFingerprint("icon.png", imagePath);
+
+            File.WriteAllText(imagePath, "aaaabbbbccccddddeeeeffff"); // different size
+            var job2 = CreateTestableJob(tempDir);
+            var fp2 = job2.ComputeImageFingerprint("icon.png", imagePath);
+
+            Assert.AreNotEqual(fp1, fp2,
+                "Different file sizes must produce different fingerprints.");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, recursive: true);
+        }
+    }
+
+    [TestMethod]
+    public async Task ComputeImageFingerprint_RerunOnSameImage_ImagePathsStable()
+    {
+        // End-to-end: create a doc with an image, index it twice, verify the
+        // image path in the stored Content does not change across runs.
+        var dbName = "IndexJobTest_" + Guid.NewGuid();
+        var (syncJob, env, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
+
+        // Create an image in the mock repo Docs dir
+        var mockDocsDir = Path.Combine(_mockRepoPath, "Docs", "test_category");
+        File.WriteAllText(Path.Combine(mockDocsDir, "test_doc.md"),
+            "# Test Doc\n![alt](logo.svg)\nThis is a test.");
+        File.WriteAllText(Path.Combine(mockDocsDir, "logo.svg"), "<svg>logo</svg>");
+        // Amend the commit so git log returns a stable date
+        RunGitCommand("add .", _mockRepoPath);
+        RunGitCommand(
+            "-c user.name=TestUser -c user.email=test@test.com -c commit.gpgsign=false commit --no-gpg-sign --amend -m \"Initial commit\"",
+            _mockRepoPath);
+
+        // First run
+        await syncJob.ExecuteAsync();
+        string contentAfterFirst;
+        await using (var db = new InMemoryContext(dbOptions))
+        {
+            var job = new IndexDocumentsJob(
+                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                loggerFactory.CreateLogger<IndexDocumentsJob>());
+            await job.ExecuteAsync();
+            contentAfterFirst = (await db.Documents.FirstAsync()).Content;
+        }
+        Assert.IsTrue(contentAfterFirst.Contains("doc-images/"),
+            "Content must contain a rewritten image path after first indexing.");
+
+        // Second run: content must be exactly the same — image UUID must not change
+        await using (var db = new InMemoryContext(dbOptions))
+        {
+            var job = new IndexDocumentsJob(
+                db, env, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                loggerFactory.CreateLogger<IndexDocumentsJob>());
+            await job.ExecuteAsync();
+            var contentAfterSecond = (await db.Documents.FirstAsync()).Content;
+            Assert.AreEqual(contentAfterFirst, contentAfterSecond,
+                "Image path must be stable across IndexDocumentsJob reruns.");
         }
     }
 
