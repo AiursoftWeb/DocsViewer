@@ -7,7 +7,6 @@ using Aiursoft.DocsViewer.Services.FileStorage;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Moq;
 
 namespace Aiursoft.DocsViewer.Tests;
 
