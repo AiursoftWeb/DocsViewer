@@ -240,7 +240,24 @@ public class DocumentsController(
         var navConfig = await navConfigParser.ParseAsync(repoPath);
         var docsDir = navConfig?.DocsDir ?? "Docs";
         var docsRootPrefix = $"{docsDir}/";
-        var gitHubEditUrl = string.IsNullOrWhiteSpace(repoUrl) ? null : $"{repoWebUrl}/edit/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
+        
+        string? gitHubEditUrl = null;
+        if (!string.IsNullOrWhiteSpace(repoUrl))
+        {
+            if (navConfig?.EditUri != null)
+            {
+                if (!string.IsNullOrWhiteSpace(navConfig.EditUri))
+                {
+                    var editUri = navConfig.EditUri.TrimStart('/');
+                    gitHubEditUrl = $"{repoWebUrl}/{editUri}{doc.FilePath.Replace('\\', '/')}";
+                }
+            }
+            else
+            {
+                gitHubEditUrl = $"{repoWebUrl}/edit/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
+            }
+        }
+
         var gitHubHistoryUrl = string.IsNullOrWhiteSpace(repoUrl) ? null : $"{repoWebUrl}/commits/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
 
         return this.StackView(new DetailViewModel

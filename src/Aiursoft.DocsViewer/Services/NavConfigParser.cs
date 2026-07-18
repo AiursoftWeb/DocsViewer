@@ -45,7 +45,8 @@ public class NavConfigParser(ILogger<NavConfigParser> logger) : IScopedDependenc
             {
                 DocsDir = docsDir,
                 NavItems = navItems,
-                HomePage = homePage
+                HomePage = homePage,
+                EditUri = config.EditUri
             };
         }
         catch (Exception ex)
@@ -110,6 +111,7 @@ public class NavConfig
     public string DocsDir { get; set; } = ".";
     public List<NavEntry> NavItems { get; set; } = [];
     public string? HomePage { get; set; }
+    public string? EditUri { get; set; }
 }
 
 public class NavEntry
@@ -127,4 +129,7 @@ public class MkDocsConfig
 
     [YamlMember(Alias = "nav")]
     public List<object>? Nav { get; set; }
+
+    [YamlMember(Alias = "edit_uri")]
+    public string? EditUri { get; set; }
 }
