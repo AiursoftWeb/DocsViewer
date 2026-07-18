@@ -244,6 +244,7 @@ public class DocumentsController(
         var docsRootPrefix = $"{docsDir}/";
         
         string? gitHubEditUrl = null;
+        string? gitHubHistoryUrl = null;
         if (!string.IsNullOrWhiteSpace(repoUrl))
         {
             if (navConfig?.EditUri != null)
@@ -252,15 +253,20 @@ public class DocumentsController(
                 {
                     var editUri = navConfig.EditUri.TrimStart('/');
                     gitHubEditUrl = $"{repoWebUrl}/{editUri}{doc.FilePath.Replace('\\', '/')}";
+
+                    // Derive history URL from the same EditUri: replace edit/ with commits/
+                    var historyUri = editUri.StartsWith("edit/", StringComparison.OrdinalIgnoreCase)
+                        ? "commits/" + editUri[5..]
+                        : editUri;
+                    gitHubHistoryUrl = $"{repoWebUrl}/{historyUri}{doc.FilePath.Replace('\\', '/')}";
                 }
             }
             else
             {
                 gitHubEditUrl = $"{repoWebUrl}/edit/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
+                gitHubHistoryUrl = $"{repoWebUrl}/commits/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
             }
         }
-
-        var gitHubHistoryUrl = string.IsNullOrWhiteSpace(repoUrl) ? null : $"{repoWebUrl}/commits/main/{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}";
 
         var contributors = await documentContributorService.GetContributorsAsync($"{docsRootPrefix}{doc.FilePath.Replace('\\', '/')}");
 
