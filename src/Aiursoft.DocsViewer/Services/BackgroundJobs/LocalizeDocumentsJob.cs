@@ -1,6 +1,7 @@
 using Aiursoft.Canon.BackgroundJobs;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
+using Aiursoft.DocsViewer.Util;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
@@ -129,6 +130,31 @@ public class LocalizeDocumentsJob(
 
             var titleResult = await documentTranslationService.TranslateAsync(document.Title, culture);
             var contentResult = await documentTranslationService.TranslateAsync(document.Content, culture);
+
+            // Validate: check that translated content actually contains the target script.
+            if (TranslationScriptValidator.IsTranslationLikelyFailed(contentResult, culture))
+            {
+                logger.LogWarning(
+                    "LocalizeDocumentsJob: translation of '{Title}' to {Culture} lacks expected script. " +
+                    "The AI may have returned the original text. Retrying once...",
+                    document.Title, culture);
+
+                contentResult = await documentTranslationService.TranslateAsync(document.Content, culture);
+
+                if (TranslationScriptValidator.IsTranslationLikelyFailed(contentResult, culture))
+                {
+                    logger.LogError(
+                        "LocalizeDocumentsJob: translation of '{Title}' to {Culture} still lacks " +
+                        "expected script after retry. Saving anyway — manual review may be needed.",
+                        document.Title, culture);
+                }
+                else
+                {
+                    logger.LogInformation(
+                        "LocalizeDocumentsJob: retry succeeded for '{Title}' to {Culture}.",
+                        document.Title, culture);
+                }
+            }
 
             await SaveLocalizedAsync(document, culture, titleResult, contentResult);
             return true;

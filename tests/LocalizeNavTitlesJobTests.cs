@@ -219,16 +219,19 @@ public class LocalizeNavTitlesJobTests
             await seed.SaveChangesAsync();
         }
 
-        var (job, translator) = await CreateJobAsync(languages: "en-US,ja-JP", detectedCulture: "zh-CN");
+        // Use a Latin-script target (fr-FR) so the heuristic check is skipped (returns null).
+        // Non-Latin targets like ja-JP would trigger the retry mechanism because the fake
+        // translator produces ASCII output like "[ja-JP] Getting Started".
+        var (job, translator) = await CreateJobAsync(languages: "en-US,fr-FR", detectedCulture: "zh-CN");
         await job.ExecuteAsync();
 
         await using var assertDb = new SqliteTestContext(_dbOptions);
-        var ja = await assertDb.LocalizedNavTitles.Where(t => t.Culture == "ja-JP").ToListAsync();
+        var fr = await assertDb.LocalizedNavTitles.Where(t => t.Culture == "fr-FR").ToListAsync();
 
-        CollectionAssert.AreEquivalent(GroupTitles, ja.Select(r => r.SourceText).ToArray());
-        // Only the 3 ja-JP pairs were translated; the 3 pre-existing en-US pairs were skipped.
+        CollectionAssert.AreEquivalent(GroupTitles, fr.Select(r => r.SourceText).ToArray());
+        // Only the 3 fr-FR pairs were translated; the 3 pre-existing en-US pairs were skipped.
         Assert.AreEqual(GroupTitles.Length, translator.Calls.Count);
-        Assert.IsTrue(translator.Calls.All(c => c.Lang == "ja-JP"));
+        Assert.IsTrue(translator.Calls.All(c => c.Lang == "fr-FR"));
     }
 
     // ═════════════════════════════════════════════════════════════════════════

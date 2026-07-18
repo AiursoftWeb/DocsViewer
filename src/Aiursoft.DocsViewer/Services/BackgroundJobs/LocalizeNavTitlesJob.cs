@@ -4,6 +4,7 @@ using Aiursoft.Canon.BackgroundJobs;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Services.FileStorage;
+using Aiursoft.DocsViewer.Util;
 using Aiursoft.GptClient.Abstractions;
 using Aiursoft.GptClient.Services;
 using Microsoft.EntityFrameworkCore;
@@ -127,6 +128,32 @@ public class LocalizeNavTitlesJob(
                 {
                     // Translate this single label on its own — never batched with others.
                     localized = await documentTranslationService.TranslateAsync(title, culture);
+
+                    // Validate: check that translated label actually contains the target script.
+                    if (TranslationScriptValidator.IsTranslationLikelyFailed(localized, culture))
+                    {
+                        logger.LogWarning(
+                            "LocalizeNavTitlesJob: translation of '{Title}' to {Culture} lacks expected " +
+                            "script. The AI may have returned the original. Retrying once...",
+                            title, culture);
+
+                        localized = await documentTranslationService.TranslateAsync(title, culture);
+
+                        if (TranslationScriptValidator.IsTranslationLikelyFailed(localized, culture))
+                        {
+                            logger.LogError(
+                                "LocalizeNavTitlesJob: translation of '{Title}' to {Culture} still lacks " +
+                                "expected script after retry. Saving anyway.",
+                                title, culture);
+                        }
+                        else
+                        {
+                            logger.LogInformation(
+                                "LocalizeNavTitlesJob: retry succeeded for '{Title}' to {Culture}.",
+                                title, culture);
+                        }
+                    }
+
                     logger.LogInformation("LocalizeNavTitlesJob: translated '{Title}' → '{Localized}' ({Culture}).",
                         title, localized, culture);
                 }
