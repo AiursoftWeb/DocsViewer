@@ -7,7 +7,15 @@
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fdocs.anduinos.com)](https://docs.anduinos.com)
 [![Docker](https://img.shields.io/docker/pulls/aiursoft/docsviewer.svg)](https://hub.docker.com/r/aiursoft/docsviewer)
 
-DocsViewer is a sample project.
+DocsViewer is a dynamic, high-performance ASP.NET Core web application that serves markdown documentation.
+
+## Usage
+
+DocsViewer is designed to be highly compatible with traditional [MkDocs](https://www.mkdocs.org/) conventions, meaning there is zero learning curve for documentation authors.
+
+To use DocsViewer, simply provide your markdown files and configure them using a `properdocs.yml` file (which behaves exactly like `mkdocs.yml`). DocsViewer natively supports standard MkDocs configurations like `docs_dir`, `edit_uri`, and the `nav` tree layout.
+
+Just drop your existing MkDocs documentation folder into DocsViewer, and it will automatically render it while supercharging your docs with advanced dynamic features like full-text search, database caching, on-the-fly routing, and AI-powered multi-language translation!
 
 ![screenshot](./screenshot.png)
 
