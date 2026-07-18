@@ -4,8 +4,8 @@
 [![Pipeline stat](https://gitlab.aiursoft.com/aiursoft/docsViewer/badges/master/pipeline.svg)](https://gitlab.aiursoft.com/aiursoft/docsViewer/-/pipelines)
 [![Test Coverage](https://gitlab.aiursoft.com/aiursoft/docsViewer/badges/master/coverage.svg)](https://gitlab.aiursoft.com/aiursoft/docsViewer/-/pipelines)
 [![Man hours](https://manhours.aiursoft.com/r/github.com/aiursoftweb/docsViewer.svg)](https://manhours.aiursoft.com/r/github.com/aiursoftweb/docsViewer.html)
-[![Website](https://img.shields.io/website?url=https%3A%2F%2FdocsViewer.aiursoft.com)](https://docsViewer.aiursoft.com)
-[![Docker](https://img.shields.io/docker/pulls/aiursoft/docsViewer.svg)](https://hub.docker.com/r/aiursoft/docsViewer)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fdocs.anduinos.com)](https://docs.anduinos.com)
+[![Docker](https://img.shields.io/docker/pulls/aiursoft/docsviewer.svg)](https://hub.docker.com/r/aiursoft/docsviewer)
 
 DocsViewer is a sample project.
 
@@ -13,34 +13,9 @@ DocsViewer is a sample project.
 
 Default user name is `admin@default.com` and default password is `Admin@123456!`.
 
-## Projects using Aiursoft DocsViewer
-
-* [Stathub](https://github.com/aiursoftweb/stathub)
-* [MarkToHtml](https://github.com/aiursoftweb/marktohtml)
-* [MusicTools](https://github.com/aiursoftweb/musictools)
-* [AnduinOS Home](https://github.com/aiursoftweb/AnduinOS-Home)
-* [Manhours](https://github.com/aiursoftweb/manhours)
-* [Tracer](https://github.com/aiursoftweb/tracer)
-* [Warp](https://github.com/aiursoftweb/warp)
-* [AiurDrive](https://github.com/aiursoftweb/aiurdrive)
-* [EmployeeCenter](https://github.com/aiursoftweb/employeecenter)
-* [Git Mirror Server](https://github.com/aiursoftweb/gitmirrorserver)
-* [CppRunner](https://github.com/aiursoftweb/cpprunner)
-* [Ollama Gateway](https://github.com/aiursoftweb/ollamagateway)
-* [Polls](https://github.com/aiursoftweb/polls)
-* [WeChatExam](https://github.com/aiursoftweb/wechatexam)
-* [MusicExam](https://github.com/aiursoftweb/musicexam)
-* [CorpHome](https://github.com/aiursoftweb/corphome)
-* [Events Recorder](https://github.com/aiursoftweb/eventsrecorder)
-* [Translate](https://github.com/aiursoftweb/translate)
-* [Apkg](https://github.com/aiursoftweb/apkg)
-* [HowToCook Viewer](https://github.com/aiursoftweb/howtocookviewer)
-* [Kanban](https://github.com/aiursoftweb/kanban)
-* [MoongladeV2](https://github.com/aiursoftweb/moongladev2)
-
 ## Try
 
-Try a running DocsViewer [here](https://docsViewer.aiursoft.com).
+Try a running DocsViewer [here](https://docs.anduinos.com).
 
 ## Run in Ubuntu
 
@@ -107,7 +82,7 @@ The docker image has the following context:
 
 | Properties  | Value                           |
 |-------------|---------------------------------|
-| Image       | aiursoft/docsViewer               |
+| Image       | aiursoft/docsViewer             |
 | Ports       | 5000                            |
 | Binary path | /app                            |
 | Data path   | /data                           |
