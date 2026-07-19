@@ -27,20 +27,77 @@
                         <span class="badge bg-secondary ms-3" title="@Localizer["Original language of this document"]">@Model.Document.SourceCulture</span>
                     }
                 </div>
-                <div>
-                    @if (Model.GitHubEditUrl != null)
-                    {
-                        <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-sm btn-outline-secondary me-2">
-                            <i class="lucide lucide-edit-3"></i> @Localizer["Edit on GitHub"]
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        @if (Model.GitHubEditUrl != null)
+                        {
+                            <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-outline-secondary">
+                                <i class="lucide lucide-edit-3 me-1"></i> @Localizer["Edit on GitHub"]
+                            </a>
+                        }
+                        @if (Model.GitHubHistoryUrl != null)
+                        {
+                            <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-outline-secondary">
+                                <i class="lucide lucide-history me-1"></i> @Localizer["History"]
+                            </a>
+                        }
+                        @if (Model.ShowSimilarDocumentsButton)
+                        {
+                            <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
+                                <i class="lucide lucide-git-commit me-1"></i> @Localizer["Similar"]
+                            </a>
+                        }
+                        <form asp-controller="Likes" asp-action="Toggle" method="post" class="m-0">
+                            <input type="hidden" name="documentId" value="@Model.Document.Id" />
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn @(Model.IsLiked ? "btn-warning" : "btn-outline-warning")">
+                                <i class="lucide lucide-thumbs-up me-1"></i>
+                                @(Model.IsLiked ? Localizer["Liked"] : Localizer["Like"])
+                                <span class="badge @(Model.IsLiked ? "bg-white text-dark" : "bg-warning text-dark") ms-1">@Model.LikeCount</span>
+                            </button>
+                        </form>
+                        <form asp-controller="Favorites" asp-action="Toggle" method="post" class="m-0">
+                            <input type="hidden" name="documentId" value="@Model.Document.Id" />
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn @(Model.IsFavorited ? "btn-danger" : "btn-outline-danger")">
+                                <i class="lucide lucide-heart me-1"></i>
+                                @(Model.IsFavorited ? Localizer["Favorited"] : Localizer["Favorite"])
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        @if (Model.GitHubEditUrl != null)
+                        {
+                            <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-outline-secondary">
+                                <i class="lucide lucide-edit-3 me-1"></i> @Localizer["Edit on GitHub"]
+                            </a>
+                        }
+                        @if (Model.GitHubHistoryUrl != null)
+                        {
+                            <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-outline-secondary">
+                                <i class="lucide lucide-history me-1"></i> @Localizer["History"]
+                            </a>
+                        }
+                        @if (Model.ShowSimilarDocumentsButton)
+                        {
+                            <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
+                                <i class="lucide lucide-git-commit me-1"></i> @Localizer["Similar"]
+                            </a>
+                        }
+                        <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString)" class="btn btn-outline-warning">
+                            <i class="lucide lucide-thumbs-up me-1"></i>
+                            @Localizer["Like"]
+                            @if (Model.LikeCount > 0)
+                            {
+                                <span class="badge bg-warning text-dark ms-1">@Model.LikeCount</span>
+                            }
                         </a>
-                    }
-                    @if (Model.GitHubHistoryUrl != null)
-                    {
-                        <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-sm btn-outline-secondary">
-                            <i class="lucide lucide-history"></i> @Localizer["History"]
-                        </a>
-                    }
-                </div>
+                    </div>
+                }
             </div>
 
             @if (Model.ShowTranslationNotice)
@@ -68,26 +125,19 @@
                         <i class="lucide lucide-clock"></i> @Localizer["Last updated:"] <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
                     </div>
                     <div>
-                        <!-- Actions: Like, Favorite, Similar -->
-                        <div class="btn-group btn-group-sm shadow-sm" role="group">
-                            <form asp-controller="Likes" asp-action="Toggle" method="post" class="d-inline">
+                        <div class="d-flex gap-2">
+                            <form asp-controller="Likes" asp-action="Toggle" method="post" class="m-0">
                                 <input type="hidden" name="documentId" value="@Model.Document.Id" />
-                                <button type="submit" class="btn @(Model.IsLiked ? "btn-danger" : "btn-outline-danger")">
-                                    <i class="lucide lucide-heart @(Model.IsLiked ? "fill-white" : "")"></i> @Localizer["Like"] (@Model.LikeCount)
+                                <button type="submit" class="btn btn-sm @(Model.IsLiked ? "btn-warning" : "btn-outline-warning")">
+                                    <i class="lucide lucide-thumbs-up me-1"></i> @Localizer["Like"] (@Model.LikeCount)
                                 </button>
                             </form>
-                            <form asp-controller="Favorites" asp-action="Toggle" method="post" class="d-inline">
+                            <form asp-controller="Favorites" asp-action="Toggle" method="post" class="m-0">
                                 <input type="hidden" name="documentId" value="@Model.Document.Id" />
-                                <button type="submit" class="btn @(Model.IsFavorited ? "btn-warning text-dark" : "btn-outline-warning text-dark")">
-                                    <i class="lucide lucide-star @(Model.IsFavorited ? "fill-dark" : "")"></i> @Localizer["Favorite"]
+                                <button type="submit" class="btn btn-sm @(Model.IsFavorited ? "btn-danger" : "btn-outline-danger")">
+                                    <i class="lucide lucide-heart me-1"></i> @Localizer["Favorite"]
                                 </button>
                             </form>
-                            @if (Model.ShowSimilarDocumentsButton)
-                            {
-                                <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
-                                    <i class="lucide lucide-git-commit"></i> @Localizer["Similar"]
-                                </a>
-                            }
                         </div>
                     </div>
                 </div>

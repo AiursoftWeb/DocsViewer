@@ -34,8 +34,7 @@ public class DetailsViewModel : UiStackLayoutViewModel
 
 public class LikeHistoryItem
 {
-    public required string DocumentTitle { get; set; }
-    public int DocumentId { get; set; }
+    public required Document Document { get; set; }
     public DateTime CreatedAt { get; set; }
 }
 
@@ -43,14 +42,12 @@ public class CommentHistoryItem
 {
     public int CommentId { get; set; }
     public required string Content { get; set; }
-    public required string DocumentTitle { get; set; }
-    public int DocumentId { get; set; }
+    public required Document Document { get; set; }
     public DateTime CreatedAt { get; set; }
 }
 
 public class FavoriteHistoryItem
 {
-    public required string DocumentTitle { get; set; }
-    public int DocumentId { get; set; }
+    public required Document Document { get; set; }
     public DateTime CreatedAt { get; set; }
 }

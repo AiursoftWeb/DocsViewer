@@ -92,35 +92,35 @@ public class UsersController(
 
         var likes = await context.DocumentLikes
             .Where(l => l.UserId == id)
+            .Include(l => l.Document)
             .OrderByDescending(l => l.CreatedAt)
             .Select(l => new LikeHistoryItem
             {
-                DocumentTitle = l.Document.Title,
-                DocumentId = l.DocumentId,
+                Document = l.Document,
                 CreatedAt = l.CreatedAt
             })
             .ToListAsync();
 
         var comments = await context.DocumentComments
             .Where(c => c.UserId == id)
+            .Include(c => c.Document)
             .OrderByDescending(c => c.CreatedAt)
             .Select(c => new CommentHistoryItem
             {
                 CommentId = c.Id,
                 Content = c.Content,
-                DocumentTitle = c.Document.Title,
-                DocumentId = c.DocumentId,
+                Document = c.Document,
                 CreatedAt = c.CreatedAt
             })
             .ToListAsync();
 
         var favorites = await context.DocumentFavorites
             .Where(f => f.UserId == id)
+            .Include(f => f.Document)
             .OrderByDescending(f => f.CreatedAt)
             .Select(f => new FavoriteHistoryItem
             {
-                DocumentTitle = f.Document.Title,
-                DocumentId = f.DocumentId,
+                Document = f.Document,
                 CreatedAt = f.CreatedAt
             })
             .ToListAsync();
