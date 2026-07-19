@@ -124,22 +124,7 @@
                     <div class="text-muted small">
                         <i class="lucide lucide-clock"></i> @Localizer["Last updated:"] <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
                     </div>
-                    <div>
-                        <div class="d-flex gap-2">
-                            <form asp-controller="Likes" asp-action="Toggle" method="post" class="m-0">
-                                <input type="hidden" name="documentId" value="@Model.Document.Id" />
-                                <button type="submit" class="btn btn-sm @(Model.IsLiked ? "btn-warning" : "btn-outline-warning")">
-                                    <i class="lucide lucide-thumbs-up me-1"></i> @Localizer["Like"] (@Model.LikeCount)
-                                </button>
-                            </form>
-                            <form asp-controller="Favorites" asp-action="Toggle" method="post" class="m-0">
-                                <input type="hidden" name="documentId" value="@Model.Document.Id" />
-                                <button type="submit" class="btn btn-sm @(Model.IsFavorited ? "btn-danger" : "btn-outline-danger")">
-                                    <i class="lucide lucide-heart me-1"></i> @Localizer["Favorite"]
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                        <!-- Bottom buttons removed to match HowToCookViewer cleanly -->
                 </div>
             </div>
 
