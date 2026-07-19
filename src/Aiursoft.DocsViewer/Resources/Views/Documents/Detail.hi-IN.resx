@@ -21,11 +21,26 @@
       <data name="AI Translation Notice" xml:space="preserve">
     <value>AI अनुवाद सूचना</value>
   </data>
+  <data name="Are you sure you want to delete this comment and all its replies?" xml:space="preserve">
+    <value>क्या आप वाकई इस टिप्पणी और उसकी सभी प्रतिक्रियाओं को हटाना चाहते हैं?</value>
+  </data>
+  <data name="Are you sure you want to delete this reply?" xml:space="preserve">
+    <value>क्या आप वाकई इस उत्तर को हटाना चाहते हैं?</value>
+  </data>
+  <data name="Change History" xml:space="preserve">
+    <value>परिवर्तन इतिहास</value>
+  </data>
   <data name="Comments" xml:space="preserve">
     <value>टिप्पणियाँ</value>
   </data>
+  <data name="commits" xml:space="preserve">
+    <value>कमिट्स</value>
+  </data>
   <data name="Contributors" xml:space="preserve">
     <value>योगदानकर्ता</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>हटाएं</value>
   </data>
   <data name="Delete comment" xml:space="preserve">
     <value>टिप्पणी हटाएं</value>
@@ -57,6 +72,12 @@
   <data name="log in" xml:space="preserve">
     <value>लॉग इन करें</value>
   </data>
+  <data name="Login to comment" xml:space="preserve">
+    <value>टिप्पणी करने के लिए लॉगिन करें</value>
+  </data>
+  <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
+    <value>अभी तक कोई टिप्पणी नहीं। पहली टिप्पणी करने वाले आप बनें!</value>
+  </data>
   <data name="No comments yet. Be the first to share your thoughts!" xml:space="preserve">
     <value>अभी तक कोई टिप्पणी नहीं। अपने विचार साझा करने वाले पहले बनें!</value>
   </data>
@@ -72,6 +93,9 @@
   <data name="Reply" xml:space="preserve">
     <value>जवाब दें</value>
   </data>
+  <data name="Send Reply" xml:space="preserve">
+    <value>उत्तर भेजें</value>
+  </data>
   <data name="Similar" xml:space="preserve">
     <value>समान</value>
   </data>
@@ -86,6 +110,9 @@
   </data>
   <data name="Write a reply..." xml:space="preserve">
     <value>जवाब लिखें...</value>
+  </data>
+  <data name="Write your comment…" xml:space="preserve">
+    <value>अपना टिप्पणी लिखें…</value>
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>आप जो पढ़ रहे हैं वह AI द्वारा उत्पन्न मशीन अनुवाद है, जिसमें त्रुटियाँ हो सकती हैं।</value>
