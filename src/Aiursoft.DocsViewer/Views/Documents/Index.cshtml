@@ -12,13 +12,13 @@
                 
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                        <i class="lucide lucide-sort-desc"></i> Sort By
+                        <i class="lucide lucide-sort-desc"></i> @Localizer["Sort By"]
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item @(Model.SortBy == null ? "active" : "")" href="/Documents/Index?category=@Model.Category">Default</a></li>
-                        <li><a class="dropdown-item @(Model.SortBy == "likes_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=likes_desc">Most Liked</a></li>
-                        <li><a class="dropdown-item @(Model.SortBy == "favorites_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=favorites_desc">Most Favorited</a></li>
-                        <li><a class="dropdown-item @(Model.SortBy == "comments_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=comments_desc">Most Commented</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == null ? "active" : "")" href="/Documents/Index?category=@Model.Category">@Localizer["Default"]</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == "likes_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=likes_desc">@Localizer["Most Liked"]</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == "favorites_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=favorites_desc">@Localizer["Most Favorited"]</a></li>
+                        <li><a class="dropdown-item @(Model.SortBy == "comments_desc" ? "active" : "")" href="/Documents/Index?category=@Model.Category&sortBy=comments_desc">@Localizer["Most Commented"]</a></li>
                     </ul>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             {
                 <div class="alert alert-info text-center py-5">
                     <i class="lucide lucide-file-question text-muted" style="width: 48px; height: 48px;"></i>
-                    <p class="mt-3 mb-0">No documents found in this category.</p>
+                    <p class="mt-3 mb-0">@Localizer["No documents found in this category."]</p>
                 </div>
             }
             else
@@ -46,10 +46,10 @@
                 {
                     <div class="text-center mt-4 mb-5">
                         <button id="load-more-btn" class="btn btn-primary px-4 rounded-pill shadow-sm" data-category="@Model.Category" data-sortby="@Model.SortBy">
-                            <i class="lucide lucide-chevron-down me-1"></i> Load More
+                            <i class="lucide lucide-chevron-down me-1"></i> @Localizer["Load More"]
                         </button>
                         <div id="load-more-spinner" class="spinner-border text-primary d-none" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden">@Localizer["Loading..."]</span>
                         </div>
                     </div>
                 }

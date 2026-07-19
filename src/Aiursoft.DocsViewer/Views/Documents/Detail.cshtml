@@ -17,27 +17,27 @@
                 <div class="d-flex align-items-center">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="/"><i class="lucide lucide-home" style="width:14px;height:14px;"></i> Home</a></li>
+                            <li class="breadcrumb-item"><a href="/"><i class="lucide lucide-home" style="width:14px;height:14px;"></i> @Localizer["Home"]</a></li>
                             <li class="breadcrumb-item"><a href="/Documents/Index?category=@Uri.EscapeDataString(Model.Document.Category)">@Model.CategoryDisplayName</a></li>
                             <li class="breadcrumb-item active" aria-current="page">@Model.PageTitle</li>
                         </ol>
                     </nav>
                     @if (Model.Document.SourceCulture != null)
                     {
-                        <span class="badge bg-secondary ms-3" title="Original language of this document">@Model.Document.SourceCulture</span>
+                        <span class="badge bg-secondary ms-3" title="@Localizer["Original language of this document"]">@Model.Document.SourceCulture</span>
                     }
                 </div>
                 <div>
                     @if (Model.GitHubEditUrl != null)
                     {
                         <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-sm btn-outline-secondary me-2">
-                            <i class="lucide lucide-edit-3"></i> Edit on GitHub
+                            <i class="lucide lucide-edit-3"></i> @Localizer["Edit on GitHub"]
                         </a>
                     }
                     @if (Model.GitHubHistoryUrl != null)
                     {
                         <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-sm btn-outline-secondary">
-                            <i class="lucide lucide-history"></i> History
+                            <i class="lucide lucide-history"></i> @Localizer["History"]
                         </a>
                     }
                 </div>
@@ -51,8 +51,8 @@
                         <i class="lucide lucide-alert-triangle"></i>
                     </div>
                     <div class="alert-message">
-                        <strong>AI Translation Notice</strong> — This document was originally written in <strong>@Model.SourceLanguageName</strong>.
-                        You are reading an AI-generated machine translation, which may contain inaccuracies.
+                        <strong>@Localizer["AI Translation Notice"]</strong> — @Localizer["This document was originally written in"] <strong>@Model.SourceLanguageName</strong>.
+                        @Localizer["You are reading an AI-generated machine translation, which may contain inaccuracies."]
                     </div>
                 </div>
             }
@@ -65,7 +65,7 @@
                 
                 <div class="card-footer bg-light p-3 border-top-0 d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
-                        <i class="lucide lucide-clock"></i> Last updated: <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
+                        <i class="lucide lucide-clock"></i> @Localizer["Last updated:"] <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
                     </div>
                     <div>
                         <!-- Actions: Like, Favorite, Similar -->
@@ -73,19 +73,19 @@
                             <form asp-controller="Likes" asp-action="Toggle" method="post" class="d-inline">
                                 <input type="hidden" name="documentId" value="@Model.Document.Id" />
                                 <button type="submit" class="btn @(Model.IsLiked ? "btn-danger" : "btn-outline-danger")">
-                                    <i class="lucide lucide-heart @(Model.IsLiked ? "fill-white" : "")"></i> Like (@Model.LikeCount)
+                                    <i class="lucide lucide-heart @(Model.IsLiked ? "fill-white" : "")"></i> @Localizer["Like"] (@Model.LikeCount)
                                 </button>
                             </form>
                             <form asp-controller="Favorites" asp-action="Toggle" method="post" class="d-inline">
                                 <input type="hidden" name="documentId" value="@Model.Document.Id" />
                                 <button type="submit" class="btn @(Model.IsFavorited ? "btn-warning text-dark" : "btn-outline-warning text-dark")">
-                                    <i class="lucide lucide-star @(Model.IsFavorited ? "fill-dark" : "")"></i> Favorite
+                                    <i class="lucide lucide-star @(Model.IsFavorited ? "fill-dark" : "")"></i> @Localizer["Favorite"]
                                 </button>
                             </form>
                             @if (Model.ShowSimilarDocumentsButton)
                             {
                                 <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
-                                    <i class="lucide lucide-git-commit"></i> Similar
+                                    <i class="lucide lucide-git-commit"></i> @Localizer["Similar"]
                                 </a>
                             }
                         </div>
@@ -100,7 +100,7 @@
                     <div class="card-body p-0">
                         <h5 class="mb-3 text-muted" style="font-size: 1.1rem;">
                             <i class="lucide lucide-users me-2" style="width: 18px; height: 18px; position: relative; top: -1px;"></i>
-                            Contributors
+                            @Localizer["Contributors"]
                         </h5>
                         <div class="d-flex flex-wrap gap-2">
                             @foreach (var contributor in Model.Contributors)
@@ -121,12 +121,12 @@
             <!-- Comments Section -->
             <div class="card border-0" id="comments">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0"><i class="lucide lucide-message-square me-2"></i> Comments (@Model.Comments.Count)</h5>
+                    <h5 class="mb-0"><i class="lucide lucide-message-square me-2"></i> @Localizer["Comments"] (@Model.Comments.Count)</h5>
                 </div>
                 <div class="card-body p-4">
                     @if (Model.Comments.Count == 0)
                     {
-                        <p class="text-muted text-center my-4">No comments yet. Be the first to share your thoughts!</p>
+                        <p class="text-muted text-center my-4">@Localizer["No comments yet. Be the first to share your thoughts!"]</p>
                     }
                     else
                     {
@@ -144,13 +144,13 @@
                                             {
                                                 <form asp-controller="Comments" asp-action="Delete" method="post" class="position-absolute top-0 end-0 m-2">
                                                     <input type="hidden" name="commentId" value="@comment.Id" />
-                                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="Delete comment"><i class="lucide lucide-trash-2" style="width:16px;"></i></button>
+                                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="@Localizer["Delete comment"]"><i class="lucide lucide-trash-2" style="width:16px;"></i></button>
                                                 </form>
                                             }
                                         </div>
                                         <div class="mt-1 ms-2 small">
                                             <label class="text-muted" data-utc-time="@comment.CreatedAt.ToHtmlDateTime()"></label>
-                                            <a href="javascript:void(0);" class="text-decoration-none ms-3 text-secondary reply-btn" data-comment-id="@comment.Id">Reply</a>
+                                            <a href="javascript:void(0);" class="text-decoration-none ms-3 text-secondary reply-btn" data-comment-id="@comment.Id">@Localizer["Reply"]</a>
                                         </div>
                                         
                                         <!-- Replies -->
@@ -170,7 +170,7 @@
                                                                 {
                                                                     <form asp-controller="Comments" asp-action="Delete" method="post" class="position-absolute top-0 end-0 m-1">
                                                                         <input type="hidden" name="commentId" value="@reply.Id" />
-                                                                        <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="Delete reply"><i class="lucide lucide-trash-2" style="width:14px;"></i></button>
+                                                                        <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="@Localizer["Delete reply"]"><i class="lucide lucide-trash-2" style="width:14px;"></i></button>
                                                                     </form>
                                                                 }
                                                             </div>
@@ -189,8 +189,8 @@
                                                 <input type="hidden" name="documentId" value="@Model.Document.Id" />
                                                 <input type="hidden" name="parentCommentId" value="@comment.Id" />
                                                 <div class="input-group input-group-sm">
-                                                    <input type="text" name="content" class="form-control" placeholder="Write a reply..." required maxlength="1000">
-                                                    <button type="submit" class="btn btn-primary">Reply</button>
+                                                    <input type="text" name="content" class="form-control" placeholder="@Localizer["Write a reply..."]" required maxlength="1000">
+                                                    <button type="submit" class="btn btn-primary">@Localizer["Reply"]</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -208,18 +208,18 @@
                         <form asp-controller="Comments" asp-action="Post" method="post">
                             <input type="hidden" name="documentId" value="@Model.Document.Id" />
                             <div class="mb-3">
-                                <label for="content" class="form-label">Leave a comment</label>
-                                <textarea name="content" id="content" class="form-control" rows="3" required maxlength="1000" placeholder="What are your thoughts?"></textarea>
+                                <label for="content" class="form-label">@Localizer["Leave a comment"]</label>
+                                <textarea name="content" id="content" class="form-control" rows="3" required maxlength="1000" placeholder="@Localizer["What are your thoughts?"]"></textarea>
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary px-4">Post Comment</button>
+                                <button type="submit" class="btn btn-primary px-4">@Localizer["Post Comment"]</button>
                             </div>
                         </form>
                     }
                     else
                     {
                         <div class="alert alert-secondary text-center">
-                            Please <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path)">log in</a> to leave a comment.
+                            @Localizer["Please"] <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path)">@Localizer["log in"]</a> @Localizer["to leave a comment."]
                         </div>
                     }
                 </div>
