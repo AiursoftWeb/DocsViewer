@@ -150,110 +150,132 @@
             }
 
             <!-- Comments Section -->
-            <div class="card border-0" id="comments">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0"><i class="lucide lucide-message-square me-2"></i> @Localizer["Comments"] (@Model.Comments.Count)</h5>
-                </div>
-                <div class="card-body p-4">
-                    @if (Model.Comments.Count == 0)
-                    {
-                        <p class="text-muted text-center my-4">@Localizer["No comments yet. Be the first to share your thoughts!"]</p>
-                    }
-                    else
-                    {
-                        <div class="comments-list">
-                            @foreach (var comment in Model.Comments)
-                            {
-                                <div class="d-flex mb-4">
-                                    <img src="@(Storage.RelativePathToInternetUrl(comment.User.AvatarRelativePath))?w=40&square=true" alt="Avatar" class="rounded-circle me-3" style="width: 40px; height: 40px; object-fit: cover;">
-                                    <div class="flex-grow-1">
-                                        <div class="bg-light p-3 rounded position-relative">
-                                            <h6 class="mb-1 text-primary">@comment.User.DisplayName</h6>
-                                            <p class="mb-0">@comment.Content</p>
-                                            
-                                            @if (User.Identity?.Name == comment.User.UserName)
+            <div id="comments" class="mt-4">
+                <h5 class="mb-3">
+                    <i data-lucide="message-circle" class="align-middle me-1"></i>
+                    @Localizer["Comments"] (@Model.Comments.Count)
+                </h5>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form asp-controller="Comments" asp-action="Post" method="post">
+                                <input type="hidden" name="documentId" value="@Model.Document.Id" />
+                                @Html.AntiForgeryToken()
+                                <div class="mb-2">
+                                    <textarea name="content" class="form-control" rows="3"
+                                              placeholder="@Localizer["Write your comment…"]" maxlength="1000" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">@Localizer["Post Comment"]</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="card mb-3" id="comment-@comment.Id">
+                        <div class="card-body">
+                            <div class="d-flex gap-3">
+                                <img src="@Storage.RelativePathToInternetUrl(comment.User.AvatarRelativePath)?w=72&square=true"
+                                     alt="@(comment.User.DisplayName)"
+                                     class="rounded-circle flex-shrink-0"
+                                     width="40" height="40" />
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <div>
+                                            <strong class="me-2">@(comment.User.DisplayName)</strong>
+                                            <small class="text-muted"><label data-utc-time="@comment.CreatedAt.ToHtmlDateTime()"></label></small>
+                                        </div>
+                                        @if (User.Identity?.Name == comment.User.UserName)
+                                        {
+                                            <form asp-controller="Comments" asp-action="Delete" method="post" class="d-inline">
+                                                <input type="hidden" name="commentId" value="@comment.Id" />
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-link btn-sm text-danger p-0"
+                                                        onclick="return confirm('@Localizer["Are you sure you want to delete this comment and all its replies?"]')">@Localizer["Delete"]</button>
+                                            </form>
+                                        }
+                                    </div>
+                                    <p class="mb-2">@comment.Content</p>
+
+                                    <!-- Replies -->
+                                    @if (comment.Replies.Count > 0)
+                                    {
+                                        <div class="border-start ps-3 mt-2">
+                                            @foreach (var reply in comment.Replies.OrderBy(r => r.CreatedAt))
                                             {
-                                                <form asp-controller="Comments" asp-action="Delete" method="post" class="position-absolute top-0 end-0 m-2">
-                                                    <input type="hidden" name="commentId" value="@comment.Id" />
-                                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="@Localizer["Delete comment"]"><i class="lucide lucide-trash-2" style="width:16px;"></i></button>
-                                                </form>
+                                                <div class="d-flex gap-2 mb-2 pt-2" id="comment-@reply.Id">
+                                                    <img src="@(Storage.RelativePathToInternetUrl(reply.User.AvatarRelativePath))?w=48&square=true"
+                                                         alt="@(reply.User.DisplayName)"
+                                                         class="rounded-circle flex-shrink-0"
+                                                         width="32" height="32" />
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                                            <div>
+                                                                <strong class="me-2">@(reply.User.DisplayName)</strong>
+                                                                <small class="text-muted"><label data-utc-time="@reply.CreatedAt.ToHtmlDateTime()"></label></small>
+                                                            </div>
+                                                            @if (User.Identity?.Name == reply.User.UserName)
+                                                            {
+                                                                <form asp-controller="Comments" asp-action="Delete" method="post" class="d-inline">
+                                                                    <input type="hidden" name="commentId" value="@reply.Id" />
+                                                                    @Html.AntiForgeryToken()
+                                                                    <button type="submit" class="btn btn-link btn-sm text-danger p-0"
+                                                                            onclick="return confirm('@Localizer["Are you sure you want to delete this reply?"]')">@Localizer["Delete"]</button>
+                                                                </form>
+                                                            }
+                                                        </div>
+                                                        <p class="mb-0">@reply.Content</p>
+                                                    </div>
+                                                </div>
                                             }
                                         </div>
-                                        <div class="mt-1 ms-2 small">
-                                            <label class="text-muted" data-utc-time="@comment.CreatedAt.ToHtmlDateTime()"></label>
-                                            <a href="javascript:void(0);" class="text-decoration-none ms-3 text-secondary reply-btn" data-comment-id="@comment.Id">@Localizer["Reply"]</a>
-                                        </div>
-                                        
-                                        <!-- Replies -->
-                                        @if (comment.Replies.Any())
-                                        {
-                                            <div class="mt-3">
-                                                @foreach (var reply in comment.Replies.OrderBy(r => r.CreatedAt))
-                                                {
-                                                    <div class="d-flex mb-3">
-                                                        <img src="@(Storage.RelativePathToInternetUrl(reply.User.AvatarRelativePath))?w=32&square=true" alt="Avatar" class="rounded-circle me-3" style="width: 32px; height: 32px; object-fit: cover;">
-                                                        <div class="flex-grow-1">
-                                                            <div class="bg-light p-2 rounded position-relative">
-                                                                <h6 class="mb-1 text-primary small">@reply.User.DisplayName</h6>
-                                                                <p class="mb-0 small">@reply.Content</p>
-                                                                
-                                                                @if (User.Identity?.Name == reply.User.UserName)
-                                                                {
-                                                                    <form asp-controller="Comments" asp-action="Delete" method="post" class="position-absolute top-0 end-0 m-1">
-                                                                        <input type="hidden" name="commentId" value="@reply.Id" />
-                                                                        <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="@Localizer["Delete reply"]"><i class="lucide lucide-trash-2" style="width:14px;"></i></button>
-                                                                    </form>
-                                                                }
-                                                            </div>
-                                                            <div class="mt-1 ms-2 small text-muted">
-                                                                <label class="text-muted" data-utc-time="@reply.CreatedAt.ToHtmlDateTime()"></label>
-                                                            </div>
-                                                        </div>
+                                    }
+
+                                    <!-- Reply Form -->
+                                    @if (User.Identity?.IsAuthenticated == true)
+                                    {
+                                        <div class="mt-2">
+                                            <a class="btn btn-link btn-sm p-0 text-secondary toggle-reply"
+                                               data-target="reply-form-@comment.Id">@Localizer["Reply"]</a>
+                                            <div id="reply-form-@comment.Id" class="d-none mt-2">
+                                                <form asp-controller="Comments" asp-action="Post" method="post">
+                                                    <input type="hidden" name="documentId" value="@Model.Document.Id" />
+                                                    <input type="hidden" name="parentCommentId" value="@comment.Id" />
+                                                    @Html.AntiForgeryToken()
+                                                    <div class="mb-1">
+                                                        <textarea name="content" class="form-control form-control-sm" rows="2"
+                                                                  placeholder="@string.Format(Localizer["Reply to {0}..."].Value, comment.User.DisplayName)"
+                                                                  maxlength="1000" required></textarea>
                                                     </div>
-                                                }
+                                                    <button type="submit" class="btn btn-secondary btn-sm">@Localizer["Send Reply"]</button>
+                                                </form>
                                             </div>
-                                        }
-
-                                        <!-- Reply Form -->
-                                        <div class="reply-form mt-2 d-none" id="reply-form-@comment.Id">
-                                            <form asp-controller="Comments" asp-action="Post" method="post">
-                                                <input type="hidden" name="documentId" value="@Model.Document.Id" />
-                                                <input type="hidden" name="parentCommentId" value="@comment.Id" />
-                                                <div class="input-group input-group-sm">
-                                                    <input type="text" name="content" class="form-control" placeholder="@Localizer["Write a reply..."]" required maxlength="1000">
-                                                    <button type="submit" class="btn btn-primary">@Localizer["Reply"]</button>
-                                                </div>
-                                            </form>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
-                            }
-                        </div>
-                    }
-
-                    <hr class="my-4" />
-
-                    <!-- Main Comment Form -->
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <form asp-controller="Comments" asp-action="Post" method="post">
-                            <input type="hidden" name="documentId" value="@Model.Document.Id" />
-                            <div class="mb-3">
-                                <label for="content" class="form-label">@Localizer["Leave a comment"]</label>
-                                <textarea name="content" id="content" class="form-control" rows="3" required maxlength="1000" placeholder="@Localizer["What are your thoughts?"]"></textarea>
                             </div>
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-primary px-4">@Localizer["Post Comment"]</button>
-                            </div>
-                        </form>
-                    }
-                    else
-                    {
-                        <div class="alert alert-secondary text-center">
-                            @Localizer["Please"] <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path)">@Localizer["log in"]</a> @Localizer["to leave a comment."]
                         </div>
-                    }
-                </div>
+                    </div>
+                }
+
+                @if (Model.Comments.Count == 0)
+                {
+                    <p class="text-muted text-center py-3">@Localizer["No comments yet. Be the first to leave one!"]</p>
+                }
+
+                @if (User.Identity?.IsAuthenticated != true)
+                {
+                    <div class="text-center py-3">
+                        <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString)"
+                           class="btn btn-outline-primary">
+                            <i data-lucide="log-in" class="align-middle me-1"></i>
+                            @Localizer["Login to comment"]
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -261,15 +283,15 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.reply-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var id = this.getAttribute('data-comment-id');
-                var form = document.getElementById('reply-form-' + id);
-                if (form.classList.contains('d-none')) {
-                    form.classList.remove('d-none');
-                    form.querySelector('input[name="content"]').focus();
-                } else {
-                    form.classList.add('d-none');
+        document.querySelectorAll('.toggle-reply').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.getElementById(this.dataset.target);
+                if (target) {
+                    target.classList.toggle('d-none');
+                    if (!target.classList.contains('d-none')) {
+                        target.querySelector('textarea').focus();
+                    }
                 }
             });
         });
