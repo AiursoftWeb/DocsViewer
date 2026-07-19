@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="AI Translation Notice" xml:space="preserve">
+    <value>Meddelande om AI-översättning</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Kommentarer</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>Medverkande</value>
+  </data>
+  <data name="Delete comment" xml:space="preserve">
+    <value>Ta bort kommentar</value>
+  </data>
+  <data name="Delete reply" xml:space="preserve">
+    <value>Ta bort svar</value>
+  </data>
+  <data name="Edit on GitHub" xml:space="preserve">
+    <value>Redigera på GitHub</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>Favorit</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historik</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Hem</value>
+  </data>
+  <data name="Last updated:" xml:space="preserve">
+    <value>Senast uppdaterad:</value>
+  </data>
+  <data name="Leave a comment" xml:space="preserve">
+    <value>Lämna en kommentar</value>
+  </data>
+  <data name="Like" xml:space="preserve">
+    <value>Gilla</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>logga in</value>
+  </data>
+  <data name="No comments yet. Be the first to share your thoughts!" xml:space="preserve">
+    <value>Inga kommentärer ännu. Var den första att dela dina tankar!</value>
+  </data>
+  <data name="Original language of this document" xml:space="preserve">
+    <value>Originalspråk för detta dokument</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>Vänligen</value>
+  </data>
+  <data name="Post Comment" xml:space="preserve">
+    <value>Publicera kommentar</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Svara</value>
+  </data>
+  <data name="Similar" xml:space="preserve">
+    <value>Liknande</value>
+  </data>
+  <data name="This document was originally written in" xml:space="preserve">
+    <value>Detta dokument skrevs ursprungligen på</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>för att lämna en kommentar.</value>
+  </data>
+  <data name="What are your thoughts?" xml:space="preserve">
+    <value>Vad tycker du?</value>
+  </data>
+  <data name="Write a reply..." xml:space="preserve">
+    <value>Skriv ett svar...</value>
+  </data>
+  <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
+    <value>Du läser en AI-genererad maskinöversättning, som kan innehålla felaktigheter.</value>
+  </data>
+
+</root>

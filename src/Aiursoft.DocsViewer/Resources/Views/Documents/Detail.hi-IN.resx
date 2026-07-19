@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="AI Translation Notice" xml:space="preserve">
+    <value>AI अनुवाद सूचना</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>टिप्पणियाँ</value>
+  </data>
+  <data name="Contributors" xml:space="preserve">
+    <value>योगदानकर्ता</value>
+  </data>
+  <data name="Delete comment" xml:space="preserve">
+    <value>टिप्पणी हटाएं</value>
+  </data>
+  <data name="Delete reply" xml:space="preserve">
+    <value>उत्तर हटाएं</value>
+  </data>
+  <data name="Edit on GitHub" xml:space="preserve">
+    <value>GitHub पर संपादित करें</value>
+  </data>
+  <data name="Favorite" xml:space="preserve">
+    <value>पसंदीदा</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>इतिहास</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>होम</value>
+  </data>
+  <data name="Last updated:" xml:space="preserve">
+    <value>अंतिम अपडेट:</value>
+  </data>
+  <data name="Leave a comment" xml:space="preserve">
+    <value>टिप्पणी छोड़ें</value>
+  </data>
+  <data name="Like" xml:space="preserve">
+    <value>पसंद करें</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>लॉग इन करें</value>
+  </data>
+  <data name="No comments yet. Be the first to share your thoughts!" xml:space="preserve">
+    <value>अभी तक कोई टिप्पणी नहीं। अपने विचार साझा करने वाले पहले बनें!</value>
+  </data>
+  <data name="Original language of this document" xml:space="preserve">
+    <value>इस दस्तावेज़ की मूल भाषा</value>
+  </data>
+  <data name="Please" xml:space="preserve">
+    <value>कृपया</value>
+  </data>
+  <data name="Post Comment" xml:space="preserve">
+    <value>टिप्पणी पोस्ट करें</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>जवाब दें</value>
+  </data>
+  <data name="Similar" xml:space="preserve">
+    <value>समान</value>
+  </data>
+  <data name="This document was originally written in" xml:space="preserve">
+    <value>यह दस्तावेज़ मूल रूप से लिखा गया था</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>टिप्पणी छोड़ने के लिए।</value>
+  </data>
+  <data name="What are your thoughts?" xml:space="preserve">
+    <value>आपके विचार क्या हैं?</value>
+  </data>
+  <data name="Write a reply..." xml:space="preserve">
+    <value>जवाब लिखें...</value>
+  </data>
+  <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
+    <value>आप जो पढ़ रहे हैं वह AI द्वारा उत्पन्न मशीन अनुवाद है, जिसमें त्रुटियाँ हो सकती हैं।</value>
+  </data>
+
+</root>
