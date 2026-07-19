@@ -23,13 +23,30 @@ public abstract class DocsViewerDbContext(DbContextOptions options) : IdentityDb
         base.OnModelCreating(builder);
         
         builder.Entity<DocumentFavorite>().HasKey(f => new { f.UserId, f.DocumentId });
+        builder.Entity<DocumentFavorite>()
+            .HasOne(f => f.User)
+            .WithMany()
+            .HasForeignKey(f => f.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Entity<DocumentLike>().HasKey(l => new { l.UserId, l.DocumentId });
-        
+        builder.Entity<DocumentLike>()
+            .HasOne(l => l.User)
+            .WithMany()
+            .HasForeignKey(l => l.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.Entity<DocumentComment>()
             .HasOne(c => c.ParentComment)
             .WithMany(c => c.Replies)
             .HasForeignKey(c => c.ParentCommentId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<DocumentComment>()
+            .HasOne(c => c.User)
+            .WithMany()
+            .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
             
         builder.Entity<LocalizedDocument>()
             .HasIndex(ld => new { ld.DocumentId, ld.Culture })
