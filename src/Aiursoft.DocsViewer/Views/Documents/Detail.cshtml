@@ -36,12 +36,6 @@
                                 <i data-lucide="edit-3" class="align-middle me-1"></i> @Localizer["Edit on GitHub"]
                             </a>
                         }
-                        @if (Model.GitHubHistoryUrl != null)
-                        {
-                            <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-outline-secondary">
-                                <i data-lucide="history" class="align-middle me-1"></i> @Localizer["History"]
-                            </a>
-                        }
                         @if (Model.ShowSimilarDocumentsButton)
                         {
                             <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
@@ -74,12 +68,6 @@
                         {
                             <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-outline-secondary">
                                 <i data-lucide="edit-3" class="align-middle me-1"></i> @Localizer["Edit on GitHub"]
-                            </a>
-                        }
-                        @if (Model.GitHubHistoryUrl != null)
-                        {
-                            <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-outline-secondary">
-                                <i data-lucide="history" class="align-middle me-1"></i> @Localizer["History"]
                             </a>
                         }
                         @if (Model.ShowSimilarDocumentsButton)
@@ -131,24 +119,32 @@
             <!-- Contributors Section -->
             @if (Model.Contributors.Count > 0)
             {
-                <div class="card border-0 mb-4 bg-transparent">
-                    <div class="card-body p-0">
-                        <h5 class="mb-3 text-muted" style="font-size: 1.1rem;">
-                            <i class="lucide lucide-users me-2" style="width: 18px; height: 18px; position: relative; top: -1px;"></i>
+                <div class="mt-4">
+                    <h5 class="mb-3 d-flex align-items-center">
+                        <div>
+                            <i data-lucide="users" class="align-middle me-1"></i>
                             @Localizer["Contributors"]
-                        </h5>
-                        <div class="d-flex flex-wrap gap-2">
-                            @foreach (var contributor in Model.Contributors)
-                            {
-                                <a href="@contributor.GitHubProfileUrl" target="_blank" rel="noopener noreferrer"
-                                   title="@contributor.Name (@contributor.CommitCount commits)"
-                                   class="d-inline-block text-decoration-none">
-                                    <img src="@contributor.AvatarUrl" alt="@contributor.Name"
-                                         class="rounded-circle border shadow-sm" width="40" height="40"
-                                         style="object-fit: cover;" />
-                                </a>
-                            }
                         </div>
+                        @if (Model.GitHubHistoryUrl != null)
+                        {
+                            <a href="@Model.GitHubHistoryUrl" target="_blank" rel="noopener noreferrer"
+                               class="btn btn-sm btn-outline-secondary ms-3">
+                                <i data-lucide="history" class="align-middle me-1"></i>
+                                @Localizer["Change History"]
+                            </a>
+                        }
+                    </h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach (var contributor in Model.Contributors)
+                        {
+                            <a href="@contributor.GitHubProfileUrl" target="_blank" rel="noopener noreferrer"
+                               title="@contributor.Name (@contributor.CommitCount @Localizer["commits"])"
+                               class="d-inline-block">
+                                <img src="@contributor.AvatarUrl" alt="@contributor.Name"
+                                     class="rounded-circle border shadow-sm" width="40" height="40"
+                                     style="object-fit: cover;" />
+                            </a>
+                        }
                     </div>
                 </div>
             }
