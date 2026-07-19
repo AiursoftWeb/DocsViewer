@@ -197,14 +197,14 @@ public class ManageController(
     [HttpGet]
     public IActionResult DeleteAccount()
     {
-        return this.StackView(new Aiursoft.UiStack.Layout.UiStackLayoutViewModel());
+        return this.StackView(new UiStack.Layout.UiStackLayoutViewModel());
     }
 
     //
     // POST: /Manage/DeleteAccount
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteAccountPost([FromServices] Aiursoft.DocsViewer.Entities.DocsViewerDbContext context)
+    public async Task<IActionResult> DeleteAccountPost([FromServices] DocsViewerDbContext context)
     {
         var user = await GetCurrentUserAsync();
         if (user != null)
