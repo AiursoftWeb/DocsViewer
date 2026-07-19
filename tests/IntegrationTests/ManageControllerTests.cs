@@ -2,6 +2,10 @@ using System.Net;
 using Aiursoft.DocsViewer.Services;
 using Aiursoft.DocsViewer.Services.FileStorage;
 
+using Aiursoft.DocsViewer.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 
 [TestClass]
@@ -112,5 +116,99 @@ public class ManageControllerTests : TestBase
     private class UploadResult
     {
         public string Path { get; init; } = string.Empty;
+    }
+
+    [TestMethod]
+    public async Task TestDeleteAccount_WithContent_CascadeDeletesAll()
+    {
+        // Arrange: register, login, create test document and user content
+        var (email, _) = await RegisterAndLoginAsync();
+
+        string userId;
+        int documentId, commentId;
+        using (var scope = Server!.Services.CreateScope())
+        {
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+            var user = await userManager.FindByEmailAsync(email);
+            userId = user!.Id;
+
+            var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
+
+            // Create a parent document
+            var doc = new Document { Title = "test-doc-delete-ut", Category = "test", FilePath = "test/delete-ut.md" };
+            db.Documents.Add(doc);
+            await db.SaveChangesAsync();
+            documentId = doc.Id;
+
+            // Create user content: Like, Favorite, Comment + Reply
+            db.DocumentLikes.Add(new DocumentLike { UserId = userId, DocumentId = documentId });
+            db.DocumentFavorites.Add(new DocumentFavorite { UserId = userId, DocumentId = documentId });
+            var comment = new DocumentComment { UserId = userId, DocumentId = documentId, Content = "Test comment for deletion" };
+            db.DocumentComments.Add(comment);
+            await db.SaveChangesAsync();
+            commentId = comment.Id;
+
+            // Create a reply to the comment
+            db.DocumentComments.Add(new DocumentComment
+            {
+                UserId = userId,
+                DocumentId = documentId,
+                Content = "Test reply for deletion",
+                ParentCommentId = commentId
+            });
+            await db.SaveChangesAsync();
+        }
+
+        // Act: delete account
+        var deleteResponse = await PostForm("/Manage/DeleteAccountPost", new(),
+            tokenUrl: "/Manage/DeleteAccount");
+        AssertRedirect(deleteResponse, "/");
+
+        // Assert: signed out
+        var managePage = await Http.GetAsync("/Manage/Index");
+        Assert.AreEqual(HttpStatusCode.Found, managePage.StatusCode);
+
+        // Assert: user gone
+        using (var scope = Server!.Services.CreateScope())
+        {
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+            Assert.IsNull(await userManager.FindByEmailAsync(email));
+        }
+
+        // Assert: all user content cascade-deleted
+        using (var scope = Server!.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
+            Assert.IsFalse(await db.DocumentLikes.AnyAsync(l => l.UserId == userId));
+            Assert.IsFalse(await db.DocumentFavorites.AnyAsync(f => f.UserId == userId));
+            Assert.IsFalse(await db.DocumentComments.AnyAsync(c => c.UserId == userId));
+        }
+    }
+
+    [TestMethod]
+    public async Task TestDeleteAccount_NoContent_Succeeds()
+    {
+        var (email, _) = await RegisterAndLoginAsync();
+
+        var deletePage = await Http.GetAsync("/Manage/DeleteAccount");
+        deletePage.EnsureSuccessStatusCode();
+
+        var deleteResponse = await PostForm("/Manage/DeleteAccountPost", new(),
+            tokenUrl: "/Manage/DeleteAccount");
+        AssertRedirect(deleteResponse, "/");
+
+        var managePage = await Http.GetAsync("/Manage/Index");
+        Assert.AreEqual(HttpStatusCode.Found, managePage.StatusCode);
+
+        using var scope = Server!.Services.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        Assert.IsNull(await userManager.FindByEmailAsync(email));
+    }
+
+    [TestMethod]
+    public async Task TestDeleteAccount_Unauthenticated_RedirectsToLogin()
+    {
+        var deletePage = await Http.GetAsync("/Manage/DeleteAccount");
+        Assert.AreEqual(HttpStatusCode.Found, deletePage.StatusCode);
     }
 }
