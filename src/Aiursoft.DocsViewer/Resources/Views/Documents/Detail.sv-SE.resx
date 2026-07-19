@@ -21,11 +21,26 @@
       <data name="AI Translation Notice" xml:space="preserve">
     <value>Meddelande om AI-översättning</value>
   </data>
+  <data name="Are you sure you want to delete this comment and all its replies?" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort denna kommentar och alla dess svar?</value>
+  </data>
+  <data name="Are you sure you want to delete this reply?" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort detta svar?</value>
+  </data>
+  <data name="Change History" xml:space="preserve">
+    <value>Ändringshistorik</value>
+  </data>
   <data name="Comments" xml:space="preserve">
     <value>Kommentarer</value>
   </data>
+  <data name="commits" xml:space="preserve">
+    <value>commits</value>
+  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Medverkande</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Radera</value>
   </data>
   <data name="Delete comment" xml:space="preserve">
     <value>Ta bort kommentar</value>
@@ -57,6 +72,12 @@
   <data name="log in" xml:space="preserve">
     <value>logga in</value>
   </data>
+  <data name="Login to comment" xml:space="preserve">
+    <value>Logga in för att kommentera</value>
+  </data>
+  <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
+    <value>Inga kommentarer än. Var den första att lämna en!</value>
+  </data>
   <data name="No comments yet. Be the first to share your thoughts!" xml:space="preserve">
     <value>Inga kommentärer ännu. Var den första att dela dina tankar!</value>
   </data>
@@ -72,6 +93,9 @@
   <data name="Reply" xml:space="preserve">
     <value>Svara</value>
   </data>
+  <data name="Send Reply" xml:space="preserve">
+    <value>Skicka svar</value>
+  </data>
   <data name="Similar" xml:space="preserve">
     <value>Liknande</value>
   </data>
@@ -86,6 +110,9 @@
   </data>
   <data name="Write a reply..." xml:space="preserve">
     <value>Skriv ett svar...</value>
+  </data>
+  <data name="Write your comment…" xml:space="preserve">
+    <value>Skriv din kommentar…</value>
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Du läser en AI-genererad maskinöversättning, som kan innehålla felaktigheter.</value>

@@ -21,11 +21,26 @@
       <data name="AI Translation Notice" xml:space="preserve">
     <value>Aviso de Tradução por IA</value>
   </data>
+  <data name="Are you sure you want to delete this comment and all its replies?" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir este comentário e todas as suas respostas?</value>
+  </data>
+  <data name="Are you sure you want to delete this reply?" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir esta resposta?</value>
+  </data>
+  <data name="Change History" xml:space="preserve">
+    <value>Histórico de Alterações</value>
+  </data>
   <data name="Comments" xml:space="preserve">
     <value>Comentários</value>
   </data>
+  <data name="commits" xml:space="preserve">
+    <value>commits</value>
+  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Contribuidores</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Excluir</value>
   </data>
   <data name="Delete comment" xml:space="preserve">
     <value>Excluir comentário</value>
@@ -57,6 +72,12 @@
   <data name="log in" xml:space="preserve">
     <value>faça login</value>
   </data>
+  <data name="Login to comment" xml:space="preserve">
+    <value>Faça login para comentar</value>
+  </data>
+  <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
+    <value>Nenhum comentário ainda. Seja o primeiro a deixar um!</value>
+  </data>
   <data name="No comments yet. Be the first to share your thoughts!" xml:space="preserve">
     <value>Nenhum comentário ainda. Seja o primeiro a compartilhar suas ideias!</value>
   </data>
@@ -72,6 +93,9 @@
   <data name="Reply" xml:space="preserve">
     <value>Responder</value>
   </data>
+  <data name="Send Reply" xml:space="preserve">
+    <value>Enviar resposta</value>
+  </data>
   <data name="Similar" xml:space="preserve">
     <value>Semelhantes</value>
   </data>
@@ -86,6 +110,9 @@
   </data>
   <data name="Write a reply..." xml:space="preserve">
     <value>Escreva uma resposta...</value>
+  </data>
+  <data name="Write your comment…" xml:space="preserve">
+    <value>Escreva seu comentário…</value>
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Você está lendo uma tradução automática gerada por IA, que pode conter imprecisões.</value>
