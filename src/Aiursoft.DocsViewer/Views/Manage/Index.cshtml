@@ -73,3 +73,17 @@
         }
     </div>
 </div>
+
+<div class="card col-md-6 col-lg-4 mt-4 border-danger">
+    <div class="card-header bg-danger text-white">
+        <h5 class="card-title mb-0 text-white"><i class="align-middle me-2" data-lucide="alert-triangle"></i> @Localizer["Danger Zone"]</h5>
+    </div>
+    <div class="card-body">
+        <p class="text-danger">
+            @Localizer["Once you delete your account, there is no going back. Please be certain."]
+        </p>
+        <a asp-controller="Manage" asp-action="DeleteAccount" class="btn btn-outline-danger">
+            @Localizer["Delete your account"]
+        </a>
+    </div>
+</div>

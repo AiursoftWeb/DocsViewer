@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Models.ManageViewModels;
@@ -189,6 +190,50 @@ public class ManageController(
         }
 
         return this.StackView(model);
+    }
+
+    //
+    // GET: /Manage/DeleteAccount
+    [HttpGet]
+    public IActionResult DeleteAccount()
+    {
+        return this.StackView(new Aiursoft.UiStack.Layout.UiStackLayoutViewModel());
+    }
+
+    //
+    // POST: /Manage/DeleteAccount
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteAccountPost([FromServices] Aiursoft.DocsViewer.Entities.DocsViewerDbContext context)
+    {
+        var user = await GetCurrentUserAsync();
+        if (user != null)
+        {
+            // Erase all user traces
+            var comments = context.DocumentComments.Include(c => c.Replies).Where(c => c.UserId == user.Id).ToList();
+            foreach (var comment in comments)
+            {
+                if (comment.Replies.Count > 0)
+                {
+                    context.DocumentComments.RemoveRange(comment.Replies);
+                }
+                context.DocumentComments.Remove(comment);
+            }
+
+            var likes = context.DocumentLikes.Where(l => l.UserId == user.Id).ToList();
+            context.DocumentLikes.RemoveRange(likes);
+
+            var favorites = context.DocumentFavorites.Where(f => f.UserId == user.Id).ToList();
+            context.DocumentFavorites.RemoveRange(favorites);
+
+            await context.SaveChangesAsync();
+
+            await signInManager.SignOutAsync();
+            await userManager.DeleteAsync(user);
+            logger.LogInformation(3, "User deleted their account successfully");
+            return Redirect("/");
+        }
+        return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
     }
 
     #region Helpers

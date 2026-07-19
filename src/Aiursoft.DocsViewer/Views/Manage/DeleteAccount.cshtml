@@ -1,0 +1,24 @@
+@model dynamic
+@{
+    ViewData["Title"] = Localizer["Delete Account"];
+}
+
+<h1 class="h3 mb-3">@ViewData["Title"]</h1>
+
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <h5 class="card-title mb-0 text-white"><i class="align-middle me-2" data-lucide="alert-triangle"></i> @Localizer["Danger Zone"]</h5>
+    </div>
+    <div class="card-body">
+        <h5 class="text-danger">@Localizer["Are you sure you want to delete your account?"]</h5>
+        <p>
+            @Localizer["This action will permanently erase all your data from our servers. This includes your profile, comments, likes, and favorites. This action cannot be undone."]
+        </p>
+        <form asp-action="DeleteAccountPost" method="post">
+            <button type="submit" class="btn btn-danger">
+                <i class="align-middle me-1" data-lucide="trash-2"></i> @Localizer["Yes, delete my account"]
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary ms-2">@Localizer["Cancel"]</a>
+        </form>
+    </div>
+</div>
