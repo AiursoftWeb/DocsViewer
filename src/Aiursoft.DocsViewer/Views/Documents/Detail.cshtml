@@ -33,26 +33,26 @@
                         @if (Model.GitHubEditUrl != null)
                         {
                             <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-outline-secondary">
-                                <i class="lucide lucide-edit-3 me-1"></i> @Localizer["Edit on GitHub"]
+                                <i data-lucide="edit-3" class="align-middle me-1"></i> @Localizer["Edit on GitHub"]
                             </a>
                         }
                         @if (Model.GitHubHistoryUrl != null)
                         {
                             <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-outline-secondary">
-                                <i class="lucide lucide-history me-1"></i> @Localizer["History"]
+                                <i data-lucide="history" class="align-middle me-1"></i> @Localizer["History"]
                             </a>
                         }
                         @if (Model.ShowSimilarDocumentsButton)
                         {
                             <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
-                                <i class="lucide lucide-git-commit me-1"></i> @Localizer["Similar"]
+                                <i data-lucide="git-commit" class="align-middle me-1"></i> @Localizer["Similar"]
                             </a>
                         }
                         <form asp-controller="Likes" asp-action="Toggle" method="post" class="m-0">
                             <input type="hidden" name="documentId" value="@Model.Document.Id" />
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn @(Model.IsLiked ? "btn-warning" : "btn-outline-warning")">
-                                <i class="lucide lucide-thumbs-up me-1"></i>
+                                <i data-lucide="thumbs-up" class="align-middle me-1"></i>
                                 @(Model.IsLiked ? Localizer["Liked"] : Localizer["Like"])
                                 <span class="badge @(Model.IsLiked ? "bg-white text-dark" : "bg-warning text-dark") ms-1">@Model.LikeCount</span>
                             </button>
@@ -61,7 +61,7 @@
                             <input type="hidden" name="documentId" value="@Model.Document.Id" />
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn @(Model.IsFavorited ? "btn-danger" : "btn-outline-danger")">
-                                <i class="lucide lucide-heart me-1"></i>
+                                <i data-lucide="heart" class="align-middle me-1"></i>
                                 @(Model.IsFavorited ? Localizer["Favorited"] : Localizer["Favorite"])
                             </button>
                         </form>
@@ -73,23 +73,23 @@
                         @if (Model.GitHubEditUrl != null)
                         {
                             <a href="@Model.GitHubEditUrl" target="_blank" class="btn btn-outline-secondary">
-                                <i class="lucide lucide-edit-3 me-1"></i> @Localizer["Edit on GitHub"]
+                                <i data-lucide="edit-3" class="align-middle me-1"></i> @Localizer["Edit on GitHub"]
                             </a>
                         }
                         @if (Model.GitHubHistoryUrl != null)
                         {
                             <a href="@Model.GitHubHistoryUrl" target="_blank" class="btn btn-outline-secondary">
-                                <i class="lucide lucide-history me-1"></i> @Localizer["History"]
+                                <i data-lucide="history" class="align-middle me-1"></i> @Localizer["History"]
                             </a>
                         }
                         @if (Model.ShowSimilarDocumentsButton)
                         {
                             <a href="/Documents/Similar/@Model.Document.Id" class="btn btn-outline-primary">
-                                <i class="lucide lucide-git-commit me-1"></i> @Localizer["Similar"]
+                                <i data-lucide="git-commit" class="align-middle me-1"></i> @Localizer["Similar"]
                             </a>
                         }
                         <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString)" class="btn btn-outline-warning">
-                            <i class="lucide lucide-thumbs-up me-1"></i>
+                            <i data-lucide="thumbs-up" class="align-middle me-1"></i>
                             @Localizer["Like"]
                             @if (Model.LikeCount > 0)
                             {
