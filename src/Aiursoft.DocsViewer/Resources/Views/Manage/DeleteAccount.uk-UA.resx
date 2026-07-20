@@ -27,6 +27,12 @@
   <data name="Danger Zone" xml:space="preserve">
     <value>Зона небезпеки</value>
   </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value>Видалити акаунт</value>
+  </data>
+  <data name="Delete Account Data" xml:space="preserve">
+    <value>Видалити дані акаунту</value>
+  </data>
   <data name="This action will permanently erase all your data from our servers. This includes your profile, comments, likes, and favorites. This action cannot be undone." xml:space="preserve">
     <value>Ця дія назавжди видалить усі ваші дані з наших серверів. Сюди входять ваш профіль, коментарі, вподобання та обране. Цю дію не можна скасувати.</value>
   </data>
