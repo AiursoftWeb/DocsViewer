@@ -5,7 +5,6 @@ using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.DocsViewer.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 
 [TestClass]
