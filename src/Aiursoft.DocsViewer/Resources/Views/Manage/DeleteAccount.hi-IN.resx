@@ -27,6 +27,12 @@
   <data name="Danger Zone" xml:space="preserve">
     <value>खतरे की क्षेत्र</value>
   </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value>खाता हटाएं</value>
+  </data>
+  <data name="Delete Account Data" xml:space="preserve">
+    <value>खाता डेटा हटाएं</value>
+  </data>
   <data name="This action will permanently erase all your data from our servers. This includes your profile, comments, likes, and favorites. This action cannot be undone." xml:space="preserve">
     <value>यह कार्रवाई हमारे सर्वर से आपका सभी डेटा स्थायी रूप से हटा देगी। इसमें आपका प्रोफ़ाइल, टिप्पणियाँ, लाइक्स और पसंदीदा शामिल हैं। इस कार्रवाई को पूर्ववत नहीं किया जा सकता।</value>
   </data>
