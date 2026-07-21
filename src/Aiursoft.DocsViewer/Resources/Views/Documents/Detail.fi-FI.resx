@@ -60,6 +60,9 @@
   <data name="Home" xml:space="preserve">
     <value>Koti</value>
   </data>
+  <data name="Last translated:" xml:space="preserve">
+    <value>Viimeksi käännetty:</value>
+  </data>
   <data name="Last updated:" xml:space="preserve">
     <value>Viimeksi päivitetty:</value>
   </data>
