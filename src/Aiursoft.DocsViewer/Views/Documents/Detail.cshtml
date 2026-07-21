@@ -111,6 +111,10 @@
                 <div class="card-footer bg-light p-3 border-top-0 d-flex justify-content-between align-items-center">
                     <div class="text-muted small">
                         <i class="lucide lucide-clock"></i> @Localizer["Last updated:"] <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
+                        @if (Model.ShowTranslationNotice && Model.LocalizedDocument != null)
+                        {
+                            <span class="ms-3"><i class="lucide lucide-languages"></i> @Localizer["Last translated:"] <label class="d-inline text-muted" data-utc-time="@Model.LocalizedDocument.LastLocalizedAt.ToHtmlDateTime()"></label></span>
+                        }
                     </div>
                         <!-- Bottom buttons removed to match HowToCookViewer cleanly -->
                 </div>
