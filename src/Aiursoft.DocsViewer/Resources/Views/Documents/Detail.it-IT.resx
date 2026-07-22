@@ -60,6 +60,9 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Last translated:" xml:space="preserve">
+    <value>Ultima traduzione:</value>
+  </data>
   <data name="Last updated:" xml:space="preserve">
     <value>Ultimo aggiornamento:</value>
   </data>

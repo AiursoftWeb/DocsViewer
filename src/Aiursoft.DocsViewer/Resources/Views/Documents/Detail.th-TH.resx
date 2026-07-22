@@ -60,6 +60,9 @@
   <data name="Home" xml:space="preserve">
     <value>หน้าหลัก</value>
   </data>
+  <data name="Last translated:" xml:space="preserve">
+    <value>แปลล่าสุด:</value>
+  </data>
   <data name="Last updated:" xml:space="preserve">
     <value>อัปเดตล่าสุด:</value>
   </data>

@@ -60,6 +60,9 @@
   <data name="Home" xml:space="preserve">
     <value>Ana Sayfa</value>
   </data>
+  <data name="Last translated:" xml:space="preserve">
+    <value>Son çevrilen:</value>
+  </data>
   <data name="Last updated:" xml:space="preserve">
     <value>Son güncelleme:</value>
   </data>

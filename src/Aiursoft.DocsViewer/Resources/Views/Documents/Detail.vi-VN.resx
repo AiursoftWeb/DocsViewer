@@ -60,6 +60,9 @@
   <data name="Home" xml:space="preserve">
     <value>Trang chủ</value>
   </data>
+  <data name="Last translated:" xml:space="preserve">
+    <value>Lần dịch gần nhất:</value>
+  </data>
   <data name="Last updated:" xml:space="preserve">
     <value>Cập nhật lần cuối:</value>
   </data>
