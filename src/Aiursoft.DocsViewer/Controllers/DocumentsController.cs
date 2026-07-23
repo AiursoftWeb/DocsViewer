@@ -205,11 +205,18 @@ public class DocumentsController(
         var id = doc.Id;
         var currentCulture = HttpContext.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>()
             ?.RequestCulture.Culture.Name ?? string.Empty;
-        var localized = await db.LocalizedDocuments
-            .FirstOrDefaultAsync(lr => lr.DocumentId == id && lr.Culture == currentCulture);
+        // When viewing in the document's original language, use source content directly
+        // to avoid serving stale localized copies (the pass-through localization may lag
+        // behind source updates by up to a full job cycle).
+        var isSourceCulture = doc.SourceCulture != null &&
+            string.Equals(doc.SourceCulture, currentCulture, StringComparison.OrdinalIgnoreCase);
 
-        var showTranslationNotice = doc.SourceCulture != null &&
-            !string.Equals(doc.SourceCulture, currentCulture, StringComparison.OrdinalIgnoreCase);
+        var localized = isSourceCulture
+            ? null
+            : await db.LocalizedDocuments
+                .FirstOrDefaultAsync(lr => lr.DocumentId == id && lr.Culture == currentCulture);
+
+        var showTranslationNotice = doc.SourceCulture != null && !isSourceCulture;
         var sourceLanguageName = doc.SourceCulture != null
             ? LanguageMetadata.SupportedCultures.GetValueOrDefault(doc.SourceCulture, doc.SourceCulture)
             : null;

@@ -39,8 +39,12 @@ public class HomeController(
                     var currentCulture = HttpContext.Features
                         .Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>()
                         ?.RequestCulture.Culture.Name ?? string.Empty;
-                    var localized = await db.LocalizedDocuments
-                        .FirstOrDefaultAsync(ld => ld.DocumentId == dbDoc.Id && ld.Culture == currentCulture);
+                    var isSourceCulture = dbDoc.SourceCulture != null &&
+                        string.Equals(dbDoc.SourceCulture, currentCulture, StringComparison.OrdinalIgnoreCase);
+                    var localized = isSourceCulture
+                        ? null
+                        : await db.LocalizedDocuments
+                            .FirstOrDefaultAsync(ld => ld.DocumentId == dbDoc.Id && ld.Culture == currentCulture);
                     content = localized?.LocalizedContent ?? dbDoc.Content;
                 }
 
