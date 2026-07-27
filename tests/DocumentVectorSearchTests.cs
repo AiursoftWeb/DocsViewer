@@ -339,7 +339,7 @@ public class DocumentVectorSearchTests
         {
             _db.SearchEmbeddings.Add(new SearchEmbedding
             {
-                QueryText = $"query_{i}",
+                QueryText = HashKey($"query_{i}"),
                 Embedding = new byte[VectorDimension * 4],
                 CreatedAt = now.AddDays(-10),
                 LastAccessedAt = now.AddDays(-10 + i) // 0=distant, 4=recent
@@ -357,9 +357,9 @@ public class DocumentVectorSearchTests
         // The oldest entry (query_0, least recently accessed) should be evicted.
         var allQueries = await _db.SearchEmbeddings.Select(e => e.QueryText).ToListAsync();
         Assert.AreEqual(5, allQueries.Count, "Cache should be trimmed to exactly 5 entries.");
-        Assert.IsFalse(allQueries.Contains("query_0"), "Least-recently-accessed entry should be evicted.");
-        Assert.IsTrue(allQueries.Contains("query_4"), "Most-recently-accessed entry should survive.");
-        Assert.IsTrue(allQueries.Contains("新查询"), "Newly searched query should be cached.");
+        Assert.IsFalse(allQueries.Contains(HashKey("query_0")), "Least-recently-accessed entry should be evicted.");
+        Assert.IsTrue(allQueries.Contains(HashKey("query_4")), "Most-recently-accessed entry should survive.");
+        Assert.IsTrue(allQueries.Contains(HashKey("新查询")), "Newly searched query should be cached.");
     }
 
     [TestMethod]
@@ -378,7 +378,7 @@ public class DocumentVectorSearchTests
 
         _db.SearchEmbeddings.Add(new SearchEmbedding
         {
-            QueryText = "预缓存查询",
+            QueryText = HashKey("预缓存查询"),
             Embedding = bytes,
             CreatedAt = DateTime.UtcNow,
             LastAccessedAt = DateTime.UtcNow
@@ -416,7 +416,7 @@ public class DocumentVectorSearchTests
 
         _db.SearchEmbeddings.Add(new SearchEmbedding
         {
-            QueryText = "旧查询",
+            QueryText = HashKey("旧查询"),
             Embedding = bytes,
             CreatedAt = oldDate,
             LastAccessedAt = oldDate
@@ -452,7 +452,7 @@ public class DocumentVectorSearchTests
 
         _db.SearchEmbeddings.Add(new SearchEmbedding
         {
-            QueryText = "刚缓存",
+            QueryText = HashKey("刚缓存"),
             Embedding = bytes,
             CreatedAt = justNow,
             LastAccessedAt = justNow
