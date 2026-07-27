@@ -33,8 +33,7 @@ public class DocumentVectorSearchService(
         int pageSize,
         CancellationToken ct = default)
     {
-        if (!await settingsService.GetBoolSettingAsync(SettingsMap.EnableEmbeddingBasedSearch) ||
-            !await settingsService.IsAiSearchEnabledAsync())
+        if (!await ShouldAttemptVectorSearchAsync())
         {
             return (false, [], 0);
         }
@@ -51,7 +50,7 @@ public class DocumentVectorSearchService(
             var expectedDimension = snapshot.Values.First().Length;
             queryVector = await EmbedQueryAsync(query, expectedDimension, ct);
         }
-        catch
+        catch (Exception)
         {
             return (false, [], 0);
         }
@@ -150,6 +149,19 @@ public class DocumentVectorSearchService(
             .Where(d => d != null)
             .Cast<Document>()
             .ToList();
+    }
+
+    private async Task<bool> ShouldAttemptVectorSearchAsync()
+    {
+        if (!await settingsService.GetBoolSettingAsync(SettingsMap.EnableEmbeddingBasedSearch))
+            return false;
+
+        var endpoint = await settingsService.GetEmbeddingEndpointAsync();
+        if (string.IsNullOrWhiteSpace(endpoint))
+            return false;
+
+        var model = await settingsService.GetSettingValueAsync(SettingsMap.EmbeddingModel);
+        return !string.IsNullOrWhiteSpace(model);
     }
 
     private static string ComputeQueryCacheKey(string text)
