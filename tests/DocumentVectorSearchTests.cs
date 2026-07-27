@@ -1,4 +1,5 @@
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
@@ -148,6 +149,18 @@ public class DocumentVectorSearchTests
         }
     }
 
+    private static string HashKey(string text)
+    {
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(text));
+        var sb = new StringBuilder(40);
+        foreach (var b in hash)
+        {
+            sb.Append(b.ToString("x2"));
+            if (sb.Length >= 40) break;
+        }
+        return sb.ToString();
+    }
+
     private DocumentVectorSearchService CreateSearchService(HttpMessageHandler? handler = null)
     {
         var settings = CreateSettingsService();
@@ -188,20 +201,17 @@ public class DocumentVectorSearchTests
     }
 
     [TestMethod]
-    public async Task Condition3_EmbeddingModelNotConfigured_SucceedsWithFakeHandler()
+    public async Task Condition3_EmbeddingModelNotConfigured_ReturnsUsedAiFalse()
     {
-        // With endpoint configured, AI search is attempted. The fake handler returns
-        // embeddings regardless of model name, matching the real-world behavior where
-        // Ollama validates the model at request-time, not at configuration-time.
-        // The pre-condition check (matching HTC) only gate-checks the endpoint.
+        // When the embedding model is not configured, ShouldAttemptVectorSearchAsync
+        // returns false and the search falls back to keyword search.
         await SeedGlobalSettingsAsync(useAiSearch: true, ollamaInstance: "http://localhost:11434", embeddingModel: "");
         await SeedDocumentsWithEmbeddingsAsync();
 
         var service = CreateSearchService();
-        var (usedAi, results, _) = await service.SearchAsync(_db.Documents.AsNoTracking(), "牛肉面", 1, 10);
+        var (usedAi, _, _) = await service.SearchAsync(_db.Documents.AsNoTracking(), "牛肉面", 1, 10);
 
-        Assert.IsTrue(usedAi, "AI search should be attempted when endpoint is configured, even if model is empty.");
-        Assert.IsTrue(results.Count > 0, "Fake handler returns valid embeddings regardless of model name.");
+        Assert.IsFalse(usedAi, "AI search should NOT be attempted when model is not configured.");
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -282,7 +292,7 @@ public class DocumentVectorSearchTests
 
         // Verify the embedding was cached in the database.
         var cachedEntry = await _db.SearchEmbeddings
-            .FirstOrDefaultAsync(e => e.QueryText == "牛肉面");
+            .FirstOrDefaultAsync(e => e.QueryText == HashKey("牛肉面"));
         Assert.IsNotNull(cachedEntry, "Search embedding should be persisted to SearchEmbeddings table.");
         Assert.IsTrue(cachedEntry.Embedding.Length == VectorDimension * 4,
             "Cached embedding should be 1024 floats = 4096 bytes.");
@@ -420,7 +430,7 @@ public class DocumentVectorSearchTests
         // LastAccessedAt should have been bumped to near-now.
         var cached = await _db.SearchEmbeddings
             .AsNoTracking()
-            .FirstAsync(e => e.QueryText == "旧查询");
+            .FirstAsync(e => e.QueryText == HashKey("旧查询"));
         Assert.IsTrue(cached.LastAccessedAt > oldDate.AddHours(1),
             "LastAccessedAt should be updated when past the access throttle window.");
     }
@@ -456,7 +466,7 @@ public class DocumentVectorSearchTests
         // LastAccessedAt should NOT have been updated — still within the throttle window.
         var cached = await _db.SearchEmbeddings
             .AsNoTracking()
-            .FirstAsync(e => e.QueryText == "刚缓存");
+            .FirstAsync(e => e.QueryText == HashKey("刚缓存"));
         Assert.AreEqual(justNow, cached.LastAccessedAt,
             "LastAccessedAt should NOT be updated when still within the access throttle window.");
     }
@@ -480,7 +490,7 @@ public class DocumentVectorSearchTests
         Assert.AreEqual(2, count, "Cache should be trimmed to exactly the configured limit of 2.");
 
         // The first query (least recently accessed) should be evicted.
-        var existsA = await _db.SearchEmbeddings.AnyAsync(e => e.QueryText == "查询A");
+        var existsA = await _db.SearchEmbeddings.AnyAsync(e => e.QueryText == HashKey("查询A"));
         Assert.IsFalse(existsA, "Least-recently-accessed query should be evicted when limit exceeded.");
     }
 
