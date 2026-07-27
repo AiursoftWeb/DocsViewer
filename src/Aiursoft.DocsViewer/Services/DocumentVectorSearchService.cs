@@ -152,22 +152,6 @@ public class DocumentVectorSearchService(
             .ToList();
     }
 
-    private async Task<string> GetEmbeddingInstanceAsync()
-    {
-        var dedicated = await settingsService.GetSettingValueAsync(SettingsMap.EmbeddingOllamaInstance);
-        if (!string.IsNullOrWhiteSpace(dedicated)) return dedicated;
-
-        return await settingsService.GetSettingValueAsync(SettingsMap.OpenAiInstance);
-    }
-
-    private async Task<string> GetEmbeddingTokenAsync()
-    {
-        var dedicated = await settingsService.GetSettingValueAsync(SettingsMap.EmbeddingApiToken);
-        if (!string.IsNullOrWhiteSpace(dedicated)) return dedicated;
-
-        return await settingsService.GetSettingValueAsync(SettingsMap.OpenAiApiToken);
-    }
-
     private static string ComputeQueryCacheKey(string text)
     {
         var hash = SHA256.HashData(Encoding.UTF8.GetBytes(text));
@@ -207,9 +191,9 @@ public class DocumentVectorSearchService(
             await db.SaveChangesAsync(ct);
         }
 
-        var instance = await GetEmbeddingInstanceAsync();
+        var instance = await settingsService.GetEmbeddingEndpointAsync();
         var model = await settingsService.GetSettingValueAsync(SettingsMap.EmbeddingModel);
-        var token = await GetEmbeddingTokenAsync();
+        var token = await settingsService.GetEmbeddingTokenAsync();
 
         const int maxQueryChars = 8000;
         var input = text.Length > maxQueryChars ? text[..maxQueryChars] : text;
