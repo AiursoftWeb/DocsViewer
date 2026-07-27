@@ -102,16 +102,13 @@ public class GenerateEmbeddingsJob(
                 try
                 {
                     var sourceFileLastModified = doc.FileLastModified;
-                    var saved = false;
+                    float[]? embedding = null;
                     await retryEngine.RunWithRetry(async _ =>
                     {
-                        var embedding = await CallEmbedApiAsync(instance, model, token, doc);
-                        if (await TrySaveEmbeddingIfDocumentUnchangedAsync(db, doc, sourceFileLastModified, embedding))
-                        {
-                            saved = true;
-                        }
+                        embedding = await CallEmbedApiAsync(instance, model, token, doc);
                     });
-                    if (saved)
+
+                    if (await TrySaveEmbeddingIfDocumentUnchangedAsync(db, doc, sourceFileLastModified, embedding!))
                     {
                         succeeded++;
                     }
