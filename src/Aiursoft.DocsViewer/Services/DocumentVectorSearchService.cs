@@ -153,12 +153,11 @@ public class DocumentVectorSearchService(
 
     private async Task<bool> ShouldAttemptVectorSearchAsync()
     {
-        if (!await settingsService.GetBoolSettingAsync(SettingsMap.EnableEmbeddingBasedSearch))
-            return false;
+        var enabled = await settingsService.GetBoolSettingAsync(SettingsMap.EnableEmbeddingBasedSearch);
+        if (!enabled) return false;
 
         var endpoint = await settingsService.GetEmbeddingEndpointAsync();
-        if (string.IsNullOrWhiteSpace(endpoint))
-            return false;
+        if (string.IsNullOrWhiteSpace(endpoint)) return false;
 
         var model = await settingsService.GetSettingValueAsync(SettingsMap.EmbeddingModel);
         return !string.IsNullOrWhiteSpace(model);
