@@ -7,11 +7,13 @@
   "dependencies": {
     "dropify": "^0.2.2",
     "@highlightjs/cdn-assets": "^11.11.1",
+    "mathjax": "^3.2.2",
     "mermaid": "^11.16.0"
   },
   "keep": {
     "dropify": "dist",
     "@highlightjs/cdn-assets": ".",
+    "mathjax": "es5",
     "mermaid": "dist"
   },
   "scripts": {
