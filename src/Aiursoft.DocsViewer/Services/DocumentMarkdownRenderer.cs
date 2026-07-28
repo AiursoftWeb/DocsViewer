@@ -32,6 +32,7 @@ public partial class DocumentMarkdownRenderer(StorageService storageService) : I
             .UseAutoLinks()
             .UsePipeTables()
             .UseGridTables()
+            .DisableHtml()
             .Build();
 
         var html = Markdown.ToHtml(markdown, pipeline);
