@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Aiursoft.Scanner.Abstractions;
 using Aiursoft.DocsViewer.Services.FileStorage;
+using Ganss.Xss;
 using Markdig;
 
 namespace Aiursoft.DocsViewer.Services;
@@ -8,7 +9,7 @@ namespace Aiursoft.DocsViewer.Services;
 /// <summary>
 /// Renders markdown to HTML, resolving StorageService logical image paths to public URLs.
 /// </summary>
-public partial class DocumentMarkdownRenderer(StorageService storageService) : IScopedDependency
+public partial class DocumentMarkdownRenderer(StorageService storageService, HtmlSanitizer sanitizer) : IScopedDependency
 {
     /// <summary>
     /// Matches src attribute pointing to a logical workspace path (e.g. doc-images/abc123.png).
@@ -32,7 +33,6 @@ public partial class DocumentMarkdownRenderer(StorageService storageService) : I
             .UseAutoLinks()
             .UsePipeTables()
             .UseGridTables()
-            .DisableHtml()
             .Build();
 
         var html = Markdown.ToHtml(markdown, pipeline);
@@ -47,6 +47,9 @@ public partial class DocumentMarkdownRenderer(StorageService storageService) : I
 
         // Add Bootstrap img-fluid class to all images for responsive sizing
         html = ImgWithoutClassRegex().Replace(html, "<img class=\"img-fluid\" ");
+
+        // Sanitize after all transformations
+        html = sanitizer.Sanitize(html);
 
         return html;
     }

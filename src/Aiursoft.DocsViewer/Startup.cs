@@ -23,6 +23,7 @@ using Aiursoft.ClickhouseLoggerProvider;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Diagnostics.CodeAnalysis;
+using Ganss.Xss;
 
 namespace Aiursoft.DocsViewer;
 
@@ -100,6 +101,15 @@ public class Startup : IWebStartup
             registration: orphanAvatarCleanupJob,
             period:     TimeSpan.FromHours(6),
             startDelay: TimeSpan.FromMinutes(5));
+
+        // Add the HTML sanitizer
+        services.AddSingleton(_ =>
+        {
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedTags.Add("br");
+            sanitizer.AllowedAttributes.Add("class");
+            return sanitizer;
+        });
 
         // Controllers and localization
         services.AddControllersWithViews()
