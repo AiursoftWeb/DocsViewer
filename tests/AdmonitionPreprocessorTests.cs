@@ -1,4 +1,5 @@
 using Aiursoft.DocsViewer.Services;
+using Markdig;
 
 namespace Aiursoft.DocsViewer.Tests;
 
@@ -217,5 +218,49 @@ public class AdmonitionPreprocessorTests
         Assert.IsTrue(result.Contains("Second line"));
         Assert.IsTrue(result.Contains("Third after blank"));
         Assert.IsTrue(result.Contains("</div>"), "Should close the div");
+    }
+
+    [TestMethod]
+    public void PlaceholderMode_SeparatesTrustedWrappersFromMarkdownBody()
+    {
+        var input = "!!! warning \"Safe title\"\n    Body with **Markdown**.\n";
+
+        var result = AdmonitionPreprocessor.PreprocessWithPlaceholders(input);
+
+        Assert.IsFalse(result.Markdown.Contains("<div"));
+        Assert.IsTrue(result.Markdown.Contains("Body with **Markdown**."));
+        Assert.AreEqual(2, result.HtmlReplacements.Count);
+        Assert.IsTrue(result.HtmlReplacements.Values.Any(html => html.Contains("class=\"admonition")));
+        Assert.IsTrue(result.HtmlReplacements.Values.Any(html => html.Contains("</div>")));
+    }
+
+    [TestMethod]
+    public void TitleHtml_IsEncodedBeforeBecomingTrustedWrapper()
+    {
+        var input = "!!! warning \"<img src=x onerror=alert(1)>\"\n    Body.\n";
+
+        var result = AdmonitionPreprocessor.PreprocessWithPlaceholders(input);
+        var wrappers = string.Join(string.Empty, result.HtmlReplacements.Values);
+
+        Assert.IsFalse(wrappers.Contains("<img"));
+        Assert.IsTrue(wrappers.Contains("&lt;img"));
+    }
+
+    [TestMethod]
+    public void PlaceholderMode_AllowsNestedMarkdownWhileUserHtmlStaysDisabled()
+    {
+        var input = "!!! note \"Title\"\n    Body with **Markdown**.\n\n<script>alert(1)</script>";
+        var preprocessed = AdmonitionPreprocessor.PreprocessWithPlaceholders(input);
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().DisableHtml().Build();
+
+        var html = Markdown.ToHtml(preprocessed.Markdown, pipeline);
+        foreach (var replacement in preprocessed.HtmlReplacements)
+        {
+            html = html.Replace($"<p>{replacement.Key}</p>", replacement.Value, StringComparison.Ordinal);
+        }
+
+        Assert.IsTrue(html.Contains("class=\"admonition"));
+        Assert.IsTrue(html.Contains("<strong>Markdown</strong>"));
+        Assert.IsFalse(html.Contains("<script>"));
     }
 }
