@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="~/styles/markdown-reader.css" asp-append-version="true" />
 }
 
-<div class="container-fluid mt-3">
+<div class="container-fluid document-page-container mt-3">
     <div class="row">
         <!-- Sidebar Tree Column -->
         
@@ -14,18 +14,24 @@
         <div class="col-md-12">
             @if (Model.HasReadme)
             {
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body markdown-content">
-                        @Html.Raw(Model.ReadmeHtml)
-                    </div>
-                    @if (Model.DocumentId.HasValue)
-                    {
-                        <div class="card-footer bg-white text-end">
-                            <a href="/Documents/DetailById/@Model.DocumentId.Value" class="btn btn-outline-primary btn-sm">
-                                <i class="lucide lucide-book-open"></i> Read full document
-                            </a>
+                <div class="document-reading-layout">
+                    <div class="document-main-column">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body markdown-content">
+                                @Html.Raw(Model.ReadmeHtml)
+                            </div>
+                            @if (Model.DocumentId.HasValue)
+                            {
+                                <div class="card-footer text-end">
+                                    <a href="/Documents/DetailById/@Model.DocumentId.Value" class="btn btn-outline-primary btn-sm">
+                                        <i class="lucide lucide-book-open"></i> Read full document
+                                    </a>
+                                </div>
+                            }
                         </div>
-                    }
+                    </div>
+
+                    <partial name="_DocumentOutline" />
                 </div>
             }
             else
@@ -45,4 +51,3 @@
 </div>
 
     <partial name="_CodeAssets" />
-

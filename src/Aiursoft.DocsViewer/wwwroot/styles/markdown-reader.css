@@ -23,6 +23,21 @@
     font-size: 100%;
 }
 
+html[data-bs-theme="dark"] .markdown-content code {
+    background-color: rgba(110, 118, 129, 0.4);
+    color: #f0f3f6;
+}
+
+html[data-bs-theme="dark"] .markdown-content pre {
+    background-color: #161b22;
+    color: #e6edf3;
+}
+
+html[data-bs-theme="dark"] .markdown-content pre code {
+    background-color: transparent;
+    color: inherit;
+}
+
 /* Mermaid responsive */
 .markdown-content .mermaid svg,
 .markdown-content svg[id^="m-"] {
@@ -86,4 +101,103 @@
     background-color: var(--bs-primary-dark, #0b5ed7);
     border-color: var(--bs-primary-dark, #0b5ed7);
     color: #fff;
+}
+
+/* Readable document column and responsive in-page outline */
+.document-page-container {
+    max-width: 1480px;
+}
+
+.document-reading-layout {
+    width: 100%;
+}
+
+.document-main-column {
+    min-width: 0;
+    width: 100%;
+}
+
+.document-outline {
+    display: none;
+}
+
+.document-outline-title {
+    color: var(--bs-secondary-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+.document-outline-list {
+    border-left: 1px solid var(--bs-border-color);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.document-outline-list li {
+    margin: 0;
+}
+
+.document-outline-list a {
+    border-left: 2px solid transparent;
+    color: var(--bs-secondary-color);
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    margin-left: -1px;
+    overflow: hidden;
+    padding: 0.38rem 0.65rem;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    transition: border-color 120ms ease, color 120ms ease;
+    white-space: nowrap;
+}
+
+.document-outline-list a:hover,
+.document-outline-list a:focus,
+.document-outline-list a.active {
+    border-left-color: var(--bs-primary);
+    color: var(--bs-primary);
+}
+
+.document-outline-level-2 a {
+    padding-left: 1.25rem;
+}
+
+.document-outline-level-3 a {
+    font-size: 0.78rem;
+    padding-left: 2rem;
+}
+
+.document-outline-target {
+    scroll-margin-top: 5.5rem;
+}
+
+@media (min-width: 1400px) {
+    .document-reading-layout.has-document-outline {
+        align-items: start;
+        column-gap: 2rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
+    }
+
+    .has-document-outline .document-main-column {
+        grid-column: 1;
+    }
+
+    .has-document-outline .document-outline {
+        display: block;
+        grid-column: 2;
+        max-height: calc(100vh - 2rem);
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 0.5rem 0.5rem 1rem 0;
+        position: sticky;
+        scrollbar-width: thin;
+        top: 1rem;
+        width: 100%;
+    }
 }

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="~/styles/markdown-reader.css" asp-append-version="true" />
 }
 
-<div class="container-fluid mt-3">
+<div class="container-fluid document-page-container mt-3">
     <div class="row">
         <!-- Sidebar Tree Column -->
         
@@ -102,59 +102,61 @@
                 </div>
             }
 
-            <!-- Document Content -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-body markdown-content p-4">
-                    @Html.Raw(Model.RenderedMarkdown)
-                </div>
-                
-                <div class="card-footer bg-light p-3 border-top-0 d-flex justify-content-between align-items-center">
-                    <div class="text-muted small">
-                        <i class="lucide lucide-clock"></i> @Localizer["Last updated:"] <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
-                        @if (Model.ShowTranslationNotice && Model.LocalizedDocument != null)
-                        {
-                            <span class="ms-3"><i class="lucide lucide-languages"></i> @Localizer["Last translated:"] <label class="d-inline text-muted" data-utc-time="@Model.LocalizedDocument.LastLocalizedAt.ToHtmlDateTime()"></label></span>
-                        }
-                    </div>
-                        <!-- Bottom buttons removed to match HowToCookViewer cleanly -->
-                </div>
-            </div>
-
-            <!-- Contributors Section -->
-            @if (Model.Contributors.Count > 0)
-            {
-                <div class="mt-4">
-                    <h5 class="mb-3 d-flex align-items-center">
-                        <div>
-                            <i data-lucide="users" class="align-middle me-1"></i>
-                            @Localizer["Contributors"]
+            <div class="document-reading-layout">
+                <div class="document-main-column">
+                    <!-- Document Content -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body markdown-content p-4">
+                            @Html.Raw(Model.RenderedMarkdown)
                         </div>
-                        @if (Model.GitHubHistoryUrl != null)
-                        {
-                            <a href="@Model.GitHubHistoryUrl" target="_blank" rel="noopener noreferrer"
-                               class="btn btn-sm btn-outline-secondary ms-3">
-                                <i data-lucide="history" class="align-middle me-1"></i>
-                                @Localizer["Change History"]
-                            </a>
-                        }
-                    </h5>
-                    <div class="d-flex flex-wrap gap-2">
-                        @foreach (var contributor in Model.Contributors)
-                        {
-                            <a href="@contributor.GitHubProfileUrl" target="_blank" rel="noopener noreferrer"
-                               title="@contributor.Name (@contributor.CommitCount @Localizer["commits"])"
-                               class="d-inline-block">
-                                <img src="@contributor.AvatarUrl" alt="@contributor.Name"
-                                     class="rounded-circle border shadow-sm" width="40" height="40"
-                                     style="object-fit: cover;" />
-                            </a>
-                        }
+                
+                        <div class="card-footer p-3 border-top-0 d-flex justify-content-between align-items-center">
+                            <div class="text-muted small">
+                                <i class="lucide lucide-clock"></i> @Localizer["Last updated:"] <label class="d-inline text-muted" data-utc-time="@Model.Document.FileLastModified.ToHtmlDateTime()"></label>
+                                @if (Model.ShowTranslationNotice && Model.LocalizedDocument != null)
+                                {
+                                    <span class="ms-3"><i class="lucide lucide-languages"></i> @Localizer["Last translated:"] <label class="d-inline text-muted" data-utc-time="@Model.LocalizedDocument.LastLocalizedAt.ToHtmlDateTime()"></label></span>
+                                }
+                            </div>
+                            <!-- Bottom buttons removed to match HowToCookViewer cleanly -->
+                        </div>
                     </div>
-                </div>
-            }
 
-            <!-- Comments Section -->
-            <div id="comments" class="mt-4">
+                    <!-- Contributors Section -->
+                    @if (Model.Contributors.Count > 0)
+                    {
+                        <div class="mt-4">
+                            <h5 class="mb-3 d-flex align-items-center">
+                                <div>
+                                    <i data-lucide="users" class="align-middle me-1"></i>
+                                    @Localizer["Contributors"]
+                                </div>
+                                @if (Model.GitHubHistoryUrl != null)
+                                {
+                                    <a href="@Model.GitHubHistoryUrl" target="_blank" rel="noopener noreferrer"
+                                       class="btn btn-sm btn-outline-secondary ms-3">
+                                        <i data-lucide="history" class="align-middle me-1"></i>
+                                        @Localizer["Change History"]
+                                    </a>
+                                }
+                            </h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var contributor in Model.Contributors)
+                                {
+                                    <a href="@contributor.GitHubProfileUrl" target="_blank" rel="noopener noreferrer"
+                                       title="@contributor.Name (@contributor.CommitCount @Localizer["commits"])"
+                                       class="d-inline-block">
+                                        <img src="@contributor.AvatarUrl" alt="@contributor.Name"
+                                             class="rounded-circle border shadow-sm" width="40" height="40"
+                                             style="object-fit: cover;" />
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Comments Section -->
+                    <div id="comments" class="mt-4">
                 <h5 class="mb-3">
                     <i data-lucide="message-circle" class="align-middle me-1"></i>
                     @Localizer["Comments"] (@Model.Comments.Count)
@@ -280,6 +282,10 @@
                         </a>
                     </div>
                 }
+                    </div>
+                </div>
+
+                <partial name="_DocumentOutline" />
             </div>
         </div>
     </div>

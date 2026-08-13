@@ -18,7 +18,7 @@ public class DocumentsControllerTests : TestBase
                 db.Documents.Add(new Document
                 {
                     FilePath = "test-doc.md",
-                    Content = "Test content",
+                    Content = "# Test content\n\n## First section\n\nBody",
                     Title = "Test Document",
                     Category = "root",
                     SourceCulture = "en-US",
@@ -34,5 +34,8 @@ public class DocumentsControllerTests : TestBase
         
         // This validates that the request completes without crashing (500 Error)
         response.EnsureSuccessStatusCode();
+        var html = await response.Content.ReadAsStringAsync();
+        StringAssert.Contains(html, "data-document-outline");
+        StringAssert.Contains(html, "/scripts/document-outline.js");
     }
 }
