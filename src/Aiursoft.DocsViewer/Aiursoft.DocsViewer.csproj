@@ -25,7 +25,7 @@
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="4.151.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Aiursoft.Canon.ScheduledTasks" Version="10.0.12" />
+    <PackageReference Include="Aiursoft.Canon.ScheduledTasks" Version="10.0.13" />
     <PackageReference Include="Aiursoft.Dotlang.AspNetTranslate" Version="10.0.60" />
     <PackageReference Include="Aiursoft.GitRunner" Version="10.0.28" />
     <PackageReference Include="HtmlSanitizer" Version="9.2.995" />
