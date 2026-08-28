@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Et dummytal til test.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Tillad indloggede brugere at oprette kommentarer og svar.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Tillad bruger at ændre apelation</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Begrænsning af cache for indlejringsspørgsmål</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Aktivér kommentarer</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Aktiver indlejringssøgefunktion</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Hold nye kommentarer og svar tilbage, indtil de er godkendt af en moderator, før de offentliggøres.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP-nummer</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Projektnavn</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Krav om kommentargennemgang</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>Backup-URL&apos;en til git-repo&apos;et. Bruges, hvis den primære URL mislykkes.</value>

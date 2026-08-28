@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>添加新用户</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>允许审核、拒绝和回复评论。</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>允许为任何用户分配或移除角色。</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>允许修改用户详细信息（如邮箱和角色），并可重置用户密码。</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>允许永久删除评论及其回复。</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>允许永久删除角色。</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>允许查看角色列表及其分配的权限。</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>允许查看全站评论管理中心。</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>为用户分配角色</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>删除评论</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>删除角色</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>管理全局设置</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>审核评论</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>读取评论</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>读取权限</value>

@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>नए उपयोगकर्ता जोड़ें</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>टिप्पणियों को स्वीकृत, अस्वीकृत करने और जवाब देने की अनुमति देता है।</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>किसी भी उपयोगकर्ता को भूमिकाएँ सौंपने या हटाने की अनुमति देता है।</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>उपयोगकर्ता के विवरण जैसे ईमेल और भूमिकाओं में संशोधन की अनुमति देता है, और उपयोगकर्ता के पासवर्ड को रीसेट भी कर सकता है।</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>कमेंट्स और उनके जवाबों को स्थायी रूप से हटाने की अनुमति देता है।</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>भूमिकाओं को स्थायी रूप से हटाने की अनुमति देता है।</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>भूमिकाओं की सूची और उनके सौंपे गए अनुमतियों को देखने की अनुमति देता है।</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>पूरे साइट-व्यापी टिप्पणी प्रबंधन केंद्र को देखने की अनुमति देता है।</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>उपयोगकर्ताओं को भूमिकाएँ नियत करें</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>टिप्पणियाँ हटाएँ</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>भूमिकाएँ हटाएँ</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>ग्लोबल सेटिंग्स प्रबंधित करें</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>टिप्पणियों का मॉडरेशन</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>टिप्पणियाँ पढ़ें</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>अनुमतियाँ पढ़ें</value>

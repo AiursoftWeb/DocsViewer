@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Thêm Người Dùng Mới</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Cho phép phê duyệt, từ chối và trả lời các bình luận.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Cho phép gán hoặc gỡ bỏ vai trò cho bất kỳ người dùng nào.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Cho phép sửa đổi thông tin chi tiết của người dùng như email và vai trò, đồng thời có thể đặt lại mật khẩu người dùng.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Cho phép xóa vĩnh viễn các bình luận và phản hồi của chúng.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Cho phép xóa vĩnh viễn các vai trò.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Cho phép xem danh sách các vai trò và quyền đã được gán cho chúng.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Cho phép xem trung tâm quản lý bình luận trên toàn trang web.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Gán Vai trò cho Người dùng</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Xóa bình luận</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Xóa Vai trò</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Quản lý Cài đặt Toàn cầu</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Điều chỉnh bình luận</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Xem bình luận</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Đọc Quyền</value>

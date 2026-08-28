@@ -85,6 +85,10 @@ public class ViewModelArgsInjector(
         _ = localizer["Search documents…"];
     
         _ = localizer["My Favorites"];
+    
+        _ = localizer["Comment Management"];
+        _ = localizer["Comments"];
+        _ = localizer["Content"];
     }
 
     public void InjectSimple(

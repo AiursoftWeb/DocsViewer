@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Een dummygetal voor testdoeleinden.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Sta ingelogde gebruikers toe om reacties en antwoorden te plaatsen.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Gebruiker toestaan om bijnaam aan te passen</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Limiet voor cache van invoegingsquery&apos;s</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Opmerkingen inschakelen</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Embedding-gespecificeerd zoeken inschakelen</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Houd nieuwe opmerkingen en antwoorden vast voor goedkeuring door een moderator voordat ze worden gepubliceerd.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP-nummer</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Projectnaam</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Commentbeoordeling vereist</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>De back-up-URL van de git-repository. Wordt gebruikt als de primaire URL niet werkt.</value>

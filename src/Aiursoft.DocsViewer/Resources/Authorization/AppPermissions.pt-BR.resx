@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Adicionar Novos Usuários</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Permite aprovar, rejeitar e responder a comentários.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Permite atribuir ou remover funções para qualquer usuário.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Permite a modificação de detalhes do usuário, como e-mail e funções, e também pode redefinir senhas de usuário.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Permite excluir permanentemente os comentários e suas respostas.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Permite a exclusão permanente de funções.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Permite visualizar a lista de funções e suas permissões atribuídas.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Permite visualizar o centro de gerenciamento de comentários do site.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Atribuir Funções a Usuários</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Excluir Comentários</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Excluir Funções</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Gerenciar Configurações Globais</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Moderar Comentários</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Ler Comentários</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Ler Permissões</value>

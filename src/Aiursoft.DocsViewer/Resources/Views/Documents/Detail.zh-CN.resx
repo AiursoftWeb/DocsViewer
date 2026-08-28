@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>登录以评论</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>当前已禁用新评论。</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>暂无评论。快来抢沙发！</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>您正在阅读的是由人工智能生成的机器翻译，其中可能包含不准确之处。</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>您的评论正在等待管理员审核。</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>您的评论已发布。</value>
   </data>
 
 </root>

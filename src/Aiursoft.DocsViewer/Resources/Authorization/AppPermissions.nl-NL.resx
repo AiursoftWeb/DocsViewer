@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Nieuwe gebruikers toevoegen</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Sta het goedkeuren, afwijzen en beantwoorden van reacties toe.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Stelt in staat om rollen toe te wijzen of te verwijderen voor elke gebruiker.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Staat aanpassing van gebruikersgegevens zoals e-mailadres en rollen toe, en kan ook gebruikerswachtwoorden opnieuw instellen.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Sta het permanente verwijderen van opmerkingen en hun reacties toe.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Staat het permanent verwijderen van rollen toe.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Maakt het mogelijk de lijst met rollen en hun toegewezen machtigingen te bekijken.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Sta het bekijken van het sitebrede commentbeheercentrum toe.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Rollen toewijzen aan gebruikers</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Opmerkingen verwijderen</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Rollen verwijderen</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Algemene instellingen beheren</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Moderatie van reacties</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Lees opmerkingen</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Leesmachtigingen</value>

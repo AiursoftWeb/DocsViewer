@@ -51,6 +51,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>Klikkaa kirjautuaksesi</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Kommenttien hallinta</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Kommentit</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Sisältö</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>Luo rooli</value>
   </data>

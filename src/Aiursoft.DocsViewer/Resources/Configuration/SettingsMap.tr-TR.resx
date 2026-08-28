@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Test amaçlı bir sahte sayı.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Giriş yapmış kullanıcıların yorum ve yanıtlar göndermesine izin verin.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Kullanıcı Adını Ayarlamaya İzin Ver</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Gömme Sorgusu Önbellek Sınırı</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Yorumları Etkinleştir</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Eklenti Tabanlı Aramayı Etkinleştir</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Yeni yorumları ve yanıtları, yayımlanmadan önce moderatör onayına sunun.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP Numarası</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Proje Adı</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Yorum İncelemesi Gerektir</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>Git deposunun yedek URL&apos;si. Birincil URL başarısız olursa kullanılır.</value>

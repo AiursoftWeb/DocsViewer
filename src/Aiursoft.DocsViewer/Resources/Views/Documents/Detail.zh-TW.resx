@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>登入以留言</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>新留言目前已停用。</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>尚無留言。搶先發表第一則！</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>您正在閱讀由 AI 產生的機器翻譯，可能含有不準確之處。</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>您的留言正在等待版主核准。</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>您的留言已發布。</value>
   </data>
 
 </root>

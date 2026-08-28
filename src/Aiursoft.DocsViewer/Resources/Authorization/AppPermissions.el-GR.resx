@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Προσθήκη Νέων Χρηστών</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Επιτρέπει την έγκριση, την απόρριψη και την απάντηση σε σχόλια.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Επιτρέπει την ανάθεση ή την κατάργηση ρόλων για οποιονδήποτε χρήστη.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Επιτρέπει την τροποποίηση λεπτομερειών χρήστη, όπως ηλεκτρονικό ταχυδρομείο και ρόλους, και μπορεί επίσης να επαναφέρει κωδικούς πρόσβασης χρηστών.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Επιτρέπει τη μόνιμη διαγραφή σχολίων και των απαντήσεων τους.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Επιτρέπει την μόνιμη διαγραφή ρόλων.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Επιτρέπει την προβολή της λίστας των ρόλων και των ανατεθέντων σε αυτούς δικαιωμάτων.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Επιτρέπει την προβολή του κεντρικού κέντρου διαχείρισης σχολίων σε ολόκληρη την τοποθεσία.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Ανάθεση Ρόλων σε Χρήστες</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Διαγραφή σχολίων</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Διαγραφή Ρόλων</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Διαχείριση Γενικών Ρυθμίσεων</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Διαχείριση σχολίων</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Ανάγνωση σχολίων</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Διαβάστε Δικαιώματα</value>

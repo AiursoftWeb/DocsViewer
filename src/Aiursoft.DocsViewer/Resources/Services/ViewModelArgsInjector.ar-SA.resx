@@ -51,6 +51,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>انقر لتسجيل الدخول</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>إدارة التعليقات</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>التعليقات</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>المحتوى</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>إنشاء دور</value>
   </data>

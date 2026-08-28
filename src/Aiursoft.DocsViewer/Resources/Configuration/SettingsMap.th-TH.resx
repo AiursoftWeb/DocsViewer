@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>หมายเลขตัวอย่างสำหรับการทดสอบ</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>อนุญาตให้ผู้ใช้ที่เข้าสู่ระบบโพสต์ความคิดเห็นและตอบกลับได้</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>อนุญาตให้ผู้ใช้ปรับชื่อเล่น</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>ขีดจำกัดจำนวนการแคช Query สำหรับ Embedding</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>เปิดใช้งานความคิดเห็น</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>เปิดใช้งานการค้นหาตาม Embedding</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>เก็บความคิดเห็นและข้อความตอบกลับใหม่ไว้เพื่อรอการอนุมัติจากผู้ดูแลระบบก่อนเผยแพร่</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>เลขที่ ICP</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>ชื่อโปรเจกต์</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>ต้องมีการตรวจสอบความคิดเห็น</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL สำรองของที่เก็บโค้ด git ใช้ในกรณีที่ URL หลักใช้งานไม่ได้</value>

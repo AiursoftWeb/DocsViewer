@@ -51,6 +51,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>Apasă pentru a te autentifica</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Gestionarea comentariilor</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comentarii</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Conținut</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>Creează Rol</value>
   </data>
