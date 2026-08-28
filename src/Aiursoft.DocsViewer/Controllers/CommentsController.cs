@@ -20,6 +20,9 @@ public class CommentsController(
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Post(int documentId, int? parentCommentId, string content)
     {
+        if (!await globalSettingsService.GetBoolSettingAsync(SettingsMap.EnableComments))
+            return Forbid();
+
         if (string.IsNullOrWhiteSpace(content) || content.Length > 1000)
             return BadRequest();
 
@@ -31,7 +34,7 @@ public class CommentsController(
         {
             var parent = await db.DocumentComments
                 .FirstOrDefaultAsync(c => c.Id == parentCommentId.Value && c.DocumentId == documentId);
-            if (parent == null || parent.ParentCommentId != null) // max 2 levels
+            if (parent == null || parent.ParentCommentId != null || parent.Status != CommentStatus.Approved) // max 2 levels
                 return BadRequest();
         }
 
@@ -48,16 +51,19 @@ public class CommentsController(
             return StatusCode(429);
         }
 
+        var requiresReview = await globalSettingsService.GetBoolSettingAsync(SettingsMap.RequireCommentReview);
         db.DocumentComments.Add(new DocumentComment
         {
             DocumentId = documentId,
             UserId = userId,
             ParentCommentId = parentCommentId,
             Content = content.Trim(),
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            Status = requiresReview ? CommentStatus.Pending : CommentStatus.Approved
         });
         await db.SaveChangesAsync();
 
+        TempData["CommentSubmission"] = requiresReview ? "pending" : "approved";
         return RedirectToAction("DetailById", "Documents", new { id = documentId }, "comments");
     }
 

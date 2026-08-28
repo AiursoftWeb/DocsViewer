@@ -15,7 +15,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.11");
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.Document", b =>
                 {
@@ -60,7 +60,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.DocumentComment", b =>
@@ -80,7 +80,17 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
                     b.Property<int>("DocumentId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime?>("ModeratedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ModeratedByUserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("ParentCommentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")
@@ -90,13 +100,15 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DocumentId");
-
                     b.HasIndex("ParentCommentId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("Status", "CreatedAt");
 
-                    b.ToTable("DocumentComments", (string)null);
+                    b.HasIndex("UserId", "CreatedAt");
+
+                    b.HasIndex("DocumentId", "Status", "CreatedAt");
+
+                    b.ToTable("DocumentComments");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.DocumentFavorite", b =>
@@ -115,7 +127,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
 
                     b.HasIndex("DocumentId");
 
-                    b.ToTable("DocumentFavorites", (string)null);
+                    b.ToTable("DocumentFavorites");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.DocumentLike", b =>
@@ -134,7 +146,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
 
                     b.HasIndex("DocumentId");
 
-                    b.ToTable("DocumentLikes", (string)null);
+                    b.ToTable("DocumentLikes");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.GlobalSetting", b =>
@@ -147,7 +159,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("GlobalSettings", (string)null);
+                    b.ToTable("GlobalSettings");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.LocalizedDocument", b =>
@@ -181,7 +193,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
                     b.HasIndex("DocumentId", "Culture")
                         .IsUnique();
 
-                    b.ToTable("LocalizedDocuments", (string)null);
+                    b.ToTable("LocalizedDocuments");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.LocalizedNavTitle", b =>
@@ -213,7 +225,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
                     b.HasIndex("SourceText", "Culture")
                         .IsUnique();
 
-                    b.ToTable("LocalizedNavTitles", (string)null);
+                    b.ToTable("LocalizedNavTitles");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.SearchEmbedding", b =>
@@ -242,7 +254,7 @@ namespace Aiursoft.DocsViewer.Sqlite.Migrations
                     b.HasIndex("QueryText")
                         .IsUnique();
 
-                    b.ToTable("SearchEmbeddings", (string)null);
+                    b.ToTable("SearchEmbeddings");
                 });
 
             modelBuilder.Entity("Aiursoft.DocsViewer.Entities.User", b =>

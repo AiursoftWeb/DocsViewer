@@ -47,6 +47,15 @@ public abstract class DocsViewerDbContext(DbContextOptions options) : IdentityDb
             .WithMany()
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<DocumentComment>()
+            .HasIndex(c => new { c.Status, c.CreatedAt });
+
+        builder.Entity<DocumentComment>()
+            .HasIndex(c => new { c.DocumentId, c.Status, c.CreatedAt });
+
+        builder.Entity<DocumentComment>()
+            .HasIndex(c => new { c.UserId, c.CreatedAt });
             
         builder.Entity<LocalizedDocument>()
             .HasIndex(ld => new { ld.DocumentId, ld.Culture })

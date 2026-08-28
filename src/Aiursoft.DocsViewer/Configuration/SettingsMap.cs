@@ -25,6 +25,8 @@ public class SettingsMap
     public const string EnableEmbeddingBasedSearch = "EnableEmbeddingBasedSearch";
     public const string LocalizationLanguages = "LocalizationLanguages";
     public const string EmbeddingQueryCacheLimit = "EmbeddingQueryCacheLimit";
+    public const string EnableComments = "EnableComments";
+    public const string RequireCommentReview = "RequireCommentReview";
     public const string MaxCommentsPerDayPerUser = "MaxCommentsPerDayPerUser";
 
     public class FakeLocalizer
@@ -184,6 +186,22 @@ public class SettingsMap
         },
 
         // ── Rate Limiting ─────────────────────────────────────────────────────────
+        new GlobalSettingDefinition
+        {
+            Key = EnableComments,
+            Name = Localizer["Enable Comments"],
+            Description = Localizer["Allow signed-in users to post comments and replies."],
+            Type = SettingType.Bool,
+            DefaultValue = "True"
+        },
+        new GlobalSettingDefinition
+        {
+            Key = RequireCommentReview,
+            Name = Localizer["Require Comment Review"],
+            Description = Localizer["Hold new comments and replies for moderator approval before publishing them."],
+            Type = SettingType.Bool,
+            DefaultValue = "False"
+        },
         new GlobalSettingDefinition
         {
             Key = MaxCommentsPerDayPerUser,

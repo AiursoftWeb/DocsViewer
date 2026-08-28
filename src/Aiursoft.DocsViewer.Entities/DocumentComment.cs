@@ -20,6 +20,13 @@ public class DocumentComment
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    public CommentStatus Status { get; set; } = CommentStatus.Approved;
+
+    public DateTime? ModeratedAtUtc { get; set; }
+
+    [MaxLength(450)]
+    public string? ModeratedByUserId { get; set; }
+
     [ForeignKey(nameof(DocumentId))]
     public Document Document { get; set; } = null!;
 

@@ -12,6 +12,11 @@ public static class AppPermissionNames
     public const string CanEditUsers = nameof(CanEditUsers);
     public const string CanAssignRoleToUser = nameof(CanAssignRoleToUser);
 
+    // Comment Management
+    public const string CanReadComments = nameof(CanReadComments);
+    public const string CanModerateComments = nameof(CanModerateComments);
+    public const string CanDeleteComments = nameof(CanDeleteComments);
+
     // Role Management
     public const string CanReadRoles = nameof(CanReadRoles);
     public const string CanDeleteRoles = nameof(CanDeleteRoles);

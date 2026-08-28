@@ -33,6 +33,7 @@ public class DetailViewModel : UiStackLayoutViewModel
     public bool IsLiked { get; set; }
     public int LikeCount { get; set; }
     public List<DocumentComment> Comments { get; set; } = [];
+    public bool CommentsEnabled { get; set; }
     public string? GitHubEditUrl { get; set; }
     public string? GitHubHistoryUrl { get; set; }
     public string? CategoryDisplayName { get; set; }

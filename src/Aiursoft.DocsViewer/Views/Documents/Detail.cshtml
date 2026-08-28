@@ -162,7 +162,20 @@
                     @Localizer["Comments"] (@Model.Comments.Count)
                 </h5>
 
-                @if (User.Identity?.IsAuthenticated == true)
+                @if (TempData["CommentSubmission"] as string == "pending")
+                {
+                    <div class="alert alert-info">@Localizer["Your comment is awaiting moderator approval."]</div>
+                }
+                else if (TempData["CommentSubmission"] as string == "approved")
+                {
+                    <div class="alert alert-success">@Localizer["Your comment was published."]</div>
+                }
+
+                @if (!Model.CommentsEnabled)
+                {
+                    <div class="alert alert-secondary">@Localizer["New comments are currently disabled."]</div>
+                }
+                else if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="card mb-4">
                         <div class="card-body">
@@ -241,7 +254,7 @@
                                     }
 
                                     <!-- Reply Form -->
-                                    @if (User.Identity?.IsAuthenticated == true)
+                                    @if (Model.CommentsEnabled && User.Identity?.IsAuthenticated == true)
                                     {
                                         <div class="mt-2">
                                             <a class="btn btn-link btn-sm p-0 text-secondary toggle-reply"
@@ -272,7 +285,7 @@
                     <p class="text-muted text-center py-3">@Localizer["No comments yet. Be the first to leave one!"]</p>
                 }
 
-                @if (User.Identity?.IsAuthenticated != true)
+                @if (Model.CommentsEnabled && User.Identity?.IsAuthenticated != true)
                 {
                     <div class="text-center py-3">
                         <a href="/Account/Login?returnUrl=@Uri.EscapeDataString(Context.Request.Path + Context.Request.QueryString)"

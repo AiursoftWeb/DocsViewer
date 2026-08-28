@@ -1,0 +1,282 @@
+@using Aiursoft.DocsViewer.Authorization
+@using Aiursoft.DocsViewer.Entities
+@using Aiursoft.WebTools
+@using Microsoft.AspNetCore.Authorization
+@model Aiursoft.DocsViewer.Models.CommentManagementViewModels.IndexViewModel
+@inject IAuthorizationService AuthorizationService
+
+@{
+    var canModerate = (await AuthorizationService.AuthorizeAsync(User, AppPermissionNames.CanModerateComments)).Succeeded;
+    var canDelete = (await AuthorizationService.AuthorizeAsync(User, AppPermissionNames.CanDeleteComments)).Succeeded;
+    var message = TempData["CommentManagementMessage"] as string;
+}
+
+<div class="row mb-3">
+    <div class="col">
+        <h3 class="mb-1">@Localizer["Comment Management"]</h3>
+        <p class="text-muted mb-0">@Localizer["Review and manage comments and replies across all documents."]</p>
+    </div>
+</div>
+
+@if (message != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @(message switch
+        {
+            "approved" => Localizer["The selected comments were approved."],
+            "rejected" => Localizer["The selected comments were rejected."],
+            "deleted" => Localizer["The selected comments were deleted."],
+            "replied" => Localizer["The reply was published."],
+            _ => Localizer["The operation completed successfully."]
+        })
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Index" asp-route-status="" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type" class="card text-decoration-none h-100 @(Model.Status == null ? "border-primary" : null)">
+            <div class="card-body">
+                <div class="text-muted">@Localizer["All"]</div>
+                <div class="fs-3 fw-semibold">@(Model.PendingCount + Model.ApprovedCount + Model.RejectedCount)</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Index" asp-route-status="@CommentStatus.Pending" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type" class="card text-decoration-none h-100 @(Model.Status == CommentStatus.Pending ? "border-warning" : null)">
+            <div class="card-body">
+                <div class="text-muted">@Localizer["Pending"]</div>
+                <div class="fs-3 fw-semibold text-warning">@Model.PendingCount</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Index" asp-route-status="@CommentStatus.Approved" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type" class="card text-decoration-none h-100 @(Model.Status == CommentStatus.Approved ? "border-success" : null)">
+            <div class="card-body">
+                <div class="text-muted">@Localizer["Approved"]</div>
+                <div class="fs-3 fw-semibold text-success">@Model.ApprovedCount</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Index" asp-route-status="@CommentStatus.Rejected" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type" class="card text-decoration-none h-100 @(Model.Status == CommentStatus.Rejected ? "border-danger" : null)">
+            <div class="card-body">
+                <div class="text-muted">@Localizer["Rejected"]</div>
+                <div class="fs-3 fw-semibold text-danger">@Model.RejectedCount</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="row g-2 align-items-end">
+            <div class="col-md-5">
+                <label for="comment-keyword" class="form-label">@Localizer["Keyword"]</label>
+                <input id="comment-keyword" name="keyword" value="@Model.Keyword" class="form-control" placeholder="@Localizer["Comment, user, or document"]" />
+            </div>
+            <div class="col-md-3">
+                <label for="comment-status" class="form-label">@Localizer["Status"]</label>
+                <select id="comment-status" name="status" class="form-select">
+                    <option value="">@Localizer["All statuses"]</option>
+                    @foreach (var status in Enum.GetValues<CommentStatus>())
+                    {
+                        <option value="@status" selected="@(Model.Status == status ? "selected" : null)">@Localizer[status.ToString()]</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="comment-type" class="form-label">@Localizer["Type"]</label>
+                <select id="comment-type" name="type" class="form-select">
+                    <option value="">@Localizer["Comments and replies"]</option>
+                    <option value="root" selected="@(Model.Type == "root" ? "selected" : null)">@Localizer["Comments"]</option>
+                    <option value="reply" selected="@(Model.Type == "reply" ? "selected" : null)">@Localizer["Replies"]</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button type="submit" class="btn btn-primary"><i data-lucide="search" class="align-middle me-1"></i>@Localizer["Filter"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Comments.Count == 0)
+{
+    <div class="alert alert-info">@Localizer["No comments match the current filters."]</div>
+}
+else
+{
+    @if (canModerate || canDelete)
+    {
+        <form id="batch-comment-form" method="post" class="d-flex flex-wrap gap-2 mb-3">
+            @Html.AntiForgeryToken()
+            @if (canModerate)
+            {
+                <button type="submit" formaction="@Url.Action("Approve")" class="btn btn-outline-success btn-sm">
+                    <i data-lucide="check" class="align-middle me-1"></i>@Localizer["Approve selected"]
+                </button>
+                <button type="submit" formaction="@Url.Action("Reject")" class="btn btn-outline-warning btn-sm">
+                    <i data-lucide="x" class="align-middle me-1"></i>@Localizer["Reject selected"]
+                </button>
+            }
+            @if (canDelete)
+            {
+                <button type="submit" formaction="@Url.Action("Delete")" class="btn btn-outline-danger btn-sm" onclick="return confirm('@Localizer["Permanently delete the selected comments and their replies?"]')">
+                    <i data-lucide="trash-2" class="align-middle me-1"></i>@Localizer["Delete selected"]
+                </button>
+            }
+        </form>
+    }
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                <tr>
+                    @if (canModerate || canDelete)
+                    {
+                        <th style="width: 42px;"><input type="checkbox" class="form-check-input" id="select-all-comments" /></th>
+                    }
+                    <th>@Localizer["Comment"]</th>
+                    <th>@Localizer["User"]</th>
+                    <th>@Localizer["Document"]</th>
+                    <th>@Localizer["Status"]</th>
+                    <th class="text-end">@Localizer["Actions"]</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var comment in Model.Comments)
+                {
+                    <tr>
+                        @if (canModerate || canDelete)
+                        {
+                            <td><input type="checkbox" class="form-check-input comment-checkbox" name="commentIds" value="@comment.Id" form="batch-comment-form" /></td>
+                        }
+                        <td style="min-width: 320px; max-width: 600px;">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                @if (comment.ParentCommentId.HasValue)
+                                {
+                                    <span class="badge bg-info">@Localizer["Reply"]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@Localizer["Comment"]</span>
+                                }
+                                <small class="text-muted" data-utc-time="@comment.CreatedAt.ToHtmlDateTime()"></small>
+                                @if (comment.RepliesCount > 0)
+                                {
+                                    <small class="text-muted">@string.Format(Localizer["{0} replies"].Value, comment.RepliesCount)</small>
+                                }
+                            </div>
+                            @if (comment.ParentContent != null)
+                            {
+                                <div class="small text-muted border-start ps-2 mb-2 text-truncate" title="@comment.ParentContent">
+                                    @comment.ParentContent
+                                </div>
+                            }
+                            <div style="white-space: pre-wrap; overflow-wrap: anywhere;">@comment.Content</div>
+                        </td>
+                        <td>
+                            <a asp-controller="Users" asp-action="Details" asp-route-id="@comment.UserId" class="text-decoration-none">@comment.DisplayName</a>
+                            <div class="small text-muted">@comment.UserName</div>
+                        </td>
+                        <td>
+                            <a href="@comment.DocumentUrl" class="text-decoration-none">@comment.DocumentTitle</a>
+                        </td>
+                        <td>
+                            @switch (comment.Status)
+                            {
+                                case CommentStatus.Pending:
+                                    <span class="badge bg-warning text-dark">@Localizer["Pending"]</span>
+                                    break;
+                                case CommentStatus.Approved:
+                                    <span class="badge bg-success">@Localizer["Approved"]</span>
+                                    break;
+                                case CommentStatus.Rejected:
+                                    <span class="badge bg-danger">@Localizer["Rejected"]</span>
+                                    break;
+                            }
+                        </td>
+                        <td class="text-end" style="min-width: 190px;">
+                            <div class="d-flex justify-content-end gap-1">
+                                @if (canModerate && comment.Status != CommentStatus.Approved)
+                                {
+                                    <form asp-action="Approve" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="commentIds" value="@comment.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-success" title="@Localizer["Approve"]"><i data-lucide="check"></i></button>
+                                    </form>
+                                }
+                                @if (canModerate && comment.Status != CommentStatus.Rejected)
+                                {
+                                    <form asp-action="Reject" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="commentIds" value="@comment.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-warning" title="@Localizer["Reject"]"><i data-lucide="x"></i></button>
+                                    </form>
+                                }
+                                @if (canModerate && !comment.ParentCommentId.HasValue && comment.Status == CommentStatus.Approved)
+                                {
+                                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#reply-comment-@comment.Id" title="@Localizer["Reply"]"><i data-lucide="reply"></i></button>
+                                }
+                                @if (canDelete)
+                                {
+                                    <form asp-action="Delete" method="post" onsubmit="return confirm('@Localizer["Permanently delete this comment and its replies?"]')">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="commentIds" value="@comment.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="@Localizer["Delete"]"><i data-lucide="trash-2"></i></button>
+                                    </form>
+                                }
+                            </div>
+                            @if (canModerate && !comment.ParentCommentId.HasValue && comment.Status == CommentStatus.Approved)
+                            {
+                                <div class="collapse mt-2 text-start" id="reply-comment-@comment.Id">
+                                    <form asp-action="Reply" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="commentId" value="@comment.Id" />
+                                        <textarea name="content" maxlength="1000" required class="form-control form-control-sm mb-2" rows="3" placeholder="@Localizer["Write an administrator reply..."]"></textarea>
+                                        <button type="submit" class="btn btn-primary btn-sm">@Localizer["Publish reply"]</button>
+                                    </form>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="mt-3" aria-label="@Localizer["Comment pages"]">
+            <ul class="pagination justify-content-end">
+                <li class="page-item @(Model.Page <= 1 ? "disabled" : null)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)" asp-route-status="@Model.Status" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type">@Localizer["Previous"]</a>
+                </li>
+                @for (var pageNumber = Math.Max(1, Model.Page - 2); pageNumber <= Math.Min(Model.TotalPages, Model.Page + 2); pageNumber++)
+                {
+                    var currentPageNumber = pageNumber;
+                    <li class="page-item @(currentPageNumber == Model.Page ? "active" : null)">
+                        <a class="page-link" asp-action="Index" asp-route-page="@currentPageNumber" asp-route-status="@Model.Status" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type">@currentPageNumber</a>
+                    </li>
+                }
+                <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : null)">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)" asp-route-status="@Model.Status" asp-route-keyword="@Model.Keyword" asp-route-type="@Model.Type">@Localizer["Next"]</a>
+                </li>
+            </ul>
+        </nav>
+    }
+}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectAll = document.getElementById('select-all-comments');
+        if (!selectAll) return;
+        selectAll.addEventListener('change', function () {
+            document.querySelectorAll('.comment-checkbox').forEach(function (checkbox) {
+                checkbox.checked = selectAll.checked;
+            });
+        });
+    });
+</script>

@@ -103,8 +103,8 @@ public class DocumentsController(
         {
             "likes_desc" => query.OrderByDescending(r => db.DocumentLikes.Count(l => l.DocumentId == r.Id)),
             "likes_asc" => query.OrderBy(r => db.DocumentLikes.Count(l => l.DocumentId == r.Id)),
-            "comments_desc" => query.OrderByDescending(r => db.DocumentComments.Count(c => c.DocumentId == r.Id)),
-            "comments_asc" => query.OrderBy(r => db.DocumentComments.Count(c => c.DocumentId == r.Id)),
+            "comments_desc" => query.OrderByDescending(r => db.DocumentComments.Count(c => c.DocumentId == r.Id && c.Status == CommentStatus.Approved)),
+            "comments_asc" => query.OrderBy(r => db.DocumentComments.Count(c => c.DocumentId == r.Id && c.Status == CommentStatus.Approved)),
             "favorites_desc" => query.OrderByDescending(r => db.DocumentFavorites.Count(f => f.DocumentId == r.Id)),
             "favorites_asc" => query.OrderBy(r => db.DocumentFavorites.Count(f => f.DocumentId == r.Id)),
             _ => query.OrderBy(r => r.Title)
@@ -229,9 +229,9 @@ public class DocumentsController(
         var likeCount = await db.DocumentLikes.CountAsync(l => l.DocumentId == id);
 
         var comments = await db.DocumentComments
-            .Where(c => c.DocumentId == id && c.ParentCommentId == null)
+            .Where(c => c.DocumentId == id && c.ParentCommentId == null && c.Status == CommentStatus.Approved)
             .Include(c => c.User)
-            .Include(c => c.Replies).ThenInclude(r => r.User)
+            .Include(c => c.Replies.Where(r => r.Status == CommentStatus.Approved)).ThenInclude(r => r.User)
             .OrderBy(c => c.CreatedAt)
             .ToListAsync();
 
@@ -286,6 +286,7 @@ public class DocumentsController(
             IsLiked = isLiked,
             LikeCount = likeCount,
             Comments = comments,
+            CommentsEnabled = await globalSettingsService.GetBoolSettingAsync(SettingsMap.EnableComments),
             GitHubEditUrl = gitHubEditUrl,
             GitHubHistoryUrl = gitHubHistoryUrl,
             CategoryDisplayName = GetDisplayName(doc.Category, null),
