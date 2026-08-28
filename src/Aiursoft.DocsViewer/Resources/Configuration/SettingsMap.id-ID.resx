@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Sebuah angka contoh untuk pengujian.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Izinkan pengguna yang sudah masuk untuk mengirim komentar dan balasan.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Izinkan Pengguna Mengatur Nama Panggilan</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Batas Cache Kueri Penyemat</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Aktifkan Komentar</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Aktifkan Pencarian Berbasis Embedding</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Tahan komentar dan balasan baru untuk persetujuan moderator sebelum dipublikasikan.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>Nomor ICP</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Nama Proyek</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Wajibkan Peninjauan Komentar</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL cadangan dari repositori git. Digunakan jika URL utama gagal.</value>

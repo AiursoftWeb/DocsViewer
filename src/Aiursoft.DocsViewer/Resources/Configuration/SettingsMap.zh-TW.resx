@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>測試用的虛擬數字。</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>允許已登入的使用者發布留言和回覆。</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>允許使用者修改暱稱</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>嵌入查詢快取限制</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>啟用留言</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>啟用基於嵌入的搜尋</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>新留言和回覆須先經版主審核核准後才會發布。</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP編號</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>專案名稱</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>留言需經審核</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>此 Git 儲存庫的備份 URL。當主要 URL 失效時使用。</value>

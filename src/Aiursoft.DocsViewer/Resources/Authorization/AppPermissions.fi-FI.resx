@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Lisää uusia käyttäjiä</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Sallii kommenttien hyväksymisen, hylkäämisen ja kommentteihin vastaamisen.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Mahdollistaa roolien määrittämisen tai poistamisen mille tahansa käyttäjälle.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Sallii käyttäjätietojen, kuten sähköpostiosoitteen ja roolien, muokkaamisen sekä käyttäjien salasanojen nollaamisen.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Sallii kommenttien ja niiden vastauseiden pysyvän poiston.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Sallii roolien pysyvän poistamisen.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Mahdollistaa rooliluettelon ja niihin liitettyjen käyttöoikeuksien tarkastelemisen.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Mahdollistaa koko sivuston laajuisen kommenttien hallintakeskuksen katselun.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Anna roolit käyttäjille</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Poista kommentit</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Poista roolit</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Hallinnoi yleisiä asetuksia</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Mooderaa kommentteja</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Lue kommentit</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Lue käyttöoikeudet</value>

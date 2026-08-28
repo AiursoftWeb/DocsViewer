@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>A dummy number for testing.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Allow signed-in users to post comments and replies.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Allow User Adjust Nickname</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Embedding Query Cache Limit</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Enable Comments</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Enable Embedding-Based Search</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Hold new comments and replies for moderator approval before publishing them.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP Number</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Project Name</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Require Comment Review</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>The backup URL of the Git repository. Used if the primary URL fails.</value>

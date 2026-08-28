@@ -54,6 +54,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>로그인하려면 클릭</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>댓글 관리</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>댓글</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>콘텐츠</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>역할 생성</value>
   </data>

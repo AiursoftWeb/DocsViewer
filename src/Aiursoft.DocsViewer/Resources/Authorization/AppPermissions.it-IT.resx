@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Aggiungi Nuovi Utenti</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Consente di approvare, rifiutare e rispondere ai commenti.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Consente di assegnare o rimuovere ruoli per qualsiasi utente.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Consente la modifica dei dettagli utente come email e ruoli, e può anche reimpostare le password degli utenti.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Consente l&apos;eliminazione permanente dei commenti e delle relative risposte.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Consente l&apos;eliminazione permanente dei ruoli.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Consente di visualizzare l&apos;elenco dei ruoli e le relative autorizzazioni assegnate.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Consente la visualizzazione del centro di gestione dei commenti a livello di sito.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Assegna Ruoli agli Utenti</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Elimina commenti</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Elimina Ruoli</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Gestisci Impostazioni Globali</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Moderare commenti</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Leggi Commenti</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Leggere Permessi</value>

@@ -51,6 +51,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>Κάντε κλικ για σύνδεση</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Διαχείριση Σχολίων</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Σχόλια</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Περιεχόμενο</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>Δημιουργία Ρόλου</value>
   </data>

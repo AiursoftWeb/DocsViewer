@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Un número de prueba para pruebas.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Permitir que los usuarios con sesión iniciada publiquen comentarios y respuestas.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Permitir al usuario modificar el apodo</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Límite de la caché de consultas de inserción</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Habilitar comentarios</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Habilitar búsqueda basada en incrustaciones</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Retener nuevos comentarios y respuestas para la aprobación de un moderador antes de publicarlos.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>Número ICP</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Nombre del proyecto</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Revisión de comentarios obligatoria</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL de respaldo del repositorio git. Se utiliza si la URL principal no funciona.</value>

@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Đăng nhập để bình luận</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Bình luận mới hiện đang bị vô hiệu hóa.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Chưa có bình luận nào. Hãy là người đầu tiên để lại bình luận!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Bạn đang đọc bản dịch máy do AI tạo ra, có thể chứa các sai sót.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Bình luận của bạn đang chờ phê duyệt của người điều phối.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Bình luận của bạn đã được đăng.</value>
   </data>
 
 </root>

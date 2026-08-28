@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Log in to comment</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>New comments are currently disabled.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>No comments yet. Be the first to leave one!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>You are reading an AI-generated machine translation, which may contain inaccuracies.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Your comment is awaiting moderator approval.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Your comment was published.</value>
   </data>
 
 </root>

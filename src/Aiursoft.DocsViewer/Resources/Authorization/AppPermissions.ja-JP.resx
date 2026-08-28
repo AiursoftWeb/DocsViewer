@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>新規ユーザーの追加</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>コメントの承認、却下、返信を行うことができます。</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>任意のユーザーに対してロールの割り当てまたは削除を許可します。</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>ユーザーのメールアドレスやロールなどの詳細情報の変更を許可し、ユーザーのパスワードをリセットすることもできます。</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>コメントとその返信を恒久的に削除することを許可します。</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>ロールの完全な削除を許可します。</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>ロールの一覧とそれに割り当てられた権限を表示できます。</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>サイト全体のコメント管理センターの表示を許可します。</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>ユーザーへのロール割り当て</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>コメントを削除</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>ロールの削除</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>グローバル設定の管理</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>コメントのモデレーション</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>コメントの読み取り</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>権限の閲覧</value>

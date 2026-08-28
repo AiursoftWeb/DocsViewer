@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Väliaikainen luku testaamista varten.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Salli kirjautuneiden käyttäjien lähettämään kommentteja ja vastauksia.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Salli käyttäjän muokata nimimerkkiä</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Sisällyttämiskyselyvälimuistin raja-arvo</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Ota kommentit käyttöön</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Ota käyttöön uppoamisessa perustuva haku</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Pysäytä uudet kommentit ja vastaukset moderaattorin hyväksyntää varten ennen julkaisemista.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP-numero</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Projektin nimi</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Vaadi kommenttien tarkistusta</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>Git-viitastimen varmuuskopiointi-URL-osoite. Käytetään, jos pää-URL-osoite ei toimi.</value>

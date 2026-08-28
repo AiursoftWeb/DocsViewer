@@ -54,6 +54,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>点击登录</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>评论管理</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>评论</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>内容</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>创建角色</value>
   </data>

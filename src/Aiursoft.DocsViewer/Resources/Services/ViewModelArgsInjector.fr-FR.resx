@@ -54,6 +54,15 @@
   <data name="Click to login" xml:space="preserve">
     <value>Cliquez pour vous connecter</value>
   </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Gestion des commentaires</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Contenu</value>
+  </data>
   <data name="Create Role" xml:space="preserve">
     <value>Créer un rôle</value>
   </data>

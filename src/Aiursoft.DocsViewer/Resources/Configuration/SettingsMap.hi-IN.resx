@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>परीक्षण के लिए एक डमी संख्या।</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>साइन-इन किए गए उपयोगकर्ताओं को टिप्पणियाँ और उत्तर पोस्ट करने की अनुमति दें।</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>उपयोगकर्ता नाम समायोजित करने की अनुमति दें</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>एम्बेडिंग क्वेरी कैश सीमा</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>टिप्पणियाँ सक्षम करें</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>एंबेडिंग-आधारित खोज सक्षम करें</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>प्रकाशित करने से पहले नए टिप्पणियों और जवाबों को मॉडरेटर की अनुमति के लिए रोकें।</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>ICP संख्या</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>प्रोजेक्ट नाम</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>टिप्पणी की समीक्षा आवश्यक</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>गिट रिपाजिटरी के लिए बैकअप URL। प्राथमिक URL विफल होने पर उपयोग किया जाता है।</value>

@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>เข้าสู่ระบบเพื่อแสดงความคิดเห็น</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>ความคิดเห็นใหม่ถูกระงับชั่วคราว</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>ยังไม่มีความคิดเห็น เป็นคนแรกที่จะแสดงความคิดเห็น!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>คุณกำลังอ่านคำแปลที่สร้างโดย AI ซึ่งอาจมีข้อผิดพลาดได้</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>ความคิดเห็นของคุณกำลังรอการอนุมัติจากผู้ดูแล</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>ความคิดเห็นของคุณได้รับการเผยแพร่แล้ว</value>
   </data>
 
 </root>

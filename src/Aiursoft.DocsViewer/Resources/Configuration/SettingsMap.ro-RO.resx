@@ -27,6 +27,9 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Un număr dummy pentru testare.</value>
   </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Permite utilizatorilor autentificați să posteze comentarii și răspunsuri.</value>
+  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Permite utilizatorului să-și ajusteze nickname-ul</value>
   </data>
@@ -66,8 +69,14 @@
   <data name="Embedding Query Cache Limit" xml:space="preserve">
     <value>Limitul Caches-ului de Întrebări Embedding</value>
   </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Activare comentarii</value>
+  </data>
   <data name="Enable Embedding-Based Search" xml:space="preserve">
     <value>Activează căutarea bazată pe embecare</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Retine comentariile și răspunsurile noi pentru aprobarea moderatorului înainte de a le publica.</value>
   </data>
   <data name="ICP Number" xml:space="preserve">
     <value>Număr ICP</value>
@@ -98,6 +107,9 @@
   </data>
   <data name="Project Name" xml:space="preserve">
     <value>Numele proiectului</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Necesită aprobarea comentariilor</value>
   </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL-ul de rezervă al depozitului git. Utilizat dacă URL-ul principal eșuează.</value>

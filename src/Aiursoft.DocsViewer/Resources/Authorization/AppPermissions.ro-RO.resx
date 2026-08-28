@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Adăugare Utilizatori Noi</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Permite aprobarea, respingerea și răspunderea la comentarii.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Permite atribuirea sau eliminarea rolurilor pentru orice utilizator.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Permite modificarea detaliilor utilizatorului, cum ar fi adresa de e-mail și rolurile, și poate, de asemenea, să reseteze parolele utilizatorilor.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Permite ștergerea permanentă a comentariilor și a răspunsurilor acestora.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Permite ștergerea permanentă a rolurilor.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Permite vizualizarea listei de roluri și a permisiunilor atribuite acestora.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Permite vizualizarea centrului de gestionare a comentariilor la nivel de site.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Atribuie Roluri Utilizatorilor</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Ștergere comentarii</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Șterge Roluri</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Gestionare setări globale</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Moderare comentarii</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Citește Comentarii</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Citește Permisiuni</value>

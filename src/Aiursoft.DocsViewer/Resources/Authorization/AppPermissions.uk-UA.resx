@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Додати нових користувачів</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Дозволяє затверджувати, відхиляти та відповідати на коментарі.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Дозволяє призначати або знімати ролі для будь-кого користувача.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Дозволяє змінювати дані користувача, такі як електронна пошта та ролі, а також скидати паролі користувачів.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Дозволяє назавжди видаляти коментарі та відповіді на них.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Дозволяє остаточне видалення ролей.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Дозволяє переглядати список ролей та призначені для них дозволи.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Дозволяє перегляд центру управління коментарями на всьому сайті.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Призначити ролі користувачам</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Видалити коментарі</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Видалити ролі</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Керування загальними параметрами</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Модерація коментарів</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Читати коментарі</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Читати дозволи</value>

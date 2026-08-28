@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>새 사용자 추가</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>댓글을 승인, 거부 및 회신할 수 있습니다.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>모든 사용자에게 역할을 할당하거나 제거할 수 있습니다.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>사용자의 이메일 및 역할과 같은 세부 정보 수정을 허용하며, 사용자 비밀번호 재설정도 가능합니다.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>댓글과 해당 답글을 영구적으로 삭제할 수 있습니다.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>역할을 영구적으로 삭제할 수 있습니다.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>역할 목록과 할당된 권한을 볼 수 있습니다.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>전체 사이트의 댓글 관리 센터를 볼 수 있습니다.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>사용자에게 역할 할당</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>댓글 삭제</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>역할 삭제</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>전역 설정 관리</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>댓글 관리</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>댓글 읽기</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>권한 읽기</value>

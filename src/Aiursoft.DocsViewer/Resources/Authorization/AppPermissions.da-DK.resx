@@ -24,6 +24,9 @@
   <data name="Add New Users" xml:space="preserve">
     <value>Tilføj nye brugere</value>
   </data>
+  <data name="Allows approving, rejecting, and replying to comments." xml:space="preserve">
+    <value>Tillader godkendelse, afvisning og besvarelse af kommentarer.</value>
+  </data>
   <data name="Allows assigning or removing roles for any user." xml:space="preserve">
     <value>Giver mulighed for at tildele eller fjerne roller for enhver bruger.</value>
   </data>
@@ -32,6 +35,9 @@
   </data>
   <data name="Allows modification of user details like email and roles, and can also reset user passwords." xml:space="preserve">
     <value>Tillader ændring af brugeroplysninger som e-mail og roller, og kan også nulstille brugeradgangskoder.</value>
+  </data>
+  <data name="Allows permanently deleting comments and their replies." xml:space="preserve">
+    <value>Tillader permanent sletning af kommentarer og deres svar.</value>
   </data>
   <data name="Allows the permanent deletion of roles." xml:space="preserve">
     <value>Tillader den permanente sletning af roller.</value>
@@ -57,8 +63,14 @@
   <data name="Allows viewing the list of roles and their assigned permissions." xml:space="preserve">
     <value>Giver mulighed for at se listen over roller og deres tildelte tilladelser.</value>
   </data>
+  <data name="Allows viewing the site-wide comment management center." xml:space="preserve">
+    <value>Giver tilladelse til at se det siteomfattende kommentaradministrationscenter.</value>
+  </data>
   <data name="Assign Roles to Users" xml:space="preserve">
     <value>Tildel roller til brugere</value>
+  </data>
+  <data name="Delete Comments" xml:space="preserve">
+    <value>Slet kommentarer</value>
   </data>
   <data name="Delete Roles" xml:space="preserve">
     <value>Slet Roller</value>
@@ -83,6 +95,12 @@
   </data>
   <data name="Manage Global Settings" xml:space="preserve">
     <value>Håndtér globale indstillinger</value>
+  </data>
+  <data name="Moderate Comments" xml:space="preserve">
+    <value>Moderér kommentarer</value>
+  </data>
+  <data name="Read Comments" xml:space="preserve">
+    <value>Læs kommentarer</value>
   </data>
   <data name="Read Permissions" xml:space="preserve">
     <value>Læs tilladelser</value>
