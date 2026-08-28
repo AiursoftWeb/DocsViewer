@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Actions" xml:space="preserve">
+    <value>Дії</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Усі</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>Усі статуси</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Затвердити</value>
+  </data>
+  <data name="Approve selected" xml:space="preserve">
+    <value>Затвердити вибрані</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Затверджено</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Коментар</value>
+  </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Керування коментарями</value>
+  </data>
+  <data name="Comment pages" xml:space="preserve">
+    <value>Сторінки коментарів</value>
+  </data>
+  <data name="Comment, user, or document" xml:space="preserve">
+    <value>Коментар, користувач або документ</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Коментарі</value>
+  </data>
+  <data name="Comments and replies" xml:space="preserve">
+    <value>Коментарі та відповіді</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Delete selected" xml:space="preserve">
+    <value>Видалити вибрані</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Документ</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фільтрувати</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Ключове слово</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Далі</value>
+  </data>
+  <data name="No comments match the current filters." xml:space="preserve">
+    <value>Немає коментарів, що відповідають поточним фільтрам.</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Очікує</value>
+  </data>
+  <data name="Permanently delete the selected comments and their replies?" xml:space="preserve">
+    <value>Тривало видалити вибрані коментарі та їхні відповіді?</value>
+  </data>
+  <data name="Permanently delete this comment and its replies?" xml:space="preserve">
+    <value>Видалити цей коментар і відповіді до нього назавжди?</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Попередня</value>
+  </data>
+  <data name="Publish reply" xml:space="preserve">
+    <value>Опублікувати відповідь</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Відхилити</value>
+  </data>
+  <data name="Reject selected" xml:space="preserve">
+    <value>Відхилити обране</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Відхилено</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Відповіді</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Відповідь</value>
+  </data>
+  <data name="Review and manage comments and replies across all documents." xml:space="preserve">
+    <value>Переглядайте та керуйте коментарями та відповідями в усіх документах.</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Write an administrator reply..." xml:space="preserve">
+    <value>Напишіть відповідь адміністратора...</value>
+  </data>
+
+</root>

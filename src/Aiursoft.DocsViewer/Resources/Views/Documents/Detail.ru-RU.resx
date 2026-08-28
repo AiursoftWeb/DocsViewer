@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Войдите, чтобы оставить комментарий</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Новые комментарии в настоящее время отключены.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Комментариев пока нет. Будьте первым, кто оставит отзыв!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Вы читаете машинный перевод, созданный искусственным интеллектом, который может содержать неточности.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Ваш комментарий ожидает одобрения модератора.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Ваш комментарий был опубликован.</value>
   </data>
 
 </root>

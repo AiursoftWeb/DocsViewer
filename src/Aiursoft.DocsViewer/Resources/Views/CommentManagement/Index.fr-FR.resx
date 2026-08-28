@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Tous</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>Tous les statuts</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Approuver</value>
+  </data>
+  <data name="Approve selected" xml:space="preserve">
+    <value>Approuver la sélection</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Approuvé</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Commentaire</value>
+  </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Gestion des commentaires</value>
+  </data>
+  <data name="Comment pages" xml:space="preserve">
+    <value>Pages de commentaires</value>
+  </data>
+  <data name="Comment, user, or document" xml:space="preserve">
+    <value>Commentaire, utilisateur ou document</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="Comments and replies" xml:space="preserve">
+    <value>Commentaires et réponses</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Delete selected" xml:space="preserve">
+    <value>Supprimer la sélection</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrer</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Mot-clé</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Suivant</value>
+  </data>
+  <data name="No comments match the current filters." xml:space="preserve">
+    <value>Aucun commentaire ne correspond aux filtres actuels.</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>En attente</value>
+  </data>
+  <data name="Permanently delete the selected comments and their replies?" xml:space="preserve">
+    <value>Supprimer définitivement les commentaires sélectionnés et leurs réponses ?</value>
+  </data>
+  <data name="Permanently delete this comment and its replies?" xml:space="preserve">
+    <value>Supprimer définitivement ce commentaire et ses réponses ?</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Précédent</value>
+  </data>
+  <data name="Publish reply" xml:space="preserve">
+    <value>Publier la réponse</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Rejeter</value>
+  </data>
+  <data name="Reject selected" xml:space="preserve">
+    <value>Rejeter la sélection</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Rejeté</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Réponses</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Réponse</value>
+  </data>
+  <data name="Review and manage comments and replies across all documents." xml:space="preserve">
+    <value>Examinez et gérez les commentaires et les réponses de tous les documents.</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Write an administrator reply..." xml:space="preserve">
+    <value>Écrire une réponse de l’administrateur...</value>
+  </data>
+
+</root>

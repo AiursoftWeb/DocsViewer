@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Actions" xml:space="preserve">
+    <value>การดำเนินการ</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>ทั้งหมด</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>ทุกสถานะ</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>อนุมัติ</value>
+  </data>
+  <data name="Approve selected" xml:space="preserve">
+    <value>อนุมัติที่เลือก</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>อนุมัติแล้ว</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>ความคิดเห็น</value>
+  </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>การจัดการความคิดเห็น</value>
+  </data>
+  <data name="Comment pages" xml:space="preserve">
+    <value>หน้าข้อความ</value>
+  </data>
+  <data name="Comment, user, or document" xml:space="preserve">
+    <value>ความคิดเห็น ผู้ใช้ หรือเอกสาร</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>ความคิดเห็น</value>
+  </data>
+  <data name="Comments and replies" xml:space="preserve">
+    <value>ความคิดเห็นและการตอบกลับ</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="Delete selected" xml:space="preserve">
+    <value>ลบที่เลือก</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>เอกสาร</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>กรอง</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>คำสำคัญ</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>ถัดไป</value>
+  </data>
+  <data name="No comments match the current filters." xml:space="preserve">
+    <value>ไม่มีความคิดเห็นใดที่ตรงกับตัวกรองปัจจุบัน</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>รออนุมัติ</value>
+  </data>
+  <data name="Permanently delete the selected comments and their replies?" xml:space="preserve">
+    <value>ต้องการลบถาวรความคิดเห็นที่เลือกไว้และคำตอบที่เกี่ยวข้องหรือไม่?</value>
+  </data>
+  <data name="Permanently delete this comment and its replies?" xml:space="preserve">
+    <value>ต้องการลบความคิดเห็นนี้และความคิดเห็นตอบกลับทั้งหมดอย่างถาวรหรือไม่?</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>ก่อนหน้า</value>
+  </data>
+  <data name="Publish reply" xml:space="preserve">
+    <value>เผยแพร่การตอบกลับ</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>ปฏิเสธ</value>
+  </data>
+  <data name="Reject selected" xml:space="preserve">
+    <value>ปฏิเสธรายการที่เลือก</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>ถูกปฏิเสธ</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>คำตอบ</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>ตอบกลับ</value>
+  </data>
+  <data name="Review and manage comments and replies across all documents." xml:space="preserve">
+    <value>ตรวจสอบและจัดการความคิดเห็นและคำตอบในเอกสารทั้งหมด</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>ประเภท</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Write an administrator reply..." xml:space="preserve">
+    <value>เขียนคำตอบจากผู้ดูแลระบบ...</value>
+  </data>
+
+</root>

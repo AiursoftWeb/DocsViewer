@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Actions" xml:space="preserve">
+    <value>Åtgärder</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Alla</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>Alla statusar</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>Godkänn</value>
+  </data>
+  <data name="Approve selected" xml:space="preserve">
+    <value>Godkänn valda</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Godkänd</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Kommentar</value>
+  </data>
+  <data name="Comment Management" xml:space="preserve">
+    <value>Kommentarhantering</value>
+  </data>
+  <data name="Comment pages" xml:space="preserve">
+    <value>Sidor för kommentarer</value>
+  </data>
+  <data name="Comment, user, or document" xml:space="preserve">
+    <value>Kommentar, användare eller dokument</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Kommentarer</value>
+  </data>
+  <data name="Comments and replies" xml:space="preserve">
+    <value>Kommentarer och svar</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="Delete selected" xml:space="preserve">
+    <value>Ta bort valda</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Dokument</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrera</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Sökord</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Nästa</value>
+  </data>
+  <data name="No comments match the current filters." xml:space="preserve">
+    <value>Inga kommentarer matchar de aktuella filtren.</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Väntande</value>
+  </data>
+  <data name="Permanently delete the selected comments and their replies?" xml:space="preserve">
+    <value>Vill du permanent ta bort de markerade kommentarerna och deras svar?</value>
+  </data>
+  <data name="Permanently delete this comment and its replies?" xml:space="preserve">
+    <value>Ta bort den här kommentaren och dess svar permanent?</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Föregående</value>
+  </data>
+  <data name="Publish reply" xml:space="preserve">
+    <value>Publicera svar</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>Avvisa</value>
+  </data>
+  <data name="Reject selected" xml:space="preserve">
+    <value>Avvisa markerade</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Avvisad</value>
+  </data>
+  <data name="Replies" xml:space="preserve">
+    <value>Svar</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>Svar</value>
+  </data>
+  <data name="Review and manage comments and replies across all documents." xml:space="preserve">
+    <value>Granska och hantera kommentarer och svar i alla dokument.</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="Write an administrator reply..." xml:space="preserve">
+    <value>Skriv ett administratörs svar...</value>
+  </data>
+
+</root>

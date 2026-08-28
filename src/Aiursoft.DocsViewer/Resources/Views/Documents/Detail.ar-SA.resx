@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>تسجيل الدخول للتعليق</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>تعليقات جديدة معطّلة حاليًا.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>لا توجد تعليقات بعد. كن أول من يعلق!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>أنت تقرأ ترجمة آلية تم إنشاؤها بواسطة الذكاء الاصطناعي، والتي قد تحتوي على أخطاء.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>تعليقك في انتظار موافقة المشرف.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>تم نشر تعليقك.</value>
   </data>
 
 </root>

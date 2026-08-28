@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Masuk untuk berkomentar</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Komentar baru saat ini dinonaktifkan.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Belum ada komentar. Jadilah yang pertama!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Anda sedang membaca terjemahan mesin yang dihasilkan oleh AI, yang mungkin mengandung ketidakakuratan.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Komentar Anda sedang menunggu persetujuan moderator.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Komentar Anda telah dipublikasikan.</value>
   </data>
 
 </root>
