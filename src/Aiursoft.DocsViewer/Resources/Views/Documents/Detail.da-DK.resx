@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Log på for at kommentere</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Nye kommentarer er i øjeblikket deaktiveret.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Ingen kommentarer endnu. Vær den første til at efterlade en!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Du læser en maskinoversættelse genereret af AI, som muligvis indeholder unøjagtigheder.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Din kommentar afventer godkendelse af moderator.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Din kommentar blev publiceret.</value>
   </data>
 
 </root>

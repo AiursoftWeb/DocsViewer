@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Autentificați-vă pentru a comenta</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Noile comentarii sunt în prezent dezactivate.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Încă nu există comentarii. Fii primul care lasă unul!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Cititi o traducere automată generată de AI, care poate conține inexactități.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Comentariul dumneavoastră este în așteptarea aprobării moderatorului.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Comentariul dumneavoastră a fost publicat.</value>
   </data>
 
 </root>

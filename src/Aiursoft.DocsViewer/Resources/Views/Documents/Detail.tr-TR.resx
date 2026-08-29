@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Yorum yapmak için giriş yapın</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Yeni yorumlar şu anda devre dışıdır.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Henüz yorum yok. İlk yorumu siz yapın!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Yapay zeka destekli makine çevirisi okumaktasınız; bu çeviri hatalar içerebilir.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Yorumunuz moderatör onayı bekleniyor.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Yorumunuz yayımlandı.</value>
   </data>
 
 </root>
