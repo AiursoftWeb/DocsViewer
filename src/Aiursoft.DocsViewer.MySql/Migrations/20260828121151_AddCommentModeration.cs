@@ -11,6 +11,20 @@ namespace Aiursoft.DocsViewer.MySql.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // MySQL requires every foreign key to remain backed by an index. The
+            // replacement indexes are created later because they include columns
+            // added by this migration, so keep temporary supporting indexes while
+            // the original indexes are replaced.
+            migrationBuilder.CreateIndex(
+                name: "IX_DocumentComments_DocumentId_MigrationSupport",
+                table: "DocumentComments",
+                columns: new[] { "DocumentId", "Id" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DocumentComments_UserId_MigrationSupport",
+                table: "DocumentComments",
+                columns: new[] { "UserId", "Id" });
+
             migrationBuilder.DropIndex(
                 name: "IX_DocumentComments_DocumentId",
                 table: "DocumentComments");
@@ -54,11 +68,31 @@ namespace Aiursoft.DocsViewer.MySql.Migrations
                 name: "IX_DocumentComments_UserId_CreatedAt",
                 table: "DocumentComments",
                 columns: new[] { "UserId", "CreatedAt" });
+
+            migrationBuilder.DropIndex(
+                name: "IX_DocumentComments_DocumentId_MigrationSupport",
+                table: "DocumentComments");
+
+            migrationBuilder.DropIndex(
+                name: "IX_DocumentComments_UserId_MigrationSupport",
+                table: "DocumentComments");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            // Preserve indexes for the two foreign keys while replacing the
+            // composite indexes with their original single-column indexes.
+            migrationBuilder.CreateIndex(
+                name: "IX_DocumentComments_DocumentId_MigrationSupport",
+                table: "DocumentComments",
+                columns: new[] { "DocumentId", "Id" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DocumentComments_UserId_MigrationSupport",
+                table: "DocumentComments",
+                columns: new[] { "UserId", "Id" });
+
             migrationBuilder.DropIndex(
                 name: "IX_DocumentComments_DocumentId_Status_CreatedAt",
                 table: "DocumentComments");
@@ -92,6 +126,14 @@ namespace Aiursoft.DocsViewer.MySql.Migrations
                 name: "IX_DocumentComments_UserId",
                 table: "DocumentComments",
                 column: "UserId");
+
+            migrationBuilder.DropIndex(
+                name: "IX_DocumentComments_DocumentId_MigrationSupport",
+                table: "DocumentComments");
+
+            migrationBuilder.DropIndex(
+                name: "IX_DocumentComments_UserId_MigrationSupport",
+                table: "DocumentComments");
         }
     }
 }
