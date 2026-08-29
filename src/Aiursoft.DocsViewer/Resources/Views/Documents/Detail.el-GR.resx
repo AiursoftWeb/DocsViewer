@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Συνδεθείτε για να σχολιάσετε</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Οι νέες σχολιασμοί είναι προς το παρόν απενεργοποιημένοι.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Δεν υπάρχουν ακόμη σχόλια. Γίνε ο πρώτος που θα γράψει!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Διαβάζετε μια μηχανική μετάφραση που δημιουργήθηκε από Τεχνητή Νοημοσύνη, η οποία ενδέχεται να περιέχει ανακρίβειες.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Το σχόλιό σας αναμένει έγκριση από τον συντονιστή.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Το σχόλιό σας δημοσιεύτηκε.</value>
   </data>
 
 </root>
