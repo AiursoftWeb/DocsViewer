@@ -78,6 +78,9 @@
   <data name="Login to comment" xml:space="preserve">
     <value>Kirjaudu sisään kommentoidaksesi</value>
   </data>
+  <data name="New comments are currently disabled." xml:space="preserve">
+    <value>Uudet kommentit ovat tällä hetkellä poistettu käytöstä.</value>
+  </data>
   <data name="No comments yet. Be the first to leave one!" xml:space="preserve">
     <value>Ei vielä kommentteja. Ole ensimmäinen, joka kirjoittaa yhden!</value>
   </data>
@@ -119,6 +122,12 @@
   </data>
   <data name="You are reading an AI-generated machine translation, which may contain inaccuracies." xml:space="preserve">
     <value>Luet tekoälyn tuottaman konekäännöksen, joka voi sisältää virheitä.</value>
+  </data>
+  <data name="Your comment is awaiting moderator approval." xml:space="preserve">
+    <value>Kommenttisi odottaa moderaattorin hyväksyntää.</value>
+  </data>
+  <data name="Your comment was published." xml:space="preserve">
+    <value>Kommenttisi on julkaistu.</value>
   </data>
 
 </root>
