@@ -161,8 +161,9 @@ public partial class IndexDocumentsJob(
             }
 
             // Resolve relative path against the document directory
-            var cleanPath = originalPath.TrimStart('.', '/', '\\');
-            var sourcePath = Path.Combine(docDir, cleanPath);
+            // Preserve parent-directory segments in cross-document image references.
+            var cleanPath = originalPath.Replace('\\', '/').TrimStart('/');
+            var sourcePath = Path.GetFullPath(Path.Combine(docDir, cleanPath));
 
             if (!File.Exists(sourcePath))
             {
