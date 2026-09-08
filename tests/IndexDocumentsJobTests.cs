@@ -134,6 +134,58 @@ public class IndexDocumentsJobTests
     // ─────────────────────────────────────────────────────────────────────────
 
     [TestMethod]
+    [DataRow("content")]
+    [DataRow("title")]
+    [DataRow("unchanged")]
+    public async Task IndexingInvalidatesTranslationsOnlyWhenSourceChanges(string change)
+    {
+        var (syncJob, rootProvider, _, loggerFactory, options, folders, _, cache) =
+            BuildServices("TranslationInvalidation_" + Guid.NewGuid());
+        await syncJob.ExecuteAsync();
+        await using var db = new InMemoryContext(options);
+        var job = new IndexDocumentsJob(db, rootProvider,
+            new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), folders, cache,
+            loggerFactory.CreateLogger<IndexDocumentsJob>());
+        await job.ExecuteAsync();
+        var document = await db.Documents.SingleAsync();
+        var gitTimestamp = document.FileLastModified;
+        document.SourceCulture = "en-US";
+        // Simulate content saved by an older indexer, without touching the Git file.
+        if (change == "content") document.Content = "![Snapshot](../images/snapshot.png)";
+        if (change == "title") document.Title = "Old title";
+        foreach (var culture in new[] { "zh-CN", "ja-JP" })
+        {
+            db.LocalizedDocuments.Add(new LocalizedDocument
+            {
+                DocumentId = document.Id,
+                Culture = culture,
+                LocalizedContent = "Old translation",
+                LastLocalizedAt = gitTimestamp.AddDays(1)
+            });
+        }
+        var unrelated = new Document
+        {
+            Title = "Other", Category = "root", FilePath = "other.md"
+        };
+        db.Documents.Add(unrelated);
+        db.LocalizedDocuments.Add(new LocalizedDocument
+        {
+            Document = unrelated, Culture = "zh-CN", LocalizedContent = "Keep me"
+        });
+        await db.SaveChangesAsync();
+
+        await job.ExecuteAsync();
+        db.ChangeTracker.Clear();
+        var indexed = await db.Documents.SingleAsync(d => d.Id == document.Id);
+        Assert.AreEqual(gitTimestamp, indexed.FileLastModified);
+        Assert.AreEqual(change == "unchanged" ? 2 : 0,
+            await db.LocalizedDocuments.CountAsync(l => l.DocumentId == document.Id));
+        Assert.AreEqual(change == "unchanged" ? "en-US" : null, indexed.SourceCulture);
+        Assert.AreEqual("Keep me", (await db.LocalizedDocuments.IgnoreQueryFilters()
+            .SingleAsync(l => l.DocumentId == unrelated.Id)).LocalizedContent);
+    }
+
+    [TestMethod]
     public async Task IndexDocumentsJob_SecondRun_WritesNothing()
     {
         var dbName = "IndexJobTest_" + Guid.NewGuid();

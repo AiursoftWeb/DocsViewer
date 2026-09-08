@@ -119,6 +119,13 @@ public partial class IndexDocumentsJob(
                     
                     if (contentChanged)
                     {
+                        // Rendered source can change without a new Git commit (for example,
+                        // after fixing image path processing). Timestamp checks alone would
+                        // otherwise keep these translations current indefinitely.
+                        var staleTranslations = await db.LocalizedDocuments
+                            .Where(localized => localized.DocumentId == existingDoc.Id)
+                            .ToListAsync();
+                        db.LocalizedDocuments.RemoveRange(staleTranslations);
                         existingDoc.SourceCulture = null; // trigger re-detection only if content changed
                     }
                     
