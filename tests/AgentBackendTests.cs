@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using Aiursoft.AgentKit;
 using Aiursoft.AgentKit.AgentRunner;
+using Aiursoft.AgentKit.Evaluator;
 using Aiursoft.AgentKit.Messages;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
@@ -222,6 +223,43 @@ public sealed class AgentBackendTests
         Assert.AreEqual(accepted, answer.SufficientEvidence);
         Assert.AreEqual(accepted ? 2 : 0, answer.Citations.Count);
         Assert.IsTrue(answer.Citations.All(x => x.Url.StartsWith('/')));
+    }
+
+    [TestMethod]
+    public async Task DocumentAgentRunProducesGenericEvaluationEvidence()
+    {
+        using var fixture = new Fixture();
+        fixture.Db.Documents.Add(new Document { Category = "test", Title = "needle", Content = "Evidence", FilePath = "doc.md" });
+        await fixture.Db.SaveChangesAsync();
+        var tool = fixture.Search();
+        var run = await new BoundedAgentRunner(new ScriptedModel("Answer [D1]")).RunAsync(new AgentRunRequest(
+            [TranscriptMessage.System("rules"), TranscriptMessage.User("question")],
+            [tool],
+            new AgentRunOptions(MaxConcurrency: 1)));
+        var snapshot = JsonSerializer.SerializeToElement(new
+        {
+            citations = tool.Citations.Select(citation => citation.Label).ToArray()
+        });
+        var evidence = AgentRunEvidenceAdapter.ToStepEvidence(
+            new EvaluationStepIdentity(0, "document-user", "public-documents"),
+            run,
+            snapshot,
+            TimeSpan.FromMilliseconds(1));
+        using var toolMatch = JsonDocument.Parse("{\"name\":\"search_documents\",\"parameters\":{\"query\":\"needle\"}}");
+        using var responseMatch = JsonDocument.Parse("{\"$contains\":\"[D1]\"}");
+        var evaluationCase = new EvaluationCase("grounded-search", 1, [new EvaluationStep(
+            0,
+            "document-user",
+            "public-documents",
+            new EvaluationExpectation([
+                new EvaluationAssertion("search", EvaluationAssertionKinds.Tool, "grounding", 1, 0, true, false, toolMatch.RootElement),
+                new EvaluationAssertion("citation", EvaluationAssertionKinds.Response, "grounding", 1, 0, true, false, responseMatch.RootElement)
+            ]))]);
+
+        var result = new AssertionEvaluator().Evaluate(evaluationCase, new EvaluationEvidence([evidence]));
+
+        Assert.IsTrue(result.Passed);
+        Assert.IsTrue(evidence.State.GetProperty("citations").EnumerateArray().Any(label => label.GetString() == "[D1]"));
     }
 
     [TestMethod]
