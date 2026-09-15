@@ -1,0 +1,482 @@
+using System.Globalization;
+using System.Text.Json;
+using Aiursoft.AgentKit;
+using Aiursoft.AgentKit.Messages;
+
+namespace Aiursoft.DocsViewer.Services.Agents;
+
+public sealed record DocumentProcessEvent(
+    long Sequence,
+    int Iteration,
+    string Kind,
+    string Status,
+    string? Text = null,
+    string? ToolName = null,
+    JsonElement? Arguments = null,
+    int? ResultCount = null,
+    IReadOnlyList<ConversationCitation>? Citations = null)
+{
+    public const string AssistantMessage = "AssistantMessage";
+    public const string DocumentationSearch = "DocumentationSearch";
+    public const string ToolCall = "ToolCall";
+    public const string ToolExecution = "ToolExecution";
+    public const string Proposed = "Proposed";
+    public const string Started = "Started";
+    public const string Succeeded = "Succeeded";
+    public const string Failed = "Failed";
+    public const string Deferred = "Deferred";
+
+    public DocumentProcessEvent(string kind, string status)
+        : this(0, 0, kind, status)
+    {
+    }
+
+    public DocumentProcessEvent DeepCopy() => this with
+    {
+        Arguments = Arguments?.Clone(),
+        Citations = Citations?.ToArray()
+    };
+}
+
+public sealed record DocumentTurnResult(
+    GroundedDocumentAnswer Answer,
+    IReadOnlyList<TranscriptMessage> Transcript,
+    int NextLabel,
+    IReadOnlyList<DocumentProcessEvent>? ProcessEvents = null);
+
+public sealed record ConversationCitation(string Label, string Title, string Url);
+public sealed record ConversationMessage(
+    string Role,
+    string Content,
+    IReadOnlyList<ConversationCitation> Citations,
+    IReadOnlyList<DocumentProcessEvent>? ProcessEvents = null);
+
+public sealed record ConversationSnapshot(
+    Guid ConversationId,
+    string State,
+    IReadOnlyList<ConversationMessage> Messages,
+    IReadOnlyList<object> PendingAdvice,
+    string? ErrorMessage,
+    long Version,
+    IReadOnlyList<DocumentProcessEvent>? ActiveProcessEvents = null);
+
+public sealed record ConversationAdmission(Guid? ConversationId, string? Error);
+
+/// <summary>Process-local, owned conversations. Queue and worker lifetime are independent of HTTP requests.</summary>
+public sealed class DocumentConversationService : IDisposable
+{
+    private const int MaxHistoryCharacters = 100_000;
+    private readonly object sync = new();
+    private readonly Dictionary<Guid, Conversation> conversations = [];
+    private readonly IDocumentConversationQueue queue;
+    private readonly IServiceScopeFactory scopes;
+    private readonly AgentRequestLimiter limiter;
+    private readonly TimeProvider clock;
+    private readonly CancellationTokenRegistration stoppingRegistration;
+    private bool stopping;
+    private int lane;
+
+    public DocumentConversationService(
+        IDocumentConversationQueue queue,
+        IServiceScopeFactory scopes,
+        AgentRequestLimiter limiter,
+        IHostApplicationLifetime lifetime,
+        TimeProvider clock)
+    {
+        this.queue = queue;
+        this.scopes = scopes;
+        this.limiter = limiter;
+        this.clock = clock;
+        stoppingRegistration = lifetime.ApplicationStopping.Register(Stop);
+    }
+
+    public async Task<ConversationAdmission> SendAsync(
+        string owner,
+        string message,
+        Guid? id,
+        string culture,
+        string pathBase,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(owner) || string.IsNullOrWhiteSpace(message) || message.Length > 2000)
+            return new(null, "InvalidMessage");
+        cancellationToken.ThrowIfCancellationRequested();
+        lock (sync)
+        {
+            if (stopping) return new(null, "Stopping");
+            Cleanup();
+            if (id.HasValue && (!conversations.TryGetValue(id.Value, out var current) || current.Owner != owner))
+                return new(null, "NotFound");
+        }
+
+        var admission = await limiter.AcquireAsync(owner, cancellationToken);
+        if (admission.Lease is null)
+            return new(null, admission.Status == AgentLimitStatus.RateLimited ? "RateLimited" : "Busy");
+        var lease = admission.Lease;
+
+        lock (sync)
+        {
+            if (stopping) { lease.Dispose(); return new(null, "Stopping"); }
+            Cleanup();
+            Conversation conversation;
+            if (id.HasValue)
+            {
+                if (!conversations.TryGetValue(id.Value, out conversation!) || conversation.Owner != owner)
+                { lease.Dispose(); return new(null, "NotFound"); }
+                if (conversation.Active) { lease.Dispose(); return new(null, "Busy"); }
+            }
+            else
+            {
+                if (conversations.Count >= 200 || conversations.Values.Count(x => x.Owner == owner) >= 5)
+                { lease.Dispose(); return new(null, "Capacity"); }
+                conversation = new Conversation(owner, culture, pathBase, clock.GetUtcNow());
+                conversations.Add(conversation.Id, conversation);
+            }
+
+            if (conversation.Turns >= 20 || HistorySize(conversation.History) >= MaxHistoryCharacters)
+            { lease.Dispose(); return new(null, "Capacity"); }
+
+            conversation.Active = true;
+            conversation.State = "Thinking";
+            conversation.Error = null;
+            conversation.Generation++;
+            conversation.Version++;
+            conversation.Updated = clock.GetUtcNow();
+            var run = new Run(lease);
+            conversation.Run = run;
+            run.Cancellation.CancelAfter(TimeSpan.FromMinutes(5));
+            conversation.Messages.Add(new ConversationMessage("user", message.Trim(), []));
+            var generation = conversation.Generation;
+            try
+            {
+                queue.Enqueue((lane++ & int.MaxValue) % 4, $"AgentTurn-{conversation.Id}-{generation}",
+                    () => ExecuteAsync(conversation, generation, message.Trim(), run));
+            }
+            catch
+            {
+                conversation.Messages.RemoveAt(conversation.Messages.Count - 1);
+                conversation.Active = false;
+                conversation.State = "Error";
+                conversation.Error = "QueueFailure";
+                Finish(conversation, generation, run);
+                if (!id.HasValue) conversations.Remove(conversation.Id);
+                return new(null, "QueueFailure");
+            }
+
+            return new(conversation.Id, null);
+        }
+    }
+
+    public ConversationSnapshot? Status(string owner, Guid id)
+    {
+        lock (sync)
+        {
+            Cleanup();
+            if (!conversations.TryGetValue(id, out var conversation) || conversation.Owner != owner) return null;
+            return new ConversationSnapshot(
+                conversation.Id,
+                conversation.State,
+                conversation.Messages.Select(CloneMessage).ToArray(),
+                [],
+                conversation.Error,
+                conversation.Version,
+                conversation.ActiveProcessEvents.Select(process => process.DeepCopy()).ToArray());
+        }
+    }
+
+    public bool Cancel(string owner, Guid id)
+    {
+        lock (sync)
+        {
+            Cleanup();
+            if (!conversations.TryGetValue(id, out var conversation) || conversation.Owner != owner) return false;
+            if (!conversation.Active) return true;
+            conversation.State = "Cancelling";
+            conversation.Version++;
+            var run = conversation.Run!;
+            run.Cancellation.Cancel();
+            if (!run.Started) Finish(conversation, conversation.Generation, run);
+            return true;
+        }
+    }
+
+    private async Task ExecuteAsync(Conversation conversation, long generation, string message, Run run)
+    {
+        lock (sync)
+        {
+            if (run.Finished) return;
+            run.Started = true;
+        }
+
+        try
+        {
+            run.Cancellation.Token.ThrowIfCancellationRequested();
+            await using var scope = scopes.CreateAsyncScope();
+            var oldCulture = CultureInfo.CurrentCulture;
+            var oldUiCulture = CultureInfo.CurrentUICulture;
+            try
+            {
+                CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo(conversation.Culture);
+                CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(conversation.Culture);
+                var turn = await scope.ServiceProvider.GetRequiredService<IDocumentTurnExecutor>().ExecuteTurnAsync(
+                    message,
+                    conversation.History,
+                    conversation.NextLabel,
+                    conversation.Culture,
+                    conversation.PathBase,
+                    (agentEvent, token) => PublishProgressAsync(conversation, generation, run, agentEvent, token),
+                    (processEvent, token) => PublishProcessAsync(conversation, generation, run, processEvent, token),
+                    run.Cancellation.Token);
+                lock (sync)
+                {
+                    if (generation != conversation.Generation || run.Cancellation.IsCancellationRequested) return;
+                    if (turn.Answer.Status == DocumentAnswerStatus.ModelFailure)
+                    {
+                        conversation.State = "Error";
+                        conversation.Error = "ModelFailure";
+                    }
+                    else if (HistorySize(turn.Transcript) > MaxHistoryCharacters || turn.NextLabel > 400)
+                    {
+                        conversation.State = "Error";
+                        conversation.Error = "Capacity";
+                    }
+                    else
+                    {
+                        conversation.History = turn.Transcript.Select(item => item.DeepCopy()).ToArray();
+                        conversation.NextLabel = turn.NextLabel;
+                        foreach (var processEvent in turn.ProcessEvents ?? [])
+                        {
+                            if (conversation.ActiveProcessEvents.Count >= 20 || !IsPublicSearchSummary(processEvent))
+                                continue;
+                            conversation.ActiveProcessEvents.Add(WithConversationSequence(conversation, processEvent));
+                        }
+                        conversation.Messages.Add(new ConversationMessage(
+                            "assistant",
+                            turn.Answer.Answer,
+                            turn.Answer.Citations.Select(citation => new ConversationCitation(citation.Label, citation.Title, citation.Url)).ToArray(),
+                            conversation.ActiveProcessEvents.Select(process => process.DeepCopy()).ToArray()));
+                        conversation.ActiveProcessEvents.Clear();
+                        conversation.State = "Completed";
+                    }
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = oldCulture;
+                CultureInfo.CurrentUICulture = oldUiCulture;
+            }
+        }
+        catch (OperationCanceledException) when (run.Cancellation.IsCancellationRequested)
+        {
+            // Cancellation wins; Finish publishes the terminal state after clearing active events.
+        }
+        catch
+        {
+            lock (sync)
+            {
+                if (generation == conversation.Generation)
+                {
+                    conversation.State = "Error";
+                    conversation.Error = "ExecutionFailure";
+                }
+            }
+        }
+        finally
+        {
+            lock (sync) Finish(conversation, generation, run);
+        }
+    }
+
+    private ValueTask PublishProgressAsync(Conversation conversation, long generation, Run run, AgentRunEvent agentEvent, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        lock (sync)
+        {
+            if (generation != conversation.Generation || !ReferenceEquals(conversation.Run, run) || run.Finished || run.Cancellation.IsCancellationRequested)
+                return ValueTask.CompletedTask;
+
+            var mapped = MapPublicEvent(agentEvent);
+            if (mapped is null) return ValueTask.CompletedTask;
+            if (conversation.ActiveProcessEvents.Count >= 20) return ValueTask.CompletedTask;
+            conversation.ActiveProcessEvents.Add(WithConversationSequence(conversation, mapped));
+            conversation.Updated = clock.GetUtcNow();
+            conversation.Version++;
+        }
+        return ValueTask.CompletedTask;
+    }
+
+    private ValueTask PublishProcessAsync(
+        Conversation conversation,
+        long generation,
+        Run run,
+        DocumentProcessEvent processEvent,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        lock (sync)
+        {
+            if (generation != conversation.Generation || !ReferenceEquals(conversation.Run, run) ||
+                run.Finished || run.Cancellation.IsCancellationRequested)
+                return ValueTask.CompletedTask;
+
+            if (conversation.ActiveProcessEvents.Count >= 20 || !IsPublicSearchSummary(processEvent))
+                return ValueTask.CompletedTask;
+
+            conversation.ActiveProcessEvents.Add(WithConversationSequence(conversation, processEvent));
+            conversation.Updated = clock.GetUtcNow();
+            conversation.Version++;
+        }
+        return ValueTask.CompletedTask;
+    }
+
+    private static DocumentProcessEvent WithConversationSequence(
+        Conversation conversation,
+        DocumentProcessEvent processEvent) => processEvent with
+        {
+            Sequence = ++conversation.NextProcessSequence,
+            Iteration = Math.Max(1, processEvent.Iteration)
+        };
+
+    private static bool IsPublicSearchSummary(DocumentProcessEvent processEvent) =>
+        processEvent.Kind == DocumentProcessEvent.ToolExecution &&
+        processEvent.Status == DocumentProcessEvent.Succeeded &&
+        processEvent.ToolName == DocumentSearchAgentTool.Name &&
+        processEvent.ResultCount is >= 0 and <= 5 &&
+        processEvent.Citations is { Count: <= 5 };
+
+    private static DocumentProcessEvent? MapPublicEvent(AgentRunEvent value)
+    {
+        return value.Kind switch
+        {
+            AgentRunEventKind.AssistantContent when !string.IsNullOrWhiteSpace(value.Text) =>
+                new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.AssistantMessage, "Content", Text: Limit(value.Text, 2000)),
+            AgentRunEventKind.ToolCallProposed when value.ToolName == DocumentSearchAgentTool.Name && value.ToolCall is not null &&
+                TryGetSearchArguments(value.ToolCall.Arguments, out var arguments) =>
+                new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.ToolCall, DocumentProcessEvent.Proposed,
+                    ToolName: DocumentSearchAgentTool.Name, Arguments: arguments),
+            AgentRunEventKind.ToolExecutionStarted when value.ToolName == DocumentSearchAgentTool.Name =>
+                new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.ToolExecution, DocumentProcessEvent.Started,
+                    ToolName: DocumentSearchAgentTool.Name),
+            AgentRunEventKind.ToolExecutionCompleted when value.ToolName == DocumentSearchAgentTool.Name && value.ToolOutcome is not null =>
+                new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.ToolExecution,
+                    value.ToolOutcome == ToolOutcome.Succeeded ? DocumentProcessEvent.Succeeded :
+                    value.ToolOutcome == ToolOutcome.Deferred ? DocumentProcessEvent.Deferred : DocumentProcessEvent.Failed,
+                    ToolName: DocumentSearchAgentTool.Name),
+            _ => null
+        };
+    }
+
+    private static bool TryGetSearchArguments(JsonElement raw, out JsonElement arguments)
+    {
+        arguments = default;
+        if (raw.ValueKind != JsonValueKind.Object || !raw.TryGetProperty("query", out var query) || query.ValueKind != JsonValueKind.String ||
+            raw.EnumerateObject().Any(property => property.Name != "query")) return false;
+        var value = query.GetString();
+        if (string.IsNullOrWhiteSpace(value) || value.Length > 500) return false;
+        arguments = JsonSerializer.SerializeToElement(new { query = value });
+        return true;
+    }
+
+    private void Finish(Conversation conversation, long generation, Run run)
+    {
+        if (run.Finished) return;
+        run.Finished = true;
+        if (generation == conversation.Generation)
+        {
+            if (run.Cancellation.IsCancellationRequested)
+            {
+                conversation.State = "Cancelled";
+                conversation.Error = null;
+                conversation.ActiveProcessEvents.Clear();
+            }
+            conversation.Active = false;
+            conversation.Turns++;
+            conversation.Updated = clock.GetUtcNow();
+            conversation.Version++;
+            conversation.Run = null;
+        }
+        run.Cancellation.Dispose();
+        run.Lease.Dispose();
+    }
+
+    private void Stop()
+    {
+        lock (sync)
+        {
+            stopping = true;
+            foreach (var conversation in conversations.Values.Where(item => item.Active).ToArray())
+            {
+                var run = conversation.Run!;
+                conversation.State = "Cancelling";
+                conversation.Version++;
+                run.Cancellation.Cancel();
+                if (!run.Started) Finish(conversation, conversation.Generation, run);
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        Stop();
+        stoppingRegistration.Dispose();
+    }
+
+    private void Cleanup()
+    {
+        var cutoff = clock.GetUtcNow() - TimeSpan.FromMinutes(30);
+        foreach (var conversation in conversations.Values.Where(item => !item.Active && item.Updated < cutoff).ToArray())
+            conversations.Remove(conversation.Id);
+    }
+
+    private static IReadOnlyList<DocumentProcessEvent> CurateLegacyEvents(IReadOnlyList<DocumentProcessEvent>? events) =>
+        (events ?? [])
+            .Where(process => process.Kind == DocumentProcessEvent.DocumentationSearch)
+            .Take(4)
+            .Select(process => process.DeepCopy())
+            .ToArray();
+
+    private static ConversationMessage CloneMessage(ConversationMessage message) => message with
+    {
+        Citations = message.Citations.ToArray(),
+        ProcessEvents = message.ProcessEvents?.Select(process => process.DeepCopy()).ToArray()
+    };
+
+    private static int HistorySize(IReadOnlyList<TranscriptMessage> history) => history.Sum(message => message.Content.Sum(block => block switch
+    {
+        TextBlock text => text.Text.Length,
+        ToolCallBlock call => call.Call.Arguments.GetRawText().Length,
+        ToolResultBlock result => result.Result.Output?.GetRawText().Length ?? 0,
+        _ => 0
+    }));
+
+    private static string Limit(string value, int maximum) => value.Length > maximum ? value[..maximum] : value;
+
+    private sealed class Run(IDisposable lease)
+    {
+        public IDisposable Lease { get; } = lease;
+        public CancellationTokenSource Cancellation { get; } = new();
+        public bool Started { get; set; }
+        public bool Finished { get; set; }
+    }
+
+    private sealed class Conversation(string owner, string culture, string pathBase, DateTimeOffset created)
+    {
+        public Guid Id { get; } = Guid.NewGuid();
+        public string Owner { get; } = owner;
+        public string Culture { get; } = culture;
+        public string PathBase { get; } = pathBase;
+        public List<ConversationMessage> Messages { get; } = [];
+        public List<DocumentProcessEvent> ActiveProcessEvents { get; } = [];
+        public IReadOnlyList<TranscriptMessage> History { get; set; } = [];
+        public int NextLabel { get; set; }
+        public long NextProcessSequence { get; set; }
+        public int Turns { get; set; }
+        public long Generation { get; set; }
+        public long Version { get; set; }
+        public bool Active { get; set; }
+        public string State { get; set; } = "Completed";
+        public string? Error { get; set; }
+        public DateTimeOffset Updated { get; set; } = created;
+        public Run? Run { get; set; }
+    }
+}

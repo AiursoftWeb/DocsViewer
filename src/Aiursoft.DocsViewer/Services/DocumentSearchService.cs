@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Aiursoft.DocsViewer.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -93,11 +94,22 @@ public static class DocumentSearchService
         int pageSize,
         CancellationToken ct)
     {
+        // Expand local search terms into an OR predicate. Nested terms.Any lambdas
+        // cannot be translated by all supported EF providers.
+        var document = Expression.Parameter(typeof(Document), "document");
+        Expression matches = Expression.Constant(false);
+        foreach (var term in terms)
+        {
+            Expression<Func<Document, bool>> termMatches = r =>
+                r.Title.Contains(term) || r.Content.Contains(term) ||
+                r.LocalizedDocuments.Any(ld => ld.LocalizedTitle.Contains(term) || ld.LocalizedContent.Contains(term));
+            var body = new SearchParameterReplacer(termMatches.Parameters[0], document).Visit(termMatches.Body);
+            matches = Expression.OrElse(matches, body);
+        }
+        var predicate = Expression.Lambda<Func<Document, bool>>(matches, document);
+
         var filtered = await baseQuery
-            .Where(r => terms.Any(t => r.Title.Contains(t))
-                     || terms.Any(t => r.Content.Contains(t))
-                     || terms.Any(t => r.LocalizedDocuments.Any(ld => ld.LocalizedTitle.Contains(t)))
-                     || terms.Any(t => r.LocalizedDocuments.Any(ld => ld.LocalizedContent.Contains(t))))
+            .Where(predicate)
             .Select(r => new
             {
                 Document = r,
@@ -130,6 +142,11 @@ public static class DocumentSearchService
             .ToList();
 
         return (items, total);
+    }
+
+    private sealed class SearchParameterReplacer(ParameterExpression source, ParameterExpression target) : ExpressionVisitor
+    {
+        protected override Expression VisitParameter(ParameterExpression node) => node == source ? target : base.VisitParameter(node);
     }
 
     private static int ComputeScore(Document r, string[] terms) =>

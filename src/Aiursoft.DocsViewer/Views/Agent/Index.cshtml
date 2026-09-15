@@ -1,0 +1,56 @@
+@model Aiursoft.DocsViewer.Models.AgentViewModels.IndexViewModel
+<script src="~/scripts/agent-chat.js" asp-append-version="true" defer></script>
+
+<div class="container py-4">
+    <h1>@Localizer["Document Assistant"]</h1>
+    <p class="text-muted">@Localizer["Ask a question about the indexed documentation. Answers include document references; verify important details in the sources."]</p>
+    @if (!Model.Configured)
+    {
+        <div class="alert alert-info" role="status">@Localizer["The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model."]</div>
+    }
+    <div id="agent-chat" aria-live="polite"></div>
+    <p id="agent-status" role="status"></p>
+    <form id="agent-form" asp-controller="Agent" asp-action="Index" method="post"
+          data-send="@Url.Action("SendMessage", "Agent")" data-status="@Url.Action("Status", "Agent")"
+          data-cancel="@Url.Action("Cancel", "Agent")" data-thinking="@Localizer["Searching documentation and preparing an answer…"]"
+          data-cancelling="@Localizer["Stopping the current turn…"]" data-cancelled="@Localizer["The turn was cancelled."]"
+          data-completed="@Localizer["Ready for a follow-up question."]" data-error="@Localizer["The request failed. Please try again."]"
+          data-lost="@Localizer["The conversation expired or is no longer accessible. Start a new conversation."]"
+          data-retrying="@Localizer["Connection interrupted. Retrying…"]"
+          data-activity-summary="@Localizer["View agent activity"]"
+          data-activity-live="@Localizer["Agent activity"]"
+          data-activity-assistant="@Localizer["Agent"]"
+          data-activity-tool-call="@Localizer["Tool call"]"
+          data-activity-tool-started="@Localizer["Searching indexed documentation"]"
+          data-activity-tool-succeeded="@Localizer["Documentation search completed"]"
+          data-activity-result-count="@Localizer["Matching documents"]"
+          data-activity-tool-failed="@Localizer["Documentation search could not be completed"]"
+          data-activity-tool-deferred="@Localizer["Documentation search is waiting for approval"]">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <label asp-for="Question" class="form-label">@Localizer["Question"]</label>
+        <textarea asp-for="Question" class="form-control" rows="4" maxlength="2000" required></textarea>
+        <span asp-validation-for="Question" class="text-danger"></span>
+        <p class="small text-muted mt-2">@Localizer["Follow-up questions retain this conversation's context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service."]</p>
+        <button id="agent-send" type="submit" class="btn btn-primary" disabled="@(!Model.Configured)">@Localizer["Ask the documentation"]</button>
+        <button id="agent-cancel" type="button" class="btn btn-outline-secondary" disabled>@Localizer["Stop"]</button>
+        <button id="agent-new" type="button" class="btn btn-outline-secondary">@Localizer["New conversation"]</button>
+    </form>
+    @if (Model.StatusMessage != null)
+    {
+        <div class="alert alert-info mt-4" role="status">@Model.StatusMessage</div>
+    }
+    @if (Model.Answer != null)
+    {
+        <section class="mt-4" aria-labelledby="answer-heading">
+            <h2 id="answer-heading">@Localizer["Answer"]</h2>
+            <div class="text-break" style="white-space: pre-wrap">@Model.Answer</div>
+            <h3 class="h5 mt-3">@Localizer["Sources"]</h3>
+            <ul>
+                @foreach (var citation in Model.Citations)
+                {
+                    <li>@citation.Label <a href="@citation.Url">@citation.Title</a></li>
+                }
+            </ul>
+        </section>
+    }
+</div>

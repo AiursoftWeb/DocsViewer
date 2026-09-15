@@ -96,6 +96,37 @@ The docker image has the following context:
 | Data path   | /data                           |
 | Config path | /data/appsettings.json          |
 
+## Document Assistant (local AgentKit preview)
+
+Signed-in users can open `/Agent` for a background document conversation. Sending a question returns a conversation ID immediately; the page polls `Status` without refreshing, displays the validated answer and local source links, and retains context for follow-up questions. `Cancel` signals running model/tool work; the admission slot remains occupied until the worker actually exits. Four fixed `ServiceTaskQueue` lanes execute scoped turns independently of HTTP request lifetime. Existing vector search can still write query-embedding cache entries.
+
+Conversations are process-local and not persisted: restart loses them. Terminal conversations expire after 30 idle minutes. Limits are 200 conversations overall, five per user, 20 turns, 100,000 transcript characters and 400 citation labels; capacity exhaustion requires a new conversation. Active work is never evicted. Each turn has a five-minute deadline in addition to individual provider timeouts. Status returns only public messages, citations without excerpts, and safe state/error information. Conversation ownership is checked on send, status and cancel; all mutations require antiforgery. Failed or cancelled read-only turns do not commit incomplete tool history. Citation labels remain unique across successful turns.
+
+The legacy synchronous POST remains as a compatibility path, but the page uses `/Agent/SendMessage`, `/Agent/Status`, and `/Agent/Cancel`. DocsViewer uses only read tools; AgentKit approval checkpoint/resume and Kanban write-tool migration are not delivered by this change.
+
+Configure these Global Settings (or their `GlobalSettings__...` environment overrides):
+
+- `OpenAiInstance`: full OpenAI-compatible `/v1/chat/completions` URL.
+- `OpenAiAgentModel`: a tool-calling model available at that endpoint; independent of the translation model.
+- `OpenAiApiToken`: optional bearer credential for the existing chat endpoint. Prefer environment configuration for secrets; the existing settings UI displays stored text values.
+
+Questions and bounded document excerpts are sent to that configured service. The page requires authentication and antiforgery protection. Limits are process-local: one active request per user, three starts per minute, and four active requests overall. Idle user limiter entries are removed on subsequent admissions after their one-minute window expires. Multiple application instances do not share quotas.
+
+Citation checks establish that a cited source was actually retrieved, not that every generated statement is semantically correct. Verify important answers against the source documents. Unsupported/missing citations produce an insufficient-evidence message. There are no write tools, streaming, or persistent chat records in this preview.
+
+The dependency `Aiursoft.AgentKit` version `0.1.0-local.1` is currently an **unpublished local package**. A clean machine/CI cannot restore it from nuget.org yet. Build the independent AgentKit repository, pack it to a local directory, then restore explicitly without committing a machine-specific feed path:
+
+```sh
+dotnet pack "$AGENTKIT_REPO/src/Aiursoft.AgentKit/Aiursoft.AgentKit.csproj" -c Release -o "$AGENTKIT_LOCAL_FEED"
+dotnet restore Aiursoft.DocsViewer.sln --source "$AGENTKIT_LOCAL_FEED" --source https://api.nuget.org/v3/index.json
+dotnet build src/Aiursoft.DocsViewer/Aiursoft.DocsViewer.csproj --no-restore
+dotnet test tests/Aiursoft.DocsViewer.Tests.csproj --no-restore --filter "FullyQualifiedName~Agent"
+```
+
+Set `AGENTKIT_REPO` and `AGENTKIT_LOCAL_FEED` to your local checkout and package directory. Public/internal package publication or cross-project CI artifact delivery requires a separate release decision; no publication is performed by this integration.
+
+The automated Agent suite uses fake model/embedding handlers and an in-memory application host. It covers protocol conversion, retrieval and citation validation, quotas, login, antiforgery, input validation, configuration-unavailable rendering, and output encoding. It does not certify compatibility with a live model service or browser visual layout. Before deployment, configure a real tool-capable model and verify a supported question with citations, an unsupported question, and keyword fallback.
+
 ## How to contribute
 
 There are many ways to contribute to the project: logging bugs, submitting pull requests, reporting issues, and creating suggestions.

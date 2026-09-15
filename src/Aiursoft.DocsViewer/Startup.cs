@@ -16,6 +16,9 @@ using Aiursoft.UiStack;
 using Aiursoft.UiStack.Layout;
 using Aiursoft.UiStack.Navigation;
 using Aiursoft.GptClient.Services;
+using Aiursoft.AgentKit;
+using Aiursoft.AgentKit.AgentRunner;
+using Aiursoft.DocsViewer.Services.Agents;
 using Aiursoft.Dotlang.Shared;
 using Aiursoft.GitRunner;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -58,6 +61,7 @@ public class Startup : IWebStartup
         // Services
         services.AddMemoryCache();
         services.AddHttpClient();
+        services.AddHttpClient("DocsViewerAgentModel", client => client.Timeout = TimeSpan.FromSeconds(60));
         services.AddAssemblyDependencies(typeof(Startup).Assembly);
         services.AddSingleton<NavigationState<Startup>>();
         services.AddHttpContextAccessor();
@@ -67,6 +71,17 @@ public class Startup : IWebStartup
         services.AddSingleton<DocumentEmbeddingCache>();
         services.AddSingleton<SearchRateLimiter>();
         services.AddScoped<DocumentVectorSearchService>();
+        services.AddScoped<OpenAiCompatibleAgentModelClient>();
+        services.AddScoped<IAgentModelClient>(sp => sp.GetRequiredService<OpenAiCompatibleAgentModelClient>());
+        services.AddScoped<IAgentRunner>(sp => AgentRunnerFactory.CreateBounded(sp.GetRequiredService<IAgentModelClient>()));
+        services.AddScoped<DocumentSearchAgentTool>();
+        services.AddScoped<IDocumentAgentToolCatalog, DocumentAgentToolCatalog>();
+        services.AddSingleton(TimeProvider.System);
+        services.AddSingleton<AgentRequestLimiter>();
+        services.AddSingleton<IDocumentConversationQueue, DocumentConversationQueue>();
+        services.AddSingleton<DocumentConversationService>();
+        services.AddScoped<GroundedDocumentAnswerService>();
+        services.AddScoped<IDocumentTurnExecutor>(sp => sp.GetRequiredService<GroundedDocumentAnswerService>());
         services.AddScoped<DocumentTreeService>();
         services.AddScoped<IDocumentTranslationService, DocumentTranslationService>();
         services.AddScoped<DocumentMarkdownRenderer>();
