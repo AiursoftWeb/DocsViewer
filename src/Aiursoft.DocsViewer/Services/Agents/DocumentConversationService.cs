@@ -1,7 +1,7 @@
 using System.Globalization;
-using System.Text.Json;
 using Aiursoft.AgentKit;
 using Aiursoft.AgentKit.Messages;
+using Newtonsoft.Json.Linq;
 
 namespace Aiursoft.DocsViewer.Services.Agents;
 
@@ -12,9 +12,10 @@ public sealed record DocumentProcessEvent(
     string Status,
     string? Text = null,
     string? ToolName = null,
-    JsonElement? Arguments = null,
+    JToken? Arguments = null,
     int? ResultCount = null,
-    IReadOnlyList<ConversationCitation>? Citations = null)
+    IReadOnlyList<ConversationCitation>? Citations = null,
+    string? ToolCallId = null)
 {
     public const string AssistantMessage = "AssistantMessage";
     public const string DocumentationSearch = "DocumentationSearch";
@@ -33,7 +34,7 @@ public sealed record DocumentProcessEvent(
 
     public DocumentProcessEvent DeepCopy() => this with
     {
-        Arguments = Arguments?.Clone(),
+        Arguments = Arguments?.DeepClone(),
         Citations = Citations?.ToArray()
     };
 }
@@ -42,7 +43,8 @@ public sealed record DocumentTurnResult(
     GroundedDocumentAnswer Answer,
     IReadOnlyList<TranscriptMessage> Transcript,
     int NextLabel,
-    IReadOnlyList<DocumentProcessEvent>? ProcessEvents = null);
+    IReadOnlyList<DocumentProcessEvent>? ProcessEvents = null,
+    AgentRunResult? Run = null);
 
 public sealed record ConversationCitation(string Label, string Title, string Url);
 public sealed record ConversationMessage(
@@ -58,7 +60,8 @@ public sealed record ConversationSnapshot(
     IReadOnlyList<object> PendingAdvice,
     string? ErrorMessage,
     long Version,
-    IReadOnlyList<DocumentProcessEvent>? ActiveProcessEvents = null);
+    IReadOnlyList<DocumentProcessEvent>? ActiveProcessEvents = null,
+    IReadOnlyList<AgentDiagnosticEvent>? MetaEvents = null);
 
 public sealed record ConversationAdmission(Guid? ConversationId, string? Error);
 
@@ -180,7 +183,8 @@ public sealed class DocumentConversationService : IDisposable
                 [],
                 conversation.Error,
                 conversation.Version,
-                conversation.ActiveProcessEvents.Select(process => process.DeepCopy()).ToArray());
+                conversation.ActiveProcessEvents.Select(process => process.DeepCopy()).ToArray(),
+                conversation.DiagnosticEvents.Select(item => item.DeepCopy()).ToArray());
         }
     }
 
@@ -230,33 +234,39 @@ public sealed class DocumentConversationService : IDisposable
                 lock (sync)
                 {
                     if (generation != conversation.Generation || run.Cancellation.IsCancellationRequested) return;
-                    if (turn.Answer.Status == DocumentAnswerStatus.ModelFailure)
-                    {
-                        conversation.State = "Error";
-                        conversation.Error = "ModelFailure";
-                    }
-                    else if (HistorySize(turn.Transcript) > MaxHistoryCharacters || turn.NextLabel > 400)
+                    AddDiagnosticRun(conversation, generation, turn.Run);
+                    if (HistorySize(turn.Transcript) > MaxHistoryCharacters || turn.NextLabel > 400)
                     {
                         conversation.State = "Error";
                         conversation.Error = "Capacity";
+                        conversation.ActiveProcessEvents.Clear();
                     }
                     else
                     {
                         conversation.History = turn.Transcript.Select(item => item.DeepCopy()).ToArray();
                         conversation.NextLabel = turn.NextLabel;
-                        foreach (var processEvent in turn.ProcessEvents ?? [])
+                        if (turn.Answer.Status == DocumentAnswerStatus.ModelFailure)
                         {
-                            if (conversation.ActiveProcessEvents.Count >= 20 || !IsPublicSearchSummary(processEvent))
-                                continue;
-                            conversation.ActiveProcessEvents.Add(WithConversationSequence(conversation, processEvent));
+                            conversation.State = "Error";
+                            conversation.Error = "ModelFailure";
+                            conversation.ActiveProcessEvents.Clear();
                         }
-                        conversation.Messages.Add(new ConversationMessage(
-                            "assistant",
-                            turn.Answer.Answer,
-                            turn.Answer.Citations.Select(citation => new ConversationCitation(citation.Label, citation.Title, citation.Url)).ToArray(),
-                            conversation.ActiveProcessEvents.Select(process => process.DeepCopy()).ToArray()));
-                        conversation.ActiveProcessEvents.Clear();
-                        conversation.State = "Completed";
+                        else
+                        {
+                            foreach (var processEvent in turn.ProcessEvents ?? [])
+                            {
+                                if (conversation.ActiveProcessEvents.Count >= 20 || !IsPublicSearchSummary(processEvent))
+                                    continue;
+                                conversation.ActiveProcessEvents.Add(WithConversationSequence(conversation, processEvent));
+                            }
+                            conversation.Messages.Add(new ConversationMessage(
+                                "assistant",
+                                turn.Answer.Answer,
+                                turn.Answer.Citations.Select(citation => new ConversationCitation(citation.Label, citation.Title, citation.Url)).ToArray(),
+                                conversation.ActiveProcessEvents.Select(process => process.DeepCopy()).ToArray()));
+                            conversation.ActiveProcessEvents.Clear();
+                            conversation.State = "Completed";
+                        }
                     }
                 }
             }
@@ -278,6 +288,8 @@ public sealed class DocumentConversationService : IDisposable
                 {
                     conversation.State = "Error";
                     conversation.Error = "ExecutionFailure";
+                    AddDiagnosticEvent(conversation, generation, new AgentRunEvent(0, 0, AgentRunEventKind.RunCompleted,
+                        RunOutcome: AgentRunOutcome.ModelFailure));
                 }
             }
         }
@@ -295,6 +307,7 @@ public sealed class DocumentConversationService : IDisposable
             if (generation != conversation.Generation || !ReferenceEquals(conversation.Run, run) || run.Finished || run.Cancellation.IsCancellationRequested)
                 return ValueTask.CompletedTask;
 
+            AddDiagnosticEvent(conversation, generation, agentEvent);
             var mapped = MapPublicEvent(agentEvent);
             if (mapped is null) return ValueTask.CompletedTask;
             if (conversation.ActiveProcessEvents.Count >= 20) return ValueTask.CompletedTask;
@@ -329,12 +342,60 @@ public sealed class DocumentConversationService : IDisposable
         return ValueTask.CompletedTask;
     }
 
+    private static void AddDiagnosticEvent(Conversation conversation, long generation, AgentRunEvent value)
+    {
+        if (conversation.DiagnosticEvents.Count >= 100) return;
+        conversation.DiagnosticEvents.Add(new AgentDiagnosticEvent(
+            value.Sequence,
+            generation,
+            value.Iteration,
+            value.Kind.ToString(),
+            Text: value.Text is null ? null : Limit(value.Text, 2_000),
+            ToolCallId: value.ToolCallId ?? value.ToolCall?.Id,
+            ToolName: value.ToolName ?? value.ToolCall?.Name,
+            Arguments: value.ToolCall is null ? null : BoundedJson(value.ToolCall.Arguments),
+            ToolOutcome: value.ToolOutcome,
+            RunOutcome: value.RunOutcome,
+            FailureCategory: value.RunOutcome is { } outcome && outcome != AgentRunOutcome.Completed ? outcome.ToString() : null));
+    }
+
+    private static void AddDiagnosticRun(Conversation conversation, long generation, AgentRunResult? run)
+    {
+        if (run is null) return;
+        foreach (var result in run.Results)
+        {
+            if (conversation.DiagnosticEvents.Count >= 100) return;
+            conversation.DiagnosticEvents.Add(new AgentDiagnosticEvent(
+                0,
+                generation,
+                run.Iterations,
+                "ToolResult",
+                ToolCallId: result.CallId,
+                ToolName: result.Name,
+                Output: result.Output is { } output ? BoundedJson(output) : null,
+                ToolOutcome: result.Outcome));
+        }
+        if (conversation.DiagnosticEvents.Count >= 100) return;
+        conversation.DiagnosticEvents.Add(new AgentDiagnosticEvent(
+            0,
+            generation,
+            run.Iterations,
+            "RunResult",
+            RunOutcome: run.Outcome,
+            FailureCategory: run.Outcome == AgentRunOutcome.Completed ? null : run.Outcome.ToString()));
+    }
+
+    private static JToken BoundedJson(JToken value)
+    {
+        var raw = value.ToString(Newtonsoft.Json.Formatting.None);
+        return raw.Length <= 10_000 ? value.DeepClone() : new JValue(raw[..10_000]);
+    }
+
     private static DocumentProcessEvent WithConversationSequence(
         Conversation conversation,
         DocumentProcessEvent processEvent) => processEvent with
         {
-            Sequence = ++conversation.NextProcessSequence,
-            Iteration = Math.Max(1, processEvent.Iteration)
+            Sequence = ++conversation.NextProcessSequence
         };
 
     private static bool IsPublicSearchSummary(DocumentProcessEvent processEvent) =>
@@ -348,32 +409,31 @@ public sealed class DocumentConversationService : IDisposable
     {
         return value.Kind switch
         {
-            AgentRunEventKind.AssistantContent when !string.IsNullOrWhiteSpace(value.Text) =>
-                new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.AssistantMessage, "Content", Text: Limit(value.Text, 2000)),
             AgentRunEventKind.ToolCallProposed when value.ToolName == DocumentSearchAgentTool.Name && value.ToolCall is not null &&
                 TryGetSearchArguments(value.ToolCall.Arguments, out var arguments) =>
                 new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.ToolCall, DocumentProcessEvent.Proposed,
-                    ToolName: DocumentSearchAgentTool.Name, Arguments: arguments),
+                    ToolName: DocumentSearchAgentTool.Name, Arguments: arguments,
+                    ToolCallId: value.ToolCallId ?? value.ToolCall.Id),
             AgentRunEventKind.ToolExecutionStarted when value.ToolName == DocumentSearchAgentTool.Name =>
                 new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.ToolExecution, DocumentProcessEvent.Started,
-                    ToolName: DocumentSearchAgentTool.Name),
-            AgentRunEventKind.ToolExecutionCompleted when value.ToolName == DocumentSearchAgentTool.Name && value.ToolOutcome is not null =>
+                    ToolName: DocumentSearchAgentTool.Name, ToolCallId: value.ToolCallId),
+            AgentRunEventKind.ToolExecutionCompleted when value.ToolName == DocumentSearchAgentTool.Name &&
+                value.ToolOutcome is not ToolOutcome.Succeeded && value.ToolOutcome is not null =>
                 new DocumentProcessEvent(value.Sequence, value.Iteration, DocumentProcessEvent.ToolExecution,
-                    value.ToolOutcome == ToolOutcome.Succeeded ? DocumentProcessEvent.Succeeded :
                     value.ToolOutcome == ToolOutcome.Deferred ? DocumentProcessEvent.Deferred : DocumentProcessEvent.Failed,
-                    ToolName: DocumentSearchAgentTool.Name),
+                    ToolName: DocumentSearchAgentTool.Name, ToolCallId: value.ToolCallId),
             _ => null
         };
     }
 
-    private static bool TryGetSearchArguments(JsonElement raw, out JsonElement arguments)
+    private static bool TryGetSearchArguments(JToken raw, out JToken arguments)
     {
-        arguments = default;
-        if (raw.ValueKind != JsonValueKind.Object || !raw.TryGetProperty("query", out var query) || query.ValueKind != JsonValueKind.String ||
-            raw.EnumerateObject().Any(property => property.Name != "query")) return false;
-        var value = query.GetString();
+        arguments = default!;
+        if (raw is not JObject obj || obj.Properties().Count() != 1 ||
+            obj.Property("query")?.Value is not JValue { Type: JTokenType.String } query) return false;
+        var value = query.Value<string>();
         if (string.IsNullOrWhiteSpace(value) || value.Length > 500) return false;
-        arguments = JsonSerializer.SerializeToElement(new { query = value });
+        arguments = new JObject { ["query"] = value };
         return true;
     }
 
@@ -444,8 +504,8 @@ public sealed class DocumentConversationService : IDisposable
     private static int HistorySize(IReadOnlyList<TranscriptMessage> history) => history.Sum(message => message.Content.Sum(block => block switch
     {
         TextBlock text => text.Text.Length,
-        ToolCallBlock call => call.Call.Arguments.GetRawText().Length,
-        ToolResultBlock result => result.Result.Output?.GetRawText().Length ?? 0,
+        ToolCallBlock call => call.Call.Arguments.ToString(Newtonsoft.Json.Formatting.None).Length,
+        ToolResultBlock result => result.Result.Output?.ToString(Newtonsoft.Json.Formatting.None).Length ?? 0,
         _ => 0
     }));
 
@@ -467,6 +527,7 @@ public sealed class DocumentConversationService : IDisposable
         public string PathBase { get; } = pathBase;
         public List<ConversationMessage> Messages { get; } = [];
         public List<DocumentProcessEvent> ActiveProcessEvents { get; } = [];
+        public List<AgentDiagnosticEvent> DiagnosticEvents { get; } = [];
         public IReadOnlyList<TranscriptMessage> History { get; set; } = [];
         public int NextLabel { get; set; }
         public long NextProcessSequence { get; set; }

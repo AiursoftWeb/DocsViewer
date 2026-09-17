@@ -1,4 +1,5 @@
 using Aiursoft.AgentKit;
+using Newtonsoft.Json.Linq;
 using Aiursoft.AgentKit.Messages;
 using Aiursoft.DocsViewer.Services.Agents;
 
@@ -107,6 +108,44 @@ public sealed class DocumentConversationTests
     }
 
     [TestMethod]
+    public async Task AssistantContentIsNotExposedAsProcessActivity()
+    {
+        using var test = new Fixture();
+        test.Executor.AgentEvents =
+        [
+            new(1, 1, AgentRunEventKind.AssistantContent, Text: "Unverified provider answer"),
+            new(2, 1, AgentRunEventKind.ToolCallProposed, ToolName: DocumentSearchAgentTool.Name,
+                ToolCall: new ToolCall("call", DocumentSearchAgentTool.Name, JToken.FromObject(new { query = "safe" }))),
+            new(3, 1, AgentRunEventKind.ToolExecutionStarted, ToolName: DocumentSearchAgentTool.Name),
+            new(4, 1, AgentRunEventKind.ToolExecutionCompleted, ToolName: DocumentSearchAgentTool.Name, ToolOutcome: ToolOutcome.Succeeded)
+        ];
+        test.Executor.ProcessObserverEvents =
+        [
+            new(0, 1, DocumentProcessEvent.ToolExecution, DocumentProcessEvent.Succeeded,
+                ToolName: DocumentSearchAgentTool.Name, ResultCount: 1,
+                Citations: [new ConversationCitation("[D1]", "Safe source", "/Documents/Detail?path=safe.md")])
+        ];
+
+        var id = (await test.Send()).ConversationId!.Value;
+        await test.Queue.RunNext();
+
+        var message = test.Service.Status("owner", id)!.Messages.Single(item => item.Role == "assistant");
+        Assert.AreEqual("safe answer", message.Content);
+        var diagnostics = test.Service.Status("owner", id)!.MetaEvents ?? [];
+        Assert.IsTrue(diagnostics.All(item => item.IsMeta));
+        Assert.IsTrue(diagnostics.Any(item => item.Kind == AgentRunEventKind.AssistantContent.ToString() &&
+            item.Text == "Unverified provider answer"));
+        Assert.IsTrue(diagnostics.Any(item => item.Kind == AgentRunEventKind.ToolCallProposed.ToString() &&
+            item.Arguments?["query"]?.ToObject<string>() == "safe"));
+        var processEvents = message.ProcessEvents ?? [];
+        Assert.IsFalse(processEvents.Any(item => item.Kind == DocumentProcessEvent.AssistantMessage ||
+            string.Equals(item.Text, "Unverified provider answer", StringComparison.Ordinal)));
+        Assert.IsTrue(processEvents.Any(item => item.Kind == DocumentProcessEvent.ToolCall && item.Status == DocumentProcessEvent.Proposed));
+        Assert.IsTrue(processEvents.Any(item => item.Kind == DocumentProcessEvent.ToolExecution && item.Status == DocumentProcessEvent.Started));
+        Assert.IsTrue(processEvents.Any(item => item.Kind == DocumentProcessEvent.ToolExecution && item.Status == DocumentProcessEvent.Succeeded));
+    }
+
+    [TestMethod]
     public async Task ProcessEventsRemainOwnerScopedAndCancelledTurnsExposeNone()
     {
         using var test = new Fixture();
@@ -123,6 +162,36 @@ public sealed class DocumentConversationTests
         var owner = test.Service.Status("owner", id)!;
         Assert.AreEqual("Cancelled", owner.State);
         Assert.IsFalse(owner.Messages.Any(message => message.ProcessEvents is { Count: > 0 }));
+    }
+
+    [TestMethod]
+    public async Task ModelFailurePersistsSafeCheckpointForContinuation()
+    {
+        using var test = new Fixture();
+        test.Executor.Results.Enqueue(new DocumentTurnResult(
+            new GroundedDocumentAnswer(string.Empty, [], false, DocumentAnswerStatus.ModelFailure),
+            [TranscriptMessage.System("rules"), TranscriptMessage.User("first question")],
+            7));
+        test.Executor.Results.Enqueue(new DocumentTurnResult(
+            new GroundedDocumentAnswer("safe answer", [], true),
+            [TranscriptMessage.System("rules"), TranscriptMessage.User("first question"),
+                TranscriptMessage.User("second question"), TranscriptMessage.Assistant([new TextBlock("safe answer")])],
+            8));
+
+        var id = (await test.Send("owner", null, "first question")).ConversationId!.Value;
+        await test.Queue.RunNext();
+        var failed = test.Service.Status("owner", id)!;
+        Assert.AreEqual("Error", failed.State);
+        Assert.AreEqual("ModelFailure", failed.ErrorMessage);
+        Assert.AreEqual(1, failed.Messages.Count);
+
+        Assert.IsNotNull((await test.Send("owner", id, "second question")).ConversationId);
+        await test.Queue.RunNext();
+        var followUpHistory = test.Executor.Histories[1];
+        Assert.AreEqual(2, followUpHistory.Count);
+        Assert.AreEqual("first question", followUpHistory[1].Content.OfType<TextBlock>().Single().Text);
+        Assert.AreEqual(7, test.Executor.Labels[1]);
+        Assert.AreEqual("Completed", test.Service.Status("owner", id)!.State);
     }
 
     [TestMethod]
@@ -179,6 +248,11 @@ public sealed class DocumentConversationTests
         public int Calls;
         public bool Block;
         public IReadOnlyList<DocumentProcessEvent> Events { get; set; } = [];
+        public IReadOnlyList<DocumentProcessEvent> ProcessObserverEvents { get; set; } = [];
+        public IReadOnlyList<AgentRunEvent> AgentEvents { get; set; } = [];
+        public Queue<DocumentTurnResult> Results { get; } = new();
+        public List<IReadOnlyList<TranscriptMessage>> Histories { get; } = [];
+        public List<int> Labels { get; } = [];
         public TaskCompletionSource Started { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
         public TaskCompletionSource Release { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
         public async Task<DocumentTurnResult> ExecuteTurnAsync(
@@ -192,8 +266,17 @@ public sealed class DocumentConversationTests
             CancellationToken cancellationToken)
         {
             Calls++;
+            Histories.Add(history.Select(message => message.DeepCopy()).ToArray());
+            Labels.Add(nextLabel);
             Started.TrySetResult();
             if (Block) await Release.Task; // Deliberately ignore cancellation to test lease ownership.
+            if (onProgress is not null)
+                foreach (var agentEvent in AgentEvents)
+                    await onProgress(agentEvent, cancellationToken);
+            if (onProcess is not null)
+                foreach (var processEvent in ProcessObserverEvents)
+                    await onProcess(processEvent, cancellationToken);
+            if (Results.TryDequeue(out var result)) return result;
             return new(new("safe answer", [], true), [TranscriptMessage.User(question),
                 TranscriptMessage.Assistant([new TextBlock("safe answer")])], nextLabel, Events);
         }
@@ -214,8 +297,8 @@ public sealed class DocumentConversationTests
             Limiter = new(Clock);
             Service = new(Queue, provider.GetRequiredService<IServiceScopeFactory>(), Limiter, Lifetime, Clock);
         }
-        public Task<ConversationAdmission> Send(string owner = "owner", Guid? id = null) =>
-            Service.SendAsync(owner, "question", id, "en-US", "");
+        public Task<ConversationAdmission> Send(string owner = "owner", Guid? id = null, string question = "question") =>
+            Service.SendAsync(owner, question, id, "en-US", "");
         public void Dispose() { Service.Dispose(); provider.Dispose(); Lifetime.Dispose(); }
     }
 }

@@ -1,4 +1,6 @@
 @model Aiursoft.DocsViewer.Models.AgentViewModels.IndexViewModel
+<link rel="stylesheet" href="~/styles/markdown-reader.css" asp-append-version="true" />
+<script src="~/node_modules/@@aiursoft/uistack-markdown-ui/dist/index.global.js" asp-append-version="true" defer></script>
 <script src="~/scripts/agent-chat.js" asp-append-version="true" defer></script>
 
 <div class="container py-4">
@@ -30,6 +32,7 @@
         <label asp-for="Question" class="form-label">@Localizer["Question"]</label>
         <textarea asp-for="Question" class="form-control" rows="4" maxlength="2000" required></textarea>
         <span asp-validation-for="Question" class="text-danger"></span>
+        <div class="form-text">@Localizer["Press Enter to send and Shift+Enter for a new line."]</div>
         <p class="small text-muted mt-2">@Localizer["Follow-up questions retain this conversation's context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service."]</p>
         <button id="agent-send" type="submit" class="btn btn-primary" disabled="@(!Model.Configured)">@Localizer["Ask the documentation"]</button>
         <button id="agent-cancel" type="button" class="btn btn-outline-secondary" disabled>@Localizer["Stop"]</button>

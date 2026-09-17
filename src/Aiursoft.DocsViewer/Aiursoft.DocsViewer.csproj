@@ -10,8 +10,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Aiursoft.AgentKit" Version="0.1.0-local.8" />
-    <PackageReference Include="Aiursoft.AgentKit.AgentRunner" Version="0.1.0-local.8" />
+    <PackageReference Include="Aiursoft.AgentKit" Version="0.1.0-local.11" />
+    <PackageReference Include="Aiursoft.AgentKit.AgentRunner" Version="0.1.0-local.11" />
     <PackageReference Include="Aiursoft.ClickhouseLoggerProvider" Version="10.0.24" />
     <PackageReference Include="Aiursoft.DbTools.Switchable" Version="10.0.24" />
     <PackageReference Include="Aiursoft.Scanner" Version="10.0.11" />

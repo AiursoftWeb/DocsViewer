@@ -29,6 +29,10 @@ public sealed class AgentControllerTests : TestBase
         Assert.Contains("__RequestVerificationToken", html);
         Assert.Contains("The assistant is not configured", html);
         Assert.Contains("maxlength=\"2000\"", html);
+        Assert.Contains("node_modules/@aiursoft/uistack-markdown-ui/dist/index.global.js", html);
+        Assert.Contains("styles/markdown-reader.css", html);
+        Assert.Contains("scripts/agent-chat.js", html);
+        Assert.Contains("Press Enter to send and Shift+Enter for a new line.", html);
         Assert.Contains("/Agent", html);
     }
 

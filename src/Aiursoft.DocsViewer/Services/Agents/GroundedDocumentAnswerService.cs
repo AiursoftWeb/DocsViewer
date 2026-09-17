@@ -94,10 +94,22 @@ public sealed class GroundedDocumentAnswerService(
             new AgentRunRequest(messages, toolCatalog.GetTools(), new AgentRunOptions(1, 4, Observer: onProgress)),
             cancellationToken);
 
-        DocumentTurnResult Finish(GroundedDocumentAnswer answer) => new(
+        IReadOnlyList<TranscriptMessage> SafeCheckpoint(bool includeInsufficientMessage)
+        {
+            var checkpoint = history.Select(message => message.DeepCopy()).ToList();
+            if (checkpoint.Count == 0) checkpoint.Add(TranscriptMessage.System(prompt));
+            checkpoint.Add(TranscriptMessage.User(question));
+            if (includeInsufficientMessage)
+                checkpoint.Add(TranscriptMessage.Assistant([new TextBlock(Insufficient)]));
+            TranscriptValidator.Validate(checkpoint);
+            return checkpoint;
+        }
+
+        DocumentTurnResult Finish(GroundedDocumentAnswer answer, IReadOnlyList<TranscriptMessage>? transcript = null) => new(
             answer,
-            answer.SufficientEvidence ? result.Transcript : history,
-            searchTool.NextLabel);
+            transcript ?? SafeCheckpoint(answer.Status == DocumentAnswerStatus.InsufficientEvidence),
+            searchTool.NextLabel,
+            Run: result);
 
         cancellationToken.ThrowIfCancellationRequested();
         if (result.Outcome == AgentRunOutcome.Cancelled) throw new OperationCanceledException(cancellationToken);
@@ -118,6 +130,6 @@ public sealed class GroundedDocumentAnswerService(
         return Finish(new GroundedDocumentAnswer(
             result.FinalText,
             available.Where(citation => used.Contains(citation.Label, StringComparer.Ordinal)).ToArray(),
-            true));
+            true), result.Transcript);
     }
 }

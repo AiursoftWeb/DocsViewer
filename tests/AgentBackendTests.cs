@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using Newtonsoft.Json.Linq;
 using Aiursoft.AgentKit;
 using Aiursoft.AgentKit.AgentRunner;
 using Aiursoft.AgentKit.Evaluator;
@@ -76,14 +77,14 @@ public sealed class AgentBackendTests
         var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
         var request = new AgentModelRequest([
             TranscriptMessage.System("rules"), TranscriptMessage.User("question"),
-            TranscriptMessage.Assistant([new ToolCallBlock(new ToolCall("x", "search", JsonSerializer.SerializeToElement(new { query = "x" })))]),
-            TranscriptMessage.Tool([new ToolResult("x", "search", ToolOutcome.Succeeded, JsonSerializer.SerializeToElement(new { value = 1 })),
+            TranscriptMessage.Assistant([new ToolCallBlock(new ToolCall("x", "search", JToken.FromObject(new { query = "x" })))]),
+            TranscriptMessage.Tool([new ToolResult("x", "search", ToolOutcome.Succeeded, JToken.FromObject(new { value = 1 })),
                 new ToolResult("y", "search", ToolOutcome.Failed, Error: "Unavailable")])
         ], [new ToolDefinition("search", "Search")]);
         var result = await client.CompleteAsync(request, CancellationToken.None);
         Assert.AreEqual(AgentFinishReason.ToolCalls, result.FinishReason);
         Assert.AreEqual(2, result.ToolCalls.Count);
-        Assert.AreEqual("two", result.ToolCalls[1].Arguments.GetProperty("query").GetString());
+        Assert.AreEqual("two", result.ToolCalls[1].Arguments["query"]?.ToObject<string>());
         using var json = JsonDocument.Parse(handler.Body);
         var messages = json.RootElement.GetProperty("messages");
         Assert.AreEqual("function", messages[2].GetProperty("tool_calls")[0].GetProperty("type").GetString());
@@ -128,7 +129,7 @@ public sealed class AgentBackendTests
         });
         await fixture.Db.SaveChangesAsync();
         var tool = fixture.Search();
-        await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "Quartz deployment" }), CancellationToken.None);
+        await tool.ExecuteAsync(JToken.FromObject(new { query = "Quartz deployment" }), CancellationToken.None);
         Assert.AreEqual("Quartz deployment guide", tool.Citations.Single().Title);
     }
 
@@ -145,15 +146,15 @@ public sealed class AgentBackendTests
         fixture.Db.Documents.Add(new Document { Category = "test", Title = "needle deleted", Content = "private", FilePath = "deleted.md", IsDeleted = true });
         await fixture.Db.SaveChangesAsync();
         var tool = fixture.Search();
-        var first = await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "needle" }), CancellationToken.None);
+        var first = await tool.ExecuteAsync(JToken.FromObject(new { query = "needle" }), CancellationToken.None);
         Assert.IsFalse(tool.LastEvidence.UsedAi);
         Assert.AreEqual(5, tool.Citations.Count);
-        Assert.IsTrue(first.GetRawText().Length < 45000);
+        Assert.IsTrue(first.ToString(Newtonsoft.Json.Formatting.None).Length < 45000);
         Assert.IsTrue(tool.Citations.All(x => x.Excerpt.Length <= 800 && x.Title.Length <= 200 && x.Path.Length <= 300));
         Assert.IsTrue(tool.Citations.All(x => x.Excerpt.Contains("needle", StringComparison.Ordinal)));
         Assert.IsTrue(tool.Citations.All(x => x.Url.StartsWith("/Documents/Detail?path=", StringComparison.Ordinal)));
         Assert.IsFalse(tool.Citations.Any(x => x.Title.Contains("deleted", StringComparison.Ordinal)));
-        await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "needle" }), CancellationToken.None);
+        await tool.ExecuteAsync(JToken.FromObject(new { query = "needle" }), CancellationToken.None);
         Assert.AreEqual(10, tool.Citations.Select(x => x.Label).Distinct().Count());
     }
 
@@ -174,7 +175,7 @@ public sealed class AgentBackendTests
             fixture.Db.Documents.Add(document);
             await fixture.Db.SaveChangesAsync();
             var tool = fixture.Search();
-            await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "needle" }), CancellationToken.None);
+            await tool.ExecuteAsync(JToken.FromObject(new { query = "needle" }), CancellationToken.None);
             Assert.AreEqual(expected, tool.Citations.Single().Excerpt);
         }
         finally { CultureInfo.CurrentCulture = original; }
@@ -187,8 +188,8 @@ public sealed class AgentBackendTests
         {
             if (search && count++ == 0)
                 return ValueTask.FromResult(new AgentModelResponse([
-                    new ToolCallBlock(new ToolCall("a", DocumentSearchAgentTool.Name, JsonSerializer.SerializeToElement(new { query = "needle" }))),
-                    new ToolCallBlock(new ToolCall("b", DocumentSearchAgentTool.Name, JsonSerializer.SerializeToElement(new { query = "needle" })))
+                    new ToolCallBlock(new ToolCall("a", DocumentSearchAgentTool.Name, JToken.FromObject(new { query = "needle" }))),
+                    new ToolCallBlock(new ToolCall("b", DocumentSearchAgentTool.Name, JToken.FromObject(new { query = "needle" })))
                 ], AgentFinishReason.ToolCalls));
             return ValueTask.FromResult(new AgentModelResponse([new TextBlock(answer)]));
         }
@@ -197,6 +198,28 @@ public sealed class AgentBackendTests
     private sealed class TestToolCatalog(DocumentSearchAgentTool searchTool) : IDocumentAgentToolCatalog
     {
         public IReadOnlyList<IAgentTool> GetTools() => [searchTool];
+    }
+
+    private sealed class RecoveryModel : IAgentModelClient
+    {
+        private int count;
+        public List<AgentModelRequest> Requests { get; } = [];
+
+        public ValueTask<AgentModelResponse> CompleteAsync(AgentModelRequest request, CancellationToken cancellationToken)
+        {
+            Requests.Add(new AgentModelRequest(
+                request.Transcript.Select(message => message.DeepCopy()).ToArray(),
+                request.Tools.ToArray()));
+            return ValueTask.FromResult(count++ switch
+            {
+                0 or 2 => new AgentModelResponse([
+                    new ToolCallBlock(new ToolCall($"call-{count}", DocumentSearchAgentTool.Name,
+                        JToken.FromObject(new { query = "needle" })))
+                ], AgentFinishReason.ToolCalls),
+                1 => new AgentModelResponse([new TextBlock("Unverified provider answer")]),
+                _ => new AgentModelResponse([new TextBlock("Recovered answer [D2]")])
+            });
+        }
     }
 
     private static GroundedDocumentAnswerService CreateAnswerService(
@@ -226,6 +249,37 @@ public sealed class AgentBackendTests
     }
 
     [TestMethod]
+    public async Task InsufficientEvidenceCreatesSafeCheckpointForFollowUp()
+    {
+        using var fixture = new Fixture();
+        fixture.Db.Documents.Add(new Document { Category = "test", Title = "needle", Content = "Evidence", FilePath = "doc.md" });
+        await fixture.Db.SaveChangesAsync();
+        var model = new RecoveryModel();
+        var service = CreateAnswerService(model, fixture.Search());
+
+        var insufficient = await service.ExecuteTurnAsync("What is needle?", [], 0, "en-US", "", null, null, CancellationToken.None);
+
+        Assert.AreEqual(DocumentAnswerStatus.InsufficientEvidence, insufficient.Answer.Status);
+        TranscriptValidator.Validate(insufficient.Transcript);
+        var firstCheckpoint = string.Join("\n", insufficient.Transcript.Select(message => string.Concat(message.Content.OfType<TextBlock>().Select(block => block.Text))));
+        StringAssert.Contains(firstCheckpoint, "What is needle?");
+        StringAssert.Contains(firstCheckpoint, "I could not find enough documentation evidence to answer that.");
+        Assert.IsFalse(firstCheckpoint.Contains("Unverified provider answer", StringComparison.Ordinal));
+        Assert.IsFalse(insufficient.Transcript.Any(message => message.Role == TranscriptRole.Tool || message.ToolCalls.Count > 0));
+
+        var recovered = await service.ExecuteTurnAsync("How do I use it?", insufficient.Transcript, insufficient.NextLabel, "en-US", "", null, null, CancellationToken.None);
+
+        Assert.IsTrue(recovered.Answer.SufficientEvidence);
+        Assert.AreEqual("Recovered answer [D2]", recovered.Answer.Answer);
+        var followUpRequest = model.Requests[2];
+        var followUpText = string.Join("\n", followUpRequest.Transcript.Select(message => string.Concat(message.Content.OfType<TextBlock>().Select(block => block.Text))));
+        StringAssert.Contains(followUpText, "What is needle?");
+        StringAssert.Contains(followUpText, "How do I use it?");
+        StringAssert.Contains(followUpText, "I could not find enough documentation evidence to answer that.");
+        Assert.IsFalse(followUpText.Contains("Unverified provider answer", StringComparison.Ordinal));
+    }
+
+    [TestMethod]
     public async Task DocumentAgentRunProducesGenericEvaluationEvidence()
     {
         using var fixture = new Fixture();
@@ -236,7 +290,7 @@ public sealed class AgentBackendTests
             [TranscriptMessage.System("rules"), TranscriptMessage.User("question")],
             [tool],
             new AgentRunOptions(MaxConcurrency: 1)));
-        var snapshot = JsonSerializer.SerializeToElement(new
+        var snapshot = JToken.FromObject(new
         {
             citations = tool.Citations.Select(citation => citation.Label).ToArray()
         });
@@ -245,21 +299,21 @@ public sealed class AgentBackendTests
             run,
             snapshot,
             TimeSpan.FromMilliseconds(1));
-        using var toolMatch = JsonDocument.Parse("{\"name\":\"search_documents\",\"parameters\":{\"query\":\"needle\"}}");
-        using var responseMatch = JsonDocument.Parse("{\"$contains\":\"[D1]\"}");
+        var toolMatch = JToken.Parse("{\"name\":\"search_documents\",\"parameters\":{\"query\":\"needle\"}}");
+        var responseMatch = JToken.Parse("{\"$contains\":\"[D1]\"}");
         var evaluationCase = new EvaluationCase("grounded-search", 1, [new EvaluationStep(
             0,
             "document-user",
             "public-documents",
             new EvaluationExpectation([
-                new EvaluationAssertion("search", EvaluationAssertionKinds.Tool, "grounding", 1, 0, true, false, toolMatch.RootElement),
-                new EvaluationAssertion("citation", EvaluationAssertionKinds.Response, "grounding", 1, 0, true, false, responseMatch.RootElement)
+                new EvaluationAssertion("search", EvaluationAssertionKinds.Tool, "grounding", 1, 0, true, false, toolMatch),
+                new EvaluationAssertion("citation", EvaluationAssertionKinds.Response, "grounding", 1, 0, true, false, responseMatch)
             ]))]);
 
         var result = new AssertionEvaluator().Evaluate(evaluationCase, new EvaluationEvidence([evidence]));
 
         Assert.IsTrue(result.Passed);
-        Assert.IsTrue(evidence.State.GetProperty("citations").EnumerateArray().Any(label => label.GetString() == "[D1]"));
+        Assert.IsTrue(evidence.State["citations"]!.Values<string>().Any(label => label == "[D1]"));
     }
 
     [TestMethod]
@@ -277,7 +331,7 @@ public sealed class AgentBackendTests
         var vector = new DocumentVectorSearchService(fixture.Db, cache, fixture.Settings, new Factory(http), NullLogger<DocumentVectorSearchService>.Instance);
         using var services = new ServiceCollection().AddLogging().AddRouting().BuildServiceProvider();
         var tool = new DocumentSearchAgentTool(fixture.Db, vector, services.GetRequiredService<LinkGenerator>(), new HttpContextAccessor());
-        await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "needle" }), CancellationToken.None);
+        await tool.ExecuteAsync(JToken.FromObject(new { query = "needle" }), CancellationToken.None);
         Assert.AreEqual(!failEmbedding, tool.LastEvidence.UsedAi);
         Assert.AreEqual(failEmbedding ? "needle lexical" : "semantic match", tool.Citations.Single().Title);
     }
@@ -300,12 +354,12 @@ public sealed class AgentBackendTests
         fixture.Db.Documents.Add(new Document { Category = "test", Title = "needle", Content = "Evidence", FilePath = "doc.md" });
         await fixture.Db.SaveChangesAsync();
         var tool = fixture.Search();
-        await Task.WhenAll(Enumerable.Range(0, 4).Select(_ => tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "needle" }), CancellationToken.None).AsTask()));
+        await Task.WhenAll(Enumerable.Range(0, 4).Select(_ => tool.ExecuteAsync(JToken.FromObject(new { query = "needle" }), CancellationToken.None).AsTask()));
         Assert.AreEqual(4, tool.Citations.Select(x => x.Label).Distinct().Count());
-        await Assert.ThrowsAsync<ArgumentException>(async () => await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = new string('x', 501) }), CancellationToken.None));
+        await Assert.ThrowsAsync<ArgumentException>(async () => await tool.ExecuteAsync(JToken.FromObject(new { query = new string('x', 501) }), CancellationToken.None));
         using var cancellation = new CancellationTokenSource();
         cancellation.Cancel();
-        await Assert.ThrowsAsync<OperationCanceledException>(async () => await tool.ExecuteAsync(JsonSerializer.SerializeToElement(new { query = "needle" }), cancellation.Token));
+        await Assert.ThrowsAsync<OperationCanceledException>(async () => await tool.ExecuteAsync(JToken.FromObject(new { query = "needle" }), cancellation.Token));
     }
 
     [TestMethod]

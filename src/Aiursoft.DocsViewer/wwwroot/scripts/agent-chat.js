@@ -30,9 +30,9 @@
     }
 
     function createActivity(events, open) {
-        const accepted = (events || []).filter(event => event &&
-            ['AssistantMessage', 'ToolCall', 'ToolExecution'].includes(event.Kind) &&
-            ['Content', 'Proposed', 'Started', 'Succeeded', 'Failed', 'Deferred'].includes(event.Status)).slice(0, 20);
+        const accepted = (events || []).filter(event => event && event.IsMeta !== true &&
+            ['ToolCall', 'ToolExecution'].includes(event.Kind) &&
+            ['Proposed', 'Started', 'Succeeded', 'Failed', 'Deferred'].includes(event.Status)).slice(0, 20);
         if (accepted.length === 0) return null;
 
         const details = document.createElement('details');
@@ -48,9 +48,7 @@
 
         for (const event of accepted) {
             const item = document.createElement('li');
-            if (event.Kind === 'AssistantMessage') {
-                item.textContent = `${form.dataset.activityAssistant}: ${event.Text || ''}`;
-            } else if (event.Kind === 'ToolCall') {
+            if (event.Kind === 'ToolCall') {
                 item.textContent = `${form.dataset.activityToolCall}: ${event.ToolName || ''}`;
                 if (event.Arguments && typeof event.Arguments.query === 'string') {
                     const parameters = document.createElement('pre');
@@ -84,15 +82,30 @@
         return details;
     }
 
+    function renderAssistantMarkdown(content, message) {
+        try {
+            const markdown = window.AiursoftMarkdownUi?.renderMarkdown;
+            if (typeof markdown !== 'function') throw new Error('markdown renderer unavailable');
+            content.innerHTML = markdown(message);
+        } catch {
+            content.textContent = message;
+        }
+    }
+
     function render(messages, activeEvents) {
         output.replaceChildren();
         for (const message of messages || []) {
             const block = document.createElement('section');
             block.className = 'border rounded p-3 mb-3 text-break';
             const content = document.createElement('div');
-            content.style.whiteSpace = 'pre-wrap';
-            content.textContent = message.Content;
-            if (message.Role === 'user') block.classList.add('bg-body-tertiary');
+            if (message.Role === 'assistant') {
+                content.className = 'markdown-content';
+                renderAssistantMarkdown(content, message.Content || '');
+            } else {
+                content.style.whiteSpace = 'pre-wrap';
+                content.textContent = message.Content;
+                block.classList.add('bg-body-tertiary');
+            }
             block.append(content);
 
             for (const citation of message.Citations || []) {
@@ -164,6 +177,13 @@
             }
         }
     }
+
+    input.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            form.requestSubmit();
+        }
+    });
 
     form.addEventListener('submit', async event => {
         event.preventDefault();
