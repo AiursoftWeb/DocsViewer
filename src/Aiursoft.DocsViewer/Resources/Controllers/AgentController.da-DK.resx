@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Document Assistant" xml:space="preserve">
+    <value>Dokumentassistent</value>
+  </data>
+  <data name="Please enter a question of at most 2000 characters." xml:space="preserve">
+    <value>Indtast et spørgsmål på højst 2000 tegn.</value>
+  </data>
+  <data name="Please enter a question." xml:space="preserve">
+    <value>Indtast venligst et spørgsmål.</value>
+  </data>
+  <data name="The assistant could not complete this request. Please try again later." xml:space="preserve">
+    <value>Assistenten kunne ikke fuldføre denne anmodning. Prøv igen senere.</value>
+  </data>
+  <data name="The assistant could not complete this turn. Please try again or start a new conversation." xml:space="preserve">
+    <value>Assistenten kunne ikke fuldføre denne omgang. Prøv igen eller start en ny samtale.</value>
+  </data>
+  <data name="The assistant is busy or you already have a question in progress. Please try again shortly." xml:space="preserve">
+    <value>Assistenten er optaget, eller du har allerede et spørgsmål i gang. Prøv igen om lidt.</value>
+  </data>
+  <data name="The assistant is not configured." xml:space="preserve">
+    <value>Assistenten er ikke konfigureret.</value>
+  </data>
+  <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
+    <value>Dokumentationen indeholder ikke tilstrækkelige oplysninger til at besvare dette spørgsmål. Prøv at stille spørgsmål om de tilgængelige dokumenter eller brug mere specifikke dokumentrelaterede termer.</value>
+  </data>
+  <data name="The request could not be started. Wait a moment or start a new conversation." xml:space="preserve">
+    <value>Anmodningen kunne ikke startes. Vent et øjeblik eller start en ny samtale.</value>
+  </data>
+  <data name="Too many questions. Please wait a minute before trying again." xml:space="preserve">
+    <value>For mange spørgsmål. Vent venligst et minut, før du prøver igen.</value>
+  </data>
+
+</root>

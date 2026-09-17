@@ -78,6 +78,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Κατάλογος</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Βοηθός Εγγράφων</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>Τεκμηρίωση</value>
   </data>
@@ -89,6 +92,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Σφάλμα</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>Εξερεύνηση</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Λειτουργίες</value>
