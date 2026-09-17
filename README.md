@@ -108,6 +108,7 @@ Configure these Global Settings (or their `GlobalSettings__...` environment over
 
 - `OpenAiInstance`: full OpenAI-compatible `/v1/chat/completions` URL.
 - `OpenAiAgentModel`: a tool-calling model available at that endpoint; independent of the translation model.
+- `OpenAiAgentCustomInstruction`: optional multiline administrator guidance for the document assistant. Configure it in Global Settings or through `GlobalSettings__OpenAiAgentCustomInstruction`; it can refine style or scope but cannot override the built-in grounding, citation, and safety requirements.
 - `OpenAiApiToken`: optional bearer credential for the existing chat endpoint. Prefer environment configuration for secrets; the existing settings UI displays stored text values.
 
 Questions and bounded document excerpts are sent to that configured service. The page requires authentication and antiforgery protection. Limits are process-local: one active request per user, three starts per minute, and four active requests overall. Idle user limiter entries are removed on subsequent admissions after their one-minute window expires. Multiple application instances do not share quotas.

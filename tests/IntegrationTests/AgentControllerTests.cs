@@ -167,7 +167,7 @@ public sealed class AgentControllerTests : TestBase
 
             if (inventCitation)
             {
-                Assert.Contains("The documentation does not provide enough evidence", html);
+                Assert.Contains("Please try asking about the available documents", html);
                 Assert.DoesNotContain("Unsupported provider claim", html);
                 Assert.DoesNotContain("/Documents/Detail?path=guides", html);
             }

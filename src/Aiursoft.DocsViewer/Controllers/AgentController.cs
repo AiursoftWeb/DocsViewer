@@ -47,7 +47,7 @@ public sealed class AgentController(
                     model.Citations = result.Citations;
                     break;
                 case DocumentAnswerStatus.InsufficientEvidence:
-                    model.StatusMessage = localizer["The documentation does not provide enough evidence to answer this question."];
+                    model.StatusMessage = localizer["The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms."];
                     break;
                 case DocumentAnswerStatus.RateLimited:
                     model.StatusMessage = localizer["Too many questions. Please wait a minute before trying again."];

@@ -154,7 +154,7 @@ public sealed class DocumentConversationTests : TestBase
             var id = await Send("What is Orion?");
             var insufficient = await WaitTerminal(id);
             Assert.AreEqual("Completed", insufficient.GetProperty("State").GetString());
-            Assert.AreEqual("I could not find enough documentation evidence to answer that.", insufficient.GetProperty("Messages")[1].GetProperty("Content").GetString());
+            Assert.Contains("Please try asking about the available documents", insufficient.GetProperty("Messages")[1].GetProperty("Content").GetString()!);
             Assert.AreEqual(0, insufficient.GetProperty("Messages")[1].GetProperty("Citations").GetArrayLength());
             var firstActivity = insufficient.GetProperty("Messages")[1].GetProperty("ProcessEvents").EnumerateArray().ToArray();
             Assert.IsFalse(firstActivity.Any(activity => activity.GetProperty("Kind").GetString() == DocumentProcessEvent.AssistantMessage ||
@@ -171,7 +171,7 @@ public sealed class DocumentConversationTests : TestBase
             var continuationText = string.Join("\n", continuation.Select(message => message.TryGetProperty("content", out var content) ? content.GetString() : null));
             StringAssert.Contains(continuationText, "What is Orion?");
             StringAssert.Contains(continuationText, "How do I install it?");
-            StringAssert.Contains(continuationText, "I could not find enough documentation evidence to answer that.");
+            StringAssert.Contains(continuationText, "Please try asking about the available documents");
             Assert.IsFalse(continuationText.Contains("Unverified provider answer", StringComparison.Ordinal));
             Assert.IsFalse(continuation.Any(message => message.GetProperty("role").GetString() == "tool"));
         }
