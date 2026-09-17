@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>رقم افتراضي للتجريب.</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>تعليمات الوكيل المخصصة</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>نموذج الوكيل</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>السماح للمستخدمين المسجّلين بالدخول بنشر التعليقات والردود.</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>نهاية دردشة OpenAI</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>إرشادات اختيارية من المسؤول لمساعد المستندات. يمكنه تحسين الأسلوب أو النطاق، لكنه لا يمكنه تجاوز قواعد الإجابة المبنية على المستندات أو الاستشهادات أو الأمان.</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>شعار المشروع</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>الحد الأقصى لعدد التعليقات التي يمكن للمستخدم نشرها في اليوم الواحد.</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>اسم النموذج المستخدم للإجابات المستندة إلى المستندات. غير ذي صلة بالترجمة.</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>اسم المشروع المُعرض في الواجهة الأمامية.</value>

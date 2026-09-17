@@ -81,6 +81,9 @@
   <data name="Directory" xml:space="preserve">
     <value>ディレクトリ</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>ドキュメントアシスタント</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>ドキュメント</value>
   </data>
@@ -92,6 +95,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>エラー</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>エクスプローラー</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>機能</value>

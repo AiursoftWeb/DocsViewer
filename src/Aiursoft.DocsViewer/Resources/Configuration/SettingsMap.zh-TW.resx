@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>測試用的虛擬數字。</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>代理自訂指示</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>代理模型</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>允許已登入的使用者發布留言和回覆。</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>OpenAI 聊天端點</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>文件助理的選填管理員指引。可調整風格或範圍，但無法覆蓋基於文件的回答、引用或安全性規則。</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>專案標誌</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>用戶每日可發表的評論數量上限。</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>用於基於文件內容回答的模型名稱。與翻譯功能無關。</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>專案在前端顯示的名稱。</value>

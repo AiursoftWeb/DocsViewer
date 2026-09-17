@@ -81,6 +81,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Thư mục</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Trợ lý Tài liệu</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>Tài liệu</value>
   </data>
@@ -92,6 +95,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Lỗi</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>Khám phá</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Tính năng</value>

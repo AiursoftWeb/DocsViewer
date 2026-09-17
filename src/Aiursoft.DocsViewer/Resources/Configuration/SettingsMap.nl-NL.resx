@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Een dummygetal voor testdoeleinden.</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>Aangepaste instructies voor agent</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>Agentmodel</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>Sta ingelogde gebruikers toe om reacties en antwoorden te plaatsen.</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>OpenAI Chat-eindpunt</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>Optionele administratie-richtlijnen voor de Document Assistent. Hiermee kan de stijl of het bereik worden verfijnd, maar het kan de regels voor onderbouwde antwoorden, citaten of veiligheid niet overschrijven.</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Projectlogo</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Het maximum aantal comments dat een gebruiker per dag kan plaatsen.</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>De modelnaam die wordt gebruikt voor gebaseerde documentantwoorden. Niet gerelateerd aan vertaling.</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>De naam van het project dat wordt weergegeven in de frontend.</value>

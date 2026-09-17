@@ -81,6 +81,9 @@
   <data name="Directory" xml:space="preserve">
     <value>ไดเรกทอรี</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>ผู้ช่วยเอกสาร</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>เอกสารประกอบ</value>
   </data>
@@ -92,6 +95,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>ข้อผิดพลาด</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>สำรวจ</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>คุณสมบัติ</value>

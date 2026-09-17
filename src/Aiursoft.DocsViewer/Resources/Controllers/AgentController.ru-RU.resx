@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Document Assistant" xml:space="preserve">
+    <value>Ассистент документации</value>
+  </data>
+  <data name="Please enter a question of at most 2000 characters." xml:space="preserve">
+    <value>Пожалуйста, введите вопрос не более чем из 2000 символов.</value>
+  </data>
+  <data name="Please enter a question." xml:space="preserve">
+    <value>Пожалуйста, введите вопрос.</value>
+  </data>
+  <data name="The assistant could not complete this request. Please try again later." xml:space="preserve">
+    <value>Помощник не смог выполнить этот запрос. Повторите попытку позже.</value>
+  </data>
+  <data name="The assistant could not complete this turn. Please try again or start a new conversation." xml:space="preserve">
+    <value>Ассистент не смог завершить этот ход. Пожалуйста, попробуйте ещё раз или начните новый разговор.</value>
+  </data>
+  <data name="The assistant is busy or you already have a question in progress. Please try again shortly." xml:space="preserve">
+    <value>Ассистент занят или у вас уже есть вопрос в обработке. Пожалуйста, попробуйте снова через некоторое время.</value>
+  </data>
+  <data name="The assistant is not configured." xml:space="preserve">
+    <value>Помощник не настроен.</value>
+  </data>
+  <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
+    <value>Документация не содержит достаточных оснований для ответа на этот вопрос. Попробуйте задать вопрос о доступных документах или использовать более конкретные термины, связанные с документами.</value>
+  </data>
+  <data name="The request could not be started. Wait a moment or start a new conversation." xml:space="preserve">
+    <value>Не удалось начать запрос. Подождите немного или начните новый разговор.</value>
+  </data>
+  <data name="Too many questions. Please wait a minute before trying again." xml:space="preserve">
+    <value>Слишком много вопросов. Пожалуйста, подождите минуту перед повторной попыткой.</value>
+  </data>
+
+</root>

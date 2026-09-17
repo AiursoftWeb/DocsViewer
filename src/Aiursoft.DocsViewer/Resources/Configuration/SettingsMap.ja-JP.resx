@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>テスト用のダミー番号です。</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>エージェントの自定义指示</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>エージェントモデル</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>サインイン済みユーザーがコメントと返信を投稿できるようにします。</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>OpenAI チャットエンドポイント</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>ドキュメントアシスタント用の任意の管理者ガイダンスです。スタイルや範囲の調整は可能ですが、根拠に基づく回答、引用、または安全ルールを上書きすることはできません。</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>プロジェクトロゴ</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>ユーザーが1日あたりに投稿できるコメントの最大数。</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>グラウンデッドなドキュメント回答に使用するモデル名。翻訳とは無関係です。</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>フロントエンドに表示されるプロジェクト名</value>

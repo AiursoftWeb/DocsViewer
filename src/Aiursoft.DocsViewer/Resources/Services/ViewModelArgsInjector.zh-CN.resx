@@ -81,6 +81,9 @@
   <data name="Directory" xml:space="preserve">
     <value>目录</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>文档助手</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>文档</value>
   </data>
@@ -92,6 +95,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>错误</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>探索</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>功能</value>

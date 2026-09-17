@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Ett dummynummer för testning.</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>Agents anpassade instruktioner</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>Agentmodell</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>Tillåt inloggade användare att skriva kommentarer och svar.</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>OpenAI Chat Endpoint</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>Valfri administrativ vägledning för Dokumentassistenten. Den kan förfina stil eller omfattning, men kan inte åsidosätta regler för källbaserade svar, citat eller säkerhet.</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Projektlogotyp</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Det maximala antalet kommentarer som en användare kan publicera per dag.</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>Modellnamnet som används för dokumentbaserade svar. Orelaterat till översättning.</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Projektets namn som visas i frontend</value>

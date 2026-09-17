@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Un nombre fictif à des fins de test.</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>Instructions personnalisées de l&apos;agent</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>Modèle d&apos;agent</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>Autoriser les utilisateurs connectés à publier des commentaires et des réponses.</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>Point de terminaison de chat OpenAI</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>Orientations facultatives de l&apos;administrateur pour l&apos;Assistant de documents. Elles peuvent affiner le style ou le périmètre, mais ne peuvent pas outrepasser les règles relatives aux réponses fondées sur des sources, aux citations ou à la sécurité.</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Logo du projet</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Le nombre maximum de commentaires qu&apos;un utilisateur peut publier par jour.</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>Le nom du modèle utilisé pour les réponses documentaires fondées sur des sources. Sans rapport avec la traduction.</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Le nom du projet affiché dans l&apos;interface utilisateur.</value>
