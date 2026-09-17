@@ -16,6 +16,8 @@ public class SettingsMap
     
     public const string OpenAiInstance = "OpenAiInstance";
     public const string OpenAiLocalizationModel = "OpenAiLocalizationModel";
+    public const string OpenAiAgentModel = "OpenAiAgentModel";
+    public const string OpenAiAgentCustomInstruction = "OpenAiAgentCustomInstruction";
     public const string OpenAiApiToken = "OpenAiApiToken";
     
     public const string EmbeddingOllamaInstance = "EmbeddingOllamaInstance";
@@ -119,6 +121,22 @@ public class SettingsMap
             Key = OpenAiLocalizationModel,
             Name = Localizer["Localization Model"],
             Description = Localizer["The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search."],
+            Type = SettingType.Text,
+            DefaultValue = ""
+        },
+        new GlobalSettingDefinition
+        {
+            Key = OpenAiAgentModel,
+            Name = Localizer["Agent Model"],
+            Description = Localizer["The model name used for grounded document answers. Unrelated to translation."],
+            Type = SettingType.Text,
+            DefaultValue = ""
+        },
+        new GlobalSettingDefinition
+        {
+            Key = OpenAiAgentCustomInstruction,
+            Name = Localizer["Agent Custom Instructions"],
+            Description = Localizer["Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules."],
             Type = SettingType.Text,
             DefaultValue = ""
         },

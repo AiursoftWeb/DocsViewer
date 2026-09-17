@@ -16,7 +16,6 @@ public class GlobalSettingsControllerTests : TestBase
         var indexHtml = await indexResponse.Content.ReadAsStringAsync();
         Assert.Contains("Global Settings", indexHtml);
         Assert.Contains(SettingsMap.ProjectName, indexHtml);
-
         // 2. Edit (POST)
         var newProjectName = "My New Project " + Guid.NewGuid();
         var editResponse = await PostForm("/GlobalSettings/Edit", new Dictionary<string, string>
@@ -30,6 +29,17 @@ public class GlobalSettingsControllerTests : TestBase
         var indexResponse2 = await Http.GetAsync("/GlobalSettings/Index");
         var indexHtml2 = await indexResponse2.Content.ReadAsStringAsync();
         Assert.Contains(newProjectName, indexHtml2);
+
+        var customInstruction = "Use concise language.\nDo not answer without citations.";
+        var customEditResponse = await PostForm("/GlobalSettings/Edit", new Dictionary<string, string>
+        {
+            { "Key", SettingsMap.OpenAiAgentCustomInstruction },
+            { "Value", customInstruction }
+        }, tokenUrl: "/GlobalSettings/Index");
+        AssertRedirect(customEditResponse, "/GlobalSettings");
+        var customSettingsHtml = await (await Http.GetAsync("/GlobalSettings/Index")).Content.ReadAsStringAsync();
+        Assert.Contains("Use concise language.", customSettingsHtml);
+        Assert.Contains("Do not answer without citations.", customSettingsHtml);
 
         // 4. Edit (invalid key)
         var invalidEditResponse = await PostForm("/GlobalSettings/Edit", new Dictionary<string, string>
