@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Un număr dummy pentru testare.</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>Instrucțiuni personalizate pentru agent</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>Modelul agentului</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>Permite utilizatorilor autentificați să posteze comentarii și răspunsuri.</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>Endpoint de chat OpenAI</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>Instrucțiuni opționale pentru administrator destinate Asistentului pentru documente. Acestea pot rafina stilul sau domeniul de aplicare, dar nu pot anula regulile privind răspunsurile bazate pe documente, citarea surselor sau siguranța.</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>Logo Proiect</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Numărul maxim de comentarii pe care un utilizator le poate publica pe zi.</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>Numele modelului utilizat pentru răspunsuri documentare bazate pe conținut. Fără legătură cu traducerea.</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Numele proiectului afișat în interfața frontend</value>

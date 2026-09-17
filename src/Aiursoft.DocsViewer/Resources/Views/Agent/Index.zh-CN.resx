@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Agent" xml:space="preserve">
+    <value>智能体</value>
+  </data>
+  <data name="Agent activity" xml:space="preserve">
+    <value>智能体活动</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>回答</value>
+  </data>
+  <data name="Ask a question about the indexed documentation. Answers include document references; verify important details in the sources." xml:space="preserve">
+    <value>请针对已建立索引的文档提出问题。回答中包含文档引用；请核对来源以确认重要细节。</value>
+  </data>
+  <data name="Ask the documentation" xml:space="preserve">
+    <value>查询文档</value>
+  </data>
+  <data name="Connection interrupted. Retrying…" xml:space="preserve">
+    <value>连接中断。正在重试…</value>
+  </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>文档助手</value>
+  </data>
+  <data name="Documentation search completed" xml:space="preserve">
+    <value>文档搜索已完成</value>
+  </data>
+  <data name="Documentation search could not be completed" xml:space="preserve">
+    <value>文档搜索未能完成</value>
+  </data>
+  <data name="Documentation search is waiting for approval" xml:space="preserve">
+    <value>文档搜索正在等待审批</value>
+  </data>
+  <data name="Follow-up questions retain this conversation&apos;s context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service." xml:space="preserve">
+    <value>后续问题将保留当前对话的上下文。对话在闲置30分钟后过期，并在服务器重启时丢失。问题和所选摘录将发送至已配置的模型服务。</value>
+  </data>
+  <data name="Matching documents" xml:space="preserve">
+    <value>匹配的文档</value>
+  </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>新对话</value>
+  </data>
+  <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
+    <value>按 Enter 发送，按 Shift+Enter 换行。</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>问题</value>
+  </data>
+  <data name="Ready for a follow-up question." xml:space="preserve">
+    <value>已准备好接收后续问题。</value>
+  </data>
+  <data name="Searching documentation and preparing an answer…" xml:space="preserve">
+    <value>正在搜索文档并准备回答…</value>
+  </data>
+  <data name="Searching indexed documentation" xml:space="preserve">
+    <value>正在搜索已索引的文档</value>
+  </data>
+  <data name="Sources" xml:space="preserve">
+    <value>来源</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Stopping the current turn…" xml:space="preserve">
+    <value>正在停止当前回合…</value>
+  </data>
+  <data name="The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model." xml:space="preserve">
+    <value>助手尚未配置。管理员必须配置聊天端点和文档代理模型。</value>
+  </data>
+  <data name="The conversation expired or is no longer accessible. Start a new conversation." xml:space="preserve">
+    <value>会话已过期或无法访问。请开始新的会话。</value>
+  </data>
+  <data name="The request failed. Please try again." xml:space="preserve">
+    <value>请求失败。请重试。</value>
+  </data>
+  <data name="The turn was cancelled." xml:space="preserve">
+    <value>该回合已取消。</value>
+  </data>
+  <data name="Tool call" xml:space="preserve">
+    <value>工具调用</value>
+  </data>
+  <data name="View agent activity" xml:space="preserve">
+    <value>查看代理活动</value>
+  </data>
+
+</root>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Document Assistant" xml:space="preserve">
+    <value>Βοηθός Εγγράφων</value>
+  </data>
+  <data name="Please enter a question of at most 2000 characters." xml:space="preserve">
+    <value>Παρακαλώ εισάγετε μια ερώτηση με μήκος έως 2000 χαρακτήρες.</value>
+  </data>
+  <data name="Please enter a question." xml:space="preserve">
+    <value>Παρακαλώ εισάγετε μια ερώτηση.</value>
+  </data>
+  <data name="The assistant could not complete this request. Please try again later." xml:space="preserve">
+    <value>Ο βοηθός δεν μπόρεσε να ολοκληρώσει αυτό το αίτημα. Παρακαλώ προσπαθήστε ξανά αργότερα.</value>
+  </data>
+  <data name="The assistant could not complete this turn. Please try again or start a new conversation." xml:space="preserve">
+    <value>Ο βοηθός δεν μπόρεσε να ολοκληρώσει αυτόν τον γύρο. Παρακαλώ δοκιμάστε ξανά ή ξεκινήστε μια νέα συνομιλία.</value>
+  </data>
+  <data name="The assistant is busy or you already have a question in progress. Please try again shortly." xml:space="preserve">
+    <value>Ο βοηθός είναι απασχολημένος ή ήδη έχετε μια ερώτηση σε εξέλιξη. Παρακαλώ προσπαθήστε ξανά shortly.</value>
+  </data>
+  <data name="The assistant is not configured." xml:space="preserve">
+    <value>Ο βοηθός δεν έχει ρυθμιστεί.</value>
+  </data>
+  <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
+    <value>Η τεκμηρίωση δεν παρέχει αρκετά αποδεικτικά στοιχεία για να απαντήσει σε αυτό το ερώτημα. Προσπαθήστε να ρωτήσετε σχετικά με τα διαθέσιμα έγγραφα ή να χρησιμοποιήσετε πιο συγκεκριμένους όρους που σχετίζονται με έγγραφα.</value>
+  </data>
+  <data name="The request could not be started. Wait a moment or start a new conversation." xml:space="preserve">
+    <value>Η αίτηση δεν μπόρεσε να ξεκινήσει. Περιμένετε μια στιγμή ή ξεκινήστε μια νέα συνομιλία.</value>
+  </data>
+  <data name="Too many questions. Please wait a minute before trying again." xml:space="preserve">
+    <value>Πολύ多的 ερωτήσεις. Παρακαλώ περιμένετε ένα λεπτό πριν δοκιμάσετε ξανά.</value>
+  </data>
+
+</root>

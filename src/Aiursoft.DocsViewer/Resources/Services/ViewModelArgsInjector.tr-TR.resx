@@ -78,6 +78,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Dizin</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Belge Asistanı</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>Dokümantasyon</value>
   </data>
@@ -89,6 +92,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Hata</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>Keşfet</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Özellikler</value>

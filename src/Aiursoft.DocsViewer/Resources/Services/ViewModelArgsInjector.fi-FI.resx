@@ -78,6 +78,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Hakemisto</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Dokumenttiasiantuntija</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>Dokumentaatio</value>
   </data>
@@ -89,6 +92,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Virhe</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>Tutustu</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Ominaisuudet</value>

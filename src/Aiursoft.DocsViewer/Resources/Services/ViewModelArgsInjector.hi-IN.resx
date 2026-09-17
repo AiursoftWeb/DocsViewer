@@ -78,6 +78,9 @@
   <data name="Directory" xml:space="preserve">
     <value>निर्देशिका</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>दस्तावेज़ सहायक</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>प्रलेखन</value>
   </data>
@@ -89,6 +92,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>त्रुटि</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>अन्वेषण</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>विशेषताएँ</value>
