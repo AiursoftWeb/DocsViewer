@@ -2,13 +2,14 @@ using System.Globalization;
 using Aiursoft.AgentKit;
 using Newtonsoft.Json.Linq;
 using Aiursoft.DocsViewer.Entities;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aiursoft.DocsViewer.Services.Agents;
 
 public sealed record DocumentCitation(string Label, string Title, string Path, string Excerpt, string Url);
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record DocumentSearchEvidence(bool UsedAi, IReadOnlyList<DocumentCitation> Citations, int TotalCount);
+// ReSharper restore NotAccessedPositionalProperty.Global
 
 public sealed class DocumentSearchAgentTool(
     DocsViewerDbContext db,

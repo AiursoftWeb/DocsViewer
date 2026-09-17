@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Aiursoft.DocsViewer.Services.Agents;
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record DocumentProcessEvent(
     long Sequence,
     int Iteration,
@@ -38,6 +39,7 @@ public sealed record DocumentProcessEvent(
         Citations = Citations?.ToArray()
     };
 }
+// ReSharper restore NotAccessedPositionalProperty.Global
 
 public sealed record DocumentTurnResult(
     GroundedDocumentAnswer Answer,
@@ -46,13 +48,16 @@ public sealed record DocumentTurnResult(
     IReadOnlyList<DocumentProcessEvent>? ProcessEvents = null,
     AgentRunResult? Run = null);
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record ConversationCitation(string Label, string Title, string Url);
+// ReSharper restore NotAccessedPositionalProperty.Global
 public sealed record ConversationMessage(
     string Role,
     string Content,
     IReadOnlyList<ConversationCitation> Citations,
     IReadOnlyList<DocumentProcessEvent>? ProcessEvents = null);
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record ConversationSnapshot(
     Guid ConversationId,
     string State,
@@ -62,6 +67,7 @@ public sealed record ConversationSnapshot(
     long Version,
     IReadOnlyList<DocumentProcessEvent>? ActiveProcessEvents = null,
     IReadOnlyList<AgentDiagnosticEvent>? MetaEvents = null);
+// ReSharper restore NotAccessedPositionalProperty.Global
 
 public sealed record ConversationAdmission(Guid? ConversationId, string? Error);
 
@@ -487,13 +493,6 @@ public sealed class DocumentConversationService : IDisposable
         foreach (var conversation in conversations.Values.Where(item => !item.Active && item.Updated < cutoff).ToArray())
             conversations.Remove(conversation.Id);
     }
-
-    private static IReadOnlyList<DocumentProcessEvent> CurateLegacyEvents(IReadOnlyList<DocumentProcessEvent>? events) =>
-        (events ?? [])
-            .Where(process => process.Kind == DocumentProcessEvent.DocumentationSearch)
-            .Take(4)
-            .Select(process => process.DeepCopy())
-            .ToArray();
 
     private static ConversationMessage CloneMessage(ConversationMessage message) => message with
     {

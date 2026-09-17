@@ -15,11 +15,13 @@ public enum DocumentAgentToolRisk
     ExternalSideEffect
 }
 
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record DocumentAgentToolPolicy(
     string Name,
     DocumentAgentToolRisk Risk,
     bool RequiresApproval,
     bool ExposeToModel);
+// ReSharper restore NotAccessedPositionalProperty.Global
 
 public interface IDocumentAgentToolCatalog
 {

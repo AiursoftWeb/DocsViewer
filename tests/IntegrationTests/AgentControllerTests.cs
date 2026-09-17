@@ -5,6 +5,13 @@ using Aiursoft.CSTools.Tools;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Services;
+using Aiursoft.DocsViewer.Models.AgentViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 
@@ -187,28 +194,26 @@ public sealed class AgentControllerTests : TestBase
         http.Request.Scheme = "http";
         http.Request.Host = new HostString("localhost");
         http.SetEndpoint(new Endpoint(_ => Task.CompletedTask, new EndpointMetadataCollection(), "test"));
-        var action = new Microsoft.AspNetCore.Mvc.ActionContext(http, new Microsoft.AspNetCore.Routing.RouteData(),
-            new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
-        var engine = services.GetRequiredService<Microsoft.AspNetCore.Mvc.Razor.IRazorViewEngine>();
+        var action = new ActionContext(http, new RouteData(), new ActionDescriptor());
+        var engine = services.GetRequiredService<IRazorViewEngine>();
         var view = engine.GetView(null, "/Views/Agent/Index.cshtml", false);
         Assert.IsTrue(view.Success);
-        var data = new Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary(
-            new Microsoft.AspNetCore.Mvc.ModelBinding.EmptyModelMetadataProvider(),
-            new Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary())
+        var razorView = view.View ?? throw new InvalidOperationException("The Agent view could not be loaded.");
+        var data = new ViewDataDictionary(
+            new EmptyModelMetadataProvider(),
+            new ModelStateDictionary())
         {
-            Model = new Aiursoft.DocsViewer.Models.AgentViewModels.IndexViewModel
+            Model = new IndexViewModel
             {
                 Configured = true,
                 Answer = "<script>alert('answer')</script> [D1]",
                 Citations = [new("[D1]", "<img src=x onerror=alert(1)>", "file.md", "excerpt", "/Documents/Detail?path=file.md")]
             }
         };
-        var temp = new Microsoft.AspNetCore.Mvc.ViewFeatures.TempDataDictionary(http,
-            services.GetRequiredService<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider>());
+        var temp = new TempDataDictionary(http, services.GetRequiredService<ITempDataProvider>());
         using var writer = new StringWriter();
-        var context = new Microsoft.AspNetCore.Mvc.Rendering.ViewContext(action, view.View, data, temp, writer,
-            new Microsoft.AspNetCore.Mvc.ViewFeatures.HtmlHelperOptions());
-        await view.View.RenderAsync(context);
+        var context = new ViewContext(action, razorView, data, temp, writer, new HtmlHelperOptions());
+        await razorView.RenderAsync(context);
         var html = writer.ToString();
         Assert.Contains("&lt;script&gt;", html);
         Assert.Contains("&lt;img", html);

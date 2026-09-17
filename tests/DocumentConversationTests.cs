@@ -79,8 +79,9 @@ public sealed class DocumentConversationTests
         using var test = new Fixture();
         var id = (await test.Send()).ConversationId!.Value;
         await test.Queue.RunNext();
+        var service = test.Service;
         var admissions = await Task.WhenAll(Enumerable.Range(0, 8)
-            .Select(_ => Task.Run(() => test.Send("owner", id))));
+            .Select(_ => Task.Run(() => service.SendAsync("owner", "message", id, "en-US", ""))));
         Assert.AreEqual(1, admissions.Count(a => a.ConversationId.HasValue));
         Assert.AreEqual(1, test.Queue.Work.Count);
     }

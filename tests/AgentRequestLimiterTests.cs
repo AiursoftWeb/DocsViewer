@@ -9,10 +9,11 @@ public sealed class AgentRequestLimiterTests
     public async Task AllowsOneInFlightAndReleasesLease()
     {
         var limiter = new AgentRequestLimiter();
-        using var first = await limiter.TryAcquireAsync("user");
-        Assert.IsNotNull(first);
-        Assert.IsNull(await limiter.TryAcquireAsync("user"));
-        first.Dispose();
+        using (var first = await limiter.TryAcquireAsync("user"))
+        {
+            Assert.IsNotNull(first);
+            Assert.IsNull(await limiter.TryAcquireAsync("user"));
+        }
         using var second = await limiter.TryAcquireAsync("user");
         Assert.IsNotNull(second);
     }
@@ -28,9 +29,10 @@ public sealed class AgentRequestLimiterTests
     {
         var clock = new Clock();
         var limiter = new AgentRequestLimiter(clock);
-        using var active = (await limiter.AcquireAsync("user")).Lease;
-        Assert.AreEqual(AgentLimitStatus.ConcurrencyLimited, (await limiter.AcquireAsync("user")).Status);
-        active!.Dispose();
+        using ((await limiter.AcquireAsync("user")).Lease)
+        {
+            Assert.AreEqual(AgentLimitStatus.ConcurrencyLimited, (await limiter.AcquireAsync("user")).Status);
+        }
         for (var i = 0; i < 2; i++) (await limiter.AcquireAsync("user")).Lease!.Dispose();
         Assert.AreEqual(AgentLimitStatus.RateLimited, (await limiter.AcquireAsync("user")).Status);
         clock.Now = clock.Now.AddMinutes(2);

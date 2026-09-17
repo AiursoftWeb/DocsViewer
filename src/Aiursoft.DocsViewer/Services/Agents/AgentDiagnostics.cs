@@ -8,6 +8,7 @@ namespace Aiursoft.DocsViewer.Services.Agents;
 /// Process-local agent execution metadata returned only to the conversation owner through
 /// Status. Clients must not render entries marked <see cref="IsMeta"/>.
 /// </summary>
+// ReSharper disable NotAccessedPositionalProperty.Global
 public sealed record AgentDiagnosticEvent(
     long Sequence,
     long Generation,
@@ -29,3 +30,4 @@ public sealed record AgentDiagnosticEvent(
         Output = Output?.DeepClone()
     };
 }
+// ReSharper restore NotAccessedPositionalProperty.Global
