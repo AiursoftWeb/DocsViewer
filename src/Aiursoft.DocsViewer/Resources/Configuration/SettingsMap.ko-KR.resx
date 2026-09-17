@@ -27,6 +27,12 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>테스트용 가짜 번호입니다.</value>
   </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>에이전트 사용자 지정 지침</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>에이전트 모델</value>
+  </data>
   <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
     <value>로그인한 사용자가 댓글과 답변을 게시할 수 있도록 허용합니다.</value>
   </data>
@@ -102,6 +108,9 @@
   <data name="OpenAI Chat Endpoint" xml:space="preserve">
     <value>OpenAI 채팅 엔드포인트</value>
   </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>문서 어시스턴트에 대한 선택적 관리자 지침입니다. 스타일이나 범위를 조정할 수는 있지만, 근거 기반 답변, 인용, 또는 안전 규칙을 무시할 수 없습니다.</value>
+  </data>
   <data name="Project Logo" xml:space="preserve">
     <value>프로젝트 로고</value>
   </data>
@@ -137,6 +146,9 @@
   </data>
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>사용자가 하루에 게시할 수 있는 댓글의 최대 수</value>
+  </data>
+  <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
+    <value>근거 기반 문서 답변에 사용되는 모델 이름. 번역과 무관합니다.</value>
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>프론트엔드에 표시되는 프로젝트 이름</value>

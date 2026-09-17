@@ -78,6 +78,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Documentassistent</value>
+  </data>
   <data name="Documentation" xml:space="preserve">
     <value>Documentatie</value>
   </data>
@@ -89,6 +92,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Fout</value>
+  </data>
+  <data name="Explore" xml:space="preserve">
+    <value>Verken</value>
   </data>
   <data name="Features" xml:space="preserve">
     <value>Functionaliteiten</value>

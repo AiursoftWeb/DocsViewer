@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Document Assistant" xml:space="preserve">
+    <value>Dokumentations-Assistent</value>
+  </data>
+  <data name="Please enter a question of at most 2000 characters." xml:space="preserve">
+    <value>Bitte geben Sie eine Frage mit höchstens 2000 Zeichen ein.</value>
+  </data>
+  <data name="Please enter a question." xml:space="preserve">
+    <value>Bitte geben Sie eine Frage ein.</value>
+  </data>
+  <data name="The assistant could not complete this request. Please try again later." xml:space="preserve">
+    <value>Der Assistent konnte diese Anfrage nicht abschließen. Bitte versuchen Sie es später erneut.</value>
+  </data>
+  <data name="The assistant could not complete this turn. Please try again or start a new conversation." xml:space="preserve">
+    <value>Der Assistent konnte diesen Vorgang nicht abschließen. Bitte versuchen Sie es erneut oder beginnen Sie ein neues Gespräch.</value>
+  </data>
+  <data name="The assistant is busy or you already have a question in progress. Please try again shortly." xml:space="preserve">
+    <value>Der Assistent ist beschäftigt oder Sie haben bereits eine Frage in Bearbeitung. Bitte versuchen Sie es in Kürze erneut.</value>
+  </data>
+  <data name="The assistant is not configured." xml:space="preserve">
+    <value>Der Assistent ist nicht konfiguriert.</value>
+  </data>
+  <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
+    <value>Die Dokumentation bietet nicht genügend Belege, um diese Frage zu beantworten. Bitte stellen Sie Fragen zu den verfügbaren Dokumenten oder verwenden Sie spezifischere dokumentbezogene Begriffe.</value>
+  </data>
+  <data name="The request could not be started. Wait a moment or start a new conversation." xml:space="preserve">
+    <value>Die Anfrage konnte nicht gestartet werden. Bitte warten Sie einen Moment oder beginnen Sie eine neue Unterhaltung.</value>
+  </data>
+  <data name="Too many questions. Please wait a minute before trying again." xml:space="preserve">
+    <value>Zu viele Fragen. Bitte warten Sie eine Minute, bevor Sie es erneut versuchen.</value>
+  </data>
+
+</root>
