@@ -25,11 +25,13 @@ public sealed class AgentBackendTests
     {
         public string Body { get; private set; } = "";
         public string? Authorization { get; private set; }
+        public Uri? RequestUri { get; private set; }
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             Body = await request.Content!.ReadAsStringAsync(cancellationToken);
             Authorization = request.Headers.Authorization?.ToString();
+            RequestUri = request.RequestUri;
             return new(status) { Content = new StringContent(response, Encoding.UTF8, "application/json") };
         }
     }
@@ -49,9 +51,11 @@ public sealed class AgentBackendTests
         {
             var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
             {
-                ["GlobalSettings:" + SettingsMap.OpenAiInstance] = "https://model.example/v1/chat/completions",
+                ["GlobalSettings:" + SettingsMap.OpenAiInstance] = "https://translation.example/v1/chat/completions",
+                ["GlobalSettings:" + SettingsMap.OpenAiApiToken] = "translation-token",
+                ["GlobalSettings:" + SettingsMap.OpenAiAgentInstance] = "https://agent.example/v1/chat/completions",
                 ["GlobalSettings:" + SettingsMap.OpenAiAgentModel] = "test-model",
-                ["GlobalSettings:" + SettingsMap.OpenAiApiToken] = "secret-token",
+                ["GlobalSettings:" + SettingsMap.OpenAiAgentApiToken] = "agent-token",
                 ["GlobalSettings:" + SettingsMap.EnableEmbeddingBasedSearch] = vectorEnabled.ToString(),
                 ["GlobalSettings:" + SettingsMap.EmbeddingOllamaInstance] = "https://embedding.example",
                 ["GlobalSettings:" + SettingsMap.EmbeddingModel] = "test-embedding"
@@ -89,7 +93,8 @@ public sealed class AgentBackendTests
         Assert.AreEqual("function", messages[2].GetProperty("tool_calls")[0].GetProperty("type").GetString());
         Assert.AreEqual("x", messages[3].GetProperty("tool_call_id").GetString());
         Assert.AreEqual("y", messages[4].GetProperty("tool_call_id").GetString());
-        Assert.AreEqual("Bearer secret-token", handler.Authorization);
+        Assert.AreEqual("https://agent.example/v1/chat/completions", handler.RequestUri!.ToString());
+        Assert.AreEqual("Bearer agent-token", handler.Authorization);
         Assert.IsFalse(handler.Body.Contains("toolCalls", StringComparison.Ordinal));
     }
 

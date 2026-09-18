@@ -44,9 +44,9 @@ public sealed class DocumentConversationTests : TestBase
             using (var scope = Server!.Services.CreateScope())
             {
                 var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
-                await settings.UpdateSettingAsync(SettingsMap.OpenAiInstance, provider.Urls.Single() + "/v1/chat/completions");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentInstance, provider.Urls.Single() + "/v1/chat/completions");
                 await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentModel, "test-agent");
-                await settings.UpdateSettingAsync(SettingsMap.OpenAiApiToken, "");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentApiToken, "");
                 await settings.UpdateSettingAsync(SettingsMap.EnableEmbeddingBasedSearch, "False");
                 var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
                 db.Documents.Add(new Document { Title = keyword, Content = "The procedure uses a release switch.", FilePath = $"guides/{keyword}.md", Category = "guides", SourceCulture = "en-US", FileLastModified = DateTime.UtcNow });
@@ -132,9 +132,9 @@ public sealed class DocumentConversationTests : TestBase
             using (var scope = Server!.Services.CreateScope())
             {
                 var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
-                await settings.UpdateSettingAsync(SettingsMap.OpenAiInstance, provider.Urls.Single() + "/v1/chat/completions");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentInstance, provider.Urls.Single() + "/v1/chat/completions");
                 await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentModel, "test-agent");
-                await settings.UpdateSettingAsync(SettingsMap.OpenAiApiToken, "");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentApiToken, "");
                 await settings.UpdateSettingAsync(SettingsMap.EnableEmbeddingBasedSearch, "False");
                 var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
                 db.Documents.Add(new Document { Title = keyword, Content = "Evidence for recovery.", FilePath = $"guides/{keyword}.md", Category = "guides", SourceCulture = "en-US", FileLastModified = DateTime.UtcNow });

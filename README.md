@@ -106,10 +106,12 @@ The legacy synchronous POST remains as a compatibility path, but the page uses `
 
 Configure these Global Settings (or their `GlobalSettings__...` environment overrides):
 
-- `OpenAiInstance`: full OpenAI-compatible `/v1/chat/completions` URL.
-- `OpenAiAgentModel`: a tool-calling model available at that endpoint; independent of the translation model.
-- `OpenAiAgentCustomInstruction`: optional multiline administrator guidance for the document assistant. Configure it in Global Settings or through `GlobalSettings__OpenAiAgentCustomInstruction`; it can refine style or scope but cannot override the built-in grounding, citation, and safety requirements.
-- `OpenAiApiToken`: optional bearer credential for the existing chat endpoint. Prefer environment configuration for secrets; the existing settings UI displays stored text values.
+- `OpenAiAgentInstance`: full OpenAI-compatible `/v1/chat/completions` URL used only by the Document Assistant. Use `GlobalSettings__OpenAiAgentInstance` for deployment configuration.
+- `OpenAiAgentModel`: a tool-calling model available at the Agent Endpoint.
+- `OpenAiAgentApiToken`: optional bearer credential sent only to the Agent Endpoint. Use `GlobalSettings__OpenAiAgentApiToken` for deployment configuration; prefer environment configuration for secrets because the settings UI displays stored text values.
+- `OpenAiAgentCustomInstruction`: optional administrator guidance for the document assistant. Configure it in Global Settings or through `GlobalSettings__OpenAiAgentCustomInstruction`; it can refine style or scope but cannot override the built-in grounding, citation, and safety requirements.
+
+`OpenAiInstance` and `OpenAiApiToken` remain dedicated to document translation and source-language detection, and are the existing fallback credentials for embedding search. The Document Assistant never uses them as a fallback.
 
 Questions and bounded document excerpts are sent to that configured service. The page requires authentication and antiforgery protection. Limits are process-local: one active request per user, three starts per minute, and four active requests overall. Idle user limiter entries are removed on subsequent admissions after their one-minute window expires. Multiple application instances do not share quotas.
 
