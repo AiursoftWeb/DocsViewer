@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Agent" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="Agent activity" xml:space="preserve">
+    <value>Agentaktivitet</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Svar</value>
+  </data>
+  <data name="Ask a question about the indexed documentation. Answers include document references; verify important details in the sources." xml:space="preserve">
+    <value>Ställ en fråga om den indexerade dokumentationen. Svar innehåller dokumentreferenser; verifiera viktiga detaljer i källorna.</value>
+  </data>
+  <data name="Ask the documentation" xml:space="preserve">
+    <value>Ställ frågan till dokumentationen</value>
+  </data>
+  <data name="Connection interrupted. Retrying…" xml:space="preserve">
+    <value>Anslutningen avbröts. Försöker igen…</value>
+  </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Dokumentassistent</value>
+  </data>
+  <data name="Documentation search completed" xml:space="preserve">
+    <value>Dokumentationssökning slutförd</value>
+  </data>
+  <data name="Documentation search could not be completed" xml:space="preserve">
+    <value>Sökningen i dokumentationen kunde inte slutföras</value>
+  </data>
+  <data name="Documentation search is waiting for approval" xml:space="preserve">
+    <value>Dokumentationssökningen väntar på godkännande</value>
+  </data>
+  <data name="Follow-up questions retain this conversation&apos;s context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service." xml:space="preserve">
+    <value>Uppföljande frågor behåller samtalets sammanhang. Samtal upphör efter 30 minuter av inaktivitet och förloras vid omstart av servern. Frågor och valda utdrag skickas till den konfigurerade modeltjänsten.</value>
+  </data>
+  <data name="Matching documents" xml:space="preserve">
+    <value>Matchande dokument</value>
+  </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>Ny konversation</value>
+  </data>
+  <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
+    <value>Tryck på Enter för att skicka och Shift+Enter för en ny rad.</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Fråga</value>
+  </data>
+  <data name="Ready for a follow-up question." xml:space="preserve">
+    <value>Redo för en uppföljande fråga.</value>
+  </data>
+  <data name="Searching documentation and preparing an answer…" xml:space="preserve">
+    <value>Söker dokumentation och förbereder ett svar…</value>
+  </data>
+  <data name="Searching indexed documentation" xml:space="preserve">
+    <value>Söker indexerad dokumentation</value>
+  </data>
+  <data name="Sources" xml:space="preserve">
+    <value>Källor</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stopp</value>
+  </data>
+  <data name="Stopping the current turn…" xml:space="preserve">
+    <value>Stoppar pågående omgång…</value>
+  </data>
+  <data name="The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model." xml:space="preserve">
+    <value>Assistenten är inte konfigurerad. En administratör måste konfigurera chatt-slutpunkten och Dokumentagentmodell.</value>
+  </data>
+  <data name="The conversation expired or is no longer accessible. Start a new conversation." xml:space="preserve">
+    <value>Konversationen har gått ut eller är inte längre tillgänglig. Starta en ny konversation.</value>
+  </data>
+  <data name="The request failed. Please try again." xml:space="preserve">
+    <value>Begrandandet misslyckades. Försök igen.</value>
+  </data>
+  <data name="The turn was cancelled." xml:space="preserve">
+    <value>Omgången avbröts.</value>
+  </data>
+  <data name="Tool call" xml:space="preserve">
+    <value>Verktygsanrop</value>
+  </data>
+  <data name="View agent activity" xml:space="preserve">
+    <value>Visa agentens aktivitet</value>
+  </data>
+
+</root>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Agent" xml:space="preserve">
+    <value>Agen</value>
+  </data>
+  <data name="Agent activity" xml:space="preserve">
+    <value>Aktivitas agen</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Jawaban</value>
+  </data>
+  <data name="Ask a question about the indexed documentation. Answers include document references; verify important details in the sources." xml:space="preserve">
+    <value>Ajukan pertanyaan tentang dokumentasi yang terindeks. Jawaban mencakup referensi dokumen; verifikasi detail penting di sumbernya.</value>
+  </data>
+  <data name="Ask the documentation" xml:space="preserve">
+    <value>Tanyakan pada dokumentasi</value>
+  </data>
+  <data name="Connection interrupted. Retrying…" xml:space="preserve">
+    <value>Koneksi terputus. Mencoba lagi…</value>
+  </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Asisten Dokumen</value>
+  </data>
+  <data name="Documentation search completed" xml:space="preserve">
+    <value>Pencarian dokumentasi selesai</value>
+  </data>
+  <data name="Documentation search could not be completed" xml:space="preserve">
+    <value>Pencarian dokumentasi tidak dapat diselesaikan</value>
+  </data>
+  <data name="Documentation search is waiting for approval" xml:space="preserve">
+    <value>Pencarian dokumentasi sedang menunggu persetujuan</value>
+  </data>
+  <data name="Follow-up questions retain this conversation&apos;s context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service." xml:space="preserve">
+    <value>Pertanyaan lanjutan mempertahankan konteks percakapan ini. Percakapan kedaluwarsa setelah 30 menit tidak aktif dan hilang saat server di-restart. Pertanyaan dan kutipan yang dipilih dikirim ke layanan model yang dikonfigurasi.</value>
+  </data>
+  <data name="Matching documents" xml:space="preserve">
+    <value>Dokumen yang cocok</value>
+  </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>Percakapan baru</value>
+  </data>
+  <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
+    <value>Tekan Enter untuk mengirim dan Shift+Enter untuk baris baru.</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Pertanyaan</value>
+  </data>
+  <data name="Ready for a follow-up question." xml:space="preserve">
+    <value>Siap untuk pertanyaan lanjutan.</value>
+  </data>
+  <data name="Searching documentation and preparing an answer…" xml:space="preserve">
+    <value>Mencari dokumentasi dan menyiapkan jawaban…</value>
+  </data>
+  <data name="Searching indexed documentation" xml:space="preserve">
+    <value>Mencari dokumentasi terindeks</value>
+  </data>
+  <data name="Sources" xml:space="preserve">
+    <value>Sumber</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Hentikan</value>
+  </data>
+  <data name="Stopping the current turn…" xml:space="preserve">
+    <value>Menghentikan giliran saat ini…</value>
+  </data>
+  <data name="The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model." xml:space="preserve">
+    <value>Asisten belum dikonfigurasi. Administrator harus mengonfigurasi endpoint chat dan Model Agen Dokumen.</value>
+  </data>
+  <data name="The conversation expired or is no longer accessible. Start a new conversation." xml:space="preserve">
+    <value>Percakapan kedaluwarsa atau tidak lagi dapat diakses. Mulai percakapan baru.</value>
+  </data>
+  <data name="The request failed. Please try again." xml:space="preserve">
+    <value>Permintaan gagal. Silakan coba lagi.</value>
+  </data>
+  <data name="The turn was cancelled." xml:space="preserve">
+    <value>Giliran dibatalkan.</value>
+  </data>
+  <data name="Tool call" xml:space="preserve">
+    <value>Pemanggilan alat</value>
+  </data>
+  <data name="View agent activity" xml:space="preserve">
+    <value>Lihat aktivitas agen</value>
+  </data>
+
+</root>
