@@ -82,7 +82,7 @@ public sealed class AgentBackendTests
             TranscriptMessage.System("rules"), TranscriptMessage.User("question"),
             TranscriptMessage.Assistant([new ToolCallBlock(new ToolCall("x", "search", JToken.FromObject(new { query = "x" })))]),
             TranscriptMessage.Tool([new ToolResult("x", "search", ToolOutcome.Succeeded, JToken.FromObject(new { value = 1 })),
-                new ToolResult("y", "search", ToolOutcome.Failed, Error: "Unavailable")])
+                new ToolResult("y", "search", ToolOutcome.Failed, Error: "Unavailable")], isMeta: true)
         ], [new ToolDefinition("search", "Search")]);
         var result = await client.CompleteAsync(request, CancellationToken.None);
         Assert.AreEqual(AgentFinishReason.ToolCalls, result.FinishReason);
@@ -96,6 +96,8 @@ public sealed class AgentBackendTests
         Assert.AreEqual("https://agent.example/v1/chat/completions", handler.RequestUri!.ToString());
         Assert.AreEqual("Bearer agent-token", handler.Authorization);
         Assert.IsFalse(handler.Body.Contains("toolCalls", StringComparison.Ordinal));
+        Assert.IsFalse(handler.Body.Contains("isMeta", StringComparison.Ordinal));
+        Assert.IsFalse(handler.Body.Contains("is_meta", StringComparison.Ordinal));
     }
 
     [TestMethod]
