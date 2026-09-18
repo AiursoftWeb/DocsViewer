@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Sebuah angka contoh untuk pengujian.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Token API Agen</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Instruksi Kustom Agen</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Endpoint Agen</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Model Agen</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>Token pembawa untuk autentikasi dengan Endpoint Chat OpenAI, mis. sk-abc123... atau 5a0fbdefa19f.... Kosongkan jika endpoint tidak memerlukan autentikasi.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Token bearer untuk Translation Endpoint dan fallback embedding. Biarkan kosong jika endpoint tersebut tidak memerlukan autentikasi. Token ini tidak dikirim ke endpoint Document Assistant.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Token bearer yang dikirim hanya ke Endpoint Agen. Biarkan kosong jika endpoint tersebut tidak memerlukan autentikasi.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Nama merek yang ditampilkan di bagian footer.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Jumlah maksimum komentar yang dapat dikirimkan pengguna per hari.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Nama model yang digunakan untuk memberikan jawaban dokumen berdasarkan sumber. Model tersebut harus tersedia di Endpoint Agen.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Nama model yang digunakan untuk jawaban dokumen berbasis fakta. Tidak berkaitan dengan terjemahan.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>URL dasar API Ollama yang secara khusus digunakan untuk membuat embedding dokumen dan query (pencarian vektor). Hanya host yang digunakan — /api/embed ditambahkan secara otomatis. Jika kosong, akan kembali ke Titik Akhir Chat OpenAI. Contoh: https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Endpoint chat completions yang kompatibel dengan OpenAI, digunakan untuk penerjemahan dokumen dan sebagai cadangan untuk pencarian embedding. Harus berupa URL lengkap termasuk /v1/chat/completions. Tidak digunakan oleh Asisten Dokumen.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>Endpoint penyelesaian chat yang kompatibel dengan OpenAI digunakan untuk terjemahan dokumen. Harus berupa URL lengkap termasuk /v1/chat/completions, misalnya https://ollama.example.com/v1/chat/completions atau https://api.openai.com/v1/chat/completions. Tidak terkait dengan embedding/pencarian vektor.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Endpoint penyelesaian obrolan yang kompatibel dengan OpenAI dan hanya digunakan oleh Asisten Dokumen. Harus berupa URL lengkap termasuk /v1/chat/completions.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>URL dari repositori git yang berisi dokumen markdown.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Token API Terjemahan</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Endpoint Terjemahan</value>
   </data>
 
 </root>

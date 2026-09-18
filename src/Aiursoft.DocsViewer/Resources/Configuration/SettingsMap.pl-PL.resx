@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Liczba testowa do celów testowych.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Token API agenta</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Niestandardowe instrukcje agenta</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Punkt końcowy agenta</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Model agenta</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>Tokien nośnikowy służący do uwierzytelniania w punkcie końcowym OpenAI Chat Endpoint, np. sk-abc123... lub 5a0fbdefa19f.... Pozostaw puste, jeśli punkt końcowy nie wymaga uwierzytelniania.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Token bearer dla punktu końcowego tłumaczenia i zapasowego wyszukiwania osadzającego. Pozostaw puste, jeśli ten punkt końcowy nie wymaga uwierzytelniania. Nie jest wysyłany do punktu końcowego Asystenta Dokumentów.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Token typu bearer jest wysyłany wyłącznie do punktu końcowego agenta. Pozostaw puste, jeśli ten punkt końcowy nie wymaga uwierzytelniania.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Nazwa marki wyświetlana w stopce.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Maksymalna liczba komentarzy, które użytkownik może opublikować w ciągu dnia.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Nazwa modelu używanego do udzielania odpowiedzi na podstawie dokumentów. Musi być dostępny w punkcie końcowym agenta.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Nazwa modelu używana do odpowiedzi opartych na dokumentach. Nie ma związku z tłumaczeniem.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>Podstawowy adres URL API Ollama używany specjalnie do generowania osadzonych reprezentacji dokumentów i zapytań (wyszukiwanie wektorowe). Używany jest tylko host — /api/embed jest dodawany automatycznie. W przypadku pozostawienia pola pustym następuje przełączenie na punkt końcowy OpenAI Chat Endpoint. Np. https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Punkt końcowy zgodny z OpenAI do uzupełniania czatu, używany do tłumaczenia dokumentów oraz jako rozwiązanie awaryjne dla wyszukiwania wbudowań. Musi być pełnym adresem URL, w tym /v1/chat/completions. Nie jest używany przez Asystenta Dokumentów.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>Punkt końcowy uzupełniania czatu zgodny z interfejsem OpenAI używany do tłumaczenia dokumentów. Musi to być pełny adres URL, w tym /v1/chat/completions, np. https://ollama.example.com/v1/chat/completions lub https://api.openai.com/v1/chat/completions. Nie dotyczy osadzania/wyszukiwania wektorowego.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Punkt końcowy (endpoint) zgodny z OpenAI do uzupełniania czatu (chat completions), używany wyłącznie przez Asystenta Dokumentów. Musi być pełnym adresem URL zawierającym /v1/chat/completions.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>URL repozytorium git zawierającego dokumenty w formacie markdown.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Token API tłumaczenia</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Punkt końcowy tłumaczenia</value>
   </data>
 
 </root>

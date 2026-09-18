@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Väliaikainen luku testaamista varten.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Agentin API-tunnus</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Agentin mukautetut ohjeet</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Agentin päätepiste</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Agenttimalle</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>Bearer-tokeni OpenAI Chat Endpointin todentamiseen, esim. sk-abc123... tai 5a0fbdefa19f.... Jätä tyhjäksi, jos päätepiste ei vaadi todentamista.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Käännösrajapinnan ja upotusten varatoiminnon käyttämä bearer-tunnus. Jätä tyhjäksi, jos kyseinen rajapinta ei vaadi todennusta. Sitä ei lähetetä dokumenttiavustajan rajapintaan.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Bearer-tunniste lähetetään vain Agent Endpoint -päätepisteeseen. Jätä tyhjäksi, jos kyseinen päätepiste ei edellytä todennusta.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Brändin nimi, joka näytetään alatunnisteessa.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Käyttäjän päivittäinen kommenttien enimmäismäärä.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Asiakirjoihin perustuvissa vastauksissa käytettävän mallin nimi. Sen on oltava saatavilla agentin päätepisteessä.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Mallin nimi, jota käytetään dokumenttipohjaisiin vastauksiin. Ei liity käännökseen.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>Ollaman API:n perus-URL, jota käytetään erityisesti asiakirja- ja kyselyvktoreiden luomiseen (vektorihaku). Käytössä on vain isäntänimi — /api/embed liitetään automaattisesti. Tyhjän arvon tapauksessa käytetään OpenAI:n keskustelupäätepistettä. Esim. https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>OpenAI-yhteensopiva chat-täydennysten päätepiste, jota käytetään asiakirjojen kääntämiseen ja varamenetelmänä upotushakuun. Sen on oltava täydellinen URL-osoite, mukaan lukien /v1/chat/completions. Dokumenttiavustaja ei käytä sitä.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>OpenAI-yhteensopiva keskustelun päätepiste, jota käytetään asiakirjojen kääntämiseen. Täytyy olla täydellinen URL, joka sisältää /v1/chat/completions-, esimerkiksi https://ollama.example.com/v1/chat/completions tai https://api.openai.com/v1/chat/completions. Ei liity upottamiseen/vektorihakuun.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>OpenAI-yhteensopiva chat completion -päätepiste, jota käyttää ainoastaan Document Assistant. URL-osoitteen on oltava täydellinen, ja sen on sisällettävä /v1/chat/completions.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>Git-tietovaraston markdown-dokumentteja sisältävän URL-osoite.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Käännös-API-tunnus</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Käännösloppupiste</value>
   </data>
 
 </root>

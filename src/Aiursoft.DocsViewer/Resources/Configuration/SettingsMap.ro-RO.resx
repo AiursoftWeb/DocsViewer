@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Un număr dummy pentru testare.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Token API Agent</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Instrucțiuni personalizate pentru agent</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Punct final al agentului</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Modelul agentului</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>Tokenul bearer pentru autentificarea cu Endpoint-ul de chat OpenAI, de exemplu sk-abc123... sau 5a0fbdefa19f.... Lăsați gol dacă endpoint-ul nu necesită autentificare.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Jetonul bearer pentru punctul de acces de traducere și rezervă pentru embedding. Lăsați gol dacă acel punct de acces nu necesită autentificare. Nu este trimis către punctul de acces al Asistentului de Documente.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Tokenul bearer trimis doar către endpointul Agent. Lăsați necompletat dacă acel endpoint nu necesită autentificare.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Numele mărcii afișat în subsol.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Numărul maxim de comentarii pe care un utilizator le poate publica pe zi.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Numele modelului utilizat pentru răspunsuri bazate pe documente. Acesta trebuie să fie disponibil la endpointul Agentului.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Numele modelului utilizat pentru răspunsuri documentare bazate pe conținut. Fără legătură cu traducerea.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>URL-ul de bază al API-ului Ollama utilizat specific pentru generarea embedding-urilor documentelor și a interogărilor (căutare vectorială). Este folosit doar hostul — /api/embed este adăugat automat. Se revine la Endpoint-ul OpenAI Chat când este gol. Ex. https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Punctul final compatibil cu OpenAI pentru completarea chatului, utilizat pentru traducerea documentelor și ca rezervă pentru căutarea prin embedding. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions. Nu este utilizat de Asistentul de Documente.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>Punctul final de completări chat compatibil cu OpenAI utilizat pentru traducerea documentelor. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions, de ex. https://ollama.example.com/v1/chat/completions sau https://api.openai.com/v1/chat/completions. Nu are legătură cu căutarea prin embedding/vectori.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Endpointul de completare a conversațiilor compatibil cu OpenAI, utilizat exclusiv de Asistentul pentru documente. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>URL-ul depozitului git care conține documentele markdown.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Token API pentru traducere</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Punct de traducere</value>
   </data>
 
 </root>

@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Ένας εικονικός αριθμός για δοκιμές.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Διακριτικό API του Agent</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Προσαρμοσμένες Οδηγίες Πράκτορα</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Σημείο πρόσβασης Agent</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Μοντέλο Agent</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>Το bearer token για την πιστοποίηση με το OpenAI Chat Endpoint, π.χ. sk-abc123... ή 5a0fbdefa19f.... Αφήστε το κενό εάν το endpoint δεν απαιτεί πιστοποίηση.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Το bearer token για το endpoint μετάφρασης και την εφεδρική λειτουργία embeddings. Αφήστε το κενό αν το συγκεκριμένο endpoint δεν απαιτεί έλεγχο ταυτότητας. Δεν αποστέλλεται στο endpoint του Document Assistant.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Το token μεταφοράς στέλνεται μόνο στο Agent Endpoint. Αφήστε το κενό αν αυτό το endpoint δεν απαιτεί αυθεντικοποίηση.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Το όνομα της εταιρείας που εμφανίζεται στον ποδόσκαλο.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Ο μέγιστος αριθμός σχολίων που μπορεί να αναρτήσει ένας χρήστης την ημέρα.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Το όνομα του μοντέλου που χρησιμοποιείται για απαντήσεις εγγειωμένες σε έγγραφα. Πρέπει να είναι διαθέσιμο στο Agent Endpoint.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Το όνομα του μοντέλου που χρησιμοποιείται για απαντήσεις εγγεγραμμένες σε έγγραφα. Ανεξάρτητο από τη μετάφραση.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>Η βασική διεύθυνση URL της Ollama API που χρησιμοποιείται ειδικά για τη δημιουργία εμβιβάσεων τεκμηρίων και ερωτημάτων (διανυσματική αναζήτηση). Χρησιμοποιείται μόνο το host — το /api/embed προστίθεται αυτόματα. Όταν είναι κενό, γίνεται fall back στη διεύθυνση OpenAI Chat Endpoint. Π.χ. https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Το συμβατό με το OpenAI τελικό σημείο ολοκλήρωσης συνομιλιών που χρησιμοποιείται για τη μετάφραση εγγράφων και ως εφεδρική επιλογή για την αναζήτηση ενσωματώσεων. Πρέπει να είναι η πλήρης διεύθυνση URL, συμπεριλαμβανομένου του /v1/chat/completions. Δεν χρησιμοποιείται από το Document Assistant.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>Το endpoint chat completions συμβατό με OpenAI που χρησιμοποιείται για τη μετάγγιση εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL συμπεριλαμβανομένου του /v1/chat/completions, π.χ. https://ollama.example.com/v1/chat/completions ή https://api.openai.com/v1/chat/completions. Δεν σχετίζεται με αναζήτηση ενσωματώσεων/διανυσμάτων.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Το συμβατό με το OpenAI τελικό σημείο ολοκλήρωσης συνομιλιών που χρησιμοποιείται αποκλειστικά από τον Βοηθό εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL, συμπεριλαμβανομένου του /v1/chat/completions.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>Το URL του αποθετηρίου git που περιέχει τα έγγραφα markdown.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Διακριτικό API μετάφρασης</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Τελικό σημείο μετάφρασης</value>
   </data>
 
 </root>

@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>테스트용 가짜 번호입니다.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>에이전트 API 토큰</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>에이전트 사용자 지정 지침</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>에이전트 엔드포인트</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>에이전트 모델</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>OpenAI 채팅 엔드포인트 인증용 베어러 토큰입니다(예: sk-abc123... 또는 5a0fbdefa19f....). 엔드포인트가 인증을 요구하지 않는 경우 비워두십시오.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>번역 엔드포인트 및 임베딩 폴백에 사용할 Bearer 토큰입니다. 해당 엔드포인트에 인증이 필요하지 않으면 비워 두십시오. Document Assistant 엔드포인트로는 전송되지 않습니다.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>베어러 토큰은 에이전트 엔드포인트로만 전송됩니다. 해당 엔드포인트에 인증이 필요하지 않은 경우 비워 두십시오.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>푸터에 표시되는 브랜드 이름</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>사용자가 하루에 게시할 수 있는 댓글의 최대 수</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>근거 기반 문서 답변에 사용되는 모델 이름입니다. Agent Endpoint에서 사용할 수 있어야 합니다.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>근거 기반 문서 답변에 사용되는 모델 이름. 번역과 무관합니다.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>문서 및 쿼리 임베딩(벡터 검색) 생성에 전용으로 사용되는 Ollama API 기본 URL입니다. 호스트만 사용되며, &apos;/api/embed&apos;는 자동으로 추가됩니다. 비어 있으면 OpenAI 채팅 엔드포인트로 폴백됩니다. 예: https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>문서 번역에 사용되고 임베딩 검색의 폴백으로 사용되는 OpenAI 호환 채팅 completions 엔드포인트입니다. /v1/chat/completions을 포함한 전체 URL이어야 합니다. Document Assistant에서는 사용되지 않습니다.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>문서 번역에 사용되는 OpenAI 호환 채팅 완료 엔드포인트입니다. /v1/chat/completions을 포함한 전체 URL이어야 합니다(예: https://ollama.example.com/v1/chat/completions 또는 https://api.openai.com/v1/chat/completions). 임베딩/벡터 검색과는 무관합니다.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>문서 도우미(Document Assistant)에서만 사용되는 OpenAI 호환 채팅 완성(chat completions) 엔드포인트입니다. /v1/chat/completions을 포함한 전체 URL이어야 합니다.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>마크다운 문서를 포함하는 git 저장소의 URL입니다.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>번역 API 토큰</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>번역 엔드포인트</value>
   </data>
 
 </root>

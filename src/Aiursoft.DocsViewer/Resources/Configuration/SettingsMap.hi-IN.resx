@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>परीक्षण के लिए एक डमी संख्या।</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>एजेंट API टोकन</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>एजेंट कस्टम निर्देश</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>एजेंट एंडपॉइंट</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>एजेंट मॉडल</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>OpenAI Chat Endpoint के साथ प्रमाणीकरण के लिए bearer token, उदाहरण के लिए sk-abc123... या 5a0fbdefa19f.... यदि एंडपॉइंट को प्रमाणीकरण की आवश्यकता नहीं है तो खाली छोड़ दें।</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>अनुवाद एंडपॉइंट और एम्बेडिंग फॉलबैक के लिए बेयरर टोकन। यदि उस एंडपॉइंट को प्रमाणीकरण की आवश्यकता नहीं है, तो इसे खाली छोड़ दें। इसे दस्तावेज़ सहायक एंडपॉइंट के लिए नहीं भेजा जाता है।</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>बेयरर टोकन केवल एजेंट एंडपॉइंट को भेजा जाता है। यदि उस एंडपॉइंट को प्रमाणीकरण की आवश्यकता नहीं है, तो इसे खाली छोड़ दें।</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>फुटर में दिखाई देने वाला ब्रांड नाम</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>उपयोगकर्ता द्वारा प्रतिदिन पोस्ट किया जा सकने वाले टिप्पणियों का अधिकतम संख्या।</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>ग्राउंडेड दस्तावेज़ उत्तरों के लिए उपयोग किए जाने वाले मॉडल का नाम। यह एजेंट एंडपॉइंट पर उपलब्ध होना चाहिए।</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>ग्राउंडेड दस्तावेज़ उत्तरों के लिए उपयोग किया जाने वाला मॉडल नाम। अनुवाद से अनिवेक है।</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>दस्तावेज़ और क्वेरी एम्बेडिंग्स (वेक्टर खोज) उत्पन्न करने के लिए विशेष रूप से उपयोग किए जाने वाले Ollama API का आधार URL। केवल होस्ट का उपयोग किया जाता है — /api/embed स्वचालित रूप से जोड़ा जाएगा। खाली होने पर OpenAI Chat Endpoint पर फॉलबैक होता है। उदाहरण: https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>दस्तावेज़ अनुवाद के लिए और एम्बेडिंग खोज के लिए फॉलबैक के रूप में उपयोग किया जाने वाला OpenAI-संगत चैट कंप्लीशंस एंडपॉइंट। /v1/chat/completions सहित पूर्ण URL होना चाहिए। इसे दस्तावेज़ सहायक द्वारा उपयोग नहीं किया जाता है।</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>दस्तावेज़ अनुवाद के लिए उपयोग की जाने वाली OpenAI-संगत चैट पूर्ति एंडपॉइंट। इसमें /v1/chat/completions सहित पूरा URL होना चाहिए, उदाहरण के लिए https://ollama.example.com/v1/chat/completions या https://api.openai.com/v1/chat/completions। एम्बेडिंग/वेक्टर खोज से अप्रासंगिक।</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Document Assistant द्वारा केवल उपयोग किया जाने वाला OpenAI-संगत चैट कम्प्लीशन्स एंडपॉइंट। यह /v1/chat/completions सहित पूरा URL होना चाहिए।</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>मार्कडाउन दस्तावेज़ों को शामिल करने वाले Git रिपॉजिटरी का URL।</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>अनुवाद API टोकन</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>अनुवाद अंतबिंदु</value>
   </data>
 
 </root>

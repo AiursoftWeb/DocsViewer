@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>測試用的虛擬數字。</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Agent API Token</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>代理自訂指示</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>代理端點</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>代理模型</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>用於與 OpenAI Chat Endpoint 進行身分驗證的 bearer token，例如 sk-abc123... 或 5a0fbdefa19f.... 若該 endpoint 不需要驗證，請留空。</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>翻譯端點和嵌入向量備援所使用的 Bearer 權杖。若該端點不需要驗證，請留白。此權杖不會傳送至文件助理端點。</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>僅傳送至 Agent Endpoint 的 Bearer Token。若該端點不需要驗證，請留空。</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>頁尾顯示的品牌名稱</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>用戶每日可發表的評論數量上限。</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>用於文件接地回答的模型名稱。它必須在 Agent Endpoint 上可用。</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>用於基於文件內容回答的模型名稱。與翻譯功能無關。</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>專門用於生成文件與查詢嵌入（向量搜尋）的 Ollama API 基礎 URL。僅使用主機部分，/api/embed 會自動附加於後方。若留空則會回退至 OpenAI Chat Endpoint。例如：https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>用於文件翻譯及向量搜尋備援的 OpenAI 相容聊天補完端點。必須是包含 /v1/chat/completions 的完整 URL。文件助手不會使用此端點。</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>用於文件翻譯的 OpenAI 相容聊天完成端點。必須包含 /v1/chat/completions 的完整 URL，例如 https://ollama.example.com/v1/chat/completions 或 https://api.openai.com/v1/chat/completions。與嵌入/向量搜尋無關。</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>僅供文件助手使用的 OpenAI 相容聊天補完端點。必須是包含 /v1/chat/completions 的完整 URL。</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>包含 Markdown 文件的 Git 儲存庫網址。</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>翻譯 API 金鑰</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>翻譯端點</value>
   </data>
 
 </root>

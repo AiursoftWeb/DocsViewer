@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Test amaçlı bir sahte sayı.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Ajan API Belirteci</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Ajan Özel Talimatları</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Ajan Uç Noktası</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Ajan Modeli</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>OpenAI Chat Endpoint&apos;e kimlik doğrulama için kullanılan bearer token, örn. sk-abc123... veya 5a0fbdefa19f.... Uç nokta kimlik doğrulaması gerektirmiyorsa boş bırakın.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Çeviri Uç Noktası ve gömme yedeği için taşıyıcı belirteç. Bu uç nokta kimlik doğrulama gerektirmiyorsa boş bırakın. Belge Asistanı uç noktasına gönderilmez.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Agent Uç Noktası&apos;na yalnızca gönderilen taşıyıcı belirteç. Bu uç nokta kimlik doğrulama gerektirmiyorsa boş bırakın.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Footer&apos;da gösterilen marka adı.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Bir kullanıcının günde postlayabileceği maksimum yorum sayısı.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Bazlı (grounded) belge yanıtları için kullanılan model adı. Agent Uç noktasında kullanılabilir durumda olmalıdır.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Yerinde belge yanıtları için kullanılan model adı. Çeviriyle ilgili değildir.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>Belirli olarak belge ve sorgu gömme işlemleri için kullanılan Ollama API temel URL&apos;si. Yalnızca ana bilgisayar kullanılır — /api/embed otomatik olarak eklenir. Boş bırakıldığında OpenAI Sohbet Uç Noktasına düşer. Örn. https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Belge çevirisi için kullanılan ve gömme araması için yedek olarak kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır. Belge Asistanı tarafından kullanılmaz.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>Belge çevirisi için kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır, örn. https://ollama.example.com/v1/chat/completions veya https://api.openai.com/v1/chat/completions. Gömme/vektör aramasıyla ilgisizdir.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Yalnızca Belge Asistanı tarafından kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions içeren tam URL olmalıdır.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>Markdown belgelerini içeren git deposunun URL&apos;si.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Çeviri API Belirteci</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Çeviri Uç Noktası</value>
   </data>
 
 </root>
