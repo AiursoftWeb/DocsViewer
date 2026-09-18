@@ -222,6 +222,39 @@ public sealed class AgentControllerTests : TestBase
     }
 
     [TestMethod]
+    [DataRow("not-a-uri", "test-model")]
+    [DataRow("ftp://agent.example/v1/chat/completions", "test-model")]
+    [DataRow("http://127.0.0.1:1/v1/chat/completions", " ")]
+    public async Task InvalidAgentEndpointOrModelIsRejectedBeforeConversationAdmission(string endpoint, string model)
+    {
+        using (var scope = Server!.Services.CreateScope())
+        {
+            var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
+            await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentInstance, endpoint);
+            await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentModel, model);
+        }
+
+        await LoginAsAdmin();
+        var page = await Http.GetAsync("/Agent");
+        Assert.AreEqual(HttpStatusCode.OK, page.StatusCode);
+        var html = await page.Content.ReadAsStringAsync();
+        Assert.Contains("The assistant is not configured", html);
+        Assert.Contains("id=\"agent-send\" type=\"submit\" class=\"btn btn-primary\" disabled", html);
+
+        var token = await GetAntiCsrfToken("/Agent");
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/Agent/SendMessage")
+        {
+            Content = JsonContent.Create(new { Message = "question", ConversationId = (Guid?)null })
+        };
+        request.Headers.Add("RequestVerificationToken", token);
+        var response = await Http.SendAsync(request);
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+        var payload = await response.Content.ReadFromJsonAsync<JsonElement>();
+        Assert.AreEqual("The assistant is not configured.", payload.GetProperty("ErrorMessage").GetString());
+        Assert.IsFalse(payload.TryGetProperty("ConversationId", out _));
+    }
+
+    [TestMethod]
     public async Task OversizedAndBlankQuestionsAreRejectedBeforeProviderCall()
     {
         await LoginAsAdmin();

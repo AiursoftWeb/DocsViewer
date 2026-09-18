@@ -178,6 +178,70 @@ public sealed class DocumentConversationTests : TestBase
         finally { await provider.StopAsync(); }
     }
 
+    [TestMethod]
+    [DataRow("malformed")]
+    [DataRow("unauthorized")]
+    [DataRow("unavailable")]
+    public async Task ProviderFailuresBecomeSafeTerminalConversationErrors(string failure)
+    {
+        string? authorization = null;
+        var builder = WebApplication.CreateSlimBuilder();
+        builder.WebHost.UseUrls($"http://127.0.0.1:{Network.GetAvailablePort()}");
+        await using var provider = builder.Build();
+        provider.MapPost("/v1/chat/completions", (HttpRequest request) =>
+        {
+            authorization = request.Headers.Authorization.ToString();
+            return failure switch
+            {
+                "malformed" => Results.Text("provider-secret", "application/json"),
+                "unauthorized" => Results.Text("provider-secret", "text/plain", statusCode: StatusCodes.Status401Unauthorized),
+                _ => Results.Text("provider-secret", "text/plain", statusCode: StatusCodes.Status503ServiceUnavailable)
+            };
+        });
+        await provider.StartAsync();
+        try
+        {
+            using (var scope = Server!.Services.CreateScope())
+            {
+                var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentInstance, provider.Urls.Single() + "/v1/chat/completions");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentModel, "test-agent");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentApiToken, "wrong-token");
+            }
+
+            await LoginAsAdmin();
+            var token = await GetAntiCsrfToken("/Agent");
+            async Task<HttpResponseMessage> Send(Guid? conversationId = null)
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, "/Agent/SendMessage")
+                {
+                    Content = JsonContent.Create(new { Message = "question", ConversationId = conversationId })
+                };
+                request.Headers.Add("RequestVerificationToken", token);
+                return await Http.SendAsync(request);
+            }
+
+            var response = await Send();
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            var id = (await response.Content.ReadFromJsonAsync<JsonElement>()).GetProperty("ConversationId").GetGuid();
+            var terminal = await WaitTerminal(id);
+            Assert.AreEqual("Error", terminal.GetProperty("State").GetString());
+            Assert.AreEqual(1, terminal.GetProperty("Messages").GetArrayLength());
+            Assert.AreEqual("The assistant could not complete this turn. Please try again or start a new conversation.", terminal.GetProperty("ErrorMessage").GetString());
+            var serialized = terminal.GetRawText();
+            Assert.IsFalse(serialized.Contains("provider-secret", StringComparison.Ordinal));
+            Assert.IsFalse(serialized.Contains("wrong-token", StringComparison.Ordinal));
+            Assert.AreEqual("ModelFailure", terminal.GetProperty("MetaEvents").EnumerateArray()
+                .Single(activity => activity.GetProperty("Kind").GetString() == "RunResult")
+                .GetProperty("FailureCategory").GetString());
+            Assert.AreEqual("Bearer wrong-token", authorization);
+
+            using var retry = await Send(id);
+            Assert.AreEqual(HttpStatusCode.OK, retry.StatusCode);
+        }
+        finally { await provider.StopAsync(); }
+    }
+
     private async Task<JsonElement> WaitTerminal(Guid id)
     {
         using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(15));

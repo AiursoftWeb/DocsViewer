@@ -296,7 +296,8 @@ public sealed class DocumentConversationTests
         {
             provider = new ServiceCollection().AddScoped<IDocumentTurnExecutor>(_ => Executor).BuildServiceProvider();
             Limiter = new(Clock);
-            Service = new(Queue, provider.GetRequiredService<IServiceScopeFactory>(), Limiter, Lifetime, Clock);
+            Service = new(Queue, provider.GetRequiredService<IServiceScopeFactory>(), Limiter, Lifetime, Clock,
+                Microsoft.Extensions.Logging.Abstractions.NullLogger<DocumentConversationService>.Instance);
         }
         public Task<ConversationAdmission> Send(string owner = "owner", Guid? id = null, string question = "question") =>
             Service.SendAsync(owner, question, id, "en-US", "");

@@ -36,9 +36,24 @@ public sealed class AgentBackendTests
         }
     }
 
+    private sealed class ThrowingHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
+            throw new HttpRequestException("provider-secret");
+    }
+
     private sealed class Factory(HttpClient client) : IHttpClientFactory
     {
         public HttpClient CreateClient(string name) => client;
+    }
+
+    private sealed class Logger<T> : ILogger<T>
+    {
+        public List<string> Messages { get; } = [];
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+        public bool IsEnabled(LogLevel logLevel) => true;
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception,
+            Func<TState, Exception?, string> formatter) => Messages.Add($"{logLevel}: {formatter(state, exception)}");
     }
 
     private sealed class Fixture : IDisposable
@@ -47,15 +62,15 @@ public sealed class AgentBackendTests
         private readonly MemoryCache memory = new(new MemoryCacheOptions());
         private readonly ServiceProvider services = new ServiceCollection().AddLogging().AddRouting().BuildServiceProvider();
         public GlobalSettingsService Settings { get; }
-        public Fixture(bool vectorEnabled = false)
+        public Fixture(bool vectorEnabled = false, string? endpoint = null, string? model = null, string? token = null)
         {
             var config = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["GlobalSettings:" + SettingsMap.OpenAiInstance] = "https://translation.example/v1/chat/completions",
                 ["GlobalSettings:" + SettingsMap.OpenAiApiToken] = "translation-token",
-                ["GlobalSettings:" + SettingsMap.OpenAiAgentInstance] = "https://agent.example/v1/chat/completions",
-                ["GlobalSettings:" + SettingsMap.OpenAiAgentModel] = "test-model",
-                ["GlobalSettings:" + SettingsMap.OpenAiAgentApiToken] = "agent-token",
+                ["GlobalSettings:" + SettingsMap.OpenAiAgentInstance] = endpoint ?? "https://agent.example/v1/chat/completions",
+                ["GlobalSettings:" + SettingsMap.OpenAiAgentModel] = model ?? "test-model",
+                ["GlobalSettings:" + SettingsMap.OpenAiAgentApiToken] = token ?? "agent-token",
                 ["GlobalSettings:" + SettingsMap.EnableEmbeddingBasedSearch] = vectorEnabled.ToString(),
                 ["GlobalSettings:" + SettingsMap.EmbeddingOllamaInstance] = "https://embedding.example",
                 ["GlobalSettings:" + SettingsMap.EmbeddingModel] = "test-embedding"
@@ -111,6 +126,81 @@ public sealed class AgentBackendTests
         var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
         var error = await Assert.ThrowsAsync<AgentModelClientException>(async () => await client.CompleteAsync(new AgentModelRequest([], []), CancellationToken.None));
         Assert.IsFalse(error.ToString().Contains("secret", StringComparison.Ordinal));
+    }
+
+    [TestMethod]
+    [DataRow("not-a-uri", "test-model")]
+    [DataRow("ftp://agent.example/v1/chat/completions", "test-model")]
+    [DataRow("https://agent.example/v1/chat/completions", " ")]
+    public async Task InvalidModelConfigurationFailsBeforeTransport(string endpoint, string model)
+    {
+        using var fixture = new Fixture(endpoint: endpoint, model: model);
+        using var handler = new Handler("{}");
+        using var http = new HttpClient(handler);
+        var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
+
+        var error = await Assert.ThrowsAsync<AgentModelClientException>(async () =>
+            await client.CompleteAsync(new AgentModelRequest([], []), CancellationToken.None));
+
+        Assert.IsNull(handler.RequestUri);
+        Assert.IsFalse(error.ToString().Contains(endpoint, StringComparison.Ordinal));
+        if (!string.IsNullOrWhiteSpace(model))
+            Assert.IsFalse(error.ToString().Contains(model, StringComparison.Ordinal));
+    }
+
+    [TestMethod]
+    public async Task ModelFailureLogsSafeClassification()
+    {
+        using var fixture = new Fixture(token: "secret-token");
+        using var handler = new Handler("provider-secret", HttpStatusCode.ServiceUnavailable);
+        using var http = new HttpClient(handler);
+        var logger = new Logger<OpenAiCompatibleAgentModelClient>();
+        var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, logger);
+
+        await Assert.ThrowsAsync<AgentModelClientException>(async () =>
+            await client.CompleteAsync(new AgentModelRequest([], []), CancellationToken.None));
+
+        var log = string.Join("\n", logger.Messages);
+        Assert.Contains("HttpStatus", log);
+        Assert.Contains("503", log);
+        Assert.Contains("https://agent.example", log);
+        Assert.Contains("test-model", log);
+        Assert.IsFalse(log.Contains("provider-secret", StringComparison.Ordinal));
+        Assert.IsFalse(log.Contains("secret-token", StringComparison.Ordinal));
+    }
+
+    [TestMethod]
+    public async Task TokenAndTransportFailuresAreSanitized()
+    {
+        using (var fixture = new Fixture(token: string.Empty))
+        using (var handler = new Handler("""{"choices":[{"message":{"content":"ok"},"finish_reason":"stop"}]}"""))
+        using (var http = new HttpClient(handler))
+        {
+            var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
+            await client.CompleteAsync(new AgentModelRequest([], []), CancellationToken.None);
+            Assert.IsNull(handler.Authorization);
+        }
+
+        using (var fixture = new Fixture(token: "wrong-token"))
+        using (var handler = new Handler("provider-secret", HttpStatusCode.Unauthorized))
+        using (var http = new HttpClient(handler))
+        {
+            var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
+            var error = await Assert.ThrowsAsync<AgentModelClientException>(async () =>
+                await client.CompleteAsync(new AgentModelRequest([], []), CancellationToken.None));
+            Assert.AreEqual("Bearer wrong-token", handler.Authorization);
+            Assert.IsFalse(error.ToString().Contains("provider-secret", StringComparison.Ordinal));
+            Assert.IsFalse(error.ToString().Contains("wrong-token", StringComparison.Ordinal));
+        }
+
+        using (var fixture = new Fixture())
+        using (var http = new HttpClient(new ThrowingHandler()))
+        {
+            var client = new OpenAiCompatibleAgentModelClient(new Factory(http), fixture.Settings, NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
+            var error = await Assert.ThrowsAsync<AgentModelClientException>(async () =>
+                await client.CompleteAsync(new AgentModelRequest([], []), CancellationToken.None));
+            Assert.IsFalse(error.ToString().Contains("provider-secret", StringComparison.Ordinal));
+        }
     }
 
     [TestMethod]

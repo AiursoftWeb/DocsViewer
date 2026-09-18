@@ -27,7 +27,13 @@ public sealed class OpenAiCompatibleAgentModelClient(
         var endpoint = (await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentInstance)).Trim();
         var token = await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentApiToken);
         cancellationToken.ThrowIfCancellationRequested();
-        if (!Uri.TryCreate(endpoint, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https") || string.IsNullOrWhiteSpace(model)) throw new AgentModelClientException();
+        if (!Uri.TryCreate(endpoint, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https") || string.IsNullOrWhiteSpace(model))
+        {
+            logger.LogWarning("Agent model request rejected due to {FailureKind}. HasEndpoint: {HasEndpoint}; hasModel: {HasModel}.",
+                "InvalidConfiguration", !string.IsNullOrWhiteSpace(endpoint), !string.IsNullOrWhiteSpace(model));
+            throw new AgentModelClientException();
+        }
+        var endpointAuthority = uri.GetLeftPart(UriPartial.Authority);
         try
         {
             var payload = new ChatRequest(model, request.Transcript.SelectMany(ToWireMessages).ToArray(), request.Tools.Select(ToWireTool).ToArray());
@@ -35,25 +41,46 @@ public sealed class OpenAiCompatibleAgentModelClient(
             message.Content = new StringContent(JsonConvert.SerializeObject(payload, JsonSettings), Encoding.UTF8, "application/json");
             if (!string.IsNullOrWhiteSpace(token)) message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             using var response = await httpClientFactory.CreateClient("DocsViewerAgentModel").SendAsync(message, cancellationToken);
-            if (!response.IsSuccessStatusCode) throw new AgentModelClientException();
+            if (!response.IsSuccessStatusCode)
+                throw Fail("HttpStatus", endpointAuthority, model, statusCode: (int)response.StatusCode);
             var body = await response.Content.ReadAsStringAsync(cancellationToken);
-            var parsed = JsonConvert.DeserializeObject<ChatResponse>(body, JsonSettings);
-            var choice = parsed?.Choices?.FirstOrDefault() ?? throw new AgentModelClientException();
-            if (choice.Message is null) throw new AgentModelClientException();
+            ChatResponse? parsed;
+            try { parsed = JsonConvert.DeserializeObject<ChatResponse>(body, JsonSettings); }
+            catch (Exception ex) { throw Fail("InvalidJson", endpointAuthority, model, ex.GetType().Name); }
+            var choice = parsed?.Choices?.FirstOrDefault() ?? throw Fail("MissingChoice", endpointAuthority, model);
+            if (choice.Message is null) throw Fail("MissingMessage", endpointAuthority, model);
             var blocks = new List<AgentContentBlock>();
             if (!string.IsNullOrEmpty(choice.Message.Content)) blocks.Add(new TextBlock(choice.Message.Content));
             foreach (var call in choice.Message.ToolCalls ?? [])
             {
-                if (string.IsNullOrWhiteSpace(call.Id) || string.IsNullOrWhiteSpace(call.Function.Name)) throw new AgentModelClientException();
-                var args = JToken.Parse(string.IsNullOrWhiteSpace(call.Function.Arguments) ? "{}" : call.Function.Arguments);
-                if (args is not JObject) throw new AgentModelClientException();
+                if (string.IsNullOrWhiteSpace(call.Id) || string.IsNullOrWhiteSpace(call.Function.Name))
+                    throw Fail("InvalidToolCall", endpointAuthority, model);
+                JToken args;
+                try { args = JToken.Parse(string.IsNullOrWhiteSpace(call.Function.Arguments) ? "{}" : call.Function.Arguments); }
+                catch (Exception ex) { throw Fail("InvalidToolArguments", endpointAuthority, model, ex.GetType().Name); }
+                if (args is not JObject) throw Fail("InvalidToolArguments", endpointAuthority, model);
                 blocks.Add(new ToolCallBlock(new ToolCall(call.Id, call.Function.Name, args)));
             }
-            return new AgentModelResponse(blocks, choice.FinishReason switch { "tool_calls" => AgentFinishReason.ToolCalls, "length" => AgentFinishReason.Length, "refusal" or "content_filter" => AgentFinishReason.Refusal, "stop" => AgentFinishReason.Stop, _ => throw new AgentModelClientException() });
+            return new AgentModelResponse(blocks, choice.FinishReason switch { "tool_calls" => AgentFinishReason.ToolCalls, "length" => AgentFinishReason.Length, "refusal" or "content_filter" => AgentFinishReason.Refusal, "stop" => AgentFinishReason.Stop, _ => throw Fail("UnsupportedFinishReason", endpointAuthority, model) });
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { throw; }
         catch (AgentModelClientException) { throw; }
-        catch (Exception ex) { logger.LogWarning("Agent model request failed with {ErrorType}.", ex.GetType().Name); throw new AgentModelClientException(); }
+        catch (Exception ex)
+        {
+            throw Fail("TransportOrResponseProcessing", endpointAuthority, model, ex.GetType().Name);
+        }
+    }
+
+    private AgentModelClientException Fail(string failureKind, string endpointAuthority, string model, string? errorType = null, int? statusCode = null)
+    {
+        logger.LogWarning(
+            "Agent model request failed during {FailureKind}. StatusCode: {StatusCode}; error type: {ErrorType}; endpoint: {EndpointAuthority}; model: {Model}.",
+            failureKind,
+            statusCode,
+            errorType,
+            endpointAuthority,
+            model);
+        return new AgentModelClientException();
     }
 
     private static IEnumerable<ChatMessage> ToWireMessages(TranscriptMessage message)
