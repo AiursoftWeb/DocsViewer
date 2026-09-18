@@ -16,9 +16,11 @@ public class SettingsMap
     
     public const string OpenAiInstance = "OpenAiInstance";
     public const string OpenAiLocalizationModel = "OpenAiLocalizationModel";
-    public const string OpenAiAgentModel = "OpenAiAgentModel";
-    public const string OpenAiAgentCustomInstruction = "OpenAiAgentCustomInstruction";
     public const string OpenAiApiToken = "OpenAiApiToken";
+    public const string OpenAiAgentInstance = "OpenAiAgentInstance";
+    public const string OpenAiAgentModel = "OpenAiAgentModel";
+    public const string OpenAiAgentApiToken = "OpenAiAgentApiToken";
+    public const string OpenAiAgentCustomInstruction = "OpenAiAgentCustomInstruction";
     
     public const string EmbeddingOllamaInstance = "EmbeddingOllamaInstance";
     public const string EmbeddingModel = "EmbeddingModel";
@@ -107,12 +109,12 @@ public class SettingsMap
             Type = SettingType.Text,
             DefaultValue = ""
         },
-        // ── AI: Chat / Translation (3 settings) ──────────────────────────────────
+        // ── AI: Translation (3 settings) ─────────────────────────────────────────
         new GlobalSettingDefinition
         {
             Key = OpenAiInstance,
-            Name = Localizer["OpenAI Chat Endpoint"],
-            Description = Localizer["The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search."],
+            Name = Localizer["Translation Endpoint"],
+            Description = Localizer["The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant."],
             Type = SettingType.Text,
             DefaultValue = ""
         },
@@ -126,9 +128,35 @@ public class SettingsMap
         },
         new GlobalSettingDefinition
         {
+            Key = OpenAiApiToken,
+            Name = Localizer["Translation API Token"],
+            Description = Localizer["The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint."],
+            Type = SettingType.Text,
+            DefaultValue = ""
+        },
+
+        // ── AI: Document Assistant (4 settings) ───────────────────────────────────
+        new GlobalSettingDefinition
+        {
+            Key = OpenAiAgentInstance,
+            Name = Localizer["Agent Endpoint"],
+            Description = Localizer["The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions."],
+            Type = SettingType.Text,
+            DefaultValue = ""
+        },
+        new GlobalSettingDefinition
+        {
             Key = OpenAiAgentModel,
             Name = Localizer["Agent Model"],
-            Description = Localizer["The model name used for grounded document answers. Unrelated to translation."],
+            Description = Localizer["The model name used for grounded document answers. It must be available at the Agent Endpoint."],
+            Type = SettingType.Text,
+            DefaultValue = ""
+        },
+        new GlobalSettingDefinition
+        {
+            Key = OpenAiAgentApiToken,
+            Name = Localizer["Agent API Token"],
+            Description = Localizer["The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication."],
             Type = SettingType.Text,
             DefaultValue = ""
         },
@@ -140,15 +168,6 @@ public class SettingsMap
             Type = SettingType.Text,
             DefaultValue = ""
         },
-        new GlobalSettingDefinition
-        {
-            Key = OpenAiApiToken,
-            Name = Localizer["OpenAI API Token"],
-            Description = Localizer["The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication."],
-            Type = SettingType.Text,
-            DefaultValue = ""
-        },
-
         // ── AI: Embedding / Vector Search (3 settings) ────────────────────────────
         new GlobalSettingDefinition
         {

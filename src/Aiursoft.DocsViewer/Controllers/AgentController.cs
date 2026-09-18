@@ -113,7 +113,7 @@ public sealed class AgentController(
 
     private async Task<IndexViewModel> CreateModelAsync()
     {
-        var endpoint = await settings.GetSettingValueAsync(SettingsMap.OpenAiInstance);
+        var endpoint = await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentInstance);
         var agentModel = await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentModel);
         return new IndexViewModel
         {

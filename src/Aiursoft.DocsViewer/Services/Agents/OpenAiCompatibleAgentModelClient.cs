@@ -24,8 +24,8 @@ public sealed class OpenAiCompatibleAgentModelClient(
     public async ValueTask<AgentModelResponse> CompleteAsync(AgentModelRequest request, CancellationToken cancellationToken)
     {
         var model = (await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentModel)).Trim();
-        var endpoint = (await settings.GetSettingValueAsync(SettingsMap.OpenAiInstance)).Trim();
-        var token = await settings.GetSettingValueAsync(SettingsMap.OpenAiApiToken);
+        var endpoint = (await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentInstance)).Trim();
+        var token = await settings.GetSettingValueAsync(SettingsMap.OpenAiAgentApiToken);
         cancellationToken.ThrowIfCancellationRequested();
         if (!Uri.TryCreate(endpoint, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https") || string.IsNullOrWhiteSpace(model)) throw new AgentModelClientException();
         try

@@ -129,9 +129,9 @@ public sealed class AgentControllerTests : TestBase
             using (var scope = Server!.Services.CreateScope())
             {
                 var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
-                await settings.UpdateSettingAsync(SettingsMap.OpenAiInstance, $"{provider.Urls.Single()}/v1/chat/completions");
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentInstance, $"{provider.Urls.Single()}/v1/chat/completions");
                 await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentModel, "local-test-model");
-                await settings.UpdateSettingAsync(SettingsMap.OpenAiApiToken, string.Empty);
+                await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentApiToken, string.Empty);
                 // Force deterministic lexical retrieval without making any embedding requests.
                 await settings.UpdateSettingAsync(SettingsMap.EnableEmbeddingBasedSearch, "False");
                 var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
@@ -227,7 +227,7 @@ public sealed class AgentControllerTests : TestBase
         await LoginAsAdmin();
         using var scope = Server!.Services.CreateScope();
         var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
-        await settings.UpdateSettingAsync(SettingsMap.OpenAiInstance, "http://127.0.0.1:1/v1/chat/completions");
+        await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentInstance, "http://127.0.0.1:1/v1/chat/completions");
         await settings.UpdateSettingAsync(SettingsMap.OpenAiAgentModel, "test");
         foreach (var question in new[] { " ", new string('x', 2001) })
         {
