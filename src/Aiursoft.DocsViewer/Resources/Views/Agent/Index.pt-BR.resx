@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Agent" xml:space="preserve">
+    <value>Agente</value>
+  </data>
+  <data name="Agent activity" xml:space="preserve">
+    <value>Atividade do agente</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Resposta</value>
+  </data>
+  <data name="Ask a question about the indexed documentation. Answers include document references; verify important details in the sources." xml:space="preserve">
+    <value>Faça uma pergunta sobre a documentação indexada. As respostas incluem referências de documentos; verifique os detalhes importantes nas fontes.</value>
+  </data>
+  <data name="Ask the documentation" xml:space="preserve">
+    <value>Pergunte à documentação</value>
+  </data>
+  <data name="Connection interrupted. Retrying…" xml:space="preserve">
+    <value>Conexão interrompida. Tentando novamente…</value>
+  </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Assistente de Documentação</value>
+  </data>
+  <data name="Documentation search completed" xml:space="preserve">
+    <value>Busca na documentação concluída</value>
+  </data>
+  <data name="Documentation search could not be completed" xml:space="preserve">
+    <value>A busca na documentação não pôde ser concluída</value>
+  </data>
+  <data name="Documentation search is waiting for approval" xml:space="preserve">
+    <value>A busca na documentação está aguardando aprovação</value>
+  </data>
+  <data name="Follow-up questions retain this conversation&apos;s context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service." xml:space="preserve">
+    <value>Perguntas de acompanhamento mantêm o contexto desta conversa. As conversas expiram após 30 minutos de inatividade e são perdidas em caso de reinício do servidor. As perguntas e os trechos selecionados são enviados ao serviço de modelo configurado.</value>
+  </data>
+  <data name="Matching documents" xml:space="preserve">
+    <value>Documentos correspondentes</value>
+  </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>Nova conversa</value>
+  </data>
+  <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
+    <value>Pressione Enter para enviar e Shift+Enter para uma nova linha.</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Pergunta</value>
+  </data>
+  <data name="Ready for a follow-up question." xml:space="preserve">
+    <value>Pronto para uma pergunta de acompanhamento.</value>
+  </data>
+  <data name="Searching documentation and preparing an answer…" xml:space="preserve">
+    <value>Buscando na documentação e preparando uma resposta…</value>
+  </data>
+  <data name="Searching indexed documentation" xml:space="preserve">
+    <value>Pesquisando documentação indexada</value>
+  </data>
+  <data name="Sources" xml:space="preserve">
+    <value>Fontes</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Parar</value>
+  </data>
+  <data name="Stopping the current turn…" xml:space="preserve">
+    <value>Interrompendo a interação atual…</value>
+  </data>
+  <data name="The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model." xml:space="preserve">
+    <value>O assistente não está configurado. Um administrador deve configurar o ponto de extremidade do chat e o Modelo do Agente de Documentos.</value>
+  </data>
+  <data name="The conversation expired or is no longer accessible. Start a new conversation." xml:space="preserve">
+    <value>A conversa expirou ou não está mais acessível. Inicie uma nova conversa.</value>
+  </data>
+  <data name="The request failed. Please try again." xml:space="preserve">
+    <value>A solicitação falhou. Tente novamente.</value>
+  </data>
+  <data name="The turn was cancelled." xml:space="preserve">
+    <value>A rodada foi cancelada.</value>
+  </data>
+  <data name="Tool call" xml:space="preserve">
+    <value>Chamada de ferramenta</value>
+  </data>
+  <data name="View agent activity" xml:space="preserve">
+    <value>Ver atividade do agente</value>
+  </data>
+
+</root>

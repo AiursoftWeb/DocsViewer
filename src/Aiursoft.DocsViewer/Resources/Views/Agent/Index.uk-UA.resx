@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Agent" xml:space="preserve">
+    <value>Агент</value>
+  </data>
+  <data name="Agent activity" xml:space="preserve">
+    <value>Активність агента</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>Відповідь</value>
+  </data>
+  <data name="Ask a question about the indexed documentation. Answers include document references; verify important details in the sources." xml:space="preserve">
+    <value>Запитайте питання про індексовану документацію. Відповіді містять посилання на документи; перевіряйте важливі деталі в джерелах.</value>
+  </data>
+  <data name="Ask the documentation" xml:space="preserve">
+    <value>Запитати документацію</value>
+  </data>
+  <data name="Connection interrupted. Retrying…" xml:space="preserve">
+    <value>З&apos;єднання втрачено. Повторна спроба…</value>
+  </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>Документний асистент</value>
+  </data>
+  <data name="Documentation search completed" xml:space="preserve">
+    <value>Пошук у документації завершено</value>
+  </data>
+  <data name="Documentation search could not be completed" xml:space="preserve">
+    <value>Пошук у документації не можна завершити</value>
+  </data>
+  <data name="Documentation search is waiting for approval" xml:space="preserve">
+    <value>Пошук у документації очікує на схвалення</value>
+  </data>
+  <data name="Follow-up questions retain this conversation&apos;s context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service." xml:space="preserve">
+    <value>Питання-продовження зберігають контекст цієї розмови. Розмови закінчуються через 30 хвилин неактивності та втрачаються при перезапуску сервера. Питання та обрані уривки надсилаються до налаштованого сервісу моделей.</value>
+  </data>
+  <data name="Matching documents" xml:space="preserve">
+    <value>Збігні документи</value>
+  </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>Нова розмова</value>
+  </data>
+  <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
+    <value>Натисніть Enter, щоб надіслати, та Shift+Enter для нового рядка.</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Питання</value>
+  </data>
+  <data name="Ready for a follow-up question." xml:space="preserve">
+    <value>Готово до наступного запитання.</value>
+  </data>
+  <data name="Searching documentation and preparing an answer…" xml:space="preserve">
+    <value>Пошук у документації та підготовка відповіді…</value>
+  </data>
+  <data name="Searching indexed documentation" xml:space="preserve">
+    <value>Пошук індексованої документації</value>
+  </data>
+  <data name="Sources" xml:space="preserve">
+    <value>Джерела</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Зупинити</value>
+  </data>
+  <data name="Stopping the current turn…" xml:space="preserve">
+    <value>Зупинення поточного ходу…</value>
+  </data>
+  <data name="The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model." xml:space="preserve">
+    <value>Асистент не налаштовано. Адміністратор має налаштувати кінцеву точку чату та модель Document Agent.</value>
+  </data>
+  <data name="The conversation expired or is no longer accessible. Start a new conversation." xml:space="preserve">
+    <value>Розмова прострочена або більше недоступна. Розпочніть нову розмову.</value>
+  </data>
+  <data name="The request failed. Please try again." xml:space="preserve">
+    <value>Запит не вдався. Будь ласка, спробуйте ще раз.</value>
+  </data>
+  <data name="The turn was cancelled." xml:space="preserve">
+    <value>Хід було скасовано.</value>
+  </data>
+  <data name="Tool call" xml:space="preserve">
+    <value>Виклик інструменту</value>
+  </data>
+  <data name="View agent activity" xml:space="preserve">
+    <value>Переглянути активність агента</value>
+  </data>
+
+</root>
