@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Agent" xml:space="preserve">
+    <value>智能體</value>
+  </data>
+  <data name="Agent activity" xml:space="preserve">
+    <value>代理活動</value>
+  </data>
+  <data name="Answer" xml:space="preserve">
+    <value>答案</value>
+  </data>
+  <data name="Ask a question about the indexed documentation. Answers include document references; verify important details in the sources." xml:space="preserve">
+    <value>就索引文件提出問題。答案將包含文件引用；請在原始來源中核實重要詳情。</value>
+  </data>
+  <data name="Ask the documentation" xml:space="preserve">
+    <value>向文件庫查詢</value>
+  </data>
+  <data name="Connection interrupted. Retrying…" xml:space="preserve">
+    <value>連線已中斷。正在重試…</value>
+  </data>
+  <data name="Document Assistant" xml:space="preserve">
+    <value>文件助理</value>
+  </data>
+  <data name="Documentation search completed" xml:space="preserve">
+    <value>文件搜尋已完成</value>
+  </data>
+  <data name="Documentation search could not be completed" xml:space="preserve">
+    <value>文件搜尋無法完成</value>
+  </data>
+  <data name="Documentation search is waiting for approval" xml:space="preserve">
+    <value>文件搜尋正等待批准</value>
+  </data>
+  <data name="Follow-up questions retain this conversation&apos;s context. Conversations expire after 30 idle minutes and are lost on server restart. Questions and selected excerpts are sent to the configured model service." xml:space="preserve">
+    <value>後續問題會保留此對話的上下文。對話於30分鐘無活動後過期，且伺服器重新啟動後會遺失。問題及選取的摘要會傳送至已設定的模型服務。</value>
+  </data>
+  <data name="Matching documents" xml:space="preserve">
+    <value>相符文件</value>
+  </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>新對話</value>
+  </data>
+  <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
+    <value>按 Enter 傳送，按 Shift+Enter 換行。</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>問題</value>
+  </data>
+  <data name="Ready for a follow-up question." xml:space="preserve">
+    <value>準備好提出後續問題。</value>
+  </data>
+  <data name="Searching documentation and preparing an answer…" xml:space="preserve">
+    <value>正在搜尋文件並準備回答…</value>
+  </data>
+  <data name="Searching indexed documentation" xml:space="preserve">
+    <value>搜尋索引文件</value>
+  </data>
+  <data name="Sources" xml:space="preserve">
+    <value>來源</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Stopping the current turn…" xml:space="preserve">
+    <value>正在停止目前回合…</value>
+  </data>
+  <data name="The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model." xml:space="preserve">
+    <value>助手尚未設定。管理員必須設定聊天端點及文件代理模型。</value>
+  </data>
+  <data name="The conversation expired or is no longer accessible. Start a new conversation." xml:space="preserve">
+    <value>對話已過期或無法再存取。請開始新對話。</value>
+  </data>
+  <data name="The request failed. Please try again." xml:space="preserve">
+    <value>請求失敗。請再試一次。</value>
+  </data>
+  <data name="The turn was cancelled." xml:space="preserve">
+    <value>回合已取消。</value>
+  </data>
+  <data name="Tool call" xml:space="preserve">
+    <value>工具調用</value>
+  </data>
+  <data name="View agent activity" xml:space="preserve">
+    <value>查看代理活動</value>
+  </data>
+
+</root>
