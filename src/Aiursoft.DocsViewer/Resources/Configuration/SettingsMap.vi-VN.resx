@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>Một số giả mạo để kiểm thử.</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>Mã API của Agent</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>Hướng dẫn tùy chỉnh cho Tác nhân</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Điểm cuối của tác nhân</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>Mô hình Agent</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>Mã thông báo bearer để xác thực với Điểm cuối Chat của OpenAI, ví dụ: sk-abc123... hoặc 5a0fbdefa19f.... Để trống nếu điểm cuối không yêu cầu xác thực.</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Token bearer cho endpoint Dịch thuật và phương án dự phòng cho embedding. Để trống nếu endpoint đó không yêu cầu xác thực. Token này không được gửi đến endpoint Trợ lý Tài liệu.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Token bearer chỉ được gửi đến Agent Endpoint. Để trống nếu endpoint đó không yêu cầu xác thực.</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>Tên thương hiệu được hiển thị trong chân trang.</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>Số lượng bình luận tối đa mà một người dùng có thể đăng mỗi ngày.</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Tên mô hình được sử dụng để cung cấp câu trả lời dựa trên tài liệu. Mô hình này phải khả dụng tại Điểm cuối Agent.</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>Tên mô hình được sử dụng cho các câu trả lời dựa trên tài liệu. Không liên quan đến dịch thuật.</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>Đường dẫn cơ sở API Ollama được sử dụng đặc biệt để tạo nhúng cho tài liệu và truy vấn (tìm kiếm vector). Chỉ phần host được sử dụng — /api/embed sẽ được thêm vào tự động. Sẽ chuyển sang Sử dụng Điểm cuối Chat OpenAI khi để trống. Ví dụ: https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Điểm cuối chat completions tương thích OpenAI được sử dụng để dịch tài liệu và làm phương án dự phòng cho tìm kiếm nhúng. Phải là URL đầy đủ bao gồm /v1/chat/completions. Không được sử dụng bởi Trợ lý Tài liệu.</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI được sử dụng để dịch tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions, ví dụ: https://ollama.example.com/v1/chat/completions hoặc https://api.openai.com/v1/chat/completions. Không liên quan đến tìm kiếm nhúng/tensor.</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI chỉ được sử dụng bởi Trợ lý Tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions.</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>URL của kho lưu trữ git chứa các tài liệu markdown.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>Mã thông báo API dịch thuật</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Điểm cuối dịch thuật</value>
   </data>
 
 </root>

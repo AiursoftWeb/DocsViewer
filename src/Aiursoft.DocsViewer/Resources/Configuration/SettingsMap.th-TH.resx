@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>หมายเลขตัวอย่างสำหรับการทดสอบ</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>โทเค็น API ของเอเจนต์</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>คำแนะนำกำหนดเองของเอเจนต์</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>ปลายทางของเอเจนต์</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>โมเดลเอเจนต์</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>โทเคนแบบแบร์เออร์สำหรับยืนยันตัวตนกับ OpenAI Chat Endpoint เช่น sk-abc123... หรือ 5a0fbdefa19f.... ใส่ข้อมูลว่างหาก endpoint นั้นไม่จำเป็นต้องมีการยืนยันตัวตน</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>โทเค็น Bearer สำหรับปลายทางการแปลและการสำรองการฝังเวกเตอร์ เว้นว่างไว้หากปลายทางดังกล่าวไม่จำเป็นต้องมีการตรวจสอบสิทธิ์ โทเค็นนี้จะไม่ถูกส่งไปยังปลายทางผู้ช่วยเอกสาร</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>โทเคนแบร์รอร์ที่ส่งไปยัง Agent Endpoint เท่านั้น ทิ้งว่างไว้หากเอนด์พอยต์นั้นไม่ต้องการการยืนยันตัวตน</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>ชื่อแบรนด์ที่แสดงไว้ในส่วนท้ายหน้า</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>จำนวนความคิดเห็นสูงสุดที่ผู้ใช้สามารถโพสต์ได้ต่อวัน</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>ชื่อโมเดลที่ใช้สำหรับสร้างคำตอบจากเอกสารโดยอ้างอิงข้อมูลในเอกสาร ต้องพร้อมใช้งานที่ Agent Endpoint</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>ชื่อโมเดลที่ใช้สำหรับการตอบคำถามจากเอกสารที่มีแหล่งอ้างอิง ไม่เกี่ยวข้องกับงานแปลภาษา</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>URL ฐานของ API Ollama ที่ใช้โดยเฉพาะสำหรับการสร้าง embeddings ของเอกสารและคำค้นหา (การค้นหาแบบเวกเตอร์) จะใช้เฉพาะโฮสต์เท่านั้น โดยจะเพิ่ม /api/embed ต่อท้ายโดยอัตโนมัติ หากว่างอยู่จะย้อนกลับไปใช้ URL Chat Endpoint ของ OpenAI ตัวอย่างเช่น https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>ปลายทาง Chat Completions ที่เข้ากันได้กับ OpenAI ซึ่งใช้สำหรับการแปลเอกสารและเป็นทางเลือกสำรองสำหรับการค้นหา embedding ต้องระบุเป็น URL แบบเต็ม รวมถึง /v1/chat/completions และไม่ได้ใช้โดย Document Assistant</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>จุดท้ายแบบครบวงจรสำหรับงานแปลเอกสารที่สอดคล้องกับมาตรฐาน OpenAI จะต้องระบุ URL เต็มรูปแบบให้ครบถ้วนโดยมี /v1/chat/completions อยู่เสมอ เช่น https://ollama.example.com/v1/chat/completions หรือ https://api.openai.com/v1/chat/completions ส่วนนี้ไม่มีความเชื่อมโยงใดๆ กับระบบ embedding หรือการค้นหาเชิงเวกเตอร์</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>เอนด์พอยต์การเติมข้อความแชตที่เข้ากันได้กับ OpenAI ซึ่งใช้โดย Document Assistant เท่านั้น ต้องเป็น URL แบบเต็มที่รวม /v1/chat/completions</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>URL ของที่เก็บเอกสาร git ที่มีไฟล์ markdown</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>โทเค็น API สำหรับการแปล</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>จุดปลายทางสำหรับการแปล</value>
   </data>
 
 </root>

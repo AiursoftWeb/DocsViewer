@@ -27,8 +27,14 @@
   <data name="A dummy number for testing." xml:space="preserve">
     <value>テスト用のダミー番号です。</value>
   </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>エージェント API トークン</value>
+  </data>
   <data name="Agent Custom Instructions" xml:space="preserve">
     <value>エージェントの自定义指示</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>エージェントエンドポイント</value>
   </data>
   <data name="Agent Model" xml:space="preserve">
     <value>エージェントモデル</value>
@@ -129,6 +135,12 @@
   <data name="The bearer token for authenticating with the OpenAI Chat Endpoint, e.g. sk-abc123... or 5a0fbdefa19f.... Leave empty if the endpoint does not require authentication." xml:space="preserve">
     <value>OpenAI Chat エンドポイントとの認証に使用するベアラートン（例：sk-abc123... または 5a0fbdefa19f....）。エンドポイントが認証を必要としない場合は空のままにしてください。</value>
   </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>翻訳エンドポイントおよび埋め込み検索のフォールバックに使用するベアラートークン。エンドポイントで認証が必要ない場合は空欄にしてください。Document Assistantエンドポイントには送信されません。</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Agent エンドポイントにのみ送信されるベアラートークンです。そのエンドポイントが認証を必要としない場合は空欄にしてください。</value>
+  </data>
   <data name="The brand name displayed in the footer." xml:space="preserve">
     <value>フッターに表示されるブランド名。</value>
   </data>
@@ -147,6 +159,9 @@
   <data name="The maximum number of comments a user can post per day." xml:space="preserve">
     <value>ユーザーが1日あたりに投稿できるコメントの最大数。</value>
   </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>グラウンデッドなドキュメント回答に使用されるモデル名です。Agent Endpointで利用可能である必要があります。</value>
+  </data>
   <data name="The model name used for grounded document answers. Unrelated to translation." xml:space="preserve">
     <value>グラウンデッドなドキュメント回答に使用するモデル名。翻訳とは無関係です。</value>
   </data>
@@ -156,11 +171,23 @@
   <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
     <value>文書およびクエリの埋め込み（ベクトル検索）生成に特化したOllama APIのベースURL。ホスト部分のみが使用され、/api/embedは自動的に付加されます。空の場合はOpenAIチャットエンドポイントにフォールバックします。例：https://ollama.example.com</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>ドキュメント翻訳および埋め込み検索のフォールバックとして使用される、OpenAI互換のチャット補完エンドポイントです。/v1/chat/completions を含む完全なURLである必要があります。Document Assistant では使用されません。</value>
+  </data>
   <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
     <value>文書翻訳に使用されるOpenAI互換のチャット完了エンドポイント。/v1/chat/completions を含む完全なURLである必要があります。例：https://ollama.example.com/v1/chat/completions または https://api.openai.com/v1/chat/completions 。埋め込みベクトル検索とは無関係です。</value>
   </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Document Assistantでのみ使用されるOpenAI互換のチャット補完エンドポイントです。/v1/chat/completionsを含む完全なURLで指定してください。</value>
+  </data>
   <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
     <value>マークダウン文書を含むGitリポジトリのURLです。</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>翻訳 API トークン</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>翻訳エンドポイント</value>
   </data>
 
 </root>
