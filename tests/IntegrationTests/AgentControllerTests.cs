@@ -242,10 +242,8 @@ public sealed class AgentControllerTests : TestBase
         Assert.Contains("id=\"agent-send\" type=\"submit\" class=\"btn btn-primary\" disabled", html);
 
         var token = await GetAntiCsrfToken("/Agent");
-        using var request = new HttpRequestMessage(HttpMethod.Post, "/Agent/SendMessage")
-        {
-            Content = JsonContent.Create(new { Message = "question", ConversationId = (Guid?)null })
-        };
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/Agent/SendMessage");
+        request.Content = JsonContent.Create(new { Message = "question", ConversationId = (Guid?)null });
         request.Headers.Add("RequestVerificationToken", token);
         var response = await Http.SendAsync(request);
         Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
