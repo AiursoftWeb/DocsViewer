@@ -254,10 +254,10 @@ public sealed class DocumentConversationService : IDisposable
                     {
                         conversation.History = turn.Transcript.Select(item => item.DeepCopy()).ToArray();
                         conversation.NextLabel = turn.NextLabel;
-                        if (turn.Answer.Status == DocumentAnswerStatus.ModelFailure)
+                        if (turn.Answer.Status is DocumentAnswerStatus.ModelFailure or DocumentAnswerStatus.MaxIterations)
                         {
                             conversation.State = "Error";
-                            conversation.Error = "ModelFailure";
+                            conversation.Error = turn.Answer.Status.ToString();
                             conversation.ActiveProcessEvents.Clear();
                         }
                         else

@@ -95,8 +95,12 @@ public sealed class AgentController(
     {
         var result = conversations.Status(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty, conversationId);
         if (result is null) return NotFound();
-        return ConversationJson(result with { ErrorMessage = result.ErrorMessage is null ? null :
-            localizer["The assistant could not complete this turn. Please try again or start a new conversation."].Value });
+        return ConversationJson(result with { ErrorMessage = result.ErrorMessage switch
+        {
+            "MaxIterations" => localizer["The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation."].Value,
+            null => null,
+            _ => localizer["The assistant could not complete this turn. Please try again or start a new conversation."].Value
+        } });
     }
 
     [HttpPost]

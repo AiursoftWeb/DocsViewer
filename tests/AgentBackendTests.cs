@@ -296,6 +296,23 @@ public sealed class AgentBackendTests
         public IReadOnlyList<IAgentTool> GetTools() => [searchTool];
     }
 
+    private sealed class MaxIterationsModel : IAgentModelClient
+    {
+        private int count;
+        public List<AgentModelRequest> Requests { get; } = [];
+
+        public ValueTask<AgentModelResponse> CompleteAsync(AgentModelRequest request, CancellationToken cancellationToken)
+        {
+            Requests.Add(new AgentModelRequest(request.Transcript.Select(message => message.DeepCopy()).ToArray(), request.Tools.ToArray()));
+            if (count++ < 5)
+                return ValueTask.FromResult(new AgentModelResponse([
+                    new ToolCallBlock(new ToolCall($"call-{count}", DocumentSearchAgentTool.Name,
+                        JToken.FromObject(new { query = "needle" })))
+                ], AgentFinishReason.ToolCalls));
+            return ValueTask.FromResult(new AgentModelResponse([new TextBlock("Recovered answer [D5]")]));
+        }
+    }
+
     private sealed class RecoveryModel : IAgentModelClient
     {
         private int count;
@@ -397,6 +414,36 @@ public sealed class AgentBackendTests
         StringAssert.Contains(followUpText, "How do I use it?");
         StringAssert.Contains(followUpText, "Please try asking about the available documents");
         Assert.IsFalse(followUpText.Contains("Unverified provider answer", StringComparison.Ordinal));
+    }
+
+    [TestMethod]
+    public async Task MaxIterationsKeepsToolResultsAndAddsContinuationReminder()
+    {
+        using var fixture = new Fixture();
+        fixture.Db.Documents.Add(new Document { Category = "test", Title = "needle", Content = "Evidence", FilePath = "doc.md" });
+        await fixture.Db.SaveChangesAsync();
+        var model = new MaxIterationsModel();
+        var service = CreateAnswerService(model, fixture.Search(), fixture.Settings);
+
+        var capped = await service.ExecuteTurnAsync("What is needle?", [], 0, "en-US", "", null, null, CancellationToken.None);
+
+        Assert.AreEqual(DocumentAnswerStatus.MaxIterations, capped.Answer.Status);
+        TranscriptValidator.Validate(capped.Transcript);
+        Assert.AreEqual(4, capped.Transcript.Count(message => message.Role == TranscriptRole.Tool));
+        Assert.IsTrue(capped.Transcript.Where(message => message.Role == TranscriptRole.Tool).All(message => message.IsMeta));
+        var reminder = capped.Transcript.Last();
+        Assert.AreEqual(TranscriptRole.Assistant, reminder.Role);
+        Assert.IsTrue(reminder.IsMeta);
+        StringAssert.Contains(reminder.Content.OfType<TextBlock>().Single().Text, "<system-reminder>");
+
+        await service.ExecuteTurnAsync("Please continue.", capped.Transcript, capped.NextLabel, "en-US", "", null, null, CancellationToken.None);
+
+        var followUp = model.Requests[4].Transcript;
+        Assert.AreEqual(TranscriptRole.System, followUp[0].Role);
+        Assert.IsTrue(followUp.Any(message => message.Role == TranscriptRole.Tool));
+        Assert.IsTrue(followUp[^2].IsMeta);
+        StringAssert.Contains(followUp[^2].Content.OfType<TextBlock>().Single().Text, "<system-reminder>");
+        Assert.AreEqual("Please continue.", followUp[^1].Content.OfType<TextBlock>().Single().Text);
     }
 
     [TestMethod]
