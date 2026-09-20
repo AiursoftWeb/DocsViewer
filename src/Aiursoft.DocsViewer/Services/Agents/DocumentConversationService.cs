@@ -80,6 +80,7 @@ public sealed class DocumentConversationService : IDisposable
     private readonly IDocumentConversationQueue queue;
     private readonly IServiceScopeFactory scopes;
     private readonly AgentRequestLimiter limiter;
+    private readonly ILogger<DocumentConversationService> logger;
     private readonly TimeProvider clock;
     private readonly CancellationTokenRegistration stoppingRegistration;
     private bool stopping;
@@ -90,12 +91,14 @@ public sealed class DocumentConversationService : IDisposable
         IServiceScopeFactory scopes,
         AgentRequestLimiter limiter,
         IHostApplicationLifetime lifetime,
-        TimeProvider clock)
+        TimeProvider clock,
+        ILogger<DocumentConversationService> logger)
     {
         this.queue = queue;
         this.scopes = scopes;
         this.limiter = limiter;
         this.clock = clock;
+        this.logger = logger;
         stoppingRegistration = lifetime.ApplicationStopping.Register(Stop);
     }
 
@@ -251,10 +254,10 @@ public sealed class DocumentConversationService : IDisposable
                     {
                         conversation.History = turn.Transcript.Select(item => item.DeepCopy()).ToArray();
                         conversation.NextLabel = turn.NextLabel;
-                        if (turn.Answer.Status == DocumentAnswerStatus.ModelFailure)
+                        if (turn.Answer.Status is DocumentAnswerStatus.ModelFailure or DocumentAnswerStatus.MaxIterations)
                         {
                             conversation.State = "Error";
-                            conversation.Error = "ModelFailure";
+                            conversation.Error = turn.Answer.Status.ToString();
                             conversation.ActiveProcessEvents.Clear();
                         }
                         else
@@ -286,8 +289,13 @@ public sealed class DocumentConversationService : IDisposable
         {
             // Cancellation wins; Finish publishes the terminal state after clearing active events.
         }
-        catch
+        catch (Exception ex)
         {
+            logger.LogError(
+                "Document agent turn execution failed. Conversation: {ConversationId}; generation: {Generation}; error type: {ErrorType}.",
+                conversation.Id,
+                generation,
+                ex.GetType().Name);
             lock (sync)
             {
                 if (generation == conversation.Generation)

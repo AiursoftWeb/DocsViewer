@@ -51,9 +51,9 @@
             if (event.Kind === 'ToolCall') {
                 item.textContent = `${form.dataset.activityToolCall}: ${event.ToolName || ''}`;
                 if (event.Arguments && typeof event.Arguments.query === 'string') {
-                    const parameters = document.createElement('pre');
+                    const parameters = document.createElement('div');
                     parameters.className = 'mb-0 mt-1 text-break';
-                    parameters.textContent = JSON.stringify({ query: event.Arguments.query }, null, 2);
+                    parameters.textContent = `${form.dataset.activityQuery}: ${event.Arguments.query}`;
                     item.append(parameters);
                 }
             } else if (event.Status === 'Started') {
