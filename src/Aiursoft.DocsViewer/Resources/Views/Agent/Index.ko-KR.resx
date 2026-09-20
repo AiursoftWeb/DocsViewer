@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Enter 키를 눌러 전송하고, Shift+Enter를 눌러 줄바꿈을 수행합니다.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>쿼리</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>질문</value>
   </data>

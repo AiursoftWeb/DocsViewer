@@ -39,6 +39,9 @@
   <data name="The assistant is not configured." xml:space="preserve">
     <value>सहायक कॉन्फ़िगर नहीं है।</value>
   </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>सहायक ने इस उत्तर को पूरा करने से पहले अपने चरण सीमा (step limit) को पार कर लिया। वर्तमान संवाद से आगे बढ़ने के लिए एक अनुवर्ती संदेश भेजें।</value>
+  </data>
   <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
     <value>दस्तावेज़ीकरण में इस प्रश्न के उत्तर के लिए पर्याप्त प्रमाण उपलब्ध नहीं हैं। कृपया उपलब्ध दस्तावेज़ों के बारे में पूछने का प्रयास करें या अधिक विशिष्ट दस्तावेज़-संबंधी शब्दों का उपयोग करें।</value>
   </data>

@@ -39,6 +39,9 @@
   <data name="The assistant is not configured." xml:space="preserve">
     <value>어시스턴트가 구성되지 않았습니다.</value>
   </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>도움이 필요한 작업이 완료되기 전에 단계 제한에 도달했습니다. 현재 대화에서 이어서 진행하려면 후속 메시지를 보내세요.</value>
+  </data>
   <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
     <value>문서에 이 질문에 대한 충분한 근거가 없습니다. 사용 가능한 문서에 대해 질문하거나, 더 구체적인 문서 관련 용어를 사용해보십시오.</value>
   </data>

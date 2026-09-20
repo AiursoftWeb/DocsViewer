@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Натисніть Enter, щоб надіслати, та Shift+Enter для нового рядка.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Запит</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Питання</value>
   </data>

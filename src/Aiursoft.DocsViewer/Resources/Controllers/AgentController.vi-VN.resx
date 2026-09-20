@@ -39,6 +39,9 @@
   <data name="The assistant is not configured." xml:space="preserve">
     <value>Trợ lý chưa được cấu hình.</value>
   </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>Trợ lý đã đạt đến giới hạn bước trước khi hoàn thành câu trả lời này. Hãy gửi một tin nhắn tiếp theo để tiếp tục từ cuộc trò chuyện hiện tại.</value>
+  </data>
   <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
     <value>Tài liệu không cung cấp đủ bằng chứng để trả lời câu hỏi này. Vui lòng thử hỏi về các tài liệu có sẵn hoặc sử dụng các thuật ngữ liên quan đến tài liệu cụ thể hơn.</value>
   </data>

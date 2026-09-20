@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Enterキーを押して送信し、Shift+Enterで改行します。</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>クエリ</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>質問</value>
   </data>

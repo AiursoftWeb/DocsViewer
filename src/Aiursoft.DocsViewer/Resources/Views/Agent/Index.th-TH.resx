@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>กด Enter เพื่อส่ง และ Shift+Enter เพื่อขึ้นบรรทัดใหม่</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>คำค้น</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>คำถาม</value>
   </data>

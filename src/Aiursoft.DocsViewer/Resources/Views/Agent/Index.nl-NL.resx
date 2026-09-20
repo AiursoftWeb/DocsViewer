@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Druk op Enter om te versturen en op Shift+Enter voor een nieuwe regel.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Query</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Vraag</value>
   </data>

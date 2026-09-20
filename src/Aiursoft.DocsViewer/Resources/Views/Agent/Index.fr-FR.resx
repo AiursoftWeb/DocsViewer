@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Appuyez sur Entrée pour envoyer et sur Maj+Entrée pour insérer une nouvelle ligne.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Requête</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Question</value>
   </data>

@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>按 Enter 发送，按 Shift+Enter 换行。</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>查询</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>问题</value>
   </data>
