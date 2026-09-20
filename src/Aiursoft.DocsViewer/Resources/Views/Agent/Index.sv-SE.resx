@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Tryck på Enter för att skicka och Shift+Enter för en ny rad.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Fråga</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Fråga</value>
   </data>

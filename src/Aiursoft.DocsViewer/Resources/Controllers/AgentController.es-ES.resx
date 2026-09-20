@@ -39,6 +39,9 @@
   <data name="The assistant is not configured." xml:space="preserve">
     <value>El asistente no está configurado.</value>
   </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>El asistente alcanzó su límite de pasos antes de completar esta respuesta. Envíe un mensaje de seguimiento para continuar desde la conversación actual.</value>
+  </data>
   <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
     <value>La documentación no proporciona pruebas suficientes para responder a esta pregunta. Intente preguntar sobre los documentos disponibles o utilice términos más específicos relacionados con documentos.</value>
   </data>

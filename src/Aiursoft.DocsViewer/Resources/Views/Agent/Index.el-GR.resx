@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Πατήστε Enter για αποστολή και Shift+Enter για νέα γραμμή.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Ερώτημα</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Ερώτηση</value>
   </data>

@@ -39,6 +39,9 @@
   <data name="The assistant is not configured." xml:space="preserve">
     <value>アシスタントが設定されていません。</value>
   </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>アシスタントは回答を完了する前にステップ数の上限に達しました。現在の会話から続けるには、フォローアップメッセージを送信してください。</value>
+  </data>
   <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
     <value>ドキュメントには、この質問に答えるための十分な根拠が含まれていません。利用可能なドキュメントについて質問するか、より具体的なドキュメント関連の用語を使用してみてください。</value>
   </data>

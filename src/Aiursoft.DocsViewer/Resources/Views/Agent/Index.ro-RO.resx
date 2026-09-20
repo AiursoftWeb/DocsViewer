@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Apăsați Enter pentru a trimite și Shift+Enter pentru o linie nouă.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Interogare</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Întrebare</value>
   </data>

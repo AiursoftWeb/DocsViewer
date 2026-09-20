@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Premi Invio per inviare e Maiusc+Invio per un nuovo rigo.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Interrogazione</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Domanda</value>
   </data>

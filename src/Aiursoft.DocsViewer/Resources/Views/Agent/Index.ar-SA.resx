@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>اضغط Enter للإرسال، واضغط Shift+Enter لإدراج سطر جديد.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>استعلام</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>السؤال</value>
   </data>

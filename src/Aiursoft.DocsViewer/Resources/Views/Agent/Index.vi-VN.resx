@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Nhấn Enter để gửi và Shift+Enter để xuống dòng mới.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Truy vấn</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Câu hỏi</value>
   </data>

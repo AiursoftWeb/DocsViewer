@@ -60,6 +60,9 @@
   <data name="Press Enter to send and Shift+Enter for a new line." xml:space="preserve">
     <value>Göndermek için Enter&apos;a basın, yeni satır için Shift+Enter&apos;a basın.</value>
   </data>
+  <data name="Query" xml:space="preserve">
+    <value>Sorgu</value>
+  </data>
   <data name="Question" xml:space="preserve">
     <value>Soru</value>
   </data>

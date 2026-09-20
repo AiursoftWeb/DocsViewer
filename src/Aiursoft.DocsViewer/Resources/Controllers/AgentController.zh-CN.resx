@@ -39,6 +39,9 @@
   <data name="The assistant is not configured." xml:space="preserve">
     <value>助手尚未配置。</value>
   </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>助手在未完成此回答之前已达到步骤限制。请发送后续消息以从当前对话继续。</value>
+  </data>
   <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
     <value>文档中没有提供足够的证据来回答此问题。请尝试询问可用的文档或使用更具体的文档相关术语。</value>
   </data>
