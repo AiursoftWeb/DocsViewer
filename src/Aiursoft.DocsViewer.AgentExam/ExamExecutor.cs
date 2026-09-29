@@ -88,6 +88,10 @@ public static class ExamExecutor
                 throw new InvalidOperationException("Replay was not completely consumed.");
             return new ExamAttempt(new AssertionEvaluator().Evaluate(expected, new EvaluationEvidence(evidence)), clock.Elapsed);
         }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
         catch (Exception ex) when (ex is not OutOfMemoryException)
         {
             var reason = ex is OperationCanceledException ? "Timeout or cancellation" : ex.GetType().Name;
