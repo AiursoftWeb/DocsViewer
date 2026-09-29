@@ -117,16 +117,29 @@ Questions and bounded document excerpts are sent to that configured service. The
 
 Citation checks establish that a cited source was actually retrieved, not that every generated statement is semantically correct. Verify important answers against the source documents. Unsupported/missing citations produce an insufficient-evidence message. There are no write tools, streaming, or persistent chat records in this preview.
 
-The dependency `Aiursoft.AgentKit` version `0.1.0-local.1` is currently an **unpublished local package**. A clean machine/CI cannot restore it from nuget.org yet. Build the independent AgentKit repository, pack it to a local directory, then restore explicitly without committing a machine-specific feed path:
+The app and tests reference published, versioned AgentKit NuGet packages (currently `0.1.0-local.12`), not a local AgentKit source checkout. Restore with the checked-in NuGet configuration; CI also configures the Aiursoft package mirror. To run only the relevant existing tests locally:
 
 ```sh
-dotnet pack "$AGENTKIT_REPO/src/Aiursoft.AgentKit/Aiursoft.AgentKit.csproj" -c Release -o "$AGENTKIT_LOCAL_FEED"
-dotnet restore Aiursoft.DocsViewer.sln --source "$AGENTKIT_LOCAL_FEED" --source https://api.nuget.org/v3/index.json
-dotnet build src/Aiursoft.DocsViewer/Aiursoft.DocsViewer.csproj --no-restore
-dotnet test tests/Aiursoft.DocsViewer.Tests.csproj --no-restore --filter "FullyQualifiedName~Agent"
+dotnet test tests/Aiursoft.DocsViewer.Tests.csproj --filter "FullyQualifiedName~AgentBackendTests"
 ```
 
-Set `AGENTKIT_REPO` and `AGENTKIT_LOCAL_FEED` to your local checkout and package directory. Public/internal package publication or cross-project CI artifact delivery requires a separate release decision; no publication is performed by this integration.
+Do not put model credentials or full document contents in evaluation reports.
+
+### Document assistant evaluation
+
+`src/Aiursoft.DocsViewer.ExamRunner/Scenarios/docs-baseline-v1.json` contains versioned JSON scenarios with isolated document seeds, ordered questions, assertions and optional scripted model replies. JSON matches AgentKit Evaluator's `JToken` assertions without YAML's implicit scalar coercion. The offline tests replay model replies but execute the production grounded-answer service and real `search_documents` tool against a fresh in-memory database for each scenario. They validate the **published** answer, not just the raw model completion. Run only these tests locally:
+
+```sh
+dotnet test tests/Aiursoft.DocsViewer.Tests.csproj --filter "FullyQualifiedName~AgentExamTests"
+```
+
+For an opt-in live-model run, set `DOCSVIEWER_EXAM_ENDPOINT` to an HTTPS OpenAI-compatible chat-completions URL, `DOCSVIEWER_EXAM_MODEL` to a tool-capable model, and `DOCSVIEWER_EXAM_TOKEN` to its bearer token. Then run one scenario manually:
+
+```sh
+dotnet run --project src/Aiursoft.DocsViewer.ExamRunner -- --scenarios src/Aiursoft.DocsViewer.ExamRunner/Scenarios/docs-baseline-v1.json --id grounded-answer
+```
+
+The command returns 0 when the selected case passes, 1 for a failed or incomplete evaluation, and 2 for missing configuration or invalid input. Reports print only scenario/assertion identifiers, scores, model name and duration; they do not include prompts, tool outputs or document contents. A live model is not called by the offline tests or by the existing CI configuration. Seeded documents are sent to the configured model as search excerpts, so use an authorized endpoint and non-sensitive fixtures. A scripted model response is for deterministic regression testing; its success does not prove a live model will answer correctly.
 
 The automated Agent suite uses fake model/embedding handlers and an in-memory application host. It covers protocol conversion, retrieval and citation validation, quotas, login, antiforgery, input validation, configuration-unavailable rendering, and output encoding. It does not certify compatibility with a live model service or browser visual layout. Before deployment, configure a real tool-capable model and verify a supported question with citations, an unsupported question, and keyword fallback.
 

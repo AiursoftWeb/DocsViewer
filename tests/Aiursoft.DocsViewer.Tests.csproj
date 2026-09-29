@@ -21,5 +21,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Aiursoft.DocsViewer\Aiursoft.DocsViewer.csproj" />
+    <ProjectReference Include="..\src\Aiursoft.DocsViewer.AgentExam\Aiursoft.DocsViewer.AgentExam.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\Aiursoft.DocsViewer.ExamRunner\Scenarios\*.json" Link="Scenarios\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
