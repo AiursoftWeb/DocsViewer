@@ -7,13 +7,7 @@ if (args is not ["--config", var configurationPath])
     return 1;
 }
 
-using var cancellation = new CancellationTokenSource();
-ConsoleCancelEventHandler handler = (_, eventArgs) =>
-{
-    eventArgs.Cancel = true;
-    cancellation.Cancel();
-};
-Console.CancelKeyPress += handler;
+using var cancellation = new ConsoleCancellation();
 try
 {
     var configuration = await ExamConfigurationLoader.LoadAsync(configurationPath, cancellation.Token);
@@ -31,7 +25,24 @@ catch (Exception exception)
     Console.Error.WriteLine($"Document exam failed: {exception.GetType().Name}");
     return 1;
 }
-finally
+
+internal sealed class ConsoleCancellation : IDisposable
 {
-    Console.CancelKeyPress -= handler;
+    private readonly CancellationTokenSource _source = new();
+
+    public ConsoleCancellation() => Console.CancelKeyPress += OnCancelKeyPress;
+
+    public CancellationToken Token => _source.Token;
+
+    private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs eventArgs)
+    {
+        eventArgs.Cancel = true;
+        _source.Cancel();
+    }
+
+    public void Dispose()
+    {
+        Console.CancelKeyPress -= OnCancelKeyPress;
+        _source.Dispose();
+    }
 }

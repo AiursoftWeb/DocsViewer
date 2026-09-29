@@ -17,14 +17,18 @@ public static class ScenarioLoader
         var ids = new HashSet<string>(StringComparer.Ordinal);
         foreach (var file in files)
         {
-            using var reader = new JsonTextReader(new StreamReader(file)) { MaxDepth = 32 };
-            var root = JToken.Load(reader);
-            foreach (var item in root is JArray array ? array.Children().AsEnumerable() : new[] { root })
+            using var fileReader = new StreamReader(file);
+            using (var reader = new JsonTextReader(fileReader))
             {
-                var scenario = item.ToObject<ExamScenario>() ?? throw new ArgumentException("Invalid scenario.", nameof(path));
-                Validate(scenario);
-                if (!ids.Add(scenario.Id)) throw new ArgumentException("Duplicate scenario ID.", nameof(path));
-                scenarios.Add(scenario);
+                reader.MaxDepth = 32;
+                var root = JToken.Load(reader);
+                foreach (var item in root is JArray array ? array.Children().AsEnumerable() : new[] { root })
+                {
+                    var scenario = item.ToObject<ExamScenario>() ?? throw new ArgumentException("Invalid scenario.", nameof(path));
+                    Validate(scenario);
+                    if (!ids.Add(scenario.Id)) throw new ArgumentException("Duplicate scenario ID.", nameof(path));
+                    scenarios.Add(scenario);
+                }
             }
         }
         return scenarios;
@@ -40,7 +44,7 @@ public static class ScenarioLoader
     {
         if (scenario.SchemaVersion != "1.0" || string.IsNullOrWhiteSpace(scenario.Id) ||
             scenario.TimeoutSeconds is < 1 or > 300 || scenario.Turns is not { Count: > 0 } ||
-            scenario.Turns.Count > 20 || scenario.Documents is null || scenario.Documents.Count > 30 ||
+            scenario.Turns.Count > 20 || scenario.Documents.Count > 30 ||
             !System.Globalization.CultureInfo.GetCultures(System.Globalization.CultureTypes.AllCultures).Any(c => c.Name == scenario.Culture))
             throw new ArgumentException("Invalid scenario metadata.", nameof(scenario));
         if (scenario.PathBase.Length > 100 || scenario.PathBase.Contains("..", StringComparison.Ordinal) ||
@@ -73,7 +77,7 @@ public static class ScenarioLoader
                 foreach (var call in reply.Calls)
                 {
                     if (string.IsNullOrWhiteSpace(call.Id) || !callIds.Add(call.Id) ||
-                        call.Name != DocumentSearchAgentTool.Name || call.Arguments is null ||
+                        call.Name != DocumentSearchAgentTool.Name ||
                         call.Arguments.Value<string>("query") is not { Length: > 0 and <= 500 })
                         throw new ArgumentException("Invalid scripted tool call.", nameof(scenario));
                 }

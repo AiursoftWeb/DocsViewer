@@ -42,10 +42,10 @@ public static partial class ExamConfigurationLoader
         var ids = new HashSet<string>(StringComparer.Ordinal);
         foreach (var candidate in configuration.Candidates)
         {
-            if (candidate is null || string.IsNullOrWhiteSpace(candidate.Id) || !CandidateIdPattern().IsMatch(candidate.Id) ||
+            if (string.IsNullOrWhiteSpace(candidate.Id) || !CandidateIdPattern().IsMatch(candidate.Id) ||
                 !ids.Add(candidate.Id) || string.IsNullOrWhiteSpace(candidate.Model) || candidate.Repetitions is < 1 or > 20 ||
                 !Uri.TryCreate(candidate.Endpoint, UriKind.Absolute, out var endpoint) || endpoint.Scheme != Uri.UriSchemeHttps ||
-                !string.IsNullOrEmpty(endpoint.UserInfo) || endpoint.Fragment.Length > 0 || candidate.Authentication is null)
+                !string.IsNullOrEmpty(endpoint.UserInfo) || endpoint.Fragment.Length > 0)
                 throw new InvalidOperationException("Invalid exam candidate configuration.");
             string? credential;
             switch (candidate.Authentication.Mode)

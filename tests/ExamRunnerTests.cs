@@ -1,6 +1,4 @@
 using System.Text.Json;
-using Aiursoft.AgentKit;
-using Aiursoft.AgentKit.Evaluator;
 using Aiursoft.DocsViewer.AgentExam;
 using Aiursoft.DocsViewer.ExamRunner.Configuration;
 using Aiursoft.DocsViewer.ExamRunner.Execution;
@@ -92,10 +90,12 @@ public sealed class ExamRunnerTests
             var result = await orchestrator.RunAsync(loaded);
             Assert.AreEqual(0, result.ExitCode);
             Assert.AreEqual(100d, result.Summary.FailBelow);
+            Assert.AreEqual("1.0", result.Summary.SchemaVersion);
             Assert.AreEqual(4, executions);
             Assert.AreEqual(2, result.Summary.Candidates.Count);
             foreach (var candidate in result.Summary.Candidates)
             {
+                Assert.AreEqual(2, candidate.Repetitions);
                 Assert.AreEqual(100d, candidate.Mean);
                 Assert.AreEqual(100d, candidate.Minimum);
                 Assert.AreEqual(100d, candidate.Maximum);
@@ -104,6 +104,9 @@ public sealed class ExamRunnerTests
                 Assert.IsTrue(File.Exists(Path.Combine(result.OutputDirectory, candidate.Id, "repetition-2", "report.html")));
             }
             var reportJson = await File.ReadAllTextAsync(Path.Combine(result.OutputDirectory, "first", "repetition-1", "report.json"));
+            var report = JsonSerializer.Deserialize<RepetitionReport>(reportJson, new JsonSerializerOptions(JsonSerializerDefaults.Web))!;
+            Assert.AreEqual("1.0", report.SchemaVersion);
+            Assert.IsTrue(report.Scenarios.Single().ElapsedSeconds >= 0);
             var summaryHtml = await File.ReadAllTextAsync(Path.Combine(result.OutputDirectory, "summary.html"));
             var summaryJson = await File.ReadAllTextAsync(Path.Combine(result.OutputDirectory, "summary.json"));
             Assert.IsFalse(reportJson.Contains("secret-canary", StringComparison.Ordinal));
@@ -202,14 +205,12 @@ public sealed class ExamRunnerTests
                 new ExamConfiguration { SchemaVersion = "1.0", Scenarios = ["scenario.json"],
                     Candidates = [candidate] }, [fixture], Path.Combine(root, "reports"),
                 [new LoadedCandidate(candidate, null)]);
-            using var cancellation = new CancellationTokenSource();
-            var orchestrator = new ExamOrchestrator(_ => new ScriptedExamModel(scenario.Turns),
-                (item, model, token) =>
-                {
-                    cancellation.Cancel();
-                    throw new OperationCanceledException(token);
-                });
-            await Assert.ThrowsAsync<OperationCanceledException>(() => orchestrator.RunAsync(loaded, cancellation.Token));
+            var orchestrator = new ExamOrchestrator(_ => new ScriptedExamModel(scenario.Turns));
+            using (var cancellation = new CancellationTokenSource())
+            {
+                cancellation.Cancel();
+                await Assert.ThrowsAsync<OperationCanceledException>(() => orchestrator.RunAsync(loaded, cancellation.Token));
+            }
             Assert.IsFalse(Directory.GetFiles(root, "summary.json", SearchOption.AllDirectories).Any());
         }
         finally { Directory.Delete(root, true); }
@@ -229,6 +230,8 @@ public sealed class ExamRunnerTests
             Assert.IsFalse(html.Contains("<script>", StringComparison.Ordinal));
             Assert.IsFalse(html.Contains("<img>", StringComparison.Ordinal));
             Assert.IsTrue(html.Contains("&lt;script&gt;", StringComparison.Ordinal));
+            Assert.IsTrue(html.Contains("&lt;img&gt;", StringComparison.Ordinal));
+            Assert.IsTrue(html.Contains("&lt;x&gt;", StringComparison.Ordinal));
         }
         finally { Directory.Delete(root, true); }
     }

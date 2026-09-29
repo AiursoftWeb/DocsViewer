@@ -61,6 +61,7 @@ public sealed class ExamOrchestrator(
                     token.ThrowIfCancellationRequested();
                     var watch = Stopwatch.StartNew();
                     EvaluationCaseResult result;
+                    TimeSpan elapsed;
                     try
                     {
                         var model = (modelFactory ?? CreateModel)(candidate);
@@ -68,6 +69,7 @@ public sealed class ExamOrchestrator(
                         {
                             var attempt = await (attemptFactory ?? ExamExecutor.RunAsync)(scenario, model, token);
                             result = attempt.Result;
+                            elapsed = attempt.Elapsed;
                         }
                         finally
                         {
@@ -78,12 +80,13 @@ public sealed class ExamOrchestrator(
                     catch (OperationCanceledException) when (token.IsCancellationRequested) { throw; }
                     catch (Exception)
                     {
+                        elapsed = watch.Elapsed;
                         result = new AssertionEvaluator().Evaluate(ScenarioLoader.ToCase(scenario),
                             new EvaluationEvidence([], false, "ExecutionFailure"));
                     }
                     cases.Add(result);
                     scenarioReports.Add(new ScenarioReport(scenario.Id, result.Valid, result.Passed, result.Score,
-                        watch.Elapsed.TotalSeconds, result.Valid ? null : "InvalidEvidence",
+                        elapsed.TotalSeconds, result.Valid ? null : "InvalidEvidence",
                         result.Assertions.Select(a => new AssertionReport(a.Id, a.Dimension, a.Matched)).ToArray()));
                 }
                 var score = EvaluationScoreCalculator.Calculate(cases, Weights);
