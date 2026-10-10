@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0",
+  "scenarios": ["Scenarios/docs-live-v1.json"],
+  "outputDirectory": "reports",
+  "failBelow": 70,
+  "candidates": [
+    {
+      "id": "document-agent",
+      "endpoint": "https://example.invalid/v1/chat/completions",
+      "model": "replace-with-tool-capable-model",
+      "repetitions": 1,
+      "authentication": {
+        "mode": "bearer",
+        "environmentVariable": "DOCSVIEWER_EXAM_TOKEN"
+      }
+    }
+  ]
+}
