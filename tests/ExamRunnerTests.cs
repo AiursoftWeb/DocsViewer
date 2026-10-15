@@ -54,7 +54,7 @@ public sealed class ExamRunnerTests
                 .Replace(",\"environmentVariable\":\"unused\"", ""));
             var loaded = await ExamConfigurationLoader.LoadAsync(configPath);
             Assert.AreEqual(Path.Combine(root, "scenario.json"), loaded.ScenarioPaths.Single());
-            Assert.AreEqual(root, Path.GetDirectoryName(loaded.OutputDirectory));
+            Assert.AreEqual(Path.Combine(root, "obj", "exam-reports"), loaded.OutputDirectory);
             await File.WriteAllTextAsync(configPath, (await File.ReadAllTextAsync(configPath))
                 .Replace("\"schemaVersion\"", "\"unknownField\":true,\"schemaVersion\""));
             await Assert.ThrowsAsync<JsonException>(() => ExamConfigurationLoader.LoadAsync(configPath));

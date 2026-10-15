@@ -4,7 +4,7 @@ public sealed record ExamConfiguration
 {
     public required string SchemaVersion { get; init; }
     public required string[] Scenarios { get; init; }
-    public string OutputDirectory { get; init; } = "reports";
+    public string OutputDirectory { get; init; } = "obj/exam-reports";
     public double FailBelow { get; init; } = 70;
     public required CandidateConfiguration[] Candidates { get; init; }
 }
