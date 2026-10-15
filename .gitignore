@@ -20,5 +20,4 @@ app.db*
 .angular/
 .yarn/
 *.tsbuildinfo
-src/Aiursoft.DocsViewer.ExamRunner/reports/
 src/Aiursoft.DocsViewer.ExamRunner/exam-config.json

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "scenarios": ["Scenarios/docs-live-v1.json"],
-  "outputDirectory": "reports",
+  "outputDirectory": "obj/exam-reports",
   "failBelow": 70,
   "candidates": [
     {
