@@ -20,25 +20,6 @@ public static class ProgramExtends
         return !haveUsers && !haveRoles;
     }
 
-    private static async Task EnsureAllPermissionsAsync(
-        RoleManager<IdentityRole> roleManager,
-        IdentityRole role)
-    {
-        var existingClaims = await roleManager.GetClaimsAsync(role);
-        var existingClaimValues = existingClaims
-            .Where(c => c.Type == AppPermissions.Type)
-            .Select(c => c.Value)
-            .ToHashSet();
-
-        foreach (var permission in AppPermissions.GetAllPermissions())
-        {
-            if (!existingClaimValues.Contains(permission.Key))
-            {
-                await roleManager.AddClaimAsync(role, new Claim(AppPermissions.Type, permission.Key));
-            }
-        }
-    }
-
     [ExcludeFromCodeCoverage]
     public static Task<IHost> CopyAvatarFileAsync(this IHost host)
     {
@@ -82,14 +63,6 @@ public static class ProgramExtends
         var settingsService = services.GetRequiredService<GlobalSettingsService>();
         await settingsService.SeedSettingsAsync();
 
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        var role = await roleManager.FindByNameAsync("Administrators");
-        if (role != null)
-        {
-            // Keep the built-in administrator role current when new application permissions are introduced.
-            await EnsureAllPermissionsAsync(roleManager, role);
-        }
-
         var shouldSeed = await ShouldSeedAsync(db);
         if (!shouldSeed)
         {
@@ -99,14 +72,29 @@ public static class ProgramExtends
 
         logger.LogInformation("Seeding the database with initial data...");
         var userManager = services.GetRequiredService<UserManager<User>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
+        var role = await roleManager.FindByNameAsync("Administrators");
         if (role == null)
         {
             role = new IdentityRole("Administrators");
             await roleManager.CreateAsync(role);
         }
 
-        await EnsureAllPermissionsAsync(roleManager, role);
+        var existingClaims = await roleManager.GetClaimsAsync(role);
+        var existingClaimValues = existingClaims
+            .Where(c => c.Type == AppPermissions.Type)
+            .Select(c => c.Value)
+            .ToHashSet();
+
+        foreach (var permission in AppPermissions.GetAllPermissions())
+        {
+            if (!existingClaimValues.Contains(permission.Key))
+            {
+                var claim = new Claim(AppPermissions.Type, permission.Key);
+                await roleManager.AddClaimAsync(role, claim);
+            }
+        }
 
         if (!await db.Users.AnyAsync(u => u.UserName == "admin"))
         {
@@ -122,7 +110,6 @@ public static class ProgramExtends
 
         return host;
     }
-
     [ExcludeFromCodeCoverage]
     public static async Task<IHost> WarmUpEmbeddingCacheAsync(this IHost host)
     {
