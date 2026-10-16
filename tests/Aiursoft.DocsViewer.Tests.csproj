@@ -14,14 +14,11 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="JunitXml.TestLogger" Version="8.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
     <PackageReference Include="Moq" Version="4.21.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="4.5.1" />
-    <PackageReference Include="Aiursoft.AgentKit.Evaluator" Version="0.1.0-local.12" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Aiursoft.DocsViewer\Aiursoft.DocsViewer.csproj" />
-    <ProjectReference Include="..\src\Aiursoft.DocsViewer.AgentExam\Aiursoft.DocsViewer.AgentExam.csproj" />
     <ProjectReference Include="..\src\Aiursoft.DocsViewer.ExamRunner\Aiursoft.DocsViewer.ExamRunner.csproj" />
   </ItemGroup>
   <ItemGroup>
