@@ -36,8 +36,13 @@
             }
             else
             {
-                <div class="alert alert-info shadow-sm">
-                    <i class="lucide lucide-info me-2"></i> @Html.Raw(Model.ReadmeHtml)
+                <div class="alert alert-info shadow-sm" role="alert">
+                    <div class="alert-icon">
+                        <i class="lucide lucide-info me-2"></i>
+                    </div>
+                    <div class="alert-message">
+                        @Html.Raw(Model.ReadmeHtml)
+                    </div>
                 </div>
                 
                 <div class="text-center mt-5">

@@ -8,7 +8,7 @@
     <p class="text-muted">@Localizer["Ask a question about the indexed documentation. Answers include document references; verify important details in the sources."]</p>
     @if (!Model.Configured)
     {
-        <div class="alert alert-info" role="status">@Localizer["The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model."]</div>
+        <div class="alert alert-info" role="status"><div class="alert-message">@Localizer["The assistant is not configured. An administrator must configure the chat endpoint and Document Agent Model."]</div></div>
     }
     <div id="agent-chat" aria-live="polite"></div>
     <p id="agent-status" role="status"></p>
@@ -39,7 +39,7 @@
     </form>
     @if (Model.StatusMessage != null)
     {
-        <div class="alert alert-info mt-4" role="status">@Model.StatusMessage</div>
+        <div class="alert alert-info mt-4" role="status"><div class="alert-message">@Model.StatusMessage</div></div>
     }
     @if (Model.Answer != null)
     {

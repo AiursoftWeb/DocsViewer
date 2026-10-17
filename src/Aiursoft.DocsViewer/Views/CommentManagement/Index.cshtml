@@ -21,15 +21,17 @@
 @if (message != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @(message switch
-        {
-            "approved" => Localizer["The selected comments were approved."],
-            "rejected" => Localizer["The selected comments were rejected."],
-            "deleted" => Localizer["The selected comments were deleted."],
-            "replied" => Localizer["The reply was published."],
-            _ => Localizer["The operation completed successfully."]
-        })
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert-message">
+            @(message switch
+            {
+                "approved" => Localizer["The selected comments were approved."],
+                "rejected" => Localizer["The selected comments were rejected."],
+                "deleted" => Localizer["The selected comments were deleted."],
+                "replied" => Localizer["The reply was published."],
+                _ => Localizer["The operation completed successfully."]
+            })
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     </div>
 }
 
@@ -102,7 +104,7 @@
 
 @if (Model.Comments.Count == 0)
 {
-    <div class="alert alert-info">@Localizer["No comments match the current filters."]</div>
+    <div class="alert alert-info" role="alert"><div class="alert-message">@Localizer["No comments match the current filters."]</div></div>
 }
 else
 {
