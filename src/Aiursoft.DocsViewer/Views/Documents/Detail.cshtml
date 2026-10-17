@@ -164,16 +164,16 @@
 
                 @if (TempData["CommentSubmission"] as string == "pending")
                 {
-                    <div class="alert alert-info">@Localizer["Your comment is awaiting moderator approval."]</div>
+                    <div class="alert alert-info" role="alert"><div class="alert-message">@Localizer["Your comment is awaiting moderator approval."]</div></div>
                 }
                 else if (TempData["CommentSubmission"] as string == "approved")
                 {
-                    <div class="alert alert-success">@Localizer["Your comment was published."]</div>
+                    <div class="alert alert-success" role="alert"><div class="alert-message">@Localizer["Your comment was published."]</div></div>
                 }
 
                 @if (!Model.CommentsEnabled)
                 {
-                    <div class="alert alert-secondary">@Localizer["New comments are currently disabled."]</div>
+                    <div class="alert alert-secondary" role="alert"><div class="alert-message">@Localizer["New comments are currently disabled."]</div></div>
                 }
                 else if (User.Identity?.IsAuthenticated == true)
                 {
