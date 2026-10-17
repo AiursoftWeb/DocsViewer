@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.Net;
 using System.Text.Json;
-using Aiursoft.CSTools.Tools;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Services;
@@ -22,7 +21,7 @@ public sealed class DocumentConversationTests : TestBase
         var requests = new ConcurrentQueue<JsonElement>();
         var keyword = "Zircon" + Guid.NewGuid().ToString("N");
         var builder = WebApplication.CreateSlimBuilder();
-        builder.WebHost.UseUrls($"http://127.0.0.1:{Network.GetAvailablePort()}");
+        builder.WebHost.UseUrls("http://127.0.0.1:0");
         await using var provider = builder.Build();
         provider.MapPost("/v1/chat/completions", async (HttpRequest request) =>
         {
@@ -106,7 +105,7 @@ public sealed class DocumentConversationTests : TestBase
         var requests = new ConcurrentQueue<JsonElement>();
         var keyword = "Orion" + Guid.NewGuid().ToString("N");
         var builder = WebApplication.CreateSlimBuilder();
-        builder.WebHost.UseUrls($"http://127.0.0.1:{Network.GetAvailablePort()}");
+        builder.WebHost.UseUrls("http://127.0.0.1:0");
         await using var provider = builder.Build();
         provider.MapPost("/v1/chat/completions", async (HttpRequest request) =>
         {
@@ -186,7 +185,7 @@ public sealed class DocumentConversationTests : TestBase
     {
         string? authorization = null;
         var builder = WebApplication.CreateSlimBuilder();
-        builder.WebHost.UseUrls($"http://127.0.0.1:{Network.GetAvailablePort()}");
+        builder.WebHost.UseUrls("http://127.0.0.1:0");
         await using var provider = builder.Build();
         provider.MapPost("/v1/chat/completions", (HttpRequest request) =>
         {

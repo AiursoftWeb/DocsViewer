@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.Net;
 using System.Text.Json;
-using Aiursoft.CSTools.Tools;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Services;
@@ -71,7 +70,7 @@ public sealed class AgentControllerTests : TestBase
         var keyword = $"Quartz{Guid.NewGuid():N}";
         var requests = new ConcurrentQueue<JsonElement>();
         var providerBuilder = WebApplication.CreateSlimBuilder();
-        providerBuilder.WebHost.UseUrls($"http://127.0.0.1:{Network.GetAvailablePort()}");
+        providerBuilder.WebHost.UseUrls("http://127.0.0.1:0");
         await using var provider = providerBuilder.Build();
         provider.MapPost("/v1/chat/completions", async (HttpRequest request) =>
         {
