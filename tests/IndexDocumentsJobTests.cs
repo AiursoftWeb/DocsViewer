@@ -8,7 +8,7 @@ using Aiursoft.DocsViewer.Services.FileStorage;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Moq;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Aiursoft.DocsViewer.Tests;
 
@@ -144,7 +144,7 @@ public class IndexDocumentsJobTests
         await syncJob.ExecuteAsync();
         await using var db = new InMemoryContext(options);
         var job = new IndexDocumentsJob(db, rootProvider,
-            new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), folders, cache,
+            new NavConfigParser(NullLogger<NavConfigParser>.Instance), folders, cache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
         await job.ExecuteAsync();
         var document = await db.Documents.SingleAsync();
@@ -201,7 +201,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -220,7 +220,7 @@ public class IndexDocumentsJobTests
         // ── Step 3: second index run — must write NOTHING ────────────────────
         await using var strictDb = new NoWriteDbContext(dbOptions);
         var job2 = new IndexDocumentsJob(
-            strictDb, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+            strictDb, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
 
         // This must not throw: NoWriteDbContext throws if SaveChanges has
@@ -252,7 +252,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -274,7 +274,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -317,7 +317,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
         }
@@ -375,7 +375,7 @@ public class IndexDocumentsJobTests
 
         return new TestableIndexDocumentsJob(
             db, rootProvider,
-            new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()),
+            new NavConfigParser(NullLogger<NavConfigParser>.Instance),
             folders, memCache,
             loggerFactory.CreateLogger<IndexDocumentsJob>());
     }
@@ -482,7 +482,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
             contentAfterFirst = (await db.Documents.FirstAsync()).Content;
@@ -494,7 +494,7 @@ public class IndexDocumentsJobTests
         await using (var db = new InMemoryContext(dbOptions))
         {
             var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(Mock.Of<ILogger<NavConfigParser>>()), foldersProvider, memCache,
+                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
                 loggerFactory.CreateLogger<IndexDocumentsJob>());
             await job.ExecuteAsync();
             var contentAfterSecond = (await db.Documents.FirstAsync()).Content;
