@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using System.Diagnostics;
 using Aiursoft.AgentKit;
 using Aiursoft.AgentKit.Evaluator;
@@ -156,7 +157,7 @@ public sealed class ExamOrchestrator(
                 ["GlobalSettings:" + SettingsMap.OpenAiAgentModel] = loaded.Candidate.Model,
                 ["GlobalSettings:" + SettingsMap.OpenAiAgentApiToken] = loaded.Credential
             }).Build();
-            var settings = new GlobalSettingsService(db, config, null!, cache);
+            var settings = new GlobalSettingsService(db, config, null!, cache, new EphemeralDataProtectionProvider(), NullLogger<GlobalSettingsService>.Instance);
             inner = new OpenAiCompatibleAgentModelClient(new ExamHttpFactory(http), settings,
                 NullLogger<OpenAiCompatibleAgentModelClient>.Instance);
         }
