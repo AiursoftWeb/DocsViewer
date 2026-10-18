@@ -25,23 +25,15 @@ Default user name is `admin@default.com` and default password is `Admin@123456!`
 
 Try a running DocsViewer [here](https://docs.anduinos.com).
 
-## Run in Ubuntu
+## Install with Docker
 
-The following script will install\update this app on your Ubuntu server. Supports Ubuntu 25.04.
-
-On your Ubuntu server, run the following command:
+Run the installer with the desired port (omit it to choose an available port):
 
 ```bash
-curl -sL https://github.com/aiursoftweb/docsViewer/raw/master/install.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/aiursoftweb/docsviewer/master/install.sh | sudo bash -s -- 8080
 ```
 
-Of course it is suggested that append a custom port number to the command:
-
-```bash
-curl -sL https://github.com/aiursoftweb/docsViewer/raw/master/install.sh | sudo bash -s 8080
-```
-
-It will install the app as a systemd service, and start it automatically. Binary files will be located at `/opt/apps`. Service files will be located at `/etc/systemd/system`.
+Installation starts after three seconds; press Ctrl+C to cancel. Then open `http://localhost:8080`.
 
 ### apt package filesystem layout
 
