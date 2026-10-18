@@ -120,7 +120,7 @@ public class IndexDocumentsJobTests
         var storageService = new StorageService(foldersProvider, fileLockProvider, new EphemeralDataProtectionProvider());
 
         var globalSettings = new GlobalSettingsService(
-            new InMemoryContext(dbOptions), config, storageService, memoryCache, new Microsoft.AspNetCore.DataProtection.EphemeralDataProtectionProvider(), Microsoft.Extensions.Logging.Abstractions.NullLogger<GlobalSettingsService>.Instance);
+            new InMemoryContext(dbOptions), config, storageService, memoryCache, new EphemeralDataProtectionProvider(), NullLogger<GlobalSettingsService>.Instance);
 
         var workspaceManager = sp.GetRequiredService<WorkspaceManager>();
         var syncJob = new SyncDocsRepoJob(

@@ -120,7 +120,7 @@ public class LocalizeNavTitlesJobTests
         {
             { "Storage:Path", _repoRoot }
         }).Build();
-        var settings = new GlobalSettingsService(db, config, null!, _cache, new Microsoft.AspNetCore.DataProtection.EphemeralDataProtectionProvider(), Microsoft.Extensions.Logging.Abstractions.NullLogger<GlobalSettingsService>.Instance);
+        var settings = new GlobalSettingsService(db, config, null!, _cache, new Microsoft.AspNetCore.DataProtection.EphemeralDataProtectionProvider(), NullLogger<GlobalSettingsService>.Instance);
         var navParser = new NavConfigParser(NullLogger<NavConfigParser>.Instance);
         var translator = new CountingTranslationService();
         var storageRootPathProvider = new StorageRootPathProvider(config);
