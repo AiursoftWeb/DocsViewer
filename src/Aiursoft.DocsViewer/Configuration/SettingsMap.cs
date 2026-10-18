@@ -99,7 +99,7 @@ public class SettingsMap
             Name = Localizer["Docs Repository URL"],
             Description = Localizer["The URL of the git repository containing the markdown documents."],
             Type = SettingType.Text,
-            DefaultValue = "https://gitlab.aiursoft.com/aiursoft/anduinos-docs.git"
+            DefaultValue = "https://github.com/AiursoftWeb/anduinos-docs.git"
         },
         new GlobalSettingDefinition
         {
