@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using System.Globalization;
 using System.Net;
 using System.Text;
@@ -75,7 +76,7 @@ public sealed class AgentBackendTests
                 ["GlobalSettings:" + SettingsMap.EmbeddingOllamaInstance] = "https://embedding.example",
                 ["GlobalSettings:" + SettingsMap.EmbeddingModel] = "test-embedding"
             }).Build();
-            Settings = new(Db, config, null!, memory);
+            Settings = new(Db, config, null!, memory, new EphemeralDataProtectionProvider(), NullLogger<GlobalSettingsService>.Instance);
         }
         public DocumentSearchAgentTool Search()
         {

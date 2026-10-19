@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using System.Diagnostics;
 using Aiursoft.AgentKit;
 using Aiursoft.AgentKit.AgentRunner;
@@ -43,7 +44,7 @@ public static class ExamExecutor
         {
             ["GlobalSettings:" + SettingsMap.EnableEmbeddingBasedSearch] = "False"
         }).Build();
-        var settings = new GlobalSettingsService(db, configuration, null!, cache);
+        var settings = new GlobalSettingsService(db, configuration, null!, cache, new EphemeralDataProtectionProvider(), NullLogger<GlobalSettingsService>.Instance);
         var vector = new DocumentVectorSearchService(db,
             new DocumentEmbeddingCache(NullLogger<DocumentEmbeddingCache>.Instance), settings,
             new ExamHttpFactory(http), NullLogger<DocumentVectorSearchService>.Instance);

@@ -100,7 +100,7 @@ public class SyncDocsRepoJobTests
             .Options;
         await using var db = new InMemoryContext(dbOptions);
 
-        var globalSettings = new GlobalSettingsService(db, config, storageService, memoryCache);
+        var globalSettings = new GlobalSettingsService(db, config, storageService, memoryCache, new EphemeralDataProtectionProvider(), Microsoft.Extensions.Logging.Abstractions.NullLogger<GlobalSettingsService>.Instance);
 
         var sp = new ServiceCollection()
             .AddLogging()
@@ -146,7 +146,7 @@ public class SyncDocsRepoJobTests
             .UseInMemoryDatabase("SyncJobTest_" + Guid.NewGuid())
             .Options;
         await using var db = new InMemoryContext(dbOptions);
-        var globalSettings = new GlobalSettingsService(db, config, storageService, memoryCache);
+        var globalSettings = new GlobalSettingsService(db, config, storageService, memoryCache, new EphemeralDataProtectionProvider(), Microsoft.Extensions.Logging.Abstractions.NullLogger<GlobalSettingsService>.Instance);
 
         var sp = new ServiceCollection()
             .AddLogging()

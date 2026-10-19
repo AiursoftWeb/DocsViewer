@@ -50,7 +50,7 @@ public class CleanupLocalizedDocumentsJobTests
         var config = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>())
             .Build();
-        var settings = new GlobalSettingsService(db, config, null!, new MemoryCache(new MemoryCacheOptions()));
+        var settings = new GlobalSettingsService(db, config, null!, new MemoryCache(new MemoryCacheOptions()), new Microsoft.AspNetCore.DataProtection.EphemeralDataProtectionProvider(), NullLogger<GlobalSettingsService>.Instance);
         // Set empty languages so culture cleanup doesn't interfere with test
         db.GlobalSettings.Add(new GlobalSetting { Key = SettingsMap.LocalizationLanguages, Value = "" });
         await db.SaveChangesAsync();
