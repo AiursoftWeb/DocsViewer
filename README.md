@@ -1,4 +1,4 @@
-# DocsViewer - A sample project
+# DocsViewer
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/aiursoftweb/docsViewer/blob/master/LICENSE)
 [![Pipeline stat](https://gitlab.aiursoft.com/aiursoft/docsViewer/badges/master/pipeline.svg)](https://gitlab.aiursoft.com/aiursoft/docsViewer/-/pipelines)
