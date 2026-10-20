@@ -3,6 +3,7 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/aiursoftweb/docsViewer/blob/master/LICENSE)
 [![Pipeline stat](https://gitlab.aiursoft.com/aiursoft/docsViewer/badges/master/pipeline.svg)](https://gitlab.aiursoft.com/aiursoft/docsViewer/-/pipelines)
 [![Test Coverage](https://gitlab.aiursoft.com/aiursoft/docsViewer/badges/master/coverage.svg)](https://gitlab.aiursoft.com/aiursoft/docsViewer/-/pipelines)
+[![S360 compliance](https://s360.aiursoft.com/badge.svg?project=aiursoft%2Fdocsviewer)](https://s360.aiursoft.com/SupplyChain?tab=projects&project=aiursoft%2Fdocsviewer&scope=baseline&ecosystem=all)
 [![Man hours](https://manhours.aiursoft.com/r/github.com/aiursoftweb/docsViewer.svg)](https://manhours.aiursoft.com/r/github.com/aiursoftweb/docsViewer.html)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fdocs.anduinos.com)](https://docs.anduinos.com)
 [![Docker](https://img.shields.io/docker/pulls/aiursoft/docsviewer.svg)](https://hub.docker.com/r/aiursoft/docsviewer)
