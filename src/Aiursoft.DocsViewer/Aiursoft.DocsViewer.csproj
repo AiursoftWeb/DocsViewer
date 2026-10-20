@@ -26,7 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aiursoft.Canon.ScheduledTasks" Version="10.0.17" />
-    <PackageReference Include="Aiursoft.Dotlang.AspNetTranslate" Version="10.0.80" />
+    <PackageReference Include="Aiursoft.Dotlang.AspNetTranslate" Version="10.0.81" />
     <PackageReference Include="Aiursoft.GitRunner" Version="10.0.41" />
     <PackageReference Include="HtmlSanitizer" Version="9.2.1039" />
     <PackageReference Include="Markdig" Version="1.4.2" />
