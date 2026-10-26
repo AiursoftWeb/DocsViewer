@@ -2,8 +2,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Entities;
-using Aiursoft.DocsViewer.Util;
 using Aiursoft.Scanner.Abstractions;
+using Aiursoft.WebTools;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
