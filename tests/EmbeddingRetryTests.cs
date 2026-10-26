@@ -6,7 +6,7 @@ using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.InMemory;
 using Aiursoft.DocsViewer.Services;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
-using Aiursoft.DocsViewer.Util;
+using Aiursoft.WebTools;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
