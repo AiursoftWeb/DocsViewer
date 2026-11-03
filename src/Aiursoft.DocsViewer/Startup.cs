@@ -5,6 +5,7 @@ using Aiursoft.Canon.ScheduledTasks;
 using Aiursoft.DbTools.Switchable;
 using Aiursoft.Scanner;
 using Aiursoft.DocsViewer.Configuration;
+using Aiursoft.WebTools;
 using Aiursoft.WebTools.Abstractions.Models;
 using Aiursoft.DocsViewer.InMemory;
 using Aiursoft.DocsViewer.MySql;
@@ -37,6 +38,7 @@ public class Startup : IWebStartup
     {
         // AppSettings.
         services.Configure<AppSettings>(configuration.GetSection("AppSettings"));
+        services.AddMacroRateLimiting(options => configuration.GetSection("MacroRateLimit").Bind(options));
 
         // Relational database
         var (connectionString, dbType, allowCache) = configuration.GetDbSettings();
@@ -145,6 +147,7 @@ public class Startup : IWebStartup
         app.UseStatusCodePagesWithReExecute("/Error/Code{0}");
         app.UseUIStack();
         app.UseStaticFiles();
+        app.UseMacroRateLimiting();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
