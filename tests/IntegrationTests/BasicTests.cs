@@ -1,4 +1,6 @@
 using System.Net;
+using Aiursoft.CSTools.Tools;
+using Aiursoft.WebTools;
 
 [assembly:DoNotParallelize]
 
@@ -7,6 +9,32 @@ namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 [TestClass]
 public class BasicTests : TestBase
 {
+    [TestMethod]
+    public async Task MacroRateLimitProtectsAcrossRoutesAndKeepsStaticFilesAndHealthAvailable()
+    {
+        var options = GetService<MacroRateLimitOptions>();
+        Assert.IsTrue(options.Enabled);
+        options.PermitLimit = 2;
+
+        using var first = await Http.GetAsync("/Culture/Set?culture=en-US");
+        using var second = await Http.GetAsync("/Home/Index");
+        using var rejected = await Http.GetAsync("/Culture/Set?culture=zh-CN");
+        Assert.AreEqual(HttpStatusCode.Found, first.StatusCode);
+        Assert.AreEqual(HttpStatusCode.OK, second.StatusCode);
+        Assert.AreEqual(HttpStatusCode.TooManyRequests, rejected.StatusCode);
+        Assert.IsNotNull(rejected.Headers.RetryAfter);
+        Assert.IsTrue(rejected.Headers.CacheControl?.NoStore);
+        Assert.AreEqual("Too many requests. Please try again later.", await rejected.Content.ReadAsStringAsync());
+
+        using var styles = await Http.GetAsync("/UIStack/dist/css/app.css");
+        Assert.AreEqual(HttpStatusCode.OK, styles.StatusCode);
+        if (EntryExtends.IsInDocker())
+        {
+            using var health = await Http.GetAsync("/health");
+            Assert.AreEqual(HttpStatusCode.OK, health.StatusCode);
+        }
+    }
+
     [TestMethod]
     [DataRow("/")]
     [DataRow("/hOmE?aaaaaa=bbbbbb")]
