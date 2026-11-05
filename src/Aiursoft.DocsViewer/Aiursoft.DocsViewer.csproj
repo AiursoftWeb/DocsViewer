@@ -26,10 +26,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Aiursoft.Canon.ScheduledTasks" Version="10.0.18" />
-    <PackageReference Include="Aiursoft.Dotlang.AspNetTranslate" Version="10.0.89" />
+    <PackageReference Include="Aiursoft.Dotlang.AspNetTranslate" Version="10.0.90" />
     <PackageReference Include="Aiursoft.GitRunner" Version="10.0.44" />
     <PackageReference Include="HtmlSanitizer" Version="10.0.1120" />
-    <PackageReference Include="Markdig" Version="1.5.1" />
+    <PackageReference Include="Markdig" Version="1.6.0" />
     <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
   <ItemGroup>
