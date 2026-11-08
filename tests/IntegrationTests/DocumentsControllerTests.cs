@@ -67,6 +67,7 @@ public class DocumentsControllerTests : TestBase
     [TestMethod]
     public async Task PageBeyondSearchResults_OffersFirstPageWithoutClaimingNoMatches()
     {
+        var term = $"PaginationFixture{Guid.NewGuid():N}";
         await DisableVectorSearch();
         using (var scope = Server!.Services.CreateScope())
         {
@@ -75,13 +76,13 @@ public class DocumentsControllerTests : TestBase
             {
                 db.Documents.Add(new Document
                 {
-                    Title = $"Quartz guide {i}", FilePath = $"quartz-{i}.md", Category = "root", Content = "Quartz"
+                    Title = $"Pagination guide {i}", FilePath = $"{term}-{i}.md", Category = "root", Content = term
                 });
             }
             await db.SaveChangesAsync();
         }
 
-        var content = await Http.GetStringAsync("/Documents/Search?q=Quartz&page=99");
+        var content = await Http.GetStringAsync($"/Documents/Search?q={term}&page=99");
 
         StringAssert.Contains(content, "Found 11 documents matching your query.");
         StringAssert.Contains(content, "There are no documents on this page.");
