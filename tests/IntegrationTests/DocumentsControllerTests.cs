@@ -1,4 +1,6 @@
 using Aiursoft.DocsViewer.Entities;
+using Aiursoft.DocsViewer.Configuration;
+using Aiursoft.DocsViewer.Services;
 
 namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 
@@ -37,5 +39,61 @@ public class DocumentsControllerTests : TestBase
         var html = await response.Content.ReadAsStringAsync();
         StringAssert.Contains(html, "data-document-outline");
         StringAssert.Contains(html, "/scripts/document-outline.js");
+    }
+
+    [TestMethod]
+    public async Task LimitedSearch_DoesNotClaimKeywordFallbackOrNoMatches()
+    {
+        await DisableVectorSearch();
+        const string url = "/Documents/Search?q=quartz%20%26%20deployment&page=3";
+        for (var i = 0; i < 8; i++)
+        {
+            using var response = await Http.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+        }
+
+        var content = await Http.GetStringAsync(url);
+
+        StringAssert.Contains(content, "Search is temporarily limited. Please try again in a minute.");
+        StringAssert.Contains(content, "Try again");
+        StringAssert.Contains(content, "q=quartz%20%26%20deployment");
+        StringAssert.Contains(content, "page=3");
+        Assert.IsFalse(content.Contains("Showing keyword results"));
+        Assert.IsFalse(content.Contains("Keyword Search"));
+        Assert.IsFalse(content.Contains("Found 0 documents"));
+        Assert.IsFalse(content.Contains("No documents matched your search"));
+    }
+
+    [TestMethod]
+    public async Task PageBeyondSearchResults_OffersFirstPageWithoutClaimingNoMatches()
+    {
+        await DisableVectorSearch();
+        using (var scope = Server!.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
+            for (var i = 0; i < 11; i++)
+            {
+                db.Documents.Add(new Document
+                {
+                    Title = $"Quartz guide {i}", FilePath = $"quartz-{i}.md", Category = "root", Content = "Quartz"
+                });
+            }
+            await db.SaveChangesAsync();
+        }
+
+        var content = await Http.GetStringAsync("/Documents/Search?q=Quartz&page=99");
+
+        StringAssert.Contains(content, "Found 11 documents matching your query.");
+        StringAssert.Contains(content, "There are no documents on this page.");
+        StringAssert.Contains(content, "Back to first page");
+        StringAssert.Contains(content, "page=1");
+        Assert.IsFalse(content.Contains("No documents matched your search"));
+    }
+
+    private async Task DisableVectorSearch()
+    {
+        using var scope = Server!.Services.CreateScope();
+        var settings = scope.ServiceProvider.GetRequiredService<GlobalSettingsService>();
+        await settings.UpdateSettingAsync(SettingsMap.EnableEmbeddingBasedSearch, "False");
     }
 }
