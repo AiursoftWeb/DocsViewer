@@ -5,83 +5,77 @@
 }
 
 <div class="container-fluid mt-3">
-    <div class="row">
-        <!-- Sidebar Tree Column -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <h1 class="h3 mb-0 text-break mw-100">
+            @Localizer["Search"]: <span class="text-primary">@Model.Keyword</span>
+        </h1>
+        @if (!Model.RateLimited)
+        {
+            <span class="badge @(Model.UsedAi ? "bg-primary" : "bg-secondary") rounded-pill px-3 py-2">
+                @(Model.UsedAi ? Localizer["AI Semantic Search"] : Localizer["Keyword Search"])
+            </span>
+        }
+    </div>
 
+    @if (Model.RateLimited)
+    {
+        <div class="alert alert-warning" role="alert">
+            <div class="alert-message">
+                <p>@Localizer["Search is temporarily limited. Please try again in a minute."]</p>
+                <a asp-action="Search" asp-route-q="@Model.Keyword" asp-route-page="@Model.Page" class="btn btn-outline-primary">@Localizer["Try again"]</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted mb-4">@Localizer["Found {0} documents matching your query.", Model.TotalCount]</p>
 
-        <!-- Main Content Column -->
-        <div class="col-md-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h3 class="mb-0">
-                    @if (Model.RateLimited)
+        @if (Model.Documents.Count == 0)
+        {
+            <div class="alert alert-info text-center py-5" role="status">
+                <div class="alert-message">
+                    @if (Model.TotalCount > 0)
                     {
-                        <span class="badge bg-warning rounded-pill px-3 py-2 shadow-sm me-2">
-                            <i class="lucide lucide-clock"></i> Rate Limited — Showing keyword results
-                        </span>
-                    }
-                    Search results for "<span class="text-primary">@Model.Keyword</span>"
-                </h3>
-                <div>
-                    @if (Model.UsedAi)
-                    {
-                        <span class="badge bg-primary rounded-pill px-3 py-2 shadow-sm">
-                            <i class="lucide lucide-bot"></i> AI Semantic Search
-                        </span>
+                        <p>@Localizer["There are no documents on this page."]</p>
+                        <a asp-action="Search" asp-route-q="@Model.Keyword" asp-route-page="1" class="btn btn-outline-primary">@Localizer["Back to first page"]</a>
                     }
                     else
                     {
-                        <span class="badge bg-secondary rounded-pill px-3 py-2 shadow-sm">
-                            <i class="lucide lucide-search"></i> Keyword Search
-                        </span>
+                        <p class="mb-0">@Localizer["No documents matched your search. Try different keywords."]</p>
                     }
                 </div>
             </div>
-
-            <p class="text-muted mb-4">Found @Model.TotalCount documents matching your query.</p>
-
-            @if (Model.Documents.Count == 0)
-            {
-                <div class="alert alert-info text-center py-5" role="alert">
-                    <div class="alert-message">
-                        <i class="lucide lucide-frown text-muted" style="width: 48px; height: 48px;"></i>
-                        <p class="mt-3 mb-0">No documents matched your search. Try different keywords.</p>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="row" id="recipes-container">
-                    @await Html.PartialAsync("_DocumentCards", new DocumentCardsViewModel
-                    {
-                        Documents = Model.Documents,
-                        LikeCounts = Model.LikeCounts,
-                        LocalizedTitles = Model.LocalizedTitles,
-                        LocalizedContents = Model.LocalizedContents
-                    })
-                </div>
-
-                @if (Model.TotalPages > 1)
+        }
+        else
+        {
+            <div class="row" id="recipes-container">
+                @await Html.PartialAsync("_DocumentCards", new DocumentCardsViewModel
                 {
-                    <nav aria-label="Search results pages" class="mt-4 mb-5">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item @(Model.Page == 1 ? "disabled" : "")">
-                                <a class="page-link" href="/Documents/Search?q=@Uri.EscapeDataString(Model.Keyword ?? "")&page=@(Model.Page - 1)">Previous</a>
-                            </li>
-                            
-                            @for (int i = 1; i <= Model.TotalPages; i++)
-                            {
-                                <li class="page-item @(i == Model.Page ? "active" : "")">
-                                    <a class="page-link" href="/Documents/Search?q=@Uri.EscapeDataString(Model.Keyword ?? "")&page=@i">@i</a>
-                                </li>
-                            }
+                    Documents = Model.Documents,
+                    LikeCounts = Model.LikeCounts,
+                    LocalizedTitles = Model.LocalizedTitles,
+                    LocalizedContents = Model.LocalizedContents
+                })
+            </div>
 
-                            <li class="page-item @(Model.Page == Model.TotalPages ? "disabled" : "")">
-                                <a class="page-link" href="/Documents/Search?q=@Uri.EscapeDataString(Model.Keyword ?? "")&page=@(Model.Page + 1)">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                }
+            @if (Model.TotalPages > 1)
+            {
+                <nav aria-label="@Localizer["Search results pages"].Value" class="mt-4 mb-5">
+                    <ul class="pagination flex-wrap justify-content-center mb-0">
+                        @if (Model.Page > 1)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="Search" asp-route-q="@Model.Keyword" asp-route-page="1">@Localizer["First"]</a></li>
+                            <li class="page-item"><a class="page-link" asp-action="Search" asp-route-q="@Model.Keyword" asp-route-page="@(Model.Page - 1)" rel="prev">@Localizer["Previous"]</a></li>
+                        }
+                        <li class="page-item active"><span class="page-link" aria-current="page">@Localizer["Page {0} of {1}", Model.Page, Model.TotalPages]</span></li>
+                        @if (Model.Page < Model.TotalPages)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="Search" asp-route-q="@Model.Keyword" asp-route-page="@(Model.Page + 1)" rel="next">@Localizer["Next"]</a></li>
+                            <li class="page-item"><a class="page-link" asp-action="Search" asp-route-q="@Model.Keyword" asp-route-page="@Model.TotalPages">@Localizer["Last"]</a></li>
+                        }
+                    </ul>
+                </nav>
             }
-        </div>
-    </div>
+        }
+    }
 </div>
