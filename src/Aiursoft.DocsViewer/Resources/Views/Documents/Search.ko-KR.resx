@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Back to first page" xml:space="preserve">
+    <value>첫 페이지로 돌아가기</value>
+  </data>
+  <data name="First" xml:space="preserve">
+    <value>처음</value>
+  </data>
+  <data name="Last" xml:space="preserve">
+    <value>마지막</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>다음</value>
+  </data>
+  <data name="No documents matched your search. Try different keywords." xml:space="preserve">
+    <value>검색 결과에 일치하는 문서가 없습니다. 다른 키워드를 시도해 보세요.</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>이전</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>검색</value>
+  </data>
+  <data name="Search is temporarily limited. Please try again in a minute." xml:space="preserve">
+    <value>검색이 일시적으로 제한되었습니다. 1분 후에 다시 시도해 주세요.</value>
+  </data>
+  <data name="Search results pages" xml:space="preserve">
+    <value>검색 결과 페이지</value>
+  </data>
+  <data name="There are no documents on this page." xml:space="preserve">
+    <value>이 페이지에는 문서가 없습니다.</value>
+  </data>
+  <data name="Try again" xml:space="preserve">
+    <value>다시 시도</value>
+  </data>
+
+</root>
