@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -258,7 +259,7 @@ public partial class IndexDocumentsJob(
         var output = await process.StandardOutput.ReadToEndAsync();
         await process.WaitForExitAsync();
 
-        if (DateTimeOffset.TryParse(output.Trim(), out var dt))
+        if (DateTimeOffset.TryParse(output.Trim(), CultureInfo.InvariantCulture, DateTimeStyles.None, out var dt))
         {
             return dt.UtcDateTime;
         }

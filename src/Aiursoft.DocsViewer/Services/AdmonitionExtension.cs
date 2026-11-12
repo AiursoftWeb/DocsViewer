@@ -60,7 +60,7 @@ public static partial class AdmonitionPreprocessor
             var isCollapsible = match.Groups["prefix"].Value == "???";
             var type = match.Groups["type"].Value.ToLowerInvariant();
             var title = match.Groups["title"].Success ? match.Groups["title"].Value : null;
-            title ??= char.ToUpper(type[0]) + type[1..];
+            title ??= char.ToUpperInvariant(type[0]) + type[1..];
 
             i++; // move past the opening line
             var bodyLines = new List<string>();

@@ -49,7 +49,7 @@ public static class DocumentSearchService
         int pageSize,
         CancellationToken ct)
     {
-        var termLower = term.ToLower();
+        var termLower = term.ToLowerInvariant();
         var scoreQuery = baseQuery
             .Where(r => r.Title.Contains(term) || r.Content.Contains(term) ||
                         r.LocalizedDocuments.Any(ld => ld.LocalizedTitle.Contains(term) || ld.LocalizedContent.Contains(term)))
@@ -71,7 +71,7 @@ public static class DocumentSearchService
             .OrderByDescending(x => x.Score)
             .ThenByDescending(x => db.DocumentLikes.Count(l => l.DocumentId == x.Document.Id))
             .ThenByDescending(x => db.DocumentFavorites.Count(f => f.DocumentId == x.Document.Id))
-            .ThenBy(x => x.Document.Title)
+            .ThenBy(x => x.Document.Title, StringComparer.CurrentCulture)
             .Select(x => x.Document);
 
         var total = await ordered.CountAsync(ct);
@@ -131,7 +131,7 @@ public static class DocumentSearchService
             .OrderByDescending(x => x.Score)
             .ThenByDescending(x => x.LikeCount)
             .ThenByDescending(x => x.FavoriteCount)
-            .ThenBy(x => x.Document.Title)
+            .ThenBy(x => x.Document.Title, StringComparer.CurrentCulture)
             .Select(x => x.Document)
             .ToList();
 

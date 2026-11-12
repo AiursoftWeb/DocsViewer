@@ -30,7 +30,7 @@ public class HomeController(
             {
                 var content = await System.IO.File.ReadAllTextAsync(homePagePath);
 
-                var relativePath = navConfig.HomePage.Replace('\\', '/').ToLower();
+                var relativePath = navConfig.HomePage.Replace('\\', '/').ToLowerInvariant();
                 var dbDoc = await db.Documents
                     .FirstOrDefaultAsync(d => d.FilePath.ToLower() == relativePath);
 
