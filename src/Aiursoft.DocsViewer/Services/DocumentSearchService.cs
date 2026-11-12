@@ -71,7 +71,7 @@ public static class DocumentSearchService
             .OrderByDescending(x => x.Score)
             .ThenByDescending(x => db.DocumentLikes.Count(l => l.DocumentId == x.Document.Id))
             .ThenByDescending(x => db.DocumentFavorites.Count(f => f.DocumentId == x.Document.Id))
-            .ThenBy(x => x.Document.Title, StringComparer.CurrentCulture)
+            .ThenBy(x => x.Document.Title)
             .Select(x => x.Document);
 
         var total = await ordered.CountAsync(ct);
