@@ -96,7 +96,7 @@ public class DocumentTreeService(
         Dictionary<string, Document> docLookup)
     {
         var rootNodes = new List<DocumentTreeNode>();
-        foreach (var kv in docLookup.OrderBy(d => d.Key))
+        foreach (var kv in docLookup.OrderBy(d => d.Key, StringComparer.Ordinal))
         {
             var segments = kv.Key.Split('/');
             if (segments.Length == 0) continue;

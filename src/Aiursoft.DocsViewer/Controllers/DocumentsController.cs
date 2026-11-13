@@ -194,7 +194,7 @@ public class DocumentsController(
         {
             return NotFound();
         }
-        var searchPath = mdPath.Replace('\\', '/').ToLower();
+        var searchPath = mdPath.Replace('\\', '/').ToLowerInvariant();
         var doc = await db.Documents.FirstOrDefaultAsync(d => d.FilePath.ToLower() == searchPath);
         
         if (doc == null)

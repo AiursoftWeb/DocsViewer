@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Localization;
 using Aiursoft.DocsViewer.Authorization;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Models.UsersViewModels;
@@ -19,7 +20,8 @@ namespace Aiursoft.DocsViewer.Controllers;
 public class UsersController(
     RoleManager<IdentityRole> roleManager,
     UserManager<User> userManager,
-    DocsViewerDbContext context)
+    DocsViewerDbContext context,
+    IStringLocalizer<AppPermissions> permissionLocalizer)
     : Controller
 {
     [Authorize(Policy = AppPermissionNames.CanReadUsers)]
@@ -87,7 +89,8 @@ public class UsersController(
 
         var permissions = AppPermissions.GetAllPermissions()
             .Where(p => allPermissionValues.Contains(p.Key))
-            .OrderBy(p => p.Name)
+            .OrderBy(p => permissionLocalizer[p.Name].Value, StringComparer.CurrentCulture)
+            .ThenBy(p => p.Key, StringComparer.Ordinal)
             .ToList();
 
         var likes = await context.DocumentLikes
