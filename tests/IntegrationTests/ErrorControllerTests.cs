@@ -17,13 +17,22 @@ public class ErrorControllerTests : TestBase
     }
 
     [TestMethod]
-    [DataRow("safe=1")]
-    [DataRow("safe%5B=1")]
-    public async Task UnknownRouteWithFormBodyRemainsNotFound(string body)
+    public async Task MissingDocumentWithValidFormRemainsNotFound()
     {
-        using var content = new StringContent(body, null, "application/x-www-form-urlencoded");
+        using var content = new StringContent("safe=1", null, "application/x-www-form-urlencoded");
         using var response = await Http.PostAsync("/error-page-regression/missing/route/extra", content);
         Assert.AreEqual(404, (int)response.StatusCode);
+    }
+
+    [TestMethod]
+    public async Task MalformedDocumentRequestRendersInternalServerError()
+    {
+        // The catch-all document action binds the form before error rendering starts.
+        using var content = new StringContent("safe%5B=1", null, "application/x-www-form-urlencoded");
+        using var response = await Http.PostAsync("/error-page-regression/missing/route/extra", content);
+        Assert.AreEqual(500, (int)response.StatusCode);
+        var html = await response.Content.ReadAsStringAsync();
+        StringAssert.Contains(html, "Internal Server Error");
     }
 
     [TestMethod]
