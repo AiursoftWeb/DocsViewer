@@ -39,11 +39,11 @@
   <data name="Agent Model" xml:space="preserve">
     <value>Ajan Modeli</value>
   </data>
-  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
-    <value>Giriş yapmış kullanıcıların yorum ve yanıtlar göndermesine izin verin.</value>
-  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Kullanıcı Adını Ayarlamaya İzin Ver</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Giriş yapmış kullanıcıların yorum ve yanıtlar göndermesine izin verin.</value>
   </data>
   <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
     <value>Kullanıcıların profil yönetimi sayfasında takma isimlerini ayarlamasına izin ver.</value>
@@ -126,6 +126,27 @@
   <data name="Require Comment Review" xml:space="preserve">
     <value>Yorum İncelemesi Gerektir</value>
   </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>Çin ana karasında kullanıcılar için ICP lisans numarası. Gizlemek için boş bırakın.</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Belgelerinizi çevirmek için kullanılan LLM model adı, örn. qwen3.5:27b-q8_0, gpt-4o veya deepseek-chat. Yukarıdaki OpenAI Chat Endpoint&apos;te mevcut olmalıdır. Gömme/vektör aramasıyla ilgisi yoktur.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Belirli olarak belge ve sorgu gömme işlemleri için kullanılan Ollama API temel URL&apos;si. Yalnızca ana bilgisayar kullanılır — /api/embed otomatik olarak eklenir. Boş bırakıldığında OpenAI Sohbet Uç Noktasına düşer. Örn. https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Belge çevirisi için kullanılan ve gömme araması için yedek olarak kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır. Belge Asistanı tarafından kullanılmaz.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Belge çevirisi için kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır, örn. https://ollama.example.com/v1/chat/completions veya https://api.openai.com/v1/chat/completions. Gömme/vektör aramasıyla ilgisizdir.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Yalnızca Belge Asistanı tarafından kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions içeren tam URL olmalıdır.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>Markdown belgelerini içeren git deposunun URL&apos;si.</value>
+  </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>Git deposunun yedek URL&apos;si. Birincil URL başarısız olursa kullanılır.</value>
   </data>
@@ -147,12 +168,6 @@
   <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
     <value>Vektör araması için gömme modelinin adı, örn. bge-m3:latest. Embedding Endpoint üzerinde mevcut olmalıdır. Sadece vektör araması için kullanılır, çeviri için değil.</value>
   </data>
-  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
-    <value>Çin ana karasında kullanıcılar için ICP lisans numarası. Gizlemek için boş bırakın.</value>
-  </data>
-  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Belgelerinizi çevirmek için kullanılan LLM model adı, örn. qwen3.5:27b-q8_0, gpt-4o veya deepseek-chat. Yukarıdaki OpenAI Chat Endpoint&apos;te mevcut olmalıdır. Gömme/vektör aramasıyla ilgisi yoktur.</value>
-  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Projenin logosu navbar ve footer&apos;da gösterilir. jpg, png, svg desteklenir.</value>
   </data>
@@ -167,21 +182,6 @@
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Frontende görüntülenen proje adı.</value>
-  </data>
-  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
-    <value>Belirli olarak belge ve sorgu gömme işlemleri için kullanılan Ollama API temel URL&apos;si. Yalnızca ana bilgisayar kullanılır — /api/embed otomatik olarak eklenir. Boş bırakıldığında OpenAI Sohbet Uç Noktasına düşer. Örn. https://ollama.example.com</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
-    <value>Belge çevirisi için kullanılan ve gömme araması için yedek olarak kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır. Belge Asistanı tarafından kullanılmaz.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Belge çevirisi için kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions dahil tam URL olmalıdır, örn. https://ollama.example.com/v1/chat/completions veya https://api.openai.com/v1/chat/completions. Gömme/vektör aramasıyla ilgisizdir.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
-    <value>Yalnızca Belge Asistanı tarafından kullanılan OpenAI uyumlu sohbet tamamlama uç noktası. /v1/chat/completions içeren tam URL olmalıdır.</value>
-  </data>
-  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
-    <value>Markdown belgelerini içeren git deposunun URL&apos;si.</value>
   </data>
   <data name="Translation API Token" xml:space="preserve">
     <value>Çeviri API Belirteci</value>

@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Kommentarer</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>commits</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Bidragydere</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Liker</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>log ind</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Log på for at kommentere</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Dette dokument blev oprindeligt skrevet på</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>for at efterlade en kommentar.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Hvad tænker du?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Din kommentar blev publiceret.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>commits</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>log ind</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>for at efterlade en kommentar.</value>
   </data>
 
 </root>

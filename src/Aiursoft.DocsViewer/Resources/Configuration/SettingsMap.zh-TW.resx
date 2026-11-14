@@ -39,11 +39,11 @@
   <data name="Agent Model" xml:space="preserve">
     <value>代理模型</value>
   </data>
-  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
-    <value>允許已登入的使用者發布留言和回覆。</value>
-  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>允許使用者修改暱稱</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>允許已登入的使用者發布留言和回覆。</value>
   </data>
   <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
     <value>允許使用者在個人檔案管理頁面中調整其暱稱。</value>
@@ -126,6 +126,27 @@
   <data name="Require Comment Review" xml:space="preserve">
     <value>留言需經審核</value>
   </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>適用於中國大陸使用者的 ICP 備案號碼。留空則隱藏。</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>用於文件翻譯的 LLM 模型名稱，例如 qwen3.5:27b-q8_0、gpt-4o 或 deepseek-chat。必須在上述 OpenAI Chat Endpoint 中可用。與嵌入/向量搜尋無關。</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>專門用於生成文件與查詢嵌入（向量搜尋）的 Ollama API 基礎 URL。僅使用主機部分，/api/embed 會自動附加於後方。若留空則會回退至 OpenAI Chat Endpoint。例如：https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>用於文件翻譯及向量搜尋備援的 OpenAI 相容聊天補完端點。必須是包含 /v1/chat/completions 的完整 URL。文件助手不會使用此端點。</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>用於文件翻譯的 OpenAI 相容聊天完成端點。必須包含 /v1/chat/completions 的完整 URL，例如 https://ollama.example.com/v1/chat/completions 或 https://api.openai.com/v1/chat/completions。與嵌入/向量搜尋無關。</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>僅供文件助手使用的 OpenAI 相容聊天補完端點。必須是包含 /v1/chat/completions 的完整 URL。</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>包含 Markdown 文件的 Git 儲存庫網址。</value>
+  </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>此 Git 儲存庫的備份 URL。當主要 URL 失效時使用。</value>
   </data>
@@ -147,12 +168,6 @@
   <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
     <value>用於向量搜尋的嵌入模型名稱，例如 bge-m3:latest。該模型必須在嵌入端點上可用。僅供向量搜尋使用，不適用於翻譯。</value>
   </data>
-  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
-    <value>適用於中國大陸使用者的 ICP 備案號碼。留空則隱藏。</value>
-  </data>
-  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>用於文件翻譯的 LLM 模型名稱，例如 qwen3.5:27b-q8_0、gpt-4o 或 deepseek-chat。必須在上述 OpenAI Chat Endpoint 中可用。與嵌入/向量搜尋無關。</value>
-  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>專案的標誌顯示於導覽列與頁尾。支援 jpg、png、svg 格式。</value>
   </data>
@@ -167,21 +182,6 @@
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>專案在前端顯示的名稱。</value>
-  </data>
-  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
-    <value>專門用於生成文件與查詢嵌入（向量搜尋）的 Ollama API 基礎 URL。僅使用主機部分，/api/embed 會自動附加於後方。若留空則會回退至 OpenAI Chat Endpoint。例如：https://ollama.example.com</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
-    <value>用於文件翻譯及向量搜尋備援的 OpenAI 相容聊天補完端點。必須是包含 /v1/chat/completions 的完整 URL。文件助手不會使用此端點。</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>用於文件翻譯的 OpenAI 相容聊天完成端點。必須包含 /v1/chat/completions 的完整 URL，例如 https://ollama.example.com/v1/chat/completions 或 https://api.openai.com/v1/chat/completions。與嵌入/向量搜尋無關。</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
-    <value>僅供文件助手使用的 OpenAI 相容聊天補完端點。必須是包含 /v1/chat/completions 的完整 URL。</value>
-  </data>
-  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
-    <value>包含 Markdown 文件的 Git 儲存庫網址。</value>
   </data>
   <data name="Translation API Token" xml:space="preserve">
     <value>翻譯 API 金鑰</value>

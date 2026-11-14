@@ -39,11 +39,11 @@
   <data name="Agent Model" xml:space="preserve">
     <value>Modelul agentului</value>
   </data>
-  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
-    <value>Permite utilizatorilor autentificați să posteze comentarii și răspunsuri.</value>
-  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Permite utilizatorului să-și ajusteze nickname-ul</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Permite utilizatorilor autentificați să posteze comentarii și răspunsuri.</value>
   </data>
   <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
     <value>Permite utilizatorilor să-și ajusteze nickname-ul în pagina de gestionare a profilului.</value>
@@ -126,6 +126,27 @@
   <data name="Require Comment Review" xml:space="preserve">
     <value>Necesită aprobarea comentariilor</value>
   </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>Numărul de înregistrare ICP pentru utilizatorii din China continentală. Lăsați gol pentru a ascunde.</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Numele modelului LLM utilizat pentru traducerea documentelor, de ex. qwen3.5:27b-q8_0, gpt-4o sau deepseek-chat. Trebuie să fie disponibil la punctul final OpenAI Chat Endpoint de mai sus. Neesențial pentru căutarea vectorială/incorporări.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>URL-ul de bază al API-ului Ollama utilizat specific pentru generarea embedding-urilor documentelor și a interogărilor (căutare vectorială). Este folosit doar hostul — /api/embed este adăugat automat. Se revine la Endpoint-ul OpenAI Chat când este gol. Ex. https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Punctul final compatibil cu OpenAI pentru completarea chatului, utilizat pentru traducerea documentelor și ca rezervă pentru căutarea prin embedding. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions. Nu este utilizat de Asistentul de Documente.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Punctul final de completări chat compatibil cu OpenAI utilizat pentru traducerea documentelor. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions, de ex. https://ollama.example.com/v1/chat/completions sau https://api.openai.com/v1/chat/completions. Nu are legătură cu căutarea prin embedding/vectori.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Endpointul de completare a conversațiilor compatibil cu OpenAI, utilizat exclusiv de Asistentul pentru documente. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>URL-ul depozitului git care conține documentele markdown.</value>
+  </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL-ul de rezervă al depozitului git. Utilizat dacă URL-ul principal eșuează.</value>
   </data>
@@ -147,12 +168,6 @@
   <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
     <value>Numele modelului de inserție pentru căutarea vectorială, de ex. bge-m3:latest. Trebuie să fie disponibil la Endpoint-ul de Inserție. Utilizat doar pentru căutarea vectorială, nu pentru traducere.</value>
   </data>
-  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
-    <value>Numărul de înregistrare ICP pentru utilizatorii din China continentală. Lăsați gol pentru a ascunde.</value>
-  </data>
-  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Numele modelului LLM utilizat pentru traducerea documentelor, de ex. qwen3.5:27b-q8_0, gpt-4o sau deepseek-chat. Trebuie să fie disponibil la punctul final OpenAI Chat Endpoint de mai sus. Neesențial pentru căutarea vectorială/incorporări.</value>
-  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Logoul proiectului afișat în bara de navigare și în subsol. Suportă jpg, png, svg.</value>
   </data>
@@ -167,21 +182,6 @@
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Numele proiectului afișat în interfața frontend</value>
-  </data>
-  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
-    <value>URL-ul de bază al API-ului Ollama utilizat specific pentru generarea embedding-urilor documentelor și a interogărilor (căutare vectorială). Este folosit doar hostul — /api/embed este adăugat automat. Se revine la Endpoint-ul OpenAI Chat când este gol. Ex. https://ollama.example.com</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
-    <value>Punctul final compatibil cu OpenAI pentru completarea chatului, utilizat pentru traducerea documentelor și ca rezervă pentru căutarea prin embedding. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions. Nu este utilizat de Asistentul de Documente.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Punctul final de completări chat compatibil cu OpenAI utilizat pentru traducerea documentelor. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions, de ex. https://ollama.example.com/v1/chat/completions sau https://api.openai.com/v1/chat/completions. Nu are legătură cu căutarea prin embedding/vectori.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
-    <value>Endpointul de completare a conversațiilor compatibil cu OpenAI, utilizat exclusiv de Asistentul pentru documente. Trebuie să fie URL-ul complet, inclusiv /v1/chat/completions.</value>
-  </data>
-  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
-    <value>URL-ul depozitului git care conține documentele markdown.</value>
   </data>
   <data name="Translation API Token" xml:space="preserve">
     <value>Token API pentru traducere</value>

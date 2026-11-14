@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>댓글</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>커밋</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>기여자</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>좋아요</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>로그인</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>댓글을 작성하려면 로그인하세요</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>이 문서는 원래 다음 언어로 작성되었습니다.</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>댓글을 작성하려면</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>고민되는 점이 있으신가요?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>댓글이 게시되었습니다.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>커밋</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>댓글을 작성하려면</value>
   </data>
 
 </root>

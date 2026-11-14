@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Bình luận</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>lần commit</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Người đóng góp</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Thích</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>đăng nhập</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Đăng nhập để bình luận</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Tài liệu này ban đầu được viết bằng</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>để bình luận.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Bạn nghĩ gì?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Bình luận của bạn đã được đăng.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>lần commit</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>đăng nhập</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>để bình luận.</value>
   </data>
 
 </root>
