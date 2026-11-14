@@ -39,11 +39,11 @@
   <data name="Agent Model" xml:space="preserve">
     <value>Μοντέλο Agent</value>
   </data>
-  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
-    <value>Επιτρέπει σε συνδεδεμένους χρήστες να δημοσιεύουν σχόλια και απαντήσεις.</value>
-  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Επιτρέψτε στον Χρήστη να Τροποποιήσει το Παρασκήνιο Όνομα</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Επιτρέπει σε συνδεδεμένους χρήστες να δημοσιεύουν σχόλια και απαντήσεις.</value>
   </data>
   <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
     <value>Επιτρέψτε στους χρήστες να τροποποιήσουν το ψευδώνυμό τους στη σελίδα διαχείρισης προφίλ.</value>
@@ -126,6 +126,27 @@
   <data name="Require Comment Review" xml:space="preserve">
     <value>Απαιτείται Εξέταση Σχολίων</value>
   </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>Ο αριθμός άδειας ICP για χρήστες της κυρίως Κίνας. Αφήστε κενό για να κρυφτεί.</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Το όνομα του μοντέλου LLM που χρησιμοποιείται για τη μετάγνωση εγγράφων, π.χ. qwen3.5:27b-q8_0, gpt-4o ή deepseek-chat. Πρέπει να είναι διαθέσιμο στην παραπάνω θύρα OpenAI Chat Endpoint. Δεν σχετίζεται με ενσωμάτωση/αναζήτηση διανυσμάτων.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Η βασική διεύθυνση URL της Ollama API που χρησιμοποιείται ειδικά για τη δημιουργία εμβιβάσεων τεκμηρίων και ερωτημάτων (διανυσματική αναζήτηση). Χρησιμοποιείται μόνο το host — το /api/embed προστίθεται αυτόματα. Όταν είναι κενό, γίνεται fall back στη διεύθυνση OpenAI Chat Endpoint. Π.χ. https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Το συμβατό με το OpenAI τελικό σημείο ολοκλήρωσης συνομιλιών που χρησιμοποιείται για τη μετάφραση εγγράφων και ως εφεδρική επιλογή για την αναζήτηση ενσωματώσεων. Πρέπει να είναι η πλήρης διεύθυνση URL, συμπεριλαμβανομένου του /v1/chat/completions. Δεν χρησιμοποιείται από το Document Assistant.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Το endpoint chat completions συμβατό με OpenAI που χρησιμοποιείται για τη μετάγγιση εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL συμπεριλαμβανομένου του /v1/chat/completions, π.χ. https://ollama.example.com/v1/chat/completions ή https://api.openai.com/v1/chat/completions. Δεν σχετίζεται με αναζήτηση ενσωματώσεων/διανυσμάτων.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Το συμβατό με το OpenAI τελικό σημείο ολοκλήρωσης συνομιλιών που χρησιμοποιείται αποκλειστικά από τον Βοηθό εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL, συμπεριλαμβανομένου του /v1/chat/completions.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>Το URL του αποθετηρίου git που περιέχει τα έγγραφα markdown.</value>
+  </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>Η εφεδρική διεύθυνση URL του αποθετηρίου git. Χρησιμοποιείται σε περίπτωση αποτυχίας της πρωτεύουσας διεύθυνσης URL.</value>
   </data>
@@ -147,12 +168,6 @@
   <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
     <value>Το όνομα του μοντέλου ενσωμάτωσης για την αναζήτηση διανυσμάτων, π.χ. bge-m3:latest. Πρέπει να είναι διαθέσιμο στην Άκρη Ενσωμάτωσης. Χρησιμοποιείται μόνο για αναζήτηση διανυσμάτων και όχι για μετάφραση.</value>
   </data>
-  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
-    <value>Ο αριθμός άδειας ICP για χρήστες της κυρίως Κίνας. Αφήστε κενό για να κρυφτεί.</value>
-  </data>
-  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Το όνομα του μοντέλου LLM που χρησιμοποιείται για τη μετάγνωση εγγράφων, π.χ. qwen3.5:27b-q8_0, gpt-4o ή deepseek-chat. Πρέπει να είναι διαθέσιμο στην παραπάνω θύρα OpenAI Chat Endpoint. Δεν σχετίζεται με ενσωμάτωση/αναζήτηση διανυσμάτων.</value>
-  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Το λογότυπο του έργου που εμφανίζεται στην ναβιγατόρια και τον ποδοσκαλο. Υποστήριξη jpg, png, svg.</value>
   </data>
@@ -167,21 +182,6 @@
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Το όνομα του έργου που εμφανίζεται στον προβολέα</value>
-  </data>
-  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
-    <value>Η βασική διεύθυνση URL της Ollama API που χρησιμοποιείται ειδικά για τη δημιουργία εμβιβάσεων τεκμηρίων και ερωτημάτων (διανυσματική αναζήτηση). Χρησιμοποιείται μόνο το host — το /api/embed προστίθεται αυτόματα. Όταν είναι κενό, γίνεται fall back στη διεύθυνση OpenAI Chat Endpoint. Π.χ. https://ollama.example.com</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
-    <value>Το συμβατό με το OpenAI τελικό σημείο ολοκλήρωσης συνομιλιών που χρησιμοποιείται για τη μετάφραση εγγράφων και ως εφεδρική επιλογή για την αναζήτηση ενσωματώσεων. Πρέπει να είναι η πλήρης διεύθυνση URL, συμπεριλαμβανομένου του /v1/chat/completions. Δεν χρησιμοποιείται από το Document Assistant.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Το endpoint chat completions συμβατό με OpenAI που χρησιμοποιείται για τη μετάγγιση εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL συμπεριλαμβανομένου του /v1/chat/completions, π.χ. https://ollama.example.com/v1/chat/completions ή https://api.openai.com/v1/chat/completions. Δεν σχετίζεται με αναζήτηση ενσωματώσεων/διανυσμάτων.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
-    <value>Το συμβατό με το OpenAI τελικό σημείο ολοκλήρωσης συνομιλιών που χρησιμοποιείται αποκλειστικά από τον Βοηθό εγγράφων. Πρέπει να είναι η πλήρης διεύθυνση URL, συμπεριλαμβανομένου του /v1/chat/completions.</value>
-  </data>
-  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
-    <value>Το URL του αποθετηρίου git που περιέχει τα έγγραφα markdown.</value>
   </data>
   <data name="Translation API Token" xml:space="preserve">
     <value>Διακριτικό API μετάφρασης</value>

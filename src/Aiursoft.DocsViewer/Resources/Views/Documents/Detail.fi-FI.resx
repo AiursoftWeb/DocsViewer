@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Kommentit</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>commitia</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Mukana olleet</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Tykkää</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>kirjaudu sisään</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Kirjaudu sisään kommentoidaksesi</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Tämä asiakirja kirjoitettiin alun perin</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>jättääkseen kommentin.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Mitä mieltä olet?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Kommenttisi on julkaistu.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>commitia</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>kirjaudu sisään</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>jättääkseen kommentin.</value>
   </data>
 
 </root>

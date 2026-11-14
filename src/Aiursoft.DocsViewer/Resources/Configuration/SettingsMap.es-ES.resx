@@ -39,11 +39,11 @@
   <data name="Agent Model" xml:space="preserve">
     <value>Modelo de agente</value>
   </data>
-  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
-    <value>Permitir que los usuarios con sesión iniciada publiquen comentarios y respuestas.</value>
-  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Permitir al usuario modificar el apodo</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Permitir que los usuarios con sesión iniciada publiquen comentarios y respuestas.</value>
   </data>
   <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
     <value>Permitir a los usuarios ajustar su apodo en la página de gestión de perfil.</value>
@@ -126,6 +126,27 @@
   <data name="Require Comment Review" xml:space="preserve">
     <value>Revisión de comentarios obligatoria</value>
   </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>El número de licencia ICP para usuarios de la región principal de China. Deje en blanco para ocultarlo.</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>El nombre del modelo LLM utilizado para traducir documentos, por ejemplo, qwen3.5:27b-q8_0, gpt-4o o deepseek-chat. Debe estar disponible en el punto de conexión de chat de OpenAI anterior. No está relacionado con la búsqueda de embeddings/vectores.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>La URL base de la API de Ollama utilizada específicamente para generar incrustaciones (embeddings) de documentos y consultas (búsqueda vectorial). Solo se utiliza el host; /api/embed se añade automáticamente. Si está vacío, vuelve a usar el Punto final de chat de OpenAI. Por ejemplo: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>El endpoint de completado de chat compatible con OpenAI utilizado para la traducción de documentos y como alternativa para la búsqueda de embeddings. Debe ser la URL completa, incluido /v1/chat/completions. No lo utiliza el Asistente de documentos.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>El punto de conexión de completados de chat compatible con OpenAI utilizado para la traducción de documentos. Debe ser la URL completa que incluye /v1/chat/completions, por ejemplo, https://ollama.example.com/v1/chat/completions o https://api.openai.com/v1/chat/completions. No tiene relación con las búsquedas vectoriales/por incrustaciones (embedding).</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>El punto de conexión de finalización de chats compatible con OpenAI utilizado únicamente por el Asistente de documentos. Debe ser la URL completa, incluido /v1/chat/completions.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>La URL del repositorio git que contiene los documentos markdown.</value>
+  </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL de respaldo del repositorio git. Se utiliza si la URL principal no funciona.</value>
   </data>
@@ -147,12 +168,6 @@
   <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
     <value>Nombre del modelo de embedding para la búsqueda vectorial, por ejemplo, bge-m3:latest. Debe estar disponible en el extremo de Embedding. Solo se utiliza para la búsqueda vectorial, no para la traducción.</value>
   </data>
-  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
-    <value>El número de licencia ICP para usuarios de la región principal de China. Deje en blanco para ocultarlo.</value>
-  </data>
-  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>El nombre del modelo LLM utilizado para traducir documentos, por ejemplo, qwen3.5:27b-q8_0, gpt-4o o deepseek-chat. Debe estar disponible en el punto de conexión de chat de OpenAI anterior. No está relacionado con la búsqueda de embeddings/vectores.</value>
-  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>El logotipo del proyecto se muestra en la barra de navegación y el pie de página. Se admiten archivos jpg, png y svg.</value>
   </data>
@@ -167,21 +182,6 @@
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>El nombre del proyecto mostrado en la interfaz de usuario.</value>
-  </data>
-  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
-    <value>La URL base de la API de Ollama utilizada específicamente para generar incrustaciones (embeddings) de documentos y consultas (búsqueda vectorial). Solo se utiliza el host; /api/embed se añade automáticamente. Si está vacío, vuelve a usar el Punto final de chat de OpenAI. Por ejemplo: https://ollama.example.com</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
-    <value>El endpoint de completado de chat compatible con OpenAI utilizado para la traducción de documentos y como alternativa para la búsqueda de embeddings. Debe ser la URL completa, incluido /v1/chat/completions. No lo utiliza el Asistente de documentos.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>El punto de conexión de completados de chat compatible con OpenAI utilizado para la traducción de documentos. Debe ser la URL completa que incluye /v1/chat/completions, por ejemplo, https://ollama.example.com/v1/chat/completions o https://api.openai.com/v1/chat/completions. No tiene relación con las búsquedas vectoriales/por incrustaciones (embedding).</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
-    <value>El punto de conexión de finalización de chats compatible con OpenAI utilizado únicamente por el Asistente de documentos. Debe ser la URL completa, incluido /v1/chat/completions.</value>
-  </data>
-  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
-    <value>La URL del repositorio git que contiene los documentos markdown.</value>
   </data>
   <data name="Translation API Token" xml:space="preserve">
     <value>Token de API de traducción</value>

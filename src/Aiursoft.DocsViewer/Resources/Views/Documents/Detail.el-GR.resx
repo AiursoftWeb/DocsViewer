@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Σχόλια</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>ενσωματώσεις</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Συντελεστές</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Αρέσει</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>σύνδεση</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Συνδεθείτε για να σχολιάσετε</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Το παρόν έγγραφο συντάχθηκε αρχικά στα</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>για να αφήσετε σχόλιο.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Τι σκέφτεστε;</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Το σχόλιό σας δημοσιεύτηκε.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>ενσωματώσεις</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>σύνδεση</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>για να αφήσετε σχόλιο.</value>
   </data>
 
 </root>

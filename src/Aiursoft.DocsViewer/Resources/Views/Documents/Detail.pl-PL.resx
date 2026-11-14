@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Komentarze</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>commitów</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Współtwórcy</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Lubię to</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>zaloguj się</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Zaloguj się, aby skomentować</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Ten dokument został pierwotnie napisany w języku</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>aby dodać komentarz.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Jaki jest Twój komentarz?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Twój komentarz został opublikowany.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>commitów</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>zaloguj się</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>aby dodać komentarz.</value>
   </data>
 
 </root>

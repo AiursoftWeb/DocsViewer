@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>留言</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>提交次數</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>貢獻者</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>喜歡</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>登入</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>登入以留言</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>本文檔最初以</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>以留言。</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>您有什麼想法？</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>您的留言已發布。</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>提交次數</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>以留言。</value>
   </data>
 
 </root>

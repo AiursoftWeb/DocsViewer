@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Comentarii</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>comituri</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Contribuitori</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Apreciază</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>autentificarea</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Autentificați-vă pentru a comenta</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Acest document a fost scris inițial în</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>pentru a lăsa un comentariu.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Ce părere aveți?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Comentariul dumneavoastră a fost publicat.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>comituri</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>autentificarea</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>pentru a lăsa un comentariu.</value>
   </data>
 
 </root>

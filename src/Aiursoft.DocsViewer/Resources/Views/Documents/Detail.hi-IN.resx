@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>टिप्पणियाँ</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>कमिट्स</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>योगदानकर्ता</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>पसंद करें</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>लॉग इन करें</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>टिप्पणी करने के लिए लॉगिन करें</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>यह दस्तावेज़ मूल रूप से लिखा गया था</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>टिप्पणी छोड़ने के लिए।</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>आपके विचार क्या हैं?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>आपकी टिप्पणी प्रकाशित कर दी गई है।</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>कमिट्स</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>लॉग इन करें</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>टिप्पणी छोड़ने के लिए।</value>
   </data>
 
 </root>

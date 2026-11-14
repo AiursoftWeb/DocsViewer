@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>Yorumlar</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>işlem</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>Katkıda Bulunanlar</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>Beğen</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>giriş yapın</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>Yorum yapmak için giriş yapın</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>Bu belge orijinal olarak şu dilde yazılmıştır:</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>yorum bırakmak için.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>Düşünceleriniz neler?</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>Yorumunuz yayımlandı.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>işlem</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>giriş yapın</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>yorum bırakmak için.</value>
   </data>
 
 </root>

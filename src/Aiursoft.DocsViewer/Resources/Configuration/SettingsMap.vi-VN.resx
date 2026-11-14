@@ -39,11 +39,11 @@
   <data name="Agent Model" xml:space="preserve">
     <value>Mô hình Agent</value>
   </data>
-  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
-    <value>Cho phép người dùng đã đăng nhập đăng bình luận và trả lời.</value>
-  </data>
   <data name="Allow User Adjust Nickname" xml:space="preserve">
     <value>Cho phép người dùng chỉnh sửa biệt danh</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Cho phép người dùng đã đăng nhập đăng bình luận và trả lời.</value>
   </data>
   <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
     <value>Cho phép người dùng điều chỉnh biệt danh của họ trên trang quản lý hồ sơ.</value>
@@ -126,6 +126,27 @@
   <data name="Require Comment Review" xml:space="preserve">
     <value>Yêu cầu xem xét bình luận</value>
   </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>Số giấy phép ICP cho người dùng tại Trung Quốc đại lục. Để trống để ẩn.</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Tên mô hình LLM được sử dụng để dịch tài liệu, ví dụ: qwen3.5:27b-q8_0, gpt-4o, hoặc deepseek-chat. Phải có sẵn tại Điểm cuối Chat OpenAI ở trên. Không liên quan đến nhúng/tìm kiếm vector.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Đường dẫn cơ sở API Ollama được sử dụng đặc biệt để tạo nhúng cho tài liệu và truy vấn (tìm kiếm vector). Chỉ phần host được sử dụng — /api/embed sẽ được thêm vào tự động. Sẽ chuyển sang Sử dụng Điểm cuối Chat OpenAI khi để trống. Ví dụ: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>Điểm cuối chat completions tương thích OpenAI được sử dụng để dịch tài liệu và làm phương án dự phòng cho tìm kiếm nhúng. Phải là URL đầy đủ bao gồm /v1/chat/completions. Không được sử dụng bởi Trợ lý Tài liệu.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI được sử dụng để dịch tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions, ví dụ: https://ollama.example.com/v1/chat/completions hoặc https://api.openai.com/v1/chat/completions. Không liên quan đến tìm kiếm nhúng/tensor.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI chỉ được sử dụng bởi Trợ lý Tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>URL của kho lưu trữ git chứa các tài liệu markdown.</value>
+  </data>
   <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
     <value>URL dự phòng của kho lưu trữ git. Sử dụng nếu URL chính không hoạt động.</value>
   </data>
@@ -147,12 +168,6 @@
   <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
     <value>Tên mô hình nhúng cho tìm kiếm vector, ví dụ: bge-m3:latest. Phải khả dụng tại Điểm kết nối Nhúng. Chỉ dùng cho tìm kiếm vector, không dùng cho dịch thuật.</value>
   </data>
-  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
-    <value>Số giấy phép ICP cho người dùng tại Trung Quốc đại lục. Để trống để ẩn.</value>
-  </data>
-  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Tên mô hình LLM được sử dụng để dịch tài liệu, ví dụ: qwen3.5:27b-q8_0, gpt-4o, hoặc deepseek-chat. Phải có sẵn tại Điểm cuối Chat OpenAI ở trên. Không liên quan đến nhúng/tìm kiếm vector.</value>
-  </data>
   <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
     <value>Logo của dự án được hiển thị trong thanh điều hướng và chân trang. Hỗ trợ định dạng jpg, png, svg.</value>
   </data>
@@ -167,21 +182,6 @@
   </data>
   <data name="The name of the project displayed in the frontend." xml:space="preserve">
     <value>Tên dự án được hiển thị trên giao diện người dùng</value>
-  </data>
-  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
-    <value>Đường dẫn cơ sở API Ollama được sử dụng đặc biệt để tạo nhúng cho tài liệu và truy vấn (tìm kiếm vector). Chỉ phần host được sử dụng — /api/embed sẽ được thêm vào tự động. Sẽ chuyển sang Sử dụng Điểm cuối Chat OpenAI khi để trống. Ví dụ: https://ollama.example.com</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
-    <value>Điểm cuối chat completions tương thích OpenAI được sử dụng để dịch tài liệu và làm phương án dự phòng cho tìm kiếm nhúng. Phải là URL đầy đủ bao gồm /v1/chat/completions. Không được sử dụng bởi Trợ lý Tài liệu.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used for document translation. Must be the full URL including /v1/chat/completions, e.g. https://ollama.example.com/v1/chat/completions or https://api.openai.com/v1/chat/completions. Unrelated to embedding/vector search." xml:space="preserve">
-    <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI được sử dụng để dịch tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions, ví dụ: https://ollama.example.com/v1/chat/completions hoặc https://api.openai.com/v1/chat/completions. Không liên quan đến tìm kiếm nhúng/tensor.</value>
-  </data>
-  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
-    <value>Điểm cuối hoàn thành trò chuyện tương thích OpenAI chỉ được sử dụng bởi Trợ lý Tài liệu. Phải là URL đầy đủ bao gồm /v1/chat/completions.</value>
-  </data>
-  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
-    <value>URL của kho lưu trữ git chứa các tài liệu markdown.</value>
   </data>
   <data name="Translation API Token" xml:space="preserve">
     <value>Mã thông báo API dịch thuật</value>

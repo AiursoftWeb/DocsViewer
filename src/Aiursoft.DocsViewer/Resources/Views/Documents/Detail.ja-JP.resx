@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>コメント</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>コミット</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>貢献者</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>いいね</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>ログイン</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>ログインしてコメントする</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>この文書は元々</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>コメントを投稿するには。</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>ご意見をお聞かせください。</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>コメントが公開されました。</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>コミット</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>ログイン</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>コメントを投稿するには。</value>
   </data>
 
 </root>

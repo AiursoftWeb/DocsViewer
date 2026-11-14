@@ -33,9 +33,6 @@
   <data name="Comments" xml:space="preserve">
     <value>التعليقات</value>
   </data>
-  <data name="commits" xml:space="preserve">
-    <value>التغييرات</value>
-  </data>
   <data name="Contributors" xml:space="preserve">
     <value>المساهمون</value>
   </data>
@@ -72,9 +69,6 @@
   <data name="Like" xml:space="preserve">
     <value>أعجبني</value>
   </data>
-  <data name="log in" xml:space="preserve">
-    <value>تسجيل الدخول</value>
-  </data>
   <data name="Login to comment" xml:space="preserve">
     <value>تسجيل الدخول للتعليق</value>
   </data>
@@ -108,9 +102,6 @@
   <data name="This document was originally written in" xml:space="preserve">
     <value>تمت كتابة هذا المستند في الأصل باللغة</value>
   </data>
-  <data name="to leave a comment." xml:space="preserve">
-    <value>لترك تعليق.</value>
-  </data>
   <data name="What are your thoughts?" xml:space="preserve">
     <value>ما رأيك؟</value>
   </data>
@@ -128,6 +119,15 @@
   </data>
   <data name="Your comment was published." xml:space="preserve">
     <value>تم نشر تعليقك.</value>
+  </data>
+  <data name="commits" xml:space="preserve">
+    <value>التغييرات</value>
+  </data>
+  <data name="log in" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="to leave a comment." xml:space="preserve">
+    <value>لترك تعليق.</value>
   </data>
 
 </root>
