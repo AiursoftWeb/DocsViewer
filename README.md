@@ -34,6 +34,8 @@ Installation starts after three seconds; press Ctrl+C to cancel. Then open `http
 
 ### apt package filesystem layout
 
+The retained Debian layout below matches the [service unit](src/Aiursoft.DocsViewer/aiursoft-docsViewer.service) and [post-install script](src/Aiursoft.DocsViewer/postinst.sh). This source revision does not include an `.aosproj` packaging project; use the Docker instructions above to install the current source revision.
+
 When installed via `apt install aiursoft-docsViewer`, the following paths are created:
 
 | Role | Path | `apt remove` | `apt purge` |
