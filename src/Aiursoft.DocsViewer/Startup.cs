@@ -68,7 +68,15 @@ public class Startup : IWebStartup
         services.AddSingleton<NavigationState<Startup>>();
         services.AddHttpContextAccessor();
         services.AddScoped<DocumentLocalizationService>();
-        services.AddScoped<ChatClient>();
+        services.AddScoped<ChatClient>(sp =>
+        {
+            var httpClient = sp.GetRequiredService<HttpClient>();
+            var chatClient = new ChatClient(httpClient, sp.GetRequiredService<ILogger<ChatClient>>());
+            // ChatClient sets its own default in the constructor.
+            // Localization must also allow time for the gateway's inference queue.
+            httpClient.Timeout = TimeSpan.FromSeconds(1000);
+            return chatClient;
+        });
         services.AddScoped<MarkdownShredder>();
         services.AddSingleton<DocumentEmbeddingCache>();
         services.AddSingleton<SearchRateLimiter>();
