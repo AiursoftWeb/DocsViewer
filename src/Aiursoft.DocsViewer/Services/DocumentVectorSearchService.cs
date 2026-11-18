@@ -206,7 +206,7 @@ public class DocumentVectorSearchService(
         var model = await settingsService.GetSettingValueAsync(SettingsMap.EmbeddingModel);
         var token = await settingsService.GetEmbeddingTokenAsync();
 
-        var maxChars = 8000;
+        var maxChars = BackgroundJobs.GenerateEmbeddingsJob.MaxInputCharacters;
 
         var http = httpClientFactory.CreateClient();
         var baseUri = new Uri(instance);
@@ -216,8 +216,8 @@ public class DocumentVectorSearchService(
         float[] embedding;
         while (true)
         {
-            var input = text.Length > maxChars ? text[..maxChars] : text;
-            var requestBody = new { model, input };
+            var input = BackgroundJobs.GenerateEmbeddingsJob.TruncateForEmbedding(text, maxChars);
+            var requestBody = new { model, input, truncate = false };
             using var request = new HttpRequestMessage(HttpMethod.Post, embedEndpoint);
             request.Content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
             if (!string.IsNullOrWhiteSpace(token))
@@ -230,7 +230,7 @@ public class DocumentVectorSearchService(
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync(linkedCts.Token);
-                if (maxChars > 500 && EmbeddingHelper.IsContextLengthError(response.StatusCode, error))
+                if (maxChars > 512 && EmbeddingHelper.IsContextLengthError(response.StatusCode, error))
                 {
                     maxChars /= 2;
                     continue;
