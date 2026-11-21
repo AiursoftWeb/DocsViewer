@@ -26,7 +26,7 @@ public class BasicTests : TestBase
         Assert.IsTrue(rejected.Headers.CacheControl?.NoStore);
         Assert.AreEqual("Too many requests. Please try again later.", await rejected.Content.ReadAsStringAsync());
 
-        using var styles = await Http.GetAsync("/UIStack/dist/css/app.css");
+        using var styles = await Http.GetAsync("/node_modules/@aiursoft/uistack/dist/css/app.css");
         Assert.AreEqual(HttpStatusCode.OK, styles.StatusCode);
         if (EntryExtends.IsInDocker())
         {

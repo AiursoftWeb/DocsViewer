@@ -13,7 +13,6 @@ using Aiursoft.DocsViewer.Services.Authentication;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
 using Aiursoft.DocsViewer.Sqlite;
 using Aiursoft.DocsViewer.Services;
-using Aiursoft.UiStack;
 using Aiursoft.UiStack.Layout;
 using Aiursoft.UiStack.Navigation;
 using Aiursoft.GptClient.Services;
@@ -153,7 +152,6 @@ public class Startup : IWebStartup
     {
         app.UseExceptionHandler("/Error/Code500");
         app.UseStatusCodePagesWithReExecute("/Error/Code{0}");
-        app.UseUIStack();
         app.UseStaticFiles();
         app.UseMacroRateLimiting();
         app.UseRouting();
