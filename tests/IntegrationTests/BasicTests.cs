@@ -1,5 +1,7 @@
 using System.Net;
+using System.Text.RegularExpressions;
 using Aiursoft.CSTools.Tools;
+using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.WebTools;
 
 [assembly:DoNotParallelize]
@@ -43,6 +45,30 @@ public class BasicTests : TestBase
     {
         var response = await Http.GetAsync(url);
         response.EnsureSuccessStatusCode();
+    }
+
+    [TestMethod]
+    public async Task HomepageServesRelativeImagesBeforeIndexing()
+    {
+        var repo = Path.Combine(GetService<StorageRootPathProvider>().GetStorageRootPath(), "repo");
+        var docs = Path.Combine(repo, "Docs");
+        var assets = Path.Combine(docs, "Assets");
+        Directory.CreateDirectory(assets);
+        await File.WriteAllTextAsync(Path.Combine(repo, "properdocs.yml"),
+            "docs_dir: Docs\nnav:\n  - Home: README.md\n");
+        await File.WriteAllTextAsync(Path.Combine(docs, "README.md"),
+            "![Homepage logo](./Assets/logo.svg){ width=100 }");
+        await File.WriteAllTextAsync(Path.Combine(assets, "logo.svg"),
+            """<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10" /></svg>""");
+
+        using var homepage = await Http.GetAsync("/");
+        homepage.EnsureSuccessStatusCode();
+        var markup = await homepage.Content.ReadAsStringAsync();
+        var image = Regex.Match(markup, """src="([^"]+doc-images/[^"]+)"[^>]*alt="Homepage logo" """);
+        Assert.IsTrue(image.Success, markup);
+        using var asset = await Http.GetAsync(image.Groups[1].Value);
+        Assert.AreEqual(HttpStatusCode.OK, asset.StatusCode);
+        Assert.AreEqual("image/svg+xml", asset.Content.Headers.ContentType?.MediaType);
     }
 
     [TestMethod]

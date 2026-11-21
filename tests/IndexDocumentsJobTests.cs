@@ -334,52 +334,6 @@ public class IndexDocumentsJobTests
     // ComputeImageFingerprint determinism tests
     // ─────────────────────────────────────────────────────────────────────────
 
-    /// <summary>
-    /// A minimal subclass that exposes the protected ComputeImageFingerprint so tests
-    /// can verify its behaviour without going through the full indexing pipeline.
-    /// </summary>
-    private sealed class TestableIndexDocumentsJob(
-        DocsViewerDbContext db,
-        StorageRootPathProvider storageRootPathProvider,
-        NavConfigParser navConfigParser,
-        FeatureFoldersProvider featureFolders,
-        IMemoryCache cache,
-        ILogger<IndexDocumentsJob> logger)
-        : IndexDocumentsJob(db, storageRootPathProvider, navConfigParser, featureFolders, cache, logger)
-    {
-        public new string ComputeImageFingerprint(string relativePath, string absolutePath)
-            => base.ComputeImageFingerprint(relativePath, absolutePath);
-    }
-
-    private static TestableIndexDocumentsJob CreateTestableJob(string tempPath)
-    {
-        var config = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                { "Storage:Path", tempPath }
-            })
-            .Build();
-
-        var rootProvider = new StorageRootPathProvider(config);
-        var folders = new FeatureFoldersProvider(rootProvider);
-        var memCache = new MemoryCache(new MemoryCacheOptions());
-        var dbOptions = new DbContextOptionsBuilder<InMemoryContext>()
-            .UseInMemoryDatabase("FingerprintTest_" + Guid.NewGuid())
-            .Options;
-        var db = new InMemoryContext(dbOptions);
-
-        var loggerFactory = new ServiceCollection()
-            .AddLogging()
-            .BuildServiceProvider()
-            .GetRequiredService<ILoggerFactory>();
-
-        return new TestableIndexDocumentsJob(
-            db, rootProvider,
-            new NavConfigParser(NullLogger<NavConfigParser>.Instance),
-            folders, memCache,
-            loggerFactory.CreateLogger<IndexDocumentsJob>());
-    }
-
     [TestMethod]
     public void ComputeImageFingerprint_SameFile_SameFingerprint()
     {
@@ -390,11 +344,10 @@ public class IndexDocumentsJobTests
         {
             var imagePath = Path.Combine(tempDir, "logo.svg");
             File.WriteAllText(imagePath, "<svg>test</svg>");
-            var job = CreateTestableJob(tempDir);
 
             // Act
-            var fp1 = job.ComputeImageFingerprint("Assets/logo.svg", imagePath);
-            var fp2 = job.ComputeImageFingerprint("Assets/logo.svg", imagePath);
+            var fp1 = DocumentImageStorage.ComputeFingerprint("Assets/logo.svg", imagePath);
+            var fp2 = DocumentImageStorage.ComputeFingerprint("Assets/logo.svg", imagePath);
 
             // Assert
             Assert.AreEqual(fp1, fp2, "Same file must produce the same fingerprint.");
@@ -418,10 +371,9 @@ public class IndexDocumentsJobTests
             var content = "<svg>test</svg>";
             File.WriteAllText(image1, content);
             File.WriteAllText(image2, content);
-            var job = CreateTestableJob(tempDir);
 
-            var fp1 = job.ComputeImageFingerprint("dir/a.svg", image1);
-            var fp2 = job.ComputeImageFingerprint("dir/b.svg", image2);
+            var fp1 = DocumentImageStorage.ComputeFingerprint("dir/a.svg", image1);
+            var fp2 = DocumentImageStorage.ComputeFingerprint("dir/b.svg", image2);
 
             Assert.AreNotEqual(fp1, fp2,
                 "Different paths must produce different fingerprints.");
@@ -441,12 +393,10 @@ public class IndexDocumentsJobTests
         {
             var imagePath = Path.Combine(tempDir, "icon.png");
             File.WriteAllText(imagePath, "aaaa"); // small content to force different size
-            var job1 = CreateTestableJob(tempDir);
-            var fp1 = job1.ComputeImageFingerprint("icon.png", imagePath);
+            var fp1 = DocumentImageStorage.ComputeFingerprint("icon.png", imagePath);
 
             File.WriteAllText(imagePath, "aaaabbbbccccddddeeeeffff"); // different size
-            var job2 = CreateTestableJob(tempDir);
-            var fp2 = job2.ComputeImageFingerprint("icon.png", imagePath);
+            var fp2 = DocumentImageStorage.ComputeFingerprint("icon.png", imagePath);
 
             Assert.AreNotEqual(fp1, fp2,
                 "Different file sizes must produce different fingerprints.");

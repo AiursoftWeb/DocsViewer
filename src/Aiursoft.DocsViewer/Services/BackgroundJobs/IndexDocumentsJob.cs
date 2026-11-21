@@ -1,7 +1,4 @@
 using System.Globalization;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
 using Aiursoft.Canon.BackgroundJobs;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Services.FileStorage;
@@ -10,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Aiursoft.DocsViewer.Services.BackgroundJobs;
 
-public partial class IndexDocumentsJob(
+public class IndexDocumentsJob(
     DocsViewerDbContext db,
     StorageRootPathProvider storageRootPathProvider,
     NavConfigParser navConfigParser,
@@ -20,13 +17,6 @@ public partial class IndexDocumentsJob(
 {
     public string Name => "Index Documents";
     public string Description => "Index documents from the cloned repository.";
-
-    /// <summary>
-    /// Matches markdown image syntax: ![alt text](relative/path.png)
-    /// Captures the path part (group 1).
-    /// </summary>
-    [GeneratedRegex(@"!\[[^\]]*\]\(([^)]+)\)", RegexOptions.Compiled)]
-    private static partial Regex ImageRefRegex();
 
     public async Task ExecuteAsync()
     {
@@ -86,7 +76,7 @@ public partial class IndexDocumentsJob(
 
             // Copy referenced images to StorageService Workspace and rewrite paths
             var docDir = Path.GetDirectoryName(file)!;
-            var processedContent = ProcessImages(docDir, rawContent);
+            var processedContent = DocumentImageStorage.PrepareImages(repoPath, docDir, rawContent, featureFolders, logger);
 
             var lastModified = await GetGitLastModifiedAsync(repoPath, file);
 
@@ -148,68 +138,6 @@ public partial class IndexDocumentsJob(
         await db.SaveChangesAsync();
         cache.Remove("document_tree");
         logger.LogInformation("IndexDocumentsJob completed.");
-    }
-
-    /// <summary>
-    /// Finds all markdown image references, copies the files to StorageService Workspace,
-    /// and returns the content with paths rewritten to logical paths.
-    /// </summary>
-    private string ProcessImages(string docDir, string markdown)
-    {
-        return ImageRefRegex().Replace(markdown, match =>
-        {
-            var originalPath = match.Groups[1].Value;
-
-            // Skip external URLs
-            if (originalPath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-                originalPath.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ||
-                originalPath.StartsWith("data:"))
-            {
-                return match.Value;
-            }
-
-            // Resolve relative path against the document directory
-            // Preserve parent-directory segments in cross-document image references.
-            var cleanPath = originalPath.Replace('\\', '/').TrimStart('/');
-            var sourcePath = Path.GetFullPath(Path.Combine(docDir, cleanPath));
-
-            if (!File.Exists(sourcePath))
-            {
-                logger.LogWarning("IndexDocumentsJob: image not found at '{Source}'. Keeping original path.", sourcePath);
-                return match.Value;
-            }
-
-            var ext = Path.GetExtension(cleanPath).ToLowerInvariant();
-            if (string.IsNullOrEmpty(ext)) ext = ".png";
-
-            var uuid = ComputeImageFingerprint(cleanPath, sourcePath);
-            var logicalPath = $"doc-images/{uuid}{ext}";
-            var workspaceRoot = featureFolders.GetWorkspaceFolder();
-            var physicalPath = Path.GetFullPath(Path.Combine(workspaceRoot, logicalPath));
-
-            var dir = Path.GetDirectoryName(physicalPath)!;
-            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
-
-            File.Copy(sourcePath, physicalPath, overwrite: true);
-
-            // Rewrite to logical path — will be resolved at render time via StorageService
-            return $"![{match.Groups[1].Value}]({logicalPath})";
-        });
-    }
-
-    /// <summary>
-    /// Computes a deterministic fingerprint for an image file based on its relative path,
-    /// file size, and last-write time. Same file always produces the same fingerprint;
-    /// any change to the file metadata produces a new one. Exposed as protected virtual
-    /// so unit tests can verify determinism directly.
-    /// </summary>
-    protected virtual string ComputeImageFingerprint(string relativePath, string absolutePath)
-    {
-        var fileInfo = new FileInfo(absolutePath);
-        var fingerprint = $"{relativePath}|{fileInfo.Length}|{fileInfo.LastWriteTimeUtc.Ticks}";
-        return Convert.ToHexString(
-            SHA256.HashData(Encoding.UTF8.GetBytes(fingerprint))
-        )[..16].ToLowerInvariant();
     }
 
     /// <summary>
