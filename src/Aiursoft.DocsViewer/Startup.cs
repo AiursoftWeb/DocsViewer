@@ -13,7 +13,6 @@ using Aiursoft.DocsViewer.Services.Authentication;
 using Aiursoft.DocsViewer.Services.BackgroundJobs;
 using Aiursoft.DocsViewer.Sqlite;
 using Aiursoft.DocsViewer.Services;
-using Aiursoft.UiStack;
 using Aiursoft.UiStack.Layout;
 using Aiursoft.UiStack.Navigation;
 using Aiursoft.GptClient.Services;
