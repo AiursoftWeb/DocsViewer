@@ -64,8 +64,8 @@ public class BasicTests : TestBase
         using var homepage = await Http.GetAsync("/");
         homepage.EnsureSuccessStatusCode();
         var markup = await homepage.Content.ReadAsStringAsync();
-        var image = Regex.Match(markup, """src="([^"]+doc-images/[^"]+)"[^>]*alt="Homepage logo" """);
-        Assert.IsTrue(image.Success, markup);
+        var image = Regex.Match(markup, """<img\b(?=[^>]*\balt="Homepage logo")(?=[^>]*\bsrc="([^"]+/doc-images/[^"]+)")[^>]*>""");
+        Assert.IsTrue(image.Success, "The homepage should render the logo through document image storage.");
         using var asset = await Http.GetAsync(image.Groups[1].Value);
         Assert.AreEqual(HttpStatusCode.OK, asset.StatusCode);
         Assert.AreEqual("image/svg+xml", asset.Content.Headers.ContentType?.MediaType);
