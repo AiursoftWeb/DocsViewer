@@ -14,8 +14,10 @@ public class HomeController(
     DocsViewerDbContext db,
     StorageRootPathProvider storageRootPathProvider,
     DocumentMarkdownRenderer renderer,
+    FeatureFoldersProvider featureFolders,
     NavConfigParser navConfigParser,
-    IStringLocalizer<HomeController> localizer) : Controller
+    IStringLocalizer<HomeController> localizer,
+    ILogger<HomeController> logger) : Controller
 {
     public async Task<IActionResult> Index()
     {
@@ -28,7 +30,7 @@ public class HomeController(
             var homePagePath = Path.Combine(repoPath, navConfig.DocsDir, navConfig.HomePage);
             if (System.IO.File.Exists(homePagePath))
             {
-                var content = await System.IO.File.ReadAllTextAsync(homePagePath);
+                string content;
 
                 var relativePath = navConfig.HomePage.Replace('\\', '/').ToLowerInvariant();
                 var dbDoc = await db.Documents
@@ -46,6 +48,12 @@ public class HomeController(
                         : await db.LocalizedDocuments
                             .FirstOrDefaultAsync(ld => ld.DocumentId == dbDoc.Id && ld.Culture == currentCulture);
                     content = localized?.LocalizedContent ?? dbDoc.Content;
+                }
+                else
+                {
+                    var markdown = await System.IO.File.ReadAllTextAsync(homePagePath);
+                    content = DocumentImageStorage.PrepareImages(repoPath, Path.GetDirectoryName(homePagePath)!,
+                        markdown, featureFolders, logger);
                 }
 
                 var html = renderer.RenderHtml(content);
