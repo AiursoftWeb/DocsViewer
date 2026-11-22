@@ -216,7 +216,9 @@ public class DocumentsController(
             : await db.LocalizedDocuments
                 .FirstOrDefaultAsync(lr => lr.DocumentId == id && lr.Culture == currentCulture);
 
-        var showTranslationNotice = doc.SourceCulture != null && !isSourceCulture;
+        var isDifferentLanguage = doc.SourceCulture != null && !isSourceCulture;
+        var showTranslationNotice = isDifferentLanguage && localized != null;
+        var showSourceFallbackNotice = isDifferentLanguage && localized == null;
         var sourceLanguageName = doc.SourceCulture != null
             ? LanguageMetadata.SupportedCultures.GetValueOrDefault(doc.SourceCulture, doc.SourceCulture)
             : null;
@@ -292,6 +294,7 @@ public class DocumentsController(
             CategoryDisplayName = GetDisplayName(doc.Category, null),
             LocalizedDocument = localized,
             ShowTranslationNotice = showTranslationNotice,
+            ShowSourceFallbackNotice = showSourceFallbackNotice,
             SourceLanguageName = sourceLanguageName,
             ShowSimilarDocumentsButton = embeddingCache.Count > 0 && embeddingCache.Count >= await db.Documents.CountAsync(),
             Contributors = contributors

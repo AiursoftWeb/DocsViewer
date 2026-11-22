@@ -42,10 +42,10 @@ public class DetailViewModel : UiStackLayoutViewModel
     public List<ContributorViewModel> Contributors { get; set; } = [];
 
     /// <summary>
-    /// True when the current UI culture differs from the document's SourceCulture,
-    /// meaning the user is reading a machine translation.
+    /// True when the displayed document is a machine translation.
     /// </summary>
     public bool ShowTranslationNotice { get; set; }
+    public bool ShowSourceFallbackNotice { get; set; }
 
     /// <summary>
     /// Human-readable name of the document's source language, e.g. "中文 (中国大陆)".
