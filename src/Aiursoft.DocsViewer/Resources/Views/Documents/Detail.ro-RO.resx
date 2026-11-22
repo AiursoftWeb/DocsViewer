@@ -99,6 +99,9 @@
   <data name="Similar" xml:space="preserve">
     <value>Similar</value>
   </data>
+  <data name="This document has not been translated into your language yet. You are reading the original." xml:space="preserve">
+    <value>Acest document nu a fost încă tradus în limba dumneavoastră. Citiți originalul.</value>
+  </data>
   <data name="This document was originally written in" xml:space="preserve">
     <value>Acest document a fost scris inițial în</value>
   </data>

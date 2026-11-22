@@ -99,6 +99,9 @@
   <data name="Similar" xml:space="preserve">
     <value>Similar</value>
   </data>
+  <data name="This document has not been translated into your language yet. You are reading the original." xml:space="preserve">
+    <value>This document has not been translated into your language yet. You are reading the original.</value>
+  </data>
   <data name="This document was originally written in" xml:space="preserve">
     <value>This document was originally written in</value>
   </data>

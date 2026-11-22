@@ -99,6 +99,9 @@
   <data name="Similar" xml:space="preserve">
     <value>Подібні</value>
   </data>
+  <data name="This document has not been translated into your language yet. You are reading the original." xml:space="preserve">
+    <value>Цей документ ще не перекладено вашою мовою. Ви читаєте оригінал.</value>
+  </data>
   <data name="This document was originally written in" xml:space="preserve">
     <value>Цей документ був спочатку написаний мовою</value>
   </data>
