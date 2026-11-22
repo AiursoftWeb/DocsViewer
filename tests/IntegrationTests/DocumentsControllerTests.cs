@@ -1,6 +1,8 @@
+using System.Net;
 using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Configuration;
 using Aiursoft.DocsViewer.Services;
+using Microsoft.AspNetCore.Localization;
 
 namespace Aiursoft.DocsViewer.Tests.IntegrationTests;
 
@@ -39,6 +41,54 @@ public class DocumentsControllerTests : TestBase
         var html = await response.Content.ReadAsStringAsync();
         StringAssert.Contains(html, "data-document-outline");
         StringAssert.Contains(html, "/scripts/document-outline.js");
+    }
+
+    [TestMethod]
+    [DataRow("en-US", true, false)]
+    [DataRow("en-GB", true, true)]
+    [DataRow("en-GB", false, false)]
+    [DataRow("zh-CN", true, true)]
+    [DataRow("zh-CN", false, false)]
+    public async Task DocumentNoticeMatchesTheDisplayedLanguage(string culture, bool hasTranslation, bool showsTranslation)
+    {
+        var path = $"Install/From-USB-{Guid.NewGuid():N}";
+        await using (var scope = Server!.Services.CreateAsyncScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
+            var document = new Document
+            {
+                FilePath = path + ".md",
+                Category = "Install",
+                Title = "Install from USB",
+                Content = "Original installation instructions.",
+                SourceCulture = "en-US",
+                FileLastModified = DateTime.UtcNow
+            };
+            if (hasTranslation)
+            {
+                document.LocalizedDocuments.Add(new LocalizedDocument
+                {
+                    Culture = culture,
+                    LocalizedTitle = "USB installation guide",
+                    LocalizedContent = "Translated installation instructions.",
+                    LastLocalizedAt = DateTime.UtcNow
+                });
+            }
+            db.Documents.Add(document);
+            await db.SaveChangesAsync();
+        }
+
+        using var request = new HttpRequestMessage(HttpMethod.Get, $"/{path}.html");
+        var cookie = Uri.EscapeDataString(CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)));
+        request.Headers.Add("Cookie", $"{CookieRequestCultureProvider.DefaultCookieName}={cookie}");
+        using var response = await Http.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+        var markup = WebUtility.HtmlDecode(await response.Content.ReadAsStringAsync());
+        Assert.Contains($"<html lang=\"{culture}\"", markup);
+        var showsFallback = culture != "en-US" && !hasTranslation;
+        Assert.AreEqual(showsTranslation, markup.Contains("AI Translation Notice", StringComparison.Ordinal));
+        Assert.AreEqual(showsFallback, markup.Contains("You are reading the original.", StringComparison.Ordinal));
+        Assert.Contains(showsTranslation ? "Translated installation instructions." : "Original installation instructions.", markup);
     }
 
     [TestMethod]

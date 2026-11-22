@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using Aiursoft.CSTools.Tools;
-using Aiursoft.DocsViewer.Entities;
 using Aiursoft.DocsViewer.Services.FileStorage;
 using Aiursoft.WebTools;
 
@@ -70,53 +69,6 @@ public class BasicTests : TestBase
         using var asset = await Http.GetAsync(image.Groups[1].Value);
         Assert.AreEqual(HttpStatusCode.OK, asset.StatusCode);
         Assert.AreEqual("image/svg+xml", asset.Content.Headers.ContentType?.MediaType);
-    }
-
-    [TestMethod]
-    [DataRow("en-US", true, false)]
-    [DataRow("en-GB", true, true)]
-    [DataRow("en-GB", false, false)]
-    [DataRow("zh-CN", true, true)]
-    [DataRow("zh-CN", false, false)]
-    public async Task DocumentNoticeMatchesTheDisplayedLanguage(string culture, bool hasTranslation, bool showsTranslation)
-    {
-        await using (var scope = Server!.Services.CreateAsyncScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<DocsViewerDbContext>();
-            var document = new Document
-            {
-                FilePath = "Install/From-USB.md",
-                Category = "Install",
-                Title = "Install from USB",
-                Content = "Original installation instructions.",
-                SourceCulture = "en-US",
-                FileLastModified = DateTime.UtcNow
-            };
-            if (hasTranslation)
-            {
-                document.LocalizedDocuments.Add(new LocalizedDocument
-                {
-                    Culture = culture,
-                    LocalizedTitle = "USB installation guide",
-                    LocalizedContent = "Translated installation instructions.",
-                    LastLocalizedAt = DateTime.UtcNow
-                });
-            }
-            db.Documents.Add(document);
-            await db.SaveChangesAsync();
-        }
-
-        using var cultureResponse = await Http.GetAsync($"/Culture/Set?culture={culture}");
-        Assert.AreEqual(HttpStatusCode.Found, cultureResponse.StatusCode);
-        using var response = await Http.GetAsync("/Install/From-USB.html");
-        response.EnsureSuccessStatusCode();
-        var markup = WebUtility.HtmlDecode(await response.Content.ReadAsStringAsync());
-        var showsFallback = culture != "en-US" && !hasTranslation;
-        var translationNotice = culture == "zh-CN" ? "AI 翻译提示" : "AI Translation Notice";
-        var fallbackNotice = culture == "zh-CN" ? "您正在阅读的是原文。" : "You are reading the original.";
-        Assert.AreEqual(showsTranslation, markup.Contains(translationNotice, StringComparison.Ordinal));
-        Assert.AreEqual(showsFallback, markup.Contains(fallbackNotice, StringComparison.Ordinal));
-        Assert.Contains(showsTranslation ? "Translated installation instructions." : "Original installation instructions.", markup);
     }
 
     [TestMethod]
