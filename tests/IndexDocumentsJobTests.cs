@@ -330,127 +330,82 @@ public class IndexDocumentsJobTests
         }
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // ComputeImageFingerprint determinism tests
-    // ─────────────────────────────────────────────────────────────────────────
-
     [TestMethod]
-    public void ComputeImageFingerprint_SameFile_SameFingerprint()
+    public async Task ReindexingPreservesTranslationsAndUpdatesImageUrls()
     {
-        // Arrange
-        var tempDir = Path.Combine(Path.GetTempPath(), "FingerprintTest_" + Guid.NewGuid());
-        Directory.CreateDirectory(tempDir);
-        try
-        {
-            var imagePath = Path.Combine(tempDir, "logo.svg");
-            File.WriteAllText(imagePath, "<svg>test</svg>");
-
-            // Act
-            var fp1 = DocumentImageStorage.ComputeFingerprint("Assets/logo.svg", imagePath);
-            var fp2 = DocumentImageStorage.ComputeFingerprint("Assets/logo.svg", imagePath);
-
-            // Assert
-            Assert.AreEqual(fp1, fp2, "Same file must produce the same fingerprint.");
-            Assert.AreEqual(16, fp1.Length, "Fingerprint must be 16 hex chars.");
-        }
-        finally
-        {
-            Directory.Delete(tempDir, recursive: true);
-        }
-    }
-
-    [TestMethod]
-    public void ComputeImageFingerprint_DifferentPath_DifferentFingerprint()
-    {
-        var tempDir = Path.Combine(Path.GetTempPath(), "FingerprintTest_" + Guid.NewGuid());
-        Directory.CreateDirectory(tempDir);
-        try
-        {
-            var image1 = Path.Combine(tempDir, "a.svg");
-            var image2 = Path.Combine(tempDir, "b.svg");
-            var content = "<svg>test</svg>";
-            File.WriteAllText(image1, content);
-            File.WriteAllText(image2, content);
-
-            var fp1 = DocumentImageStorage.ComputeFingerprint("dir/a.svg", image1);
-            var fp2 = DocumentImageStorage.ComputeFingerprint("dir/b.svg", image2);
-
-            Assert.AreNotEqual(fp1, fp2,
-                "Different paths must produce different fingerprints.");
-        }
-        finally
-        {
-            Directory.Delete(tempDir, recursive: true);
-        }
-    }
-
-    [TestMethod]
-    public void ComputeImageFingerprint_DifferentContent_DifferentFingerprint()
-    {
-        var tempDir = Path.Combine(Path.GetTempPath(), "FingerprintTest_" + Guid.NewGuid());
-        Directory.CreateDirectory(tempDir);
-        try
-        {
-            var imagePath = Path.Combine(tempDir, "icon.png");
-            File.WriteAllText(imagePath, "aaaa"); // small content to force different size
-            var fp1 = DocumentImageStorage.ComputeFingerprint("icon.png", imagePath);
-
-            File.WriteAllText(imagePath, "aaaabbbbccccddddeeeeffff"); // different size
-            var fp2 = DocumentImageStorage.ComputeFingerprint("icon.png", imagePath);
-
-            Assert.AreNotEqual(fp1, fp2,
-                "Different file sizes must produce different fingerprints.");
-        }
-        finally
-        {
-            Directory.Delete(tempDir, recursive: true);
-        }
-    }
-
-    [TestMethod]
-    public async Task ComputeImageFingerprint_RerunOnSameImage_ImagePathsStable()
-    {
-        // End-to-end: create a doc with an image, index it twice, verify the
-        // image path in the stored Content does not change across runs.
-        var dbName = "IndexJobTest_" + Guid.NewGuid();
-        var (syncJob, storageRootPathProvider, _, loggerFactory, dbOptions, foldersProvider, _, memCache) = BuildServices(dbName);
-
-        // Create an image in the mock repo Docs dir
+        var (syncJob, rootProvider, _, loggerFactory, options, folders, _, cache) =
+            BuildServices("ImageReindex_" + Guid.NewGuid());
+        const string markdown = "# Test Doc\n![alt](logo.svg)\nThis is a test.";
+        const string logo = "<svg>logo</svg>";
         var mockDocsDir = Path.Combine(_mockRepoPath, "Docs", "test_category");
-        File.WriteAllText(Path.Combine(mockDocsDir, "test_doc.md"),
-            "# Test Doc\n![alt](logo.svg)\nThis is a test.");
-        File.WriteAllText(Path.Combine(mockDocsDir, "logo.svg"), "<svg>logo</svg>");
-        // Amend the commit so git log returns a stable date
+        await File.WriteAllTextAsync(Path.Combine(mockDocsDir, "test_doc.md"), markdown);
+        await File.WriteAllTextAsync(Path.Combine(mockDocsDir, "logo.svg"), logo);
         RunGitCommand("add .", _mockRepoPath);
         RunGitCommand(
             "-c user.name=TestUser -c user.email=test@test.com -c commit.gpgsign=false commit --no-gpg-sign --amend -m \"Initial commit\"",
             _mockRepoPath);
-
-        // First run
         await syncJob.ExecuteAsync();
-        string contentAfterFirst;
-        await using (var db = new InMemoryContext(dbOptions))
-        {
-            var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
-                loggerFactory.CreateLogger<IndexDocumentsJob>());
-            await job.ExecuteAsync();
-            contentAfterFirst = (await db.Documents.FirstAsync()).Content;
-        }
-        Assert.IsTrue(contentAfterFirst.Contains("doc-images/"),
-            "Content must contain a rewritten image path after first indexing.");
+        await using var db = new InMemoryContext(options);
+        var job = new IndexDocumentsJob(db, rootProvider,
+            new NavConfigParser(NullLogger<NavConfigParser>.Instance), folders, cache,
+            loggerFactory.CreateLogger<IndexDocumentsJob>());
+        await job.ExecuteAsync();
 
-        // Second run: content must be exactly the same — image UUID must not change
-        await using (var db = new InMemoryContext(dbOptions))
+        var document = await db.Documents.SingleAsync();
+        var firstContent = document.Content;
+        var workspace = folders.GetWorkspaceFolder();
+        var firstImage = Directory.GetFiles(Path.Combine(workspace, "doc-images")).Single();
+        var firstImageUrl = $"doc-images/{Path.GetFileName(firstImage)}";
+        Assert.Contains($"![alt]({firstImageUrl})", firstContent);
+        const string legacyImageUrl = "doc-images/0123456789abcdef.svg";
+        const string translatedMarkdown = "# Test traduit\n![Image traduite](" + legacyImageUrl + ")";
+        var translatedAt = document.FileLastModified.AddHours(1);
+        document.Content = firstContent.Replace(firstImageUrl, legacyImageUrl, StringComparison.Ordinal);
+        document.SourceCulture = "en-US";
+        var translation = new LocalizedDocument
         {
-            var job = new IndexDocumentsJob(
-                db, storageRootPathProvider, new NavConfigParser(NullLogger<NavConfigParser>.Instance), foldersProvider, memCache,
-                loggerFactory.CreateLogger<IndexDocumentsJob>());
-            await job.ExecuteAsync();
-            var contentAfterSecond = (await db.Documents.FirstAsync()).Content;
-            Assert.AreEqual(contentAfterFirst, contentAfterSecond,
-                "Image path must be stable across IndexDocumentsJob reruns.");
-        }
+            DocumentId = document.Id,
+            Culture = "fr-FR",
+            LocalizedTitle = "Test traduit",
+            LocalizedContent = translatedMarkdown,
+            LastLocalizedAt = translatedAt
+        };
+        db.LocalizedDocuments.Add(translation);
+        await db.SaveChangesAsync();
+
+        // Simulate upgrading an existing database while recreating the checkout.
+        var checkout = Path.Combine(rootProvider.GetStorageRootPath(), "repo");
+        var checkoutImage = Path.Combine(checkout, "Docs", "test_category", "logo.svg");
+        var oldFileTime = new DateTime(2001, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        File.SetLastWriteTimeUtc(checkoutImage, oldFileTime);
+        Directory.Move(checkout, Path.Combine(_tempPath, "previous-repo"));
+        await syncJob.ExecuteAsync();
+        Assert.AreNotEqual(oldFileTime, File.GetLastWriteTimeUtc(checkoutImage));
+        await job.ExecuteAsync();
+        db.ChangeTracker.Clear();
+
+        document = await db.Documents.SingleAsync();
+        translation = await db.LocalizedDocuments.SingleAsync();
+        Assert.AreEqual(firstContent, document.Content);
+        Assert.AreEqual("en-US", document.SourceCulture);
+        Assert.AreEqual("Test traduit", translation.LocalizedTitle);
+        Assert.AreEqual(translatedAt, translation.LastLocalizedAt);
+        Assert.AreEqual(translatedMarkdown.Replace(legacyImageUrl, firstImageUrl, StringComparison.Ordinal),
+            translation.LocalizedContent);
+
+        // A same-length image edit with the same filesystem timestamp still changes the URL.
+        const string newLogo = "<svg>icon</svg>";
+        var checkoutImageTime = File.GetLastWriteTimeUtc(checkoutImage);
+        await File.WriteAllTextAsync(checkoutImage, newLogo);
+        File.SetLastWriteTimeUtc(checkoutImage, checkoutImageTime);
+        await job.ExecuteAsync();
+        db.ChangeTracker.Clear();
+        var newImage = Directory.GetFiles(Path.Combine(workspace, "doc-images")).Single(path => path != firstImage);
+        var newImageUrl = $"doc-images/{Path.GetFileName(newImage)}";
+        Assert.AreEqual(newLogo, await File.ReadAllTextAsync(newImage));
+        Assert.AreEqual(logo, await File.ReadAllTextAsync(firstImage));
+        Assert.Contains(newImageUrl, (await db.Documents.SingleAsync()).Content);
+        Assert.Contains(newImageUrl, (await db.LocalizedDocuments.SingleAsync()).LocalizedContent);
     }
 
     // ─────────────────────────────────────────────────────────────────────────

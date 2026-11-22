@@ -99,6 +99,9 @@
   <data name="Similar" xml:space="preserve">
     <value>相似文章</value>
   </data>
+  <data name="This document has not been translated into your language yet. You are reading the original." xml:space="preserve">
+    <value>此文件尚未翻譯成您的語言。您現在閱讀的是原文。</value>
+  </data>
   <data name="This document was originally written in" xml:space="preserve">
     <value>本文檔最初以</value>
   </data>

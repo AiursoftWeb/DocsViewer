@@ -101,6 +101,17 @@
                     </div>
                 </div>
             }
+            else if (Model.ShowSourceFallbackNotice)
+            {
+                <div class="alert alert-info alert-outline" role="status">
+                    <div class="alert-icon">
+                        <i class="lucide lucide-languages"></i>
+                    </div>
+                    <div class="alert-message">
+                        @Localizer["This document has not been translated into your language yet. You are reading the original."]
+                    </div>
+                </div>
+            }
 
             <div class="document-reading-layout">
                 <div class="document-main-column">

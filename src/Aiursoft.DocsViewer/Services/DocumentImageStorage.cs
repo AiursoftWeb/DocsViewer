@@ -1,5 +1,4 @@
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using Aiursoft.DocsViewer.Services.FileStorage;
 
@@ -9,6 +8,10 @@ public static partial class DocumentImageStorage
 {
     [GeneratedRegex(@"(?<prefix>!\[[^\]]*\]\()(?<path>[^)]+)\)", RegexOptions.Compiled)]
     private static partial Regex ImageRefRegex();
+
+    // Existing databases can contain the older 16-digit identifiers.
+    [GeneratedRegex(@"(?<prefix>!\[[^\]]*\]\()(?<path>doc-images/(?:[0-9a-f]{16}|[0-9a-f]{64})\.[^)]+)\)", RegexOptions.Compiled)]
+    private static partial Regex StoredImageRefRegex();
 
     public static string PrepareImages(
         string repoPath, string documentDirectory, string markdown, FeatureFoldersProvider folders, ILogger logger)
@@ -41,7 +44,9 @@ public static partial class DocumentImageStorage
                 extension = ".png";
             }
 
-            var logicalPath = $"doc-images/{ComputeFingerprint(cleanPath, sourcePath)}{extension}";
+            using var source = File.OpenRead(sourcePath);
+            var fingerprint = Convert.ToHexStringLower(SHA256.HashData(source));
+            var logicalPath = $"doc-images/{fingerprint}{extension}";
             var destination = Path.Combine(folders.GetWorkspaceFolder(), logicalPath);
             if (!File.Exists(destination))
             {
@@ -50,7 +55,11 @@ public static partial class DocumentImageStorage
                 var temporaryPath = Path.Combine(directory, Path.GetRandomFileName());
                 try
                 {
-                    File.Copy(sourcePath, temporaryPath);
+                    source.Position = 0;
+                    using (var target = File.Create(temporaryPath))
+                    {
+                        source.CopyTo(target);
+                    }
                     File.Move(temporaryPath, destination, overwrite: true);
                 }
                 finally
@@ -80,10 +89,32 @@ public static partial class DocumentImageStorage
         return true;
     }
 
-    public static string ComputeFingerprint(string relativePath, string absolutePath)
+    public static Dictionary<string, string>? GetImagePathChanges(string previousMarkdown, string currentMarkdown)
     {
-        var fileInfo = new FileInfo(absolutePath);
-        var fingerprint = $"{relativePath}|{fileInfo.Length}|{fileInfo.LastWriteTimeUtc.Ticks}";
-        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(fingerprint)))[..16].ToLowerInvariant();
+        var previousImages = StoredImageRefRegex().Matches(previousMarkdown);
+        var currentImages = StoredImageRefRegex().Matches(currentMarkdown);
+        if (previousImages.Count == 0 || previousImages.Count != currentImages.Count)
+        {
+            return null;
+        }
+
+        var paths = new Dictionary<string, string>(StringComparer.Ordinal);
+        for (var i = 0; i < previousImages.Count; i++)
+        {
+            var previous = previousImages[i].Groups["path"].Value;
+            var current = currentImages[i].Groups["path"].Value;
+            if (!paths.TryAdd(previous, current) && paths[previous] != current)
+            {
+                return null;
+            }
+        }
+
+        // Verify that every character outside the generated image URLs is unchanged.
+        return ReplaceImagePaths(previousMarkdown, paths) == currentMarkdown ? paths : null;
     }
+
+    public static string ReplaceImagePaths(string markdown, IReadOnlyDictionary<string, string> paths) =>
+        StoredImageRefRegex().Replace(markdown, match => paths.TryGetValue(match.Groups["path"].Value, out var path)
+            ? $"{match.Groups["prefix"].Value}{path})"
+            : match.Value);
 }
