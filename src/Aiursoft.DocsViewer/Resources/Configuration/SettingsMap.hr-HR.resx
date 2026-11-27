@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name=" The link to the brand&apos;s home page." xml:space="preserve">
+    <value>Poveznica na početnu stranicu brenda.</value>
+  </data>
+  <data name="Agent API Token" xml:space="preserve">
+    <value>API token za agenta</value>
+  </data>
+  <data name="Agent Custom Instructions" xml:space="preserve">
+    <value>Prilagođene upute agenta</value>
+  </data>
+  <data name="Agent Endpoint" xml:space="preserve">
+    <value>Točka pristupa agenta</value>
+  </data>
+  <data name="Agent Model" xml:space="preserve">
+    <value>Model agenta</value>
+  </data>
+  <data name="Allow User Adjust Nickname" xml:space="preserve">
+    <value>Dozvoli korisniku prilagodbu nadimka</value>
+  </data>
+  <data name="Allow signed-in users to post comments and replies." xml:space="preserve">
+    <value>Dozvolite prijavljenim korisnicima da objavljuju komentare i odgovore.</value>
+  </data>
+  <data name="Allow users to adjust their nickname in the profile management page." xml:space="preserve">
+    <value>Dozvolite korisnicima da prilagode svoje nadimke na stranici za upravljanje profilom.</value>
+  </data>
+  <data name="Brand Home URL" xml:space="preserve">
+    <value>URL početne stranice brenda</value>
+  </data>
+  <data name="Brand Name" xml:space="preserve">
+    <value>Naziv brenda</value>
+  </data>
+  <data name="Comma-separated BCP-47 language codes to translate documents into, e.g. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Leave empty or set to a single language to disable AI translation." xml:space="preserve">
+    <value>Kodovi jezika BCP-47 odvojeni zarezima za prijevode dokumenata, npr. en-US,ja-JP,ko-KR,fr-FR,zh-CN. Ostavite prazno ili postavite na jedan jezik za onemogućavanje AI prijevoda.</value>
+  </data>
+  <data name="Docs Repository Backup URL" xml:space="preserve">
+    <value>URL sigurnosne kopije repozitorija dokumentacije</value>
+  </data>
+  <data name="Docs Repository URL" xml:space="preserve">
+    <value>URL repozitorija dokumentacije</value>
+  </data>
+  <data name="Embedding API Token" xml:space="preserve">
+    <value>API žeton za ugradnje</value>
+  </data>
+  <data name="Embedding Endpoint" xml:space="preserve">
+    <value>Endpoint za ugrađivanje</value>
+  </data>
+  <data name="Embedding Model" xml:space="preserve">
+    <value>Model za ugrađivanje</value>
+  </data>
+  <data name="Embedding Query Cache Limit" xml:space="preserve">
+    <value>Ograničenje predmemorije upita za ugrađivanje</value>
+  </data>
+  <data name="Enable Comments" xml:space="preserve">
+    <value>Omogući komentare</value>
+  </data>
+  <data name="Enable Embedding-Based Search" xml:space="preserve">
+    <value>Omogući pretraživanje temeljeno na ugrađivanju</value>
+  </data>
+  <data name="Hold new comments and replies for moderator approval before publishing them." xml:space="preserve">
+    <value>Zadrži nove komentare i odgovore na odobrenje moderatora prije objave.</value>
+  </data>
+  <data name="ICP Number" xml:space="preserve">
+    <value>ICP broj</value>
+  </data>
+  <data name="Localization Languages" xml:space="preserve">
+    <value>Jezici lokalizacije</value>
+  </data>
+  <data name="Localization Model" xml:space="preserve">
+    <value>Model lokalizacije</value>
+  </data>
+  <data name="Master switch for semantic (vector-based) search. When enabled and the embedding model is configured, search results display a green \&quot;Search based on AI (Vector Database)\&quot; badge and use cosine similarity ranking. When disabled or not configured, search silently falls back to keyword matching. Requires Embedding Endpoint and Embedding Model." xml:space="preserve">
+    <value>Glavni prekidač za semantičku (vektorsku) pretragu. Kada je omogućen i model za vektorsko ugrađivanje je konfiguriran, rezultati pretrage prikazuju zeleni natpis „Pretraga temeljena na AI (vektorska baza podataka)&quot; i koriste rangiranje na temelju kosinusne sličnosti. Kada je onemogućen ili nije konfiguriran, pretraga tiho prelazi na pretragu ključnim riječima. Zahtijeva krajnju točku za vektorsko ugrađivanje i model za vektorsko ugrađivanje.</value>
+  </data>
+  <data name="Max Comments Per Day Per User" xml:space="preserve">
+    <value>Maksimalni broj komentara dnevno po korisniku</value>
+  </data>
+  <data name="Maximum number of cached query embeddings in the database. When exceeded, the least recently accessed entries are evicted (LRU). Default 2000. Adjust based on your database capacity and expected query diversity." xml:space="preserve">
+    <value>Maksimalan broj predmemorisanih upitnih embeddinga u bazi podataka. Kada se prekorači, stavke s najmanje nedavnom upotrebom se uklanjaju (LRU). Zadano 2000. Prilagodite prema kapacitetu vaše baze podataka i očekivanoj raznolikosti upita.</value>
+  </data>
+  <data name="Optional administrator guidance for the Document Assistant. It can refine style or scope, but cannot override grounded-answer, citation, or safety rules." xml:space="preserve">
+    <value>Neobavezna uputa administratora za Asistenta za dokumente. Može usavršiti stil ili opseg, ali ne može nadjačati pravila utemeljenih odgovora, citiranja ili sigurnosti.</value>
+  </data>
+  <data name="Project Logo" xml:space="preserve">
+    <value>Logo projekta</value>
+  </data>
+  <data name="Project Name" xml:space="preserve">
+    <value>Naziv projekta</value>
+  </data>
+  <data name="Require Comment Review" xml:space="preserve">
+    <value>Zatraži pregled komentara</value>
+  </data>
+  <data name="The ICP license number for China mainland users. Leave empty to hide." xml:space="preserve">
+    <value>ICP broj licence za korisnike u kontinentalnoj Kini. Ostavite prazno za skrivanje.</value>
+  </data>
+  <data name="The LLM model name used for translating documents, e.g. qwen3.5:27b-q8_0, gpt-4o, or deepseek-chat. Must be available at the OpenAI Chat Endpoint above. Unrelated to embedding/vector search." xml:space="preserve">
+    <value>Naziv LLM modela koji se koristi za prijevod dokumenata, npr. qwen3.5:27b-q8_0, gpt-4o ili deepseek-chat. Mora biti dostupan na gore navedenom OpenAI Chat Endpointu. Nije povezano s ugradnjom/vektorskim pretraživanjem.</value>
+  </data>
+  <data name="The Ollama API base URL used specifically for generating document and query embeddings (vector search). Only the host is used — /api/embed is appended automatically. Falls back to the OpenAI Chat Endpoint when empty. E.g. https://ollama.example.com" xml:space="preserve">
+    <value>Osnovna URL Ollama API-ja koja se koristi isključivo za generiranje ugrađivanja (embedding) dokumenata i upita (vektorsko pretraživanje). Koristi se samo domaćin — /api/embed se automatski dodaje. Ako je prazno, koristi se OpenAI Chat Endpoint. Primjer: https://ollama.example.com</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used for document translation and as the fallback for embedding search. Must be the full URL including /v1/chat/completions. It is not used by the Document Assistant." xml:space="preserve">
+    <value>OpenAI-kompatibilna točka za chat completions koja se koristi za prijevode dokumenata i kao rezervni mehanizam za pretragu ugrađenih vektora. Mora biti puni URL koji uključuje /v1/chat/completions. Ne koristi je Pomoćnik za dokumente.</value>
+  </data>
+  <data name="The OpenAI-compatible chat completions endpoint used only by the Document Assistant. Must be the full URL including /v1/chat/completions." xml:space="preserve">
+    <value>OpenAI-kompatibilna točka za dovršetak razgovora koju koristi isključivo Asistent za dokumente. Mora biti puna URL adresa koja uključuje /v1/chat/completions.</value>
+  </data>
+  <data name="The URL of the git repository containing the markdown documents." xml:space="preserve">
+    <value>URL git repozitorija koji sadrži markdown dokumente.</value>
+  </data>
+  <data name="The backup URL of the git repository. Used if the primary URL fails." xml:space="preserve">
+    <value>Pomoćni URL git repozitorija. Koristi se ako primarni URL ne uspije.</value>
+  </data>
+  <data name="The bearer token for authenticating with the Embedding Endpoint, e.g. 5a0fbdefa19f.... Falls back to OpenAI API Token when empty." xml:space="preserve">
+    <value>Bearer token za autenticaciju s točkom za umetanje (Embedding Endpoint), npr. 5a0fbdefa19f.... Ako je prazan, koristi se OpenAI API Token.</value>
+  </data>
+  <data name="The bearer token for the Translation Endpoint and embedding fallback. Leave empty if that endpoint does not require authentication. It is not sent to the Document Assistant endpoint." xml:space="preserve">
+    <value>Bearing token za prijelazni endpoint i rezervni embedding. Ostavite prazno ako taj endpoint ne zahtijeva autentifikaciju. Ne šalje se na endpoint Dokumentiranog asistenta.</value>
+  </data>
+  <data name="The bearer token sent only to the Agent Endpoint. Leave empty if that endpoint does not require authentication." xml:space="preserve">
+    <value>Bearer token koji se šalje samo na Agent Endpoint. Ostavite prazno ako taj endpoint ne zahtijeva autenticaciju.</value>
+  </data>
+  <data name="The brand name displayed in the footer." xml:space="preserve">
+    <value>Naziv brenda prikazan u podnožju.</value>
+  </data>
+  <data name="The embedding model name for vector search, e.g. bge-m3:latest. Must be available at the Embedding Endpoint. Only used for vector search, not for translation." xml:space="preserve">
+    <value>Naziv modela ugrađivanja za vektorsko pretraživanje, npr. bge-m3:latest. Mora biti dostupan na Vektorskom endpointu. Koristi se samo za vektorsko pretraživanje, a ne za prijevod.</value>
+  </data>
+  <data name="The logo of the project displayed in the navbar and footer. Support jpg, png, svg." xml:space="preserve">
+    <value>Logo projekta prikazan u navigacijskoj traci i podnožju. Podržani formati: jpg, png, svg.</value>
+  </data>
+  <data name="The maximum number of comments a user can post per day." xml:space="preserve">
+    <value>Maksimalan broj komentara koje korisnik može objaviti dnevno.</value>
+  </data>
+  <data name="The model name used for grounded document answers. It must be available at the Agent Endpoint." xml:space="preserve">
+    <value>Naziv modela koji se koristi za utemeljene odgovore na dokumente. Mora biti dostupan na Agent Endpointu.</value>
+  </data>
+  <data name="The name of the project displayed in the frontend." xml:space="preserve">
+    <value>Naziv projekta prikazan u sučelju.</value>
+  </data>
+  <data name="Translation API Token" xml:space="preserve">
+    <value>API token za prijevod</value>
+  </data>
+  <data name="Translation Endpoint" xml:space="preserve">
+    <value>Prijevodno sučelje</value>
+  </data>
+
+</root>
