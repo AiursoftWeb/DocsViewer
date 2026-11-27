@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+      <data name="Document Assistant" xml:space="preserve">
+    <value>Pomoćnik za dokumentaciju</value>
+  </data>
+  <data name="Please enter a question of at most 2000 characters." xml:space="preserve">
+    <value>Unesite pitanje od najviše 2000 znakova.</value>
+  </data>
+  <data name="Please enter a question." xml:space="preserve">
+    <value>Unesite pitanje.</value>
+  </data>
+  <data name="The assistant could not complete this request. Please try again later." xml:space="preserve">
+    <value>Pomoćnik nije mogao dovršiti ovaj zahtjev. Pokušajte ponovno kasnije.</value>
+  </data>
+  <data name="The assistant could not complete this turn. Please try again or start a new conversation." xml:space="preserve">
+    <value>Pomoćnik nije mogao dovršiti ovaj korak. Pokušajte ponovno ili započnite novi razgovor.</value>
+  </data>
+  <data name="The assistant is busy or you already have a question in progress. Please try again shortly." xml:space="preserve">
+    <value>Pomoćnik je zauzet ili već imate pitanje u tijeku. Pokušajte ponovno za kratko.</value>
+  </data>
+  <data name="The assistant is not configured." xml:space="preserve">
+    <value>Pomoćnik nije konfiguriran.</value>
+  </data>
+  <data name="The assistant reached its step limit before completing this answer. Send a follow-up message to continue from the current conversation." xml:space="preserve">
+    <value>Pomoćnik je dosegao ograničenje koraka prije nego što je završio s odgovorom. Pošaljite dodatnu poruku kako biste nastavili od trenutnog razgovora.</value>
+  </data>
+  <data name="The documentation does not provide enough evidence to answer this question. Please try asking about the available documents or use more specific document-related terms." xml:space="preserve">
+    <value>Dokumentacija ne pruža dovoljno dokaza za odgovor na ovo pitanje. Pokušajte pitati o dostupnim dokumentima ili koristite specifičnije pojmove povezane s dokumentima.</value>
+  </data>
+  <data name="The request could not be started. Wait a moment or start a new conversation." xml:space="preserve">
+    <value>Zahtjev se nije mogao pokrenuti. Pričekajte trenutak ili pokrenite novi razgovor.</value>
+  </data>
+  <data name="Too many questions. Please wait a minute before trying again." xml:space="preserve">
+    <value>Previše pitanja. Pričekajte minutu prije ponovnog pokušaja.</value>
+  </data>
+
+</root>
